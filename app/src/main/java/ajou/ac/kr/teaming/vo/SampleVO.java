@@ -12,3 +12,5 @@ public class SampleVO {
         this.name = name;
     }
 }
+
+

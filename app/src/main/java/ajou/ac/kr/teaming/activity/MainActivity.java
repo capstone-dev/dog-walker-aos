@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.search.SearchMainActivity;
+import ajou.ac.kr.teaming.service.gallery.GalleryService;
 import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.SampleVO;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final String TAG = "MainActivity";
     private SampleService sampleService = ServiceBuilder.create(SampleService.class);
+    private GalleryService galleryService = ServiceBuilder.create(GalleryService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onFailure(Call<SampleVO> call, Throwable t) {
-                // 성공시
+                //실패시
                 Log.e(TAG, "통신 실패");
             }
         });
