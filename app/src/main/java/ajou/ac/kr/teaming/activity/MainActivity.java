@@ -20,6 +20,7 @@ import android.widget.Toast;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.search.SearchMainActivity;
 import ajou.ac.kr.teaming.service.gallery.GalleryService;
+import ajou.ac.kr.teaming.service.history.HistoryService;
 import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.SampleVO;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = "MainActivity";
     private SampleService sampleService = ServiceBuilder.create(SampleService.class);
     private GalleryService galleryService = ServiceBuilder.create(GalleryService.class);
+    private HistoryService historyService = ServiceBuilder.create(HistoryService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
