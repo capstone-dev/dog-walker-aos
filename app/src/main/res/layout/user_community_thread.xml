@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/user_id"
+        android:layout_width="40dp"
+        android:layout_height="30dp"
+        android:text="IDlist"
+        android:textSize="12sp"
+        android:padding="6dp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="30dp"
+        android:layout_width="180dp"
+        android:id="@+id/user_thread_title"
+        android:text="제목list"
+        android:textSize="12sp"
+        android:padding="6dp"
+        app:layout_constraintLeft_toRightOf="@id/user_id"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:id="@+id/user_location"
+        android:text="위치list"
+        android:textSize="12sp"
+        android:padding="6dp"
+        app:layout_constraintLeft_toRightOf="@id/user_thread_title"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="30dp"
+        android:layout_width="40dp"
+        android:id="@+id/user_thread_number"
+        android:text="인원list"
+        android:textSize="12sp"
+        android:padding="6dp"
+        app:layout_constraintLeft_toRightOf="@id/user_location"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="30dp"
+        android:layout_width="50dp"
+        android:id="@+id/user_thread_date"
+        android:text="날짜list"
+        android:textSize="12sp"
+        android:padding="6dp"
+        app:layout_constraintLeft_toRightOf="@id/user_thread_number"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>

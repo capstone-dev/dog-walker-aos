@@ -15,10 +15,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.search.SearchMainActivity;
+import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
 import ajou.ac.kr.teaming.service.gallery.GalleryService;
 import ajou.ac.kr.teaming.service.history.HistoryService;
 import ajou.ac.kr.teaming.service.sample.SampleService;
@@ -30,7 +32,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //??
     private static final String TAG = "MainActivity";
     private SampleService sampleService = ServiceBuilder.create(SampleService.class);
     private GalleryService galleryService = ServiceBuilder.create(GalleryService.class);
@@ -121,6 +122,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /**
+     * 통신 test
+     * @param view
+     */
+
     public void onClickGetButton(View view) {
         Call<SampleVO> request = sampleService.getUser(1);
         request.enqueue(new Callback<SampleVO>() {
@@ -130,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 SampleVO sampleVO = response.body();
 
                 // 성공시
-                Log.i(TAG, "통신 성공 data: " + sampleVO);
+                Log.d(TAG, "통신 성공 data: " + sampleVO);
                 Toast.makeText(getApplicationContext(), "통신 성공: name = " + sampleVO.getName(), Toast.LENGTH_LONG).show();
             }
 
@@ -141,4 +147,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
     }
+
+    /**
+     * user community event handle
+     */
+
+    public void onClickGetCommunityButton(View view) {
+        Intent intent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
+        startActivity(intent);
+    }
+
+
+
 }
