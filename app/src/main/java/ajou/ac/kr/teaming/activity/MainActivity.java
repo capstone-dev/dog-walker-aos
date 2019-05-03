@@ -122,23 +122,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
+     * <p>
      * 통신 test
-     * @param view
+     * @param view 현재 메인페이지 MainActivity
+     * </p>
      */
-
     public void onClickGetButton(View view) {
         Call<SampleVO> request = sampleService.getUser(1);
         request.enqueue(new Callback<SampleVO>() {
             @Override
             public void onResponse(Call<SampleVO> call, Response<SampleVO> response) {
-
                 SampleVO sampleVO = response.body();
-
                 // 성공시
                 Log.d(TAG, "통신 성공 data: " + sampleVO);
                 Toast.makeText(getApplicationContext(), "통신 성공: name = " + sampleVO.getName(), Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onFailure(Call<SampleVO> call, Throwable t) {
                 //실패시
@@ -148,10 +146,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /**
+     * <p>
      * user community event handle
-     * 사용자 커뮤니티 페이지로 넘어감
+     * 사용자 커뮤니티 페이지로 넘어감 </p>
+     * @param view 현재 메인페이지 MainActivity
      */
-
     public void onClickGetCommunityButton(View view) {
         Intent intent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
         startActivity(intent);

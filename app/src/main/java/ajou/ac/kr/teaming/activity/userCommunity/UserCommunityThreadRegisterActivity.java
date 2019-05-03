@@ -7,7 +7,7 @@ import android.view.View;
 
 import ajou.ac.kr.teaming.R;
 
-public class UserCommunityThreadRegister extends AppCompatActivity {
+public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class UserCommunityThreadRegister extends AppCompatActivity {
      * @param view
      */
     public void onClicBackButton(View view) {
-        Intent intent = new Intent(UserCommunityThreadRegister.this, UserCommunityMainActivity.class);
+        Intent intent = new Intent(UserCommunityThreadRegisterActivity.this, UserCommunityMainActivity.class);
         startActivity(intent);
     }
 

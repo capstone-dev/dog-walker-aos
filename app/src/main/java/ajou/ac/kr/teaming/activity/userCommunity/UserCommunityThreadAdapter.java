@@ -1,6 +1,7 @@
 package ajou.ac.kr.teaming.activity.userCommunity;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
      */
     public interface OnItemClickListener{
-        void showThreadContentEvent(View view, UserCommunityThreadVO threadTitle);
+        void showThreadContentEvent(View view, UserCommunityThreadVO userCommunityThreadVO);
 
     }
 
@@ -48,7 +49,6 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         Log.d("TEST", "bind thread : ");
 
         UserCommunityThreadVO userCommunityThreadVO=userCommunityThreadVOArrayList.get(i);
-
         /**
          * 데이터 바인딩
          */
@@ -58,9 +58,10 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         userCommunityThreadViewHolder.threadNumber.setText(Integer.toString(userCommunityThreadVO.getThreadNumber()));
         userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate());
 
-
+        //해당 게시글 constraintLayout 클릭시 발생 event handle
+        userCommunityThreadViewHolder.constraintLayout.setOnClickListener(v ->
+                onItemClickListener.showThreadContentEvent(v, userCommunityThreadVOArrayList.get(i)));
     }
-
 
     @Override
     public int getItemCount() {
@@ -73,6 +74,9 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         notifyDataSetChanged();
     }
 
+    /**
+     * <p>vidw holder에 게시글 form에 적합한 값들을 적용 </p>
+     */
     class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
 
         TextView userId;
@@ -80,9 +84,11 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         TextView userLocation;
         TextView threadNumber;
         TextView threadDate;
+        ConstraintLayout constraintLayout;
 
         public UserCommunityThreadViewHolder(@NonNull View itemView) {
             super(itemView);
+            constraintLayout=itemView.findViewById(R.id.user_thread);
             threadTitle=itemView.findViewById(R.id.user_thread_title);
             userId=itemView.findViewById(R.id.user_id);
             userLocation=itemView.findViewById(R.id.user_location);

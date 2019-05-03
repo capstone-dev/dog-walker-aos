@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.userCommunity.UserCommunityThreadRegister">
+    tools:context=".activity.userCommunity.UserCommunityThreadRegisterActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/user_community_function"
@@ -188,6 +188,19 @@
             app:layout_constraintLeft_toRightOf="@id/thread_date_form"
             app:layout_constraintTop_toBottomOf="@id/thread_number_edit_text"
             tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/thread_content_edit_text"
+            android:background="@drawable/layout_border"
+            android:layout_width="280dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="5dp"
+            android:padding="6dp"
+            android:text="게시글 내용을 입력해 주세요"
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@id/thread_date_edit_text"
+            tools:ignore="MissingConstraints"
+            android:layout_height="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 
