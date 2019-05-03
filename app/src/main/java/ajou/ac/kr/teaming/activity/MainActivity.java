@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     /**
      * user community event handle
+     * 사용자 커뮤니티 페이지로 넘어감
      */
 
     public void onClickGetCommunityButton(View view) {

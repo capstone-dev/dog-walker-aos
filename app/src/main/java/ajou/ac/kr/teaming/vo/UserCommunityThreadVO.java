@@ -7,13 +7,6 @@ public class UserCommunityThreadVO {
     private int threadNumber;
     private String threadDate;
 
-    public UserCommunityThreadVO(String userId, String threadTitle, String userLocation, int threadNumber, String threadDate) {
-        this.userId = userId;
-        this.threadTitle = threadTitle;
-        this.userLocation = userLocation;
-        this.threadNumber = threadNumber;
-        this.threadDate = threadDate;
-    }
 
     public String getThreadTitle() {
         return threadTitle;

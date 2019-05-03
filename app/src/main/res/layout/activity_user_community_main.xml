@@ -128,7 +128,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_community_thread_list"
             android:layout_width="350dp"
-            android:layout_height="35dp"
+            android:layout_height="0dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             android:background="@drawable/layout_border"
             android:orientation="vertical"
             android:visibility="visible"
@@ -180,6 +181,7 @@
             android:id="@+id/search_start_button"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="onClickSearch"
             android:text="검색"
             android:textSize="13sp"
             android:textStyle="bold"

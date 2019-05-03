@@ -1,12 +1,14 @@
 package ajou.ac.kr.teaming.activity.userCommunity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
@@ -31,30 +33,36 @@ public class UserCommunityMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_community_main);
-        
-        userCommunityThreadAdapter=new UserCommunityThreadAdapter(this.showThreadContentEvent);
-        userthreadView=findViewById(R.id.user_community_thread_list);
-        userthreadView.setAdapter(userCommunityThreadAdapter);
 
+        userthreadView=findViewById(R.id.user_community_thread_list);
+        userthreadView.setLayoutManager(new LinearLayoutManager(this));
         setUserthreadList();
     }
 
     /**
-     * 커뮤니티 게시글 목록 show
+     * 서버로부터 커뮤니티 게시글 목록을 읽어들여 show
      */
     public void setUserthreadList(){
         Call<List<UserCommunityThreadVO>> request = userCommunityService.getThread("kim");
         request.enqueue(new Callback<List<UserCommunityThreadVO>>() {
+            private UserCommunityThreadAdapter.OnItemClickListener showThreadContentEvent;
+
             @Override
             public void onResponse(Call<List<UserCommunityThreadVO>> call, Response<List<UserCommunityThreadVO>> response) {
-
                 List<UserCommunityThreadVO> userCommunityThreadVOs = response.body();
 
                 // 성공시
+                ArrayList<UserCommunityThreadVO> userCommunityThreadList=new ArrayList<>();
                 if(userCommunityThreadVOs!=null){
                     for (UserCommunityThreadVO userCommunityThreadVO:userCommunityThreadVOs){
+                        //서버로 부터 읽어드린 게시글 리스트를 전부 adapter 에 저장
+                        userCommunityThreadList.add(userCommunityThreadVO);
                         Log.d("TEST", "onResponse: "+userCommunityThreadVO.getThreadTitle());
                     }
+
+                    userCommunityThreadAdapter=new UserCommunityThreadAdapter(this.showThreadContentEvent);
+                    userthreadView.setAdapter(userCommunityThreadAdapter);
+                    userCommunityThreadAdapter.addThread(userCommunityThreadList);
                 }
                 Log.d("TEST", "onResponse:END ");
             }
@@ -78,6 +86,15 @@ public class UserCommunityMainActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * 등록하게 되면 넘어가는 페이지 생성
+     * @param view
+     */
     public void onClickThreadRegister(View view) {
+        Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityThreadRegister.class);
+        startActivity(intent);
+    }
+
+    public void onClickSearch(View view) {
     }
 }
