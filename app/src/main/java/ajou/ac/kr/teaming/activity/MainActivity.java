@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         Intent intent = null;
 
-        if (id == R.id.nav_search) {
+        if (id == R.id.nav_search)  {
             intent = new Intent(getApplicationContext(), SearchMainActivity.class);
         } else if (id == R.id.nav_gallery) {
 
