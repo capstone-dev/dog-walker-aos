@@ -5,9 +5,9 @@ public class UserCommunityThreadVO {
     private String threadTitle;
     private String userLocation;
     private int threadNumber;
-    private int threadDate;
+    private String threadDate;
 
-    public UserCommunityThreadVO(String userId, String threadTitle, String userLocation, int threadNumber, int threadDate) {
+    public UserCommunityThreadVO(String userId, String threadTitle, String userLocation, int threadNumber, String threadDate) {
         this.userId = userId;
         this.threadTitle = threadTitle;
         this.userLocation = userLocation;
@@ -39,11 +39,11 @@ public class UserCommunityThreadVO {
         this.threadNumber = threadNumber;
     }
 
-    public int getThreadDate() {
+    public String getThreadDate() {
         return threadDate;
     }
 
-    public void setThreadDate(int threadDate) {
+    public void setThreadDate(String threadDate) {
         this.threadDate = threadDate;
     }
 
