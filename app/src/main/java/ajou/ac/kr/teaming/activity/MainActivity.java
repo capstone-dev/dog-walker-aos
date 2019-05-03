@@ -29,6 +29,7 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    //??
     private static final String TAG = "MainActivity";
     private SampleService sampleService = ServiceBuilder.create(SampleService.class);
     private GalleryService galleryService = ServiceBuilder.create(GalleryService.class);
