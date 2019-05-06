@@ -9,10 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ScrollView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import ajou.ac.kr.teaming.R;
@@ -36,7 +36,6 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_community_main);
 
-
         userthreadView=findViewById(R.id.user_community_thread_list);
         userthreadView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -49,13 +48,13 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
      * <p> 서버로부터 커뮤니티 게시글 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
      */
     public void setUserthreadList(){
+
         Call<List<UserCommunityThreadVO>> request = userCommunityService.getThread("kim");
         request.enqueue(new Callback<List<UserCommunityThreadVO>>() {
-
             @Override
             public void onResponse(Call<List<UserCommunityThreadVO>> call, Response<List<UserCommunityThreadVO>> response) {
-                List<UserCommunityThreadVO> userCommunityThreadVOs = response.body();
 
+                List<UserCommunityThreadVO> userCommunityThreadVOs = response.body();
                 // 성공시
                 ArrayList<UserCommunityThreadVO> userCommunityThreadList=new ArrayList<>();
                 if(userCommunityThreadVOs!=null){
@@ -64,12 +63,10 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
                         userCommunityThreadList.add(userCommunityThreadVO);
                         Log.d("TEST", "onResponse: "+userCommunityThreadVO.getThreadTitle());
                     }
-
                     userCommunityThreadAdapter.addThread(userCommunityThreadList);
                 }
                 Log.d("TEST", "onResponse:END ");
             }
-
             @Override
             public void onFailure(Call<List<UserCommunityThreadVO>> call, Throwable t) {
                 //실패시
@@ -108,5 +105,6 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
      * @param view
      */
     public void onClickSearch(View view) {
+
     }
 }

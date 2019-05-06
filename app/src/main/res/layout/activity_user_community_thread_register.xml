@@ -144,6 +144,7 @@
             android:layout_marginStart="3dp"
             android:layout_marginTop="5dp"
             android:padding="6dp"
+            android:inputType="numberSigned"
             android:text="산책 인원"
             android:textSize="12sp"
             android:textStyle="bold"
@@ -191,16 +192,17 @@
 
         <EditText
             android:id="@+id/thread_content_edit_text"
-            android:background="@drawable/layout_border"
             android:layout_width="280dp"
-            android:layout_marginLeft="3dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:background="@drawable/layout_border"
             android:padding="6dp"
             android:text="게시글 내용을 입력해 주세요"
             android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/thread_date_edit_text"
-            tools:ignore="MissingConstraints"
-            android:layout_height="0dp" />
+            tools:ignore="MissingConstraints" />
 
     </android.support.constraint.ConstraintLayout>
 

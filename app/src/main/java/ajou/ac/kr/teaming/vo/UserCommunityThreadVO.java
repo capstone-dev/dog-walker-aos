@@ -3,6 +3,9 @@ package ajou.ac.kr.teaming.vo;
 
 import java.io.Serializable;
 
+/**
+ * 사용자 게시글에 대한 객체
+ */
 public class UserCommunityThreadVO implements Serializable {
 
     private String threadId;
@@ -10,9 +13,9 @@ public class UserCommunityThreadVO implements Serializable {
     private String threadTitle;
     private String userLocation;
     private int threadNumber;
+    private String chatroomUserName;
     private String threadDate;
     private String threadContent;
-
 
     public String getThreadTitle() {
         return threadTitle;
@@ -62,4 +65,7 @@ public class UserCommunityThreadVO implements Serializable {
 
     public void setContent(String threadContent) { this.threadContent = threadContent; }
 
+    public String getChatroomUserName() { return chatroomUserName; }
+
+    public void setChatroomUserName(String chatroomUserName) { this.chatroomUserName = chatroomUserName; }
 }

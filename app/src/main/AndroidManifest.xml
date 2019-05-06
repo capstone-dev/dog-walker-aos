@@ -21,7 +21,7 @@
         <activity android:name=".activity.history.HistoryMainActivity" />
         <activity android:name=".activity.search.SearchMainActivity" />
 
-        <activity android:name=".activity.userCommunity.UserCommunityContentActivity"
+        <activity android:name=".activity.userCommunity.UserCommunityContent.UserCommunityContentActivity"
             android:theme="@style/popupTheme"
             android:screenOrientation="portrait"></activity>
 

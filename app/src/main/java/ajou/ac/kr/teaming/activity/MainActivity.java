@@ -155,7 +155,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
         startActivity(intent);
     }
-
-
-
 }
