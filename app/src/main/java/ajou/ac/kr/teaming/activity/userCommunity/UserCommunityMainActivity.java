@@ -7,7 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ScrollView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +29,13 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
     private UserCommunityService userCommunityService = ServiceBuilder.create(UserCommunityService.class);
     private RecyclerView userthreadView;
     private UserCommunityThreadAdapter userCommunityThreadAdapter;
+    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_community_main);
+
 
         userthreadView=findViewById(R.id.user_community_thread_list);
         userthreadView.setLayoutManager(new LinearLayoutManager(this));
@@ -80,12 +84,13 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
      * 해당 게시글에 내한 내용을 확인할 수 있게 되는 eventhandler </p>
      * @param view 현재 사용자 커뮤니티 MainActivity
      * @Param userCommunityThreadVO 해당 게시글에 대한 정보를 포함하고 있는 객체;
-     *  팝업 창으로 게시글 제목과 해당 게시글 사용자 아이디 넘겨준다.
+     *  팝업 창으로 게시글 아이디 넘겨준다.
      */
     public void showThreadContentEvent(View view, UserCommunityThreadVO userCommunityThreadVO){
+
         Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityContentActivity.class);
-        intent.putExtra("threadTitle","123");
-        intent.putExtra("userId","kkk");
+        intent.putExtra("userCommunityThreadVO", userCommunityThreadVO);
+
         startActivity(intent);
     }
 

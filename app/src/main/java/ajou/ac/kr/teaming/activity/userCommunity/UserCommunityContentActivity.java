@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 
 /**
  * 사용자가 커뮤니티 게시글 리스트에서 특정 게시글을 선택하였을 때
@@ -19,6 +19,7 @@ public class UserCommunityContentActivity extends Activity {
 
     TextView threadTitle;
     TextView userId;
+    TextView threadContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,15 +31,16 @@ public class UserCommunityContentActivity extends Activity {
 
         threadTitle=(TextView)findViewById(R.id.thread_title);
         userId=(TextView)findViewById(R.id.user_id);
+        threadContent=(TextView)findViewById(R.id.thread_content);
 
-        //userCommunityMainActivity로 부터 가져온 데이터
+        //userCommunityMainActivity로 부터 가져온 객체
         Intent intent = getIntent();
-        String title=intent.getStringExtra("threadTitle");
-        String id=intent.getStringExtra("userId");
-        Log.d("TEST", "onCreate: TITLE"+title);
+        UserCommunityThreadVO userCommunityThreadVO=(UserCommunityThreadVO) intent.
+                getSerializableExtra("userCommunityThreadVO");
 
-        userId.setText(id);
-        threadTitle.setText(title);
+        userId.setText(userCommunityThreadVO.getUserId());
+        threadTitle.setText(userCommunityThreadVO.getThreadTitle());
+        threadContent.setText(userCommunityThreadVO.getContent());
 
     }
 

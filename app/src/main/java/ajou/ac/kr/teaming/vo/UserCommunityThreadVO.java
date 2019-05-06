@@ -1,11 +1,17 @@
 package ajou.ac.kr.teaming.vo;
 
-public class UserCommunityThreadVO {
+
+import java.io.Serializable;
+
+public class UserCommunityThreadVO implements Serializable {
+
+    private String threadId;
     private String userId;
     private String threadTitle;
     private String userLocation;
     private int threadNumber;
     private String threadDate;
+    private String threadContent;
 
 
     public String getThreadTitle() {
@@ -47,4 +53,13 @@ public class UserCommunityThreadVO {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
+    public String getThreadId() { return threadId; }
+
+    public void setThreadId(String threadId) { this.threadId = threadId; }
+
+    public String getContent() { return threadContent; }
+
+    public void setContent(String threadContent) { this.threadContent = threadContent; }
+
 }

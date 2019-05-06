@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_community_thread"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".activity.userCommunity.UserCommunityMainActivity">
 
     <android.support.constraint.ConstraintLayout
@@ -50,10 +52,9 @@
         android:layout_marginBottom="2dp"
         android:background="@drawable/layout_border"
         android:textAlignment="textStart"
-        app:layout_constraintBottom_toTopOf="@+id/thread_list_layout"
-        app:layout_constraintTop_toBottomOf="@id/user_community_function"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/user_community_function">
 
         <TextView
             android:id="@+id/user_id_form"
@@ -79,7 +80,7 @@
 
         <TextView
             android:id="@+id/user_location_form"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
             android:padding="6dp"
             android:text="위치"
@@ -89,106 +90,94 @@
             tools:ignore="MissingConstraints" />
 
         <TextView
-            android:id="@+id/user_thread_number_form"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:padding="6dp"
-            android:text="인원"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/user_location_form"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
             android:id="@+id/user_thread_date_form"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
             android:padding="6dp"
             android:text="게시글 날짜"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/user_thread_number_form"
-            tools:ignore="MissingConstraints" />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/thread_list_layout"
-        android:layout_width="350dp"
-        android:layout_height="300dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/layout_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/user_community_form">
-
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_community_thread_list"
-            android:layout_width="350dp"
-            android:layout_height="0dp"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            android:background="@drawable/layout_border"
-            android:orientation="vertical"
-            android:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints">
-
-        </android.support.v7.widget.RecyclerView>
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/thread_search"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
-        android:layout_margin="10dp"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
-        android:background="@drawable/layout_border"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/thread_list_layout">
-
-        <TextView
-            android:id="@+id/search_text"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="5dp"
-            android:text="검색어"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/thread_search_edit_text"
-            android:layout_width="200dp"
-            android:layout_height="40dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginTop="5dp"
-            android:text="검색어를 입력해 주세요"
-            android:textSize="13sp"
-            app:layout_constraintLeft_toRightOf="@id/search_text"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <Button
-            android:id="@+id/search_start_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:onClick="onClickSearch"
-            android:text="검색"
-            android:textSize="13sp"
-            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@id/user_location_form"
             app:layout_constraintRight_toRightOf="parent"
             tools:ignore="MissingConstraints" />
 
-
     </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/thread_list_layout"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/layout_border"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/user_community_form">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_community_thread_list"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:background="@drawable/layout_border"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/thread_search"
+                tools:ignore="MissingConstraints">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/thread_search"
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/layout_border"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/user_community_thread_list">
+
+                <TextView
+                    android:id="@+id/search_text"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="5dp"
+                    android:text="검색어"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/thread_search_edit_text"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="8dp"
+                    android:text="검색어를 입력해 주세요"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/search_text"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/search_start_button"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:onClick="onClickSearch"
+                    android:text="검색"
+                    android:textSize="13sp"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
 
 </android.support.constraint.ConstraintLayout>

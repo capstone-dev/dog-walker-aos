@@ -55,9 +55,7 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         userCommunityThreadViewHolder.userId.setText(userCommunityThreadVO.getUserId());
         userCommunityThreadViewHolder.threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         userCommunityThreadViewHolder.userLocation.setText(userCommunityThreadVO.getUserLocation());
-        userCommunityThreadViewHolder.threadNumber.setText(Integer.toString(userCommunityThreadVO.getThreadNumber()));
         userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate());
-
         //해당 게시글 constraintLayout 클릭시 발생 event handle
         userCommunityThreadViewHolder.constraintLayout.setOnClickListener(v ->
                 onItemClickListener.showThreadContentEvent(v, userCommunityThreadVOArrayList.get(i)));
@@ -82,7 +80,6 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         TextView userId;
         TextView threadTitle;
         TextView userLocation;
-        TextView threadNumber;
         TextView threadDate;
         ConstraintLayout constraintLayout;
 
@@ -92,7 +89,6 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
             threadTitle=itemView.findViewById(R.id.user_thread_title);
             userId=itemView.findViewById(R.id.user_id);
             userLocation=itemView.findViewById(R.id.user_location);
-            threadNumber=itemView.findViewById(R.id.user_thread_number);
             threadDate=itemView.findViewById(R.id.user_thread_date);
         }
 
