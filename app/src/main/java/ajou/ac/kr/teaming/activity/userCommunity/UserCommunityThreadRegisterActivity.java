@@ -44,13 +44,13 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
         HashMap<String, Object> inputThread=new HashMap<>();
 
-        inputThread.put("userId","testId");
+        inputThread.put("userId",1);
         inputThread.put("threadTitle",((EditText)findViewById(R.id.thread_title_edit_text)).getText().toString());
         inputThread.put("userLocation",((EditText)findViewById(R.id.thread_location_edit_text)).getText().toString());
         inputThread.put("threadNumber",Integer.parseInt(((EditText)findViewById(R.id.thread_number_edit_text))
                 .getText().toString()));
-        inputThread.put("threadDate",((EditText)findViewById(R.id.thread_date_edit_text)).getText().toString());
         inputThread.put("threadContent",((EditText)findViewById(R.id.thread_content_edit_text)).getText().toString());
+        inputThread.put("chatroomUserName","테스트");
 
         Call<UserCommunityThreadVO> request = userCommunityThreadRegister.postThread(inputThread);
         request.enqueue(new Callback<UserCommunityThreadVO>() {
@@ -74,5 +74,9 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
                 Log.d("TEST", "통신 실패");
             }
         });
+
+        //현재 페이지에서 메인 usercommunitymain으로 새로고침 하면서 이동
+        Intent intent = new Intent(UserCommunityThreadRegisterActivity.this, UserCommunityMainActivity.class);
+        startActivity(intent);
     }
 }

@@ -3,13 +3,17 @@ package ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
@@ -28,6 +32,10 @@ public class UserCommunityContentActivity extends Activity {
 
     private UserCommunityContentCommentService userCommunityContentCommentService =
             ServiceBuilder.create(UserCommunityContentCommentService.class);
+
+    private RecyclerView userCommunityCommentView;
+    private UserCommunityContentCommentAdapter userCommunityContentCommentAdapter;
+
     private UserCommunityThreadVO userCommunityThreadVO;
     private TextView threadTitle;
     private TextView userId;
@@ -51,6 +59,47 @@ public class UserCommunityContentActivity extends Activity {
         userId.setText(userCommunityThreadVO.getUserId());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         threadContent.setText(userCommunityThreadVO.getContent());
+
+        //userCommunityContentCommentAdapter에서 가져온 댓글리스트 생성
+        userCommunityCommentView=findViewById(R.id.comment_list);
+        userCommunityCommentView.setLayoutManager(new LinearLayoutManager(this));
+
+        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter();
+        userCommunityCommentView.setAdapter(userCommunityContentCommentAdapter);
+        setCommentList();
+    }
+
+    /**
+     * <p> 서버로부터 커뮤니티 게시글 댓글 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
+     */
+    public void setCommentList(){
+        //게시글의 속성 threadId에 맞는 댓글리스트 불러드림
+        Call<List<UserCommunityContentCommentVO>> request = userCommunityContentCommentService.
+                getComment(userCommunityThreadVO.getThreadId());
+
+        request.enqueue(new Callback<List<UserCommunityContentCommentVO>>() {
+            @Override
+            public void onResponse(Call<List<UserCommunityContentCommentVO>> call, Response<List<UserCommunityContentCommentVO>> response) {
+
+                List<UserCommunityContentCommentVO> userCommunityContentCommentVOS = response.body();
+                // 성공시
+                ArrayList<UserCommunityContentCommentVO> userCommunityThreadVOArrayList=new ArrayList<>();
+                if(userCommunityContentCommentVOS!=null){
+                    for (UserCommunityContentCommentVO userCommunityContentCommentVO:userCommunityContentCommentVOS){
+                        //서버로 부터 읽어드린 댓글 리스트를 전부 adapter 에 저장
+                        userCommunityThreadVOArrayList.add(userCommunityContentCommentVO);
+                        Log.d("TEST", "onResponse: "+userCommunityContentCommentVO.getCommentContent());
+                    }
+                    userCommunityContentCommentAdapter.addCommentList(userCommunityThreadVOArrayList);
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(Call<List<UserCommunityContentCommentVO>> call, Throwable t) {
+                //실패시
+                Log.d("TEST", "통신 실패");
+            }
+        });
     }
 
     /**
@@ -76,17 +125,12 @@ public class UserCommunityContentActivity extends Activity {
      * @param view
      */
     public void onClickSetCommentButton(View view) {
-        String comment;
-        comment=((EditText)findViewById(R.id.comment)).getText().toString();
 
         HashMap<String, Object> inputThread=new HashMap<>();
 
-        inputThread.put("commentId","testcommentid");
         inputThread.put("commentContent",((EditText)findViewById(R.id.comment)).getText().toString());
-        inputThread.put("commentDate",System.currentTimeMillis());
         inputThread.put("threadId",userCommunityThreadVO.getThreadId());
-        inputThread.put("userId","testuserid");
-
+        inputThread.put("userId",1);   //테스트용
 
         Call<UserCommunityContentCommentVO> request = userCommunityContentCommentService.postComment(inputThread);
         request.enqueue(new Callback<UserCommunityContentCommentVO>() {
@@ -110,6 +154,6 @@ public class UserCommunityContentActivity extends Activity {
                 Log.d("TEST", "통신 실패");
             }
         });
-
+        setCommentList();
     }
 }

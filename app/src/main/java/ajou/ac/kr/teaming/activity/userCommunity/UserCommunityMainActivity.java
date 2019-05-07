@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,6 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
     private UserCommunityService userCommunityService = ServiceBuilder.create(UserCommunityService.class);
     private RecyclerView userthreadView;
     private UserCommunityThreadAdapter userCommunityThreadAdapter;
-    private ScrollView scrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

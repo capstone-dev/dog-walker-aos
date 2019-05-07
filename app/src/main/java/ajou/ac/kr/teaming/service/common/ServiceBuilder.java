@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceBuilder {
 
-    private static final String URL = "http://54.180.113.161:3000";
+    private static final String URL = "http://54.180.115.101:3000";
 
     private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .connectTimeout(5, TimeUnit.SECONDS)

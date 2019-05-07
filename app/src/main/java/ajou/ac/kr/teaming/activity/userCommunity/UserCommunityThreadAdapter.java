@@ -18,7 +18,7 @@ import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
  * 사용자 커뮤니티 게시글 리스트 recycler view
  */
 
-public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommunityThreadAdapter.UserCommunityThreadViewHolder> {
+public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommunityThreadViewHolder> {
 
     private ArrayList<UserCommunityThreadVO> userCommunityThreadVOArrayList=new ArrayList<>();
     private OnItemClickListener onItemClickListener;
@@ -46,7 +46,6 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
 
     @Override
     public void onBindViewHolder(@NonNull UserCommunityThreadViewHolder userCommunityThreadViewHolder, int i) {
-        Log.d("TEST", "bind thread : ");
 
         UserCommunityThreadVO userCommunityThreadVO=userCommunityThreadVOArrayList.get(i);
         /**
@@ -71,26 +70,27 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
         notifyDataSetChanged();
     }
+}
 
-    /**
-     * <p>vidw holder에 게시글 form에 적합한 값들을 적용 </p>
-     */
-    class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
 
-        TextView userId;
-        TextView threadTitle;
-        TextView userLocation;
-        TextView threadDate;
-        ConstraintLayout constraintLayout;
+/**
+ * <p>vidw holder에 게시글 form에 적합한 값들을 적용 </p>
+ */
+class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
 
-        public UserCommunityThreadViewHolder(@NonNull View itemView) {
-            super(itemView);
-            constraintLayout=itemView.findViewById(R.id.user_thread);
-            threadTitle=itemView.findViewById(R.id.user_thread_title);
-            userId=itemView.findViewById(R.id.user_id);
-            userLocation=itemView.findViewById(R.id.user_location);
-            threadDate=itemView.findViewById(R.id.user_thread_date);
-        }
+    TextView userId;
+    TextView threadTitle;
+    TextView userLocation;
+    TextView threadDate;
+    ConstraintLayout constraintLayout;
 
+    public UserCommunityThreadViewHolder(@NonNull View itemView) {
+        super(itemView);
+        constraintLayout=itemView.findViewById(R.id.user_thread);
+        threadTitle=itemView.findViewById(R.id.user_thread_title);
+        userId=itemView.findViewById(R.id.user_id);
+        userLocation=itemView.findViewById(R.id.user_location);
+        threadDate=itemView.findViewById(R.id.user_thread_date);
     }
+
 }

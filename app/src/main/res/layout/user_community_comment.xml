@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/user_thread"
-    android:layout_width="match_parent"
+    android:layout_width="295dp"
     android:layout_height="35dp"
     android:background="@drawable/layout_border"
     xmlns:app="http://schemas.android.com/apk/res-auto">
@@ -12,39 +12,29 @@
         android:layout_width="40dp"
         android:layout_height="30dp"
         android:text="IDlist"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:padding="6dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_height="30dp"
-        android:layout_width="200dp"
-        android:id="@+id/user_thread_title"
-        android:text="제목list"
-        android:textSize="12sp"
+        android:layout_width="180dp"
+        android:id="@+id/user_comment_content"
+        android:text="댓글내용list"
+        android:textSize="10sp"
         android:padding="6dp"
         app:layout_constraintLeft_toRightOf="@id/user_id"
         tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:layout_height="30dp"
-        android:layout_width="70dp"
-        android:id="@+id/user_location"
-        android:text="위치list"
-        android:textSize="12sp"
-        android:padding="6dp"
-        app:layout_constraintLeft_toRightOf="@id/user_thread_title"
-        tools:ignore="MissingConstraints" />
-
 
     <TextView
         android:layout_height="30dp"
-        android:layout_width="90dp"
-        android:id="@+id/user_thread_date"
+        android:layout_width="75dp"
+        android:id="@+id/user_comment_date"
         android:text="날짜list"
-        android:textSize="12sp"
+        android:textSize="10sp"
         android:padding="6dp"
-        app:layout_constraintLeft_toRightOf="@id/user_location"
+        app:layout_constraintLeft_toRightOf="@id/user_comment_content"
         app:layout_constraintRight_toRightOf="parent"
         tools:ignore="MissingConstraints" />
 
