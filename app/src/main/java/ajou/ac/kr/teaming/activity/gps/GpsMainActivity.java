@@ -95,7 +95,7 @@ public class GpsMainActivity extends AppCompatActivity {
         });
 
 
-
+/*
         TMapMarkerItem markerItem1 = new TMapMarkerItem();
 
         TMapPoint tMapPoint1 = new TMapPoint(37.570841, 126.985302); // SKT타워
@@ -111,7 +111,7 @@ public class GpsMainActivity extends AppCompatActivity {
         tMapView.setCenterPoint( 126.985302, 37.570841 );
 
 
-
+*/
 
         /**
          * Dogwalker의 경로가 표시되도록 만들기.
