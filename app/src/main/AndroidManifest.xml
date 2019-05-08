@@ -19,7 +19,7 @@
         <activity android:name=".activity.userCommunity.UserCommunityMainActivity" />
         <activity android:name=".activity.login.LoginMainActivity" />
         <activity android:name=".activity.history.HistoryMainActivity" />
-        <activity android:name=".activity.search.SearchMainActivity" />
+        <activity android:name=".activity.gps.GpsMainActivity" />
 
         <activity android:name=".activity.userCommunity.UserCommunityContent.UserCommunityContentActivity"
             android:theme="@style/popupTheme"
