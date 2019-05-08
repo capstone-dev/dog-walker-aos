@@ -21,6 +21,7 @@ import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
 import ajou.ac.kr.teaming.service.gallery.GalleryService;
+import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.service.history.HistoryService;
 import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SampleService sampleService = ServiceBuilder.create(SampleService.class);
     private GalleryService galleryService = ServiceBuilder.create(GalleryService.class);
     private HistoryService historyService = ServiceBuilder.create(HistoryService.class);
+    private GpsService gpsService = ServiceBuilder.create(GpsService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
