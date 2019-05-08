@@ -25,7 +25,7 @@
                 android:layout_height="125dp"
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
-                android:src="@drawable/dog"
+                android:src="@drawable/DOG"
                 tools:ignore="ContentDescription" />
 
             <TextView
