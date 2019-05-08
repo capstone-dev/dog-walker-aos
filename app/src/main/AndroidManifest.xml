@@ -15,17 +15,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.login.RegisterActivity"></activity>
         <activity android:name=".activity.userCommunity.UserCommunityThreadRegisterActivity" />
         <activity android:name=".activity.userCommunity.UserCommunityMainActivity" />
         <activity android:name=".activity.login.LoginMainActivity" />
         <activity android:name=".activity.history.HistoryMainActivity" />
         <activity android:name=".activity.gps.GpsMainActivity" />
-
-        <activity android:name=".activity.userCommunity.UserCommunityContent.UserCommunityContentActivity"
-            android:theme="@style/popupTheme"
-            android:screenOrientation="portrait"></activity>
-
-
+        <activity
+            android:name=".activity.userCommunity.UserCommunityContent.UserCommunityContentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/popupTheme" />
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/app_name"
