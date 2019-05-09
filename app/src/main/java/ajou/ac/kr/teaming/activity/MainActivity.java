@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
@@ -121,6 +122,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_gps) {
+
+            intent = new Intent(MainActivity.this, GpsMainActivity.class);
+
 
         } else if (id == R.id.nav_send) {
 
