@@ -15,11 +15,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
+import ajou.ac.kr.teaming.activity.login.RegisterActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
 import ajou.ac.kr.teaming.service.gallery.GalleryService;
 import ajou.ac.kr.teaming.service.gps.GpsService;
@@ -106,6 +109,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = null;
 
         if (id == R.id.nav_search) {
+            /*시험 용으로 gps 페이지로 액티비티 이동*/
+            intent = new Intent(getApplicationContext(), GpsMainActivity.class);
+
 
         }else if (id == R.id.nav_my){
             intent = new Intent(MainActivity.this, MyActivity.class);
@@ -117,11 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_gps) {
-
-            /*시험 용으로 gps 페이지로 액티비티 이동*/
-            intent = new Intent(getApplicationContext(), GpsMainActivity.class);
-
+        } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
@@ -129,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if(intent != null) {
             startActivity(intent);
+
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
         }
