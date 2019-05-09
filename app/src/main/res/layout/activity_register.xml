@@ -116,12 +116,20 @@
                         android:layout_weight="1"/>
 
                 </RadioGroup>
+
+
             <Spinner
-                android:layout_width="280dp"
+                android:id="@+id/bigcitySpinner"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:id="@+id/liveSpinner"
+                android:layout_marginTop="10dp"></Spinner>
+
+            <Spinner
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/smallcitySpinner"
                 ></Spinner>
 
 

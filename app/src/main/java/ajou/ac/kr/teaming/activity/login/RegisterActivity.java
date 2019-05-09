@@ -18,7 +18,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-        spinner=(Spinner) findViewById(R.id.liveSpinner);
+        spinner=(Spinner) findViewById(R.id.bigcitySpinner);
         adapter=ArrayAdapter.createFromResource(this,R.array.city,android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
