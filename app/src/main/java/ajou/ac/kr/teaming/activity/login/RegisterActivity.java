@@ -22,7 +22,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         EditText idText=(EditText) findViewById(R.id.idText);
         EditText passwordText=(EditText) findViewById(R.id.passwordText);
-        EditText password2Text=(EditText) findViewById(R.id.password2Text);
+        EditText nameText=(EditText) findViewById(R.id.nameText);
+
         EditText emailText=(EditText) findViewById(R.id.emailText);
         EditText numberText=(EditText) findViewById(R.id.numberText);
 
