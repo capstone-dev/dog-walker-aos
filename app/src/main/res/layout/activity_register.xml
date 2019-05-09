@@ -68,20 +68,22 @@
                 android:padding="10dp" />
 
             <EditText
-                android:id="@+id/password2Text"
+                android:id="@+id/nameText"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="#FFEABD3E"
-                android:drawableStart="@drawable/ic_lock_black_24dp"
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
-                android:hint="비밀번호 확인"
+                android:drawableStart="@drawable/ic_person_black_24dp"
+                android:drawableLeft="@drawable/ic_person_black_24dp"
+                android:hint="이름"
                 android:inputType="textPassword"
                 android:padding="10dp" />
 
+
+
             <EditText
-                android:id="@+id/emalText"
+                android:id="@+id/emailText"
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -90,6 +92,18 @@
                 android:drawableStart="@drawable/ic_mail_outline_black_24dp"
                 android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
                 android:hint="이메일"
+                android:padding="10dp" />
+
+            <EditText
+                android:id="@+id/numberText"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="#FFEABD3E"
+                android:drawableStart="@drawable/ic_phone_black_24dp"
+                android:drawableLeft="@drawable/ic_phone_black_24dp"
+                android:hint="전화번호 - 빼고 적어주세요"
                 android:padding="10dp" />
 
             <RadioGroup
@@ -124,14 +138,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"></Spinner>
-
-            <Spinner
-                android:layout_width="270dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:id="@+id/smallcitySpinner"
-                ></Spinner>
-
 
 
             <Button
