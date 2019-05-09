@@ -51,10 +51,11 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         /**
          * 데이터 바인딩
          */
-        userCommunityThreadViewHolder.userId.setText(userCommunityThreadVO.getUserId());
+        userCommunityThreadViewHolder.chatRoomUserName.setText(userCommunityThreadVO.getChatroomUserName());
         userCommunityThreadViewHolder.threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         userCommunityThreadViewHolder.userLocation.setText(userCommunityThreadVO.getUserLocation());
-        userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate());
+        userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate().substring(0,10)+" "+userCommunityThreadVO.
+                getThreadDate().substring(11,16));
         //해당 게시글 constraintLayout 클릭시 발생 event handle
         userCommunityThreadViewHolder.constraintLayout.setOnClickListener(v ->
                 onItemClickListener.showThreadContentEvent(v, userCommunityThreadVOArrayList.get(i)));
@@ -78,7 +79,7 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
  */
 class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
 
-    TextView userId;
+    TextView chatRoomUserName;
     TextView threadTitle;
     TextView userLocation;
     TextView threadDate;
@@ -88,7 +89,7 @@ class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
         constraintLayout=itemView.findViewById(R.id.user_thread);
         threadTitle=itemView.findViewById(R.id.user_thread_title);
-        userId=itemView.findViewById(R.id.user_id);
+        chatRoomUserName=itemView.findViewById(R.id.user_name);
         userLocation=itemView.findViewById(R.id.user_location);
         threadDate=itemView.findViewById(R.id.user_thread_date);
     }

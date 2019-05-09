@@ -105,4 +105,5 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
     public void onClickSearch(View view) {
 
     }
+
 }

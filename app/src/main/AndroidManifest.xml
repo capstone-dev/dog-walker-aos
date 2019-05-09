@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.login.MyPageActivity"></activity>
+        <activity android:name=".activity.messageChatting.MessageChattingMainActivity"></activity>
+        <activity android:name=".activity.login.MyPageActivity" />
         <activity android:name=".activity.login.MyActivity" />
         <activity android:name=".activity.reservation.SearchActivity" />
         <activity android:name=".activity.reservation.RealTimeActivity" />
