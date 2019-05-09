@@ -123,10 +123,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.Login)
-        {
-            intent = new Intent(MainActivity.this, LoginMainActivity.class);
-
         }
 
         if(intent != null) {
