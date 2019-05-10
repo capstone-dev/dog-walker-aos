@@ -107,11 +107,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = null;
 
         if (id == R.id.nav_search) {
-            /*시험 용으로 gps 페이지로 액티비티 이동*/
+            //예약 페이지로 이동
             intent = new Intent(MainActivity.this, ReservationActivity.class);
 
 
         }else if (id == R.id.nav_my){
+
+            //mypage로 이동
             intent = new Intent(MainActivity.this, MyActivity.class);
         }
 
