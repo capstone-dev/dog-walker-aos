@@ -40,7 +40,6 @@ public class BalloonOverlayView extends FrameLayout {
 
         View view = inflater.inflate(R.layout.bubble_popup, parent, true);
         title = (TextView) view.findViewById(R.id.bubble_title);
-        subTitle = (TextView) view.findViewById(R.id.bubble_subtitle);
 
         setTitle(labelName);
         setSubTitle(id);

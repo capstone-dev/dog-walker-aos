@@ -187,6 +187,25 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         }catch(Exception e) {
             e.printStackTrace();
         }
+
+
+        /**
+         * 풍선뷰 만들기
+         * */
+        TMapPoint tpoint = new TMapPoint(37.566413, 126.985003);
+
+        mContext = this;
+        MarkerOverlay marker = new MarkerOverlay(mContext, "custom", "marker");
+        String strID = "TMapMarkerItem2";
+
+        marker.setPosition(0.2f,0.2f);
+        marker.getTMapPoint();
+        marker.setID(strID);
+        marker.setTMapPoint(new TMapPoint(tpoint.getLatitude(), tpoint.getLongitude()));
+
+        tMapView.addMarkerItem2(strID, marker);
+
+
     }//onCreate
 
 
