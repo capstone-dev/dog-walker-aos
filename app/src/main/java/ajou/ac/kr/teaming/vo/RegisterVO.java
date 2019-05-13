@@ -1,6 +1,6 @@
 package ajou.ac.kr.teaming.vo;
 
-public class RegisterVo {
+public class RegisterVO {
 
     private String userId;
     private String useremail;
