@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
 import com.skt.Tmap.TMapView;
@@ -55,8 +56,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         Button buttonZoomLevel10 = (Button)findViewById(R.id.buttonZoomLevel10);
 
 
-
-
         LinearLayout mapView = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         TMapView tMapView = new TMapView(this);
         tMapView.setSKTMapApiKey(TMAP_API_KEY);
@@ -89,9 +88,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             @Override
             public boolean onPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
             //    Toast.makeText(getApplicationContext(), "onPress~!", Toast.LENGTH_SHORT).show();
-                /**
-                 * 위치를 누르면 마커가 생성되도록 하기
-                 * */
                 //마커 생성
                 TMapMarkerItem markerItem1 = new TMapMarkerItem();
                 TMapPoint tMapPoint1 = new TMapPoint(37.570841, 126.985302); // SKT타워       //String startGpsPosition
@@ -101,10 +97,18 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
                 markerItem1.setIcon(gpsMarker); // 마커 아이콘 지정
                 markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-                markerItem1.setTMapPoint( tMapPoint1 ); // 마커의 좌표 지정
+                markerItem1.setTMapPoint(tMapPoint1); // 마커의 좌표 지정
                 markerItem1.setName("SKT타워"); // 마커의 타이틀 지정
-                tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
-                tMapView.setCenterPoint( 126.985302, 37.570841 );
+                tmapview.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
+                tmapview.setCenterPoint(126.985302, 37.570841);
+
+                markerItem1.setCanShowCallout(true);
+                markerItem1.setCalloutTitle("Hello. Balloonview");
+                markerItem1.setCalloutSubTitle("TESTEST");
+
+                //풍선뷰의 왼쪽
+                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.balloonlefticon);
+                markerItem1.setCalloutLeftImage(bitmap);
                 return false;
             }
             @Override
@@ -189,10 +193,14 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         }
 
 
+
         /**
          * 풍선뷰 만들기
          * */
-        TMapPoint tpoint = new TMapPoint(37.566413, 126.985003);
+        /*
+        TMapPoint tpoint = new TMapPoint(37.570841, 126.985302);
+        TMapMarkerItem2 tMapMarkerItem2 = new TMapMarkerItem2();
+        tMapMarkerItem2.setTMapPoint(tpoint);
 
         mContext = this;
         MarkerOverlay marker = new MarkerOverlay(mContext, "custom", "marker");
@@ -204,9 +212,14 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         marker.setTMapPoint(new TMapPoint(tpoint.getLatitude(), tpoint.getLongitude()));
 
         tMapView.addMarkerItem2(strID, marker);
+        */
 
 
     }//onCreate
+
+
+
+
 
 
 }//GpsMainActivity
