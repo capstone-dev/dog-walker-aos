@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         //현재 페이지에서 메인 usercommunitymain으로 새로고침 하면서 이동
-        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginMainActivity.class);
         startActivity(intent);
     }
 
