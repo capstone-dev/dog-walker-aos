@@ -79,6 +79,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 //            }
 //        });
 
+
         /**
          * 클릭 이벤트 설정 구간
          * Toast시. MapEvent.this가 아닌 getApplicationContext()를 사용할 것.
