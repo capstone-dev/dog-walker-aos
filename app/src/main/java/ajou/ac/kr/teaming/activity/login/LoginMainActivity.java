@@ -10,10 +10,14 @@ import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
-
+import ajou.ac.kr.teaming.vo.RegisterVO;
 
 
 public class LoginMainActivity extends AppCompatActivity {
+
+
+    private EditText idText;
+    private EditText passwordText;
 
 
 
@@ -22,6 +26,11 @@ public class LoginMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_main);
+
+        RegisterVO RegisterVO;
+        EditText idText=(EditText) findViewById(R.id.idText);
+        EditText passwordText=(EditText) findViewById(R.id.passwordText);
+
 
         TextView registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
