@@ -13,3 +13,15 @@ public class MyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my);
     }
 }
+
+class LoginContributor{
+
+
+    public final String login;
+
+    public  LoginContributor(String login){
+        this.login=login;
+    }
+
+
+}
