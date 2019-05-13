@@ -4,6 +4,7 @@ public class RegisterVO {
 
     private String userId;
     private String useremail;
+    private String username;
     private String userPwd;
     private String userGender;
     private String bigcity;
@@ -27,4 +28,8 @@ public class RegisterVO {
     public String getUserPwd() { return userPwd; }
 
     public void setUserPwd(String userPwd) { this.userPwd = userPwd; }
+
+    public String getUsername() { return username; }
+
+    public void setUsername(String username) { this.username = username; }
 }
