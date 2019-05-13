@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.location.Location;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.skt.Tmap.TMapData;
+import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
@@ -25,11 +27,21 @@ import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
 
-public class GpsMainActivity extends AppCompatActivity {
+public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback{
 
     private final String TAG = "GpsMainActivity";
     private final String TMAP_API_KEY = "78f4044b-3ca4-439d-8d0e-10135941f054";
+    private boolean m_bTrackingMode = true;
     private Context mContext;
+    private TMapView tmapview = null;
+
+
+    @Override
+    public void onLocationChange(Location location) {
+        if (m_bTrackingMode) {
+            tmapview.setLocationPoint(location.getLongitude(), location.getLatitude());
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
