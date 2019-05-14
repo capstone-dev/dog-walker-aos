@@ -41,10 +41,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/idText"
@@ -52,25 +48,13 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:layout_marginLeft="60dp"
                     android:background="#FFEABD3E"
                     android:drawableStart="@drawable/ic_person_black_24dp"
                     android:drawableLeft="@drawable/ic_person_black_24dp"
                     android:hint="아이디"
                     android:padding="10dp" />
 
-                <Button
-                    android:id="@+id/registerButton"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="2dp"
-                    android:background="#FFEABD3E"
-                    android:text="체크"
-                    android:textColor="#000000"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-            </LinearLayout>
+
 
 
             <EditText
@@ -133,7 +117,7 @@
                 android:layout_marginTop="10dp"></Spinner>
 
             <Spinner
-                android:id="@+id/bigcitySpinner"
+                android:id="@+id/UserBigcity"
                 android:layout_width="270dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
