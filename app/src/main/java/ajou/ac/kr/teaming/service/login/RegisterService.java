@@ -13,9 +13,7 @@ public interface RegisterService {
 
 
     @FormUrlEncoded
-    @POST("/signUp")            //가입
+    @POST("/signUp")
     Call<RegisterVO> postsignUp(@Body HashMap<String, Object> param);
-
-
 
 }
