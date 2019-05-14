@@ -2,34 +2,73 @@ package ajou.ac.kr.teaming.vo;
 
 public class RegisterVO {
 
-    private String userId;
-    private String useremail;
-    private String username;
-    private String userPwd;
-    private String userGender;
-    private String bigcity;
+    private String UserID;
+    private String UserPassword;
+    private String UserName;
+    private String UserEmail;
+    private String UserGender;
+    private String UserPhoneNumber;
+    private String Userbigcity;
 
-    public String getBigcity() { return bigcity; }
 
-    public void setBigcity(String bigcity) { this.bigcity = bigcity;}
+    {
 
-    public String getUseremail() { return useremail; }
 
-    public void setUseremail(String useremail) { this.useremail = useremail; }
+    }
 
-    public String getUserGender() { return userGender; }
+    public String getUserID() {
+        return UserID;
+    }
 
-    public void setUserGender(String userGender) { this.userGender = userGender; }
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
 
-    public String getUserId() { return userId; }
+    public String getUserPassword() {
+        return UserPassword;
+    }
 
-    public void setUserId(String userId) { this.userId = userId; }
+    public void setUserPassword(String userPassword) {
+        UserPassword = userPassword;
+    }
 
-    public String getUserPwd() { return userPwd; }
+    public String getUserName() {
+        return UserName;
+    }
 
-    public void setUserPwd(String userPwd) { this.userPwd = userPwd; }
+    public void setUserName(String userName) {
+        UserName = userName;
+    }
 
-    public String getUsername() { return username; }
+    public String getUserEmail() {
+        return UserEmail;
+    }
 
-    public void setUsername(String username) { this.username = username; }
+    public void setUserEmail(String userEmail) {
+        UserEmail = userEmail;
+    }
+
+    public String getUserGender() {
+        return UserGender;
+    }
+
+    public void setUserGender(String userGender) {
+        UserGender = userGender;
+    }
+
+    public String getUserPhoneNumber() {
+        return UserPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        UserPhoneNumber = userPhoneNumber;
+    }
+
+    public String getUserbigcity() {
+        return Userbigcity;
+    }
+
+    public void setUserbigcity(String userbigcity) {
+        Userbigcity = userbigcity;
+    }
 }

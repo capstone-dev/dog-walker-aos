@@ -106,31 +106,12 @@
                 android:hint="전화번호 - 빼고 적어주세요"
                 android:padding="10dp" />
 
-            <RadioGroup
-                android:layout_width="280dp"
+            <Spinner
+                android:id="@+id/UserGender"
+                android:layout_width="270dp"
                 android:layout_height="wrap_content"
-                android:id ="@+id/genderGroup"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-                
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="여성"
-                    android:id="@+id/genderWoman"
-                    android:layout_weight="1"
-                    android:checked="true"/>
-
-                    <RadioButton
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="남성"
-                        android:id="@+id/genderman"
-                        android:layout_weight="1"/>
-
-                </RadioGroup>
-
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"></Spinner>
 
             <Spinner
                 android:id="@+id/bigcitySpinner"

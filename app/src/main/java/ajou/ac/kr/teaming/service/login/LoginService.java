@@ -15,8 +15,8 @@ import retrofit2.http.Query;
 public interface LoginService {
 
     @FormUrlEncoded
-    @POST("/signUp")            //가입
-    Call<RegisterVO> postsignUp(@Body HashMap<String, Object> param);
+    @GET("/signUp")            //가입
+    Call<RegisterVO> getsignUp(@Query("UserID") String id,@Query("UserPassword") String pwd);
 
 
 }

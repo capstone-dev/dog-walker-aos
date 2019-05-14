@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.login.RegisterService;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
@@ -27,12 +28,10 @@ import static retrofit2.converter.gson.GsonConverterFactory.create;
 public class MyActivity extends AppCompatActivity {
 
 
+        private RegisterService RegisterService = ServiceBuilder.create(RegisterService.class);
 
-    private TextView idText;
-    private EditText passwordText;
-    private RegisterVO RegisterVo;
 
-    @Override
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
@@ -41,12 +40,13 @@ public class MyActivity extends AppCompatActivity {
         TextView idText=(TextView) findViewById(R.id.idText);
         EditText passwordText=(EditText) findViewById(R.id.passwordText);
 
-        HashMap<String, Object> MypageThread=new HashMap<>();
-        MypageThread.put("userId",((TextView)findViewById(R.id.idText)));;
+
+                 HashMap<String, Object> MypageThread=new HashMap<>();
+            MypageThread.put("userId",((TextView)findViewById(R.id.idText)));;
 
 
 
-    }
+        }
 
 
 

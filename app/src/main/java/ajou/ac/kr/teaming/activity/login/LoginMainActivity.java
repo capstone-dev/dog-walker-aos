@@ -3,34 +3,40 @@ package ajou.ac.kr.teaming.activity.login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
+import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.service.login.LoginService;
+import ajou.ac.kr.teaming.service.login.RegisterService;
+import ajou.ac.kr.teaming.vo.LoginVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginMainActivity extends AppCompatActivity {
+
+    private LoginService LoginService = ServiceBuilder.create(LoginService.class);
 
 
     private EditText idText;
     private EditText passwordText;
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_main);
-
-        RegisterVO RegisterVO;
-        EditText idText=(EditText) findViewById(R.id.idText);
-        EditText passwordText=(EditText) findViewById(R.id.passwordText);
-
 
         TextView registerButton = findViewById(R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +48,7 @@ public class LoginMainActivity extends AppCompatActivity {
         });
 
         Button loginButton = findViewById(R.id.loginButton);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -51,5 +58,16 @@ public class LoginMainActivity extends AppCompatActivity {
         });
 
 
+
+       // Call<RegisterVO>response=LoginService.getsignUp("summy","1234");
+
+
+
+
+
+
+
+
     }
+
 }

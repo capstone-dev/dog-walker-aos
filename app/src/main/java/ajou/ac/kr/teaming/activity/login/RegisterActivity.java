@@ -54,6 +54,10 @@ public class RegisterActivity extends AppCompatActivity {
         EditText nameText=(EditText) findViewById(R.id.nameText);
         EditText emailText=(EditText) findViewById(R.id.emailText);
         EditText numberText=(EditText) findViewById(R.id.numberText);
+
+        spinner=(Spinner) findViewById(R.id.UserGender);
+        adapter=ArrayAdapter.createFromResource(this,R.array.gender,android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
         spinner=(Spinner) findViewById(R.id.bigcitySpinner);
         adapter=ArrayAdapter.createFromResource(this,R.array.city,android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -65,14 +69,18 @@ public class RegisterActivity extends AppCompatActivity {
 
         HashMap<String, Object> inputregister=new HashMap<>();
 
-        inputregister.put("userId",(EditText)findViewById(R.id.idText));
-        inputregister.put("userPwd",((EditText)findViewById(R.id.passwordText)));
-        inputregister.put("username",((EditText)findViewById(R.id.nameText)));
-        inputregister.put("useremail",((EditText)findViewById(R.id.emailText)));
-        inputregister.put("userGender", ((RadioGroup) findViewById(R.id.genderGroup)));
-        inputregister.put("bigcity",((Spinner)findViewById(R.id.bigcitySpinner)));
+        inputregister.put("UserID",(EditText)findViewById(R.id.idText));
+        inputregister.put("UserPassword",((EditText)findViewById(R.id.passwordText)));
+        inputregister.put("UserName",((EditText)findViewById(R.id.nameText)));
+        inputregister.put("UserEmail",((EditText)findViewById(R.id.emailText)).getText());
+        inputregister.put("UserGender", ((Spinner) findViewById(R.id.UserGender)).getSelectedItem().toString());
+        inputregister.put("UserBigcity",((Spinner)findViewById(R.id.bigcitySpinner)).getSelectedItem().toString());
+        inputregister.put("UserPhoneNumber",((EditText)findViewById(R.id.numberText)));
+
 
         Call<RegisterVO> request = RegisterService.postsignUp(inputregister);
+
+
         request.enqueue(new Callback<RegisterVO>() {
             @Override
             public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
@@ -81,12 +89,14 @@ public class RegisterActivity extends AppCompatActivity {
                     RegisterVO RegisterVOs = response.body();
                     //테스트 확인 log값
                     if(RegisterVOs!=null){
-                        Log.d("TEST", RegisterVOs.getUserId());
-                        Log.d("TEST", RegisterVOs.getUseremail());
-                        Log.d("TEST", RegisterVOs.getUserPwd());
+                        Log.d("TEST", RegisterVOs.getUserID());
+                        Log.d("TEST", RegisterVOs.getUserPassword());
+                        Log.d("TEST", RegisterVOs.getUserName());
+                        Log.d("TEST", RegisterVOs.getUserEmail());
+                        Log.d("TEST", RegisterVOs.getUserPhoneNumber());
                         Log.d("TEST", RegisterVOs.getUserGender());
-                        Log.d("TEST", RegisterVOs.getUsername());
-                        Log.d("TEST", RegisterVOs.getBigcity());
+                        Log.d("TEST", RegisterVOs.getUserbigcity());
+
                     }
                 }
                 Log.d("TEST", "onResponse:END ");
