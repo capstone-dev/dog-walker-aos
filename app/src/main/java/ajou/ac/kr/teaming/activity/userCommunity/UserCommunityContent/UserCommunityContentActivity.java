@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ajou.ac.kr.teaming.R;
-//import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
+import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityContentCommentService;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
@@ -107,14 +107,7 @@ public class UserCommunityContentActivity extends Activity {
      * 닫기 버튼 클릭 시 액티비티(팝업) 닫기
      */
     public void onclickCloseActivity(View v){
-
-        /*메시지 테스트
-        Intent intent = new Intent(UserCommunityContentActivity.this,MessageChattingMainActivity.class);
-        startActivity(intent);*/
-
         //기존 INTENT 제작
-
-
         Intent intent=new Intent();
         finish();
     }
@@ -162,5 +155,16 @@ public class UserCommunityContentActivity extends Activity {
             }
         });
         setCommentList();
+    }
+
+    /**
+     * 연결 버튼을 누르게 되면 해당 사용자와 message 할 수 있게됨
+     * @param view
+     */
+    public void onClickMessageActivity(View view){
+        //메시지 연결
+        Log.d("TEST", "onClickMessageActivity: ");
+        Intent intent = new Intent(UserCommunityContentActivity.this, MessageChattingMainActivity.class);
+        startActivity(intent);
     }
 }

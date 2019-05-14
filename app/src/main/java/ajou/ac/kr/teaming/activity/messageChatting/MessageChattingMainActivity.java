@@ -1,14 +1,15 @@
 
 package ajou.ac.kr.teaming.activity.messageChatting;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import ajou.ac.kr.teaming.R;
 
-public class MessageChattingMainActivity extends AppCompatActivity {
+public class MessageChattingMainActivity extends Activity {
 
     ListView messageListView;
     MessageAdapter messageAdapter;
@@ -29,6 +30,9 @@ public class MessageChattingMainActivity extends AppCompatActivity {
 
         messageListView.setAdapter(messageAdapter);
 
+
+
+       /* 메시지 adapter 테스트
         messageAdapter.add("이건 뭐지", 1);
         messageAdapter.add("쿨쿨", 1);
         messageAdapter.add("쿨쿨쿨쿨", 0);
@@ -38,9 +42,12 @@ public class MessageChattingMainActivity extends AppCompatActivity {
         messageAdapter.add("재미있게", 0);
         messageAdapter.add("2015/11/20", 2);
         messageAdapter.add("재미있게", 1);
-        messageAdapter.add("재미있게", 1);
+        messageAdapter.add("재미있게", 1);*/
 
 
+        /**
+         * <p>수신측 메시지 표시</p>
+         */
         findViewById(R.id.button1).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
                     String inputValue = editText.getText().toString();
@@ -49,7 +56,9 @@ public class MessageChattingMainActivity extends AppCompatActivity {
                 }
         );
 
-
+        /**
+         * <p>송신측 메시지 표시</p>
+         */
         findViewById(R.id.button2).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
                     String inputValue = editText.getText().toString();

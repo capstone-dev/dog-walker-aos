@@ -33,7 +33,8 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
 
         userCommunityContentCommentViewHolder.userId.setText(userCommunityContentCommentVO.getUserId());
         userCommunityContentCommentViewHolder.commentContent.setText(userCommunityContentCommentVO.getCommentContent());
-        userCommunityContentCommentViewHolder.commentDate.setText(userCommunityContentCommentVO.getCommentDate());
+        userCommunityContentCommentViewHolder.commentDate.setText(userCommunityContentCommentVO.getCommentDate().substring(0,10)+" "+
+                userCommunityContentCommentVO.getCommentDate().substring(11,16));
     }
 
     @Override

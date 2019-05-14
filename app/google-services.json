@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "602203469047",
+    "firebase_url": "https://dog-walker-f129e.firebaseio.com",
+    "project_id": "dog-walker-f129e",
+    "storage_bucket": "dog-walker-f129e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:602203469047:android:167e48bb3a3123c7",
+        "android_client_info": {
+          "package_name": "ajou.ac.kr.teaming"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "602203469047-moc5msp7bvehgj79k8t74ktkabrut3m5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9lNCHs6SbMoIqE0hznT9eBWAx5SIEZjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "602203469047-moc5msp7bvehgj79k8t74ktkabrut3m5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

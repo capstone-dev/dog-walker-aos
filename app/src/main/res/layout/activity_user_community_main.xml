@@ -48,7 +48,7 @@
                     android:layout_height="40dp"
                     android:onClick="onClickThreadRegister"
                     android:text="등록"
-                    android:textSize="13sp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
                     app:layout_constraintRight_toRightOf="@id/user_community_function"
                     tools:ignore="MissingConstraints" />
@@ -167,7 +167,7 @@
                         android:layout_height="40dp"
                         android:layout_marginLeft="3dp"
                         android:layout_marginTop="8dp"
-                        android:text="검색어를 입력해 주세요"
+                        android:hint="검색어를 입력해 주세요"
                         android:textSize="13sp"
                         app:layout_constraintLeft_toRightOf="@id/search_text"
                         tools:ignore="MissingConstraints" />
