@@ -60,7 +60,7 @@
                     android:padding="10dp" />
 
                 <Button
-                    android:id="@+id/ValidateButton"
+                    android:id="@+id/registerButton"
                     android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

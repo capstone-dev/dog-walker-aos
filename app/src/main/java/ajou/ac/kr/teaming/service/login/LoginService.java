@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ajou.ac.kr.teaming.vo.LoginVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,9 +15,8 @@ import retrofit2.http.Query;
 
 public interface LoginService {
 
-    @FormUrlEncoded
-    @GET("/signUp")            //가입
-    Call<RegisterVO> getsignUp(@Query("UserID") String id,@Query("UserPassword") String pwd);
+    @GET("/signUp")//가입
+    Call<LoginVO> DoLogin (@Query("UserID") String UserID, @Query("UserPassword") String UserPassword);
 
 
 }
