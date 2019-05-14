@@ -1,4 +1,3 @@
-/*
 package ajou.ac.kr.teaming.activity.messageChatting;
 
 import java.util.ArrayList;
@@ -14,6 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import ajou.ac.kr.teaming.R;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -63,7 +64,7 @@ public class MessageAdapter extends BaseAdapter {
         if ( convertView == null ) {
             // view가 null일 경우 커스텀 레이아웃을 얻어 옴
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.activity_chatitem, parent, false);
+            convertView = inflater.inflate(R.layout.chatting_message, parent, false);
 
             layout    = (LinearLayout) convertView.findViewById(R.id.layout);
             text    = (TextView) convertView.findViewById(R.id.text);
@@ -88,7 +89,7 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         // Text 등록
-        text.setText(messageList.get(position).msg);
+        text.setText(messageList.get(position).message);
 
         if( messageList.get(position).type == 0 ) {
             text.setBackgroundResource(R.drawable.inbox2);
@@ -148,4 +149,3 @@ class CustomHolder {
     View viewRight;
     View viewLeft;
 }
-*/

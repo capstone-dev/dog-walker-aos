@@ -114,6 +114,7 @@ public class UserCommunityContentActivity extends Activity {
 
         //기존 INTENT 제작
 
+
         Intent intent=new Intent();
         finish();
     }
