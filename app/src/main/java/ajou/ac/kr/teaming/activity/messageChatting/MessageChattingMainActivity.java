@@ -1,3 +1,4 @@
+/*
 
 package ajou.ac.kr.teaming.activity.messageChatting;
 
@@ -32,8 +33,9 @@ public class MessageChattingMainActivity extends Activity {
 
 
 
-       /* 메시지 adapter 테스트
-        messageAdapter.add("이건 뭐지", 1);
+       */
+/* 메시지 adapter 테스트
+        maessageAdapter.add("이건 뭐지", 1);
         messageAdapter.add("쿨쿨", 1);
         messageAdapter.add("쿨쿨쿨쿨", 0);
         messageAdapter.add("재미있게", 1);
@@ -42,12 +44,15 @@ public class MessageChattingMainActivity extends Activity {
         messageAdapter.add("재미있게", 0);
         messageAdapter.add("2015/11/20", 2);
         messageAdapter.add("재미있게", 1);
-        messageAdapter.add("재미있게", 1);*/
+        messageAdapter.add("재미있게", 1);*//*
 
 
-        /**
+
+        */
+/**
          * <p>수신측 메시지 표시</p>
-         */
+         *//*
+
         findViewById(R.id.button1).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
                     String inputValue = editText.getText().toString();
@@ -56,9 +61,11 @@ public class MessageChattingMainActivity extends Activity {
                 }
         );
 
-        /**
+        */
+/**
          * <p>송신측 메시지 표시</p>
-         */
+         *//*
+
         findViewById(R.id.button2).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
                     String inputValue = editText.getText().toString();
@@ -74,3 +81,4 @@ public class MessageChattingMainActivity extends Activity {
         messageAdapter.notifyDataSetChanged();
     }
 }
+*/

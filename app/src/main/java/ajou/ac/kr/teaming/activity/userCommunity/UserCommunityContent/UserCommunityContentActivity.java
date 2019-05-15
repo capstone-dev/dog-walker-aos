@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import ajou.ac.kr.teaming.R;
+/*
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
+*/
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityContentCommentService;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
@@ -164,7 +166,9 @@ public class UserCommunityContentActivity extends Activity {
     public void onClickMessageActivity(View view){
         //메시지 연결
         Log.d("TEST", "onClickMessageActivity: ");
+/*
         Intent intent = new Intent(UserCommunityContentActivity.this, MessageChattingMainActivity.class);
-        startActivity(intent);
+*/
+        /*startActivity(intent);*/
     }
 }
