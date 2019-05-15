@@ -5,15 +5,19 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -125,8 +129,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
 
 
-
-
     /**
      * 단말의 위치탐색 메소드
      * */
@@ -161,6 +163,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         initView(); //리스너 실행
 
 
+
         /***
          * FAB버튼
          *강아지 주인의 현재 위치를 추적하는 아이콘으로 만들 생각
@@ -170,14 +173,13 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         btnTrackDogWalkerFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 tMapView.setTrackingMode(true);
+                tMapView.setSightVisible(true);
                 tMapView.setZoomLevel(15);
                 tMapView.setIconVisibility(true);
+                setGps();
             }
         });
-
-
 
 
         /**
@@ -220,20 +222,20 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             }
         });
 
-        /*위치정보 허용*/
+        /**
+         * PermissionManager 클래스에서 상속
+         * 위치정보 허용기능
+         * */
         permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
             @Override
             public void granted() {
-
                 tMapGps = new TMapGpsManager(GpsMainActivity.this);
                 tMapGps.setMinTime(1000);
                 tMapGps.setMinDistance(5);
                 tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
                 tMapGps.OpenGps();
-                /*
                 tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
                 tMapGps.OpenGps();
-                                */
             }
 
             @Override
@@ -242,9 +244,47 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             }
         });
 
-
-
     }//onCreate
+
+
+
+    /**
+     * 현재 위치정보 받기
+     * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
+     * */
+    private final LocationListener mLocationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+
+            if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                tMapView.setLocationPoint(longitude, latitude);
+                tMapView.setCenterPoint(longitude, latitude);
+            }
+        }
+        public void onProviderDisabled(String provider) {
+        }
+        public void onProviderEnabled(String provider) {
+        }
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+    };
+
+    public void setGps(){
+        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+                1000, // 통지사이의 최소 시간간격 (miliSecond)
+                1, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
+    }
+
+
+
 
 
 
@@ -373,7 +413,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             case R.id.btnSetMapType		  :		setMapType(); 			break;
             case R.id.btnGetLocationPoint : 	getLocationPoint(); 	break;
             case R.id.btnSetLocationPoint : 	setLocationPoint(); 	break;
-            case R.id.btnSetIcon		  : 	setMapIcon(); 			break;
+            //case R.id.btnSetIcon		  : 	setMapIcon(); 			break;
             case R.id.btnSetCompassMode	  : 	setCompassMode();		break;
             case R.id.btnGetIsCompass     :	getIsCompass();			break;
             case R.id.btnSetSightVisible  : 	setSightVisible();		break;
@@ -493,6 +533,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * setMapIcon
      * 현재위치로 표시될 아이콘을 설정한다.
      */
+
+    /*
     public void setMapIcon() {
         m_bShowMapIcon = !m_bShowMapIcon;
 
@@ -502,6 +544,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         }
         tMapView.setIconVisibility(m_bShowMapIcon);
     }
+    */
 
     /**
      * setCompassMode
