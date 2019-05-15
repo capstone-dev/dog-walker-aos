@@ -75,12 +75,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * 버튼 아이디 정리
      */
     private static final int[] mArrayMapButton = {
-            R.id.btnOverlay,
-            R.id.btnAnimateTo,
             R.id.btnZoomIn,
             R.id.btnZoomOut,
-            R.id.btnGetZoomLevel,
-            R.id.btnSetZoomLevel,
             R.id.btnSetMapType,
             R.id.btnGetLocationPoint,
             R.id.btnSetLocationPoint,
@@ -90,16 +86,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             R.id.btnSetSightVisible,
             R.id.btnSetTrackIngMode,
             R.id.btnGetIsTracking,
-            R.id.btnAddTMapCircle,
-            R.id.btnRemoveTMapCircle,
             R.id.btnMarkerPoint,
-            R.id.btnRemoveMarker,
-            R.id.btnMoveFrontMarker,
-            R.id.btnMoveBackMarker,
-            R.id.btnDrawPolyLine,
-            R.id.btnErasePolyLine,
-            R.id.btnDrawPolygon,
-            R.id.btnErasePolygon,
             R.id.btnMapPath,
             R.id.btnRemoveMapPath,
             R.id.btnDisplayMapInfo,
@@ -118,7 +105,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             R.id.btnInvokeSearchPortal,
             R.id.btnTimeMachine,
             R.id.btnTMapInstall,
-            R.id.btnMarkerPoint2,
     };
 
     /**
@@ -166,17 +152,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         apiKeyMapView(); //T MAP API 서버키 인증
         linearLayoutTmap.addView( tMapView );
 
-
         initView(); //리스너 실행
-
-
-/*
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1); //위치권한 탐색 허용 관련 내용
-            Log.d("locationTest","동의알림");
-        }
-*/
-
 
 
         /**
@@ -316,8 +292,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      */
     private void initView() {
         for (int btnMapView : mArrayMapButton) {
-            Button ViewButton = (Button) findViewById(btnMapView);
-
+            Button ActiveButton = (Button) findViewById(btnMapView);
+            ActiveButton.setOnClickListener(this::onClick);
         }
 
         tMapView.setOnApiKeyListener(new TMapView.OnApiKeyListenerCallback() {
@@ -541,11 +517,12 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      */
     public void setLocationPoint() {
         double 	Latitude  = 37.5077664;
-        double  Longitude = 126.8805826;
+        double Longitude = 126.8805826;
 
         LogManager.printLog("setLocationPoint " + Latitude + " " + Longitude);
-
         tMapView.setLocationPoint(Longitude, Latitude);
+        String strResult = String.format("현재위치의 좌표의 위도 경도를 설정\n Latitude = %f Longitude = %f", Latitude, Longitude);
+        Common.showAlertDialog(this, "", strResult);
     }
 
     /**
@@ -628,11 +605,14 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         item1.setIcon(bitmap);
         LogManager.printLog("bitmap " + bitmap.getWidth() + " " + bitmap.getHeight());
 
+
+
         bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.i_location);
         item1.setCalloutTitle("SKT타워");
         item1.setCalloutSubTitle("을지로입구역 500M");
         item1.setCanShowCallout(true);
         item1.setAutoCalloutVisible(true);
+
 
         Bitmap bitmap_i = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.i_go);
 
@@ -940,10 +920,11 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         }
     }
 
+    /*
     /**
      * getBizCategory
      * 업종별 category를 요청한다. 
-     */
+
     public void getBizCategory() {
         TMapData tmapdata = new TMapData();
 
@@ -958,6 +939,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             }
         });
     }
+    */
 
     /**
      * getAroundBizPoi

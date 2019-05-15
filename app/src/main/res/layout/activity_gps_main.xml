@@ -41,25 +41,6 @@
                 android:layout_height="fill_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-
-                    <Button
-                        android:id="@+id/btnOverlay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="overlay"
-                        android:layout_weight="1"/>
-                    <Button
-                        android:id="@+id/btnAnimateTo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="animateTo"
-                        android:layout_weight="1"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -123,12 +104,6 @@
                         android:layout_height="wrap_content"
                         android:text="축소"
                         android:layout_weight="1"/>
-                    <Button
-                        android:id="@+id/btnGetZoomLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="현재 줌 레벨"
-                        android:layout_weight="1"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -136,12 +111,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_gravity="center_horizontal">
-                    <Button
-                        android:id="@+id/btnSetZoomLevel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="setZoomLevel"
-                        android:layout_weight="1"/>
+
                     <Button
                         android:id="@+id/btnSetMapType"
                         android:layout_width="wrap_content"
@@ -194,63 +164,6 @@
                         android:layout_weight="1"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-
-                    <Button
-                        android:id="@+id/btnAddTMapCircle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="addCircle"
-                        android:layout_weight="1"/>
-                    <Button
-                        android:id="@+id/btnRemoveTMapCircle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="removeCircle"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-                    <Button
-                        android:id="@+id/btnDrawPolyLine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="drawLine"
-                        android:layout_weight="1"/>
-                    <Button
-                        android:id="@+id/btnErasePolyLine"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="eraseLine"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-                    <Button
-                        android:id="@+id/btnDrawPolygon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="drawPolygon"
-                        android:layout_weight="1"/>
-                    <Button
-                        android:id="@+id/btnErasePolygon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="erasePolygon"
-                        android:layout_weight="1"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -307,18 +220,6 @@
                         android:layout_weight="1"/>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_gravity="center_horizontal">
-                    <Button
-                        android:id="@+id/btnMarkerPoint2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="showmarker2"
-                        android:layout_weight="1"/>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -336,23 +237,8 @@
                         android:id="@+id/btnRemoveMarker"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="emovemarker"
+                        android:text="Removemarker"
                         android:layout_weight="1"/>
-
-                    <Button
-                        android:id="@+id/btnMoveFrontMarker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="movefrontmarker"
-                        android:layout_weight="1"/>
-
-                    <Button
-                        android:id="@+id/btnMoveBackMarker"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="movetomarker"
-                        android:layout_weight="1"/>
-
 
                 </LinearLayout>
 
@@ -471,7 +357,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/cardview_dark_background">
 
         <Button
             android:id="@+id/buttonCall"
