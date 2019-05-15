@@ -43,7 +43,7 @@ public class LoginMainActivity extends AppCompatActivity {
         loginService =ServiceBuilder.create(LoginService.class);
 
 
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        /*loginButton.setOnClickListener(new View.OnClickListener(){
 
 
             @Override
@@ -61,6 +61,14 @@ public class LoginMainActivity extends AppCompatActivity {
 
 
 
+            }
+        });*/
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent loginIntent=new Intent(LoginMainActivity.this,MainActivity.class);
+                LoginMainActivity.this.startActivity(loginIntent);
             }
         });
 
@@ -82,7 +90,7 @@ public class LoginMainActivity extends AppCompatActivity {
 
     }
 
-    private boolean ValidateLogin(String userid,String userpassword){
+    /*private boolean ValidateLogin(String userid,String userpassword){
         if (userid==null ||userid.trim().isEmpty()){
             Toast.makeText(this,"아이디를 입력하세요",Toast.LENGTH_SHORT).show();
             return false;
@@ -124,6 +132,5 @@ public class LoginMainActivity extends AppCompatActivity {
             }
         });
 
-    }
-
+    }*/
 }
