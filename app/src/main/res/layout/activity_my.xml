@@ -7,19 +7,19 @@
     tools:context=".activity.login.MyActivity">
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFEABD3E">
+            android:background="#FFEABD3E"
+            android:orientation="vertical">
 
 
 
@@ -27,70 +27,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="회원정보 수정"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="회원정보"
                 android:textColor="#ffffff"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"/>
-
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-
-
-            <TextView
-                android:text="TextView"
-                android:id="@+id/idText"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="100dp"
-                android:background="#FFEABD3E"
-                android:textSize="30sp"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline" />
-
-
-
-
-
-            <EditText
-                android:id="@+id/passwordText"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="#FFEABD3E"
-                android:drawableStart="@drawable/ic_lock_black_24dp"
-                android:drawableLeft="@drawable/ic_lock_black_24dp"
-                android:hint="비밀번호"
-                android:inputType="textPassword"
-                android:padding="10dp" />
-
-
-
-            <Button
-                android:id="@+id/checkButton"
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:background="#FFEABD3E"
-                android:text="확인"
-                android:textColor="#000000"
-                android:textSize="20dp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
+
+</LinearLayout>
+
+
+
 
     </LinearLayout>
+
 
 
 

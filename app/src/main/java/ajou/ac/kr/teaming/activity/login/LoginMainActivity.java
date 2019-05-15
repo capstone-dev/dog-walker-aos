@@ -3,6 +3,7 @@ package ajou.ac.kr.teaming.activity.login;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,12 +97,20 @@ public class LoginMainActivity extends AppCompatActivity {
 
     private void doLogin(final String userid,final String userpassword){
 
-        Call<LoginVO> call=loginService.DoLogin("summy","1234");
-        call.enqueue(new Callback<LoginVO>() {
+        Call<RegisterVO> call=loginService.DoLogin("summy","1234");
+        call.enqueue(new Callback<RegisterVO>() {
             @Override
-            public void onResponse(Call<LoginVO> call, Response<LoginVO> response) {
+            public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
                 if(response.isSuccessful()){
-                    LoginVO registerVO=response.body();
+                    RegisterVO registerVO=response.body();
+
+
+                    if (registerVO != null) {
+                        Log.d("TEST", registerVO.getUserID());
+                        Log.d("TEST", registerVO.getUserPassword());
+
+                    }
+
                   Intent intent=new Intent(LoginMainActivity.this,MainActivity.class);
                   startActivity(intent);
                 }
@@ -109,7 +118,7 @@ public class LoginMainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginVO> call, Throwable t) {
+            public void onFailure(Call<RegisterVO> call, Throwable t) {
                 Toast.makeText(LoginMainActivity.this,"Error",Toast.LENGTH_SHORT).show();
 
             }
