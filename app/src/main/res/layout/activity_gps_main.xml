@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -12,6 +13,22 @@
         android:layout_height="457dp"
         android:layout_weight="1"
         android:background="@android:color/darker_gray">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnFloatingActionButton"
+            android:layout_width="132dp"
+            android:layout_height="132dp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="430dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_menu_mylocation"
+            app:fabSize="normal"
+            />
+
 
         <LinearLayout
             android:id="@+id/linearLayoutTmap"
@@ -232,6 +249,14 @@
                         android:layout_height="wrap_content"
                         android:text="showmarker"
                         android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnMarkerPoint2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="marker2"
+                        android:layout_weight="1"/>
+
 
                     <Button
                         android:id="@+id/btnRemoveMarker"

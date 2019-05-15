@@ -12,8 +12,8 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,12 +23,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.skt.Tmap.BizCategory;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapInfo;
 import com.skt.Tmap.TMapLabelInfo;
 import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
@@ -53,8 +53,9 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     private final String TMAP_API_KEY = "78f4044b-3ca4-439d-8d0e-10135941f054";
     private Context mContext;
     private TMapView tMapView = null;
+    private FloatingActionButton btnTrackDogWalkerFAB = null;
 
-    TMapGpsManager gps = null;
+    TMapGpsManager tMapGps = null;
     PermissionManager permissionManager = null; // 권한요청 관리자
 
     private boolean m_bShowMapIcon = false;
@@ -105,6 +106,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             R.id.btnInvokeSearchPortal,
             R.id.btnTimeMachine,
             R.id.btnTMapInstall,
+            R.id.btnMarkerPoint2
     };
 
     /**
@@ -122,14 +124,19 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     }
 
 
+
+
+
+    /**
+     * 단말의 위치탐색 메소드
+     * */
     @Override
     public void onLocationChange(Location location) {
         LogManager.printLog("onLocationChange :::> " + location.getLatitude() +
                 " " + location.getLongitude() +
                 " " + location.getSpeed() +
                 " " + location.getAccuracy());
-        if(m_bTrackingMode)
-        {
+        if(m_bTrackingMode) {
             tMapView.setLocationPoint(location.getLongitude(), location.getLatitude());
         }
     }
@@ -146,13 +153,31 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         mContext = this;
         permissionManager = new PermissionManager(this); // 권한요청 관리자
 
-
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         apiKeyMapView(); //T MAP API 서버키 인증
         linearLayoutTmap.addView( tMapView );
 
         initView(); //리스너 실행
+
+
+        /***
+         * FAB버튼
+         *강아지 주인의 현재 위치를 추적하는 아이콘으로 만들 생각
+         */
+
+        btnTrackDogWalkerFAB = (FloatingActionButton) findViewById(R.id.btnFloatingActionButton);
+        btnTrackDogWalkerFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                tMapView.setTrackingMode(true);
+                tMapView.setZoomLevel(15);
+                tMapView.setIconVisibility(true);
+            }
+        });
+
+
 
 
         /**
@@ -175,23 +200,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         });
 
 
-        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-            @Override
-            public void granted() {
-                gps = new TMapGpsManager(GpsMainActivity.this);
-                gps.setMinTime(1000);
-                gps.setMinDistance(5);
-                gps.setProvider(gps.GPS_PROVIDER);
-                gps.OpenGps();
-                gps.setProvider(gps.NETWORK_PROVIDER);
-                gps.OpenGps();
-            }
 
-            @Override
-            public void denied() {
-                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
-            }
-        });
 
         // 롱 클릭 이벤트 설정
         tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
@@ -211,76 +220,28 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             }
         });
 
-        /*
+        /*위치정보 허용*/
+        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
+            @Override
+            public void granted() {
 
-        //마커 생성
-        TMapMarkerItem markerItem1 = new TMapMarkerItem();
-        TMapPoint tMapPoint1 = new TMapPoint(37.570841, 126.985302); // SKT타워       //String startGpsPosition
-        // 마커 아이콘
-        Bitmap gpsMarker = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gpsmarker);
-        //  resizeBitmap(gpsMarker); //이미지 크기 조절
+                tMapGps = new TMapGpsManager(GpsMainActivity.this);
+                tMapGps.setMinTime(1000);
+                tMapGps.setMinDistance(5);
+                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
+                tMapGps.OpenGps();
+                /*
+                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+                tMapGps.OpenGps();
+                                */
+            }
 
-        markerItem1.setIcon(gpsMarker); // 마커 아이콘 지정
-        markerItem1.setPosition(0.5f, 1.0f); // 마커의 중심점을 중앙, 하단으로 설정
-        markerItem1.setTMapPoint(tMapPoint1); // 마커의 좌표 지정
-        markerItem1.setName("SKT타워"); // 마커의 타이틀 지정
-        GpsMainActivity.this.tMapView.addMarkerItem("markerItem1", markerItem1); // 지도에 마커 추가
-        GpsMainActivity.this.tMapView.setCenterPoint(126.985302, 37.570841);
+            @Override
+            public void denied() {
+                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
+            }
+        });
 
-        markerItem1.setCanShowCallout(true);
-        markerItem1.setCalloutTitle("Hello. Balloonview");
-        markerItem1.setCalloutSubTitle("TESTEST");
-
-        //풍선뷰의 왼쪽
-        Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.balloonlefticon);
-        markerItem1.setCalloutLeftImage(bitmap);
-
-
-
-
-
-
-
-
-        /**
-         * Dogwalker의 경로가 표시되도록 만들기.
-         * */
-
-        /*
-        TMapPoint tMapPointStart = new TMapPoint(37.570841, 126.985302); // SKT타워(출발지)
-        TMapPoint tMapPointEnd = new TMapPoint(37.551135, 126.988205); // N서울타워(목적지)
-        //출발지를 받고, 목적지를 계속 받아 갱신하면서 그리는 쪽으로 하기.
-
-        try {
-            TMapPolyLine tMapPolyLine = new TMapData().findPathData(tMapPointStart, tMapPointEnd);
-            tMapPolyLine.setLineColor(Color.GREEN);
-            tMapPolyLine.setLineWidth(2);
-            tMapView.addTMapPolyLine("Line1", tMapPolyLine);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-
-
-
-        /**
-         * 풍선뷰 만들기
-         * */
-        /*
-        TMapPoint tpoint = new TMapPoint(37.570841, 126.985302);
-        TMapMarkerItem2 tMapMarkerItem2 = new TMapMarkerItem2();
-        tMapMarkerItem2.setTMapPoint(tpoint);
-
-        mContext = this;
-        MarkerOverlay marker = new MarkerOverlay(mContext, "custom", "marker");
-        String strID = "TMapMarkerItem2";
-
-        marker.setPosition(0.2f,0.2f);
-        marker.getTMapPoint();
-        marker.setID(strID);
-        marker.setTMapPoint(new TMapPoint(tpoint.getLatitude(), tpoint.getLongitude()));
-
-        tMapView.addMarkerItem2(strID, marker);
-        */
 
 
     }//onCreate
@@ -380,19 +341,21 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
     @Override
     protected void onResume() {
+
         super.onResume();
     }
 
     @Override
     protected void onPause() {
+
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if( gps != null ) {
-            gps.CloseGps();
+        if( tMapGps != null ) {
+            tMapGps.CloseGps();
         }
         if(mOverlayList != null){
             mOverlayList.clear();
@@ -436,6 +399,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             case R.id.btnDisalbeZoom	  : 	disableZoom();			break;
             case R.id.btnTimeMachine	  :   	timeMachine(); 			break;
             case R.id.btnTMapInstall	  :     tmapInstall(); 			break;
+            case R.id.btnMarkerPoint2    :    showMarkerPoint2();     break;
         }
     }
 
@@ -588,20 +552,29 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     /**
      * showMarkerPoint
      * 지도에 마커를 표출한다.
+     *
+     *
+     *
+     * 현재 클릭시 오류 발생중
+     *
+     *
+     *
+     *
      */
     public void showMarkerPoint() {
         Bitmap bitmap = null;
 
-        TMapPoint point = new TMapPoint(37.566474, 126.985022);
+        TMapPoint point = new TMapPoint(37.570841, 126.985302); // SKT타워
 
         TMapMarkerItem item1 = new TMapMarkerItem();
 
+
+        //마커 아이콘
         bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.i_location);
 
         item1.setTMapPoint(point);
         item1.setName("SKT타워");
         item1.setVisible(item1.VISIBLE);
-
         item1.setIcon(bitmap);
         LogManager.printLog("bitmap " + bitmap.getWidth() + " " + bitmap.getHeight());
 
@@ -661,7 +634,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         bitmap_i = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.i_go);
         item2.setCalloutRightButtonImage(bitmap_i);
 
-        bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.map_pin_red);
+        bitmap = BitmapFactory.decodeResource(mContext.getResources(),R.drawable.gpsmarker);
         item2.setIcon(bitmap);
 
         strID = String.format("pmarker%d", mMarkerID++);
@@ -697,7 +670,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             TMapMarkerItem item3 = new TMapMarkerItem();
 
             item3.setID(strID);
-            item3.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
+            item3.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.gpsmarker));
 
             item3.setTMapPoint(randomTMapPoint());
             item3.setCalloutTitle(">>>>" + strID + "<<<<<");
@@ -709,6 +682,43 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             mArrayMarkerID.add(strID);
         }
     }
+
+    public void showMarkerPoint2() {
+        ArrayList<Bitmap> markerList = null;
+        for(int i = 0; i < 20; i++) {
+
+            MarkerOverlay marker1 = new MarkerOverlay(this, tMapView);
+            String strID = String.format("%02d", i);
+
+            marker1.setID(strID);
+            marker1.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.gpsmarker));
+            marker1.setTMapPoint(randomTMapPoint());
+
+            if (markerList == null) {
+                markerList = new ArrayList<Bitmap>();
+            }
+
+            markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gpsmarker));
+            markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
+
+            marker1.setAnimationIcons(markerList);
+            tMapView.addMarkerItem2(strID, marker1);
+        }
+
+        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
+
+            @Override
+            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
+                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
+
+                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
+                Common.showAlertDialog(GpsMainActivity.this, "TMapMarker2", strMessage);
+            }
+        });
+    }
+
+
+
 
 
 

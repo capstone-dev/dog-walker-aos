@@ -27,26 +27,31 @@ public class MarkerOverlay extends TMapMarkerItem2 {
 
     @Override
     public Bitmap getIcon() {
+
         return super.getIcon();
     }
 
     @Override
     public void setIcon(Bitmap bitmap) {
+
         super.setIcon(bitmap);
     }
 
     @Override
     public void setTMapPoint(TMapPoint point) {
+
         super.setTMapPoint(point);
     }
 
     @Override
     public TMapPoint getTMapPoint() {
+
         return super.getTMapPoint();
     }
 
     @Override
     public void setPosition(float dx, float dy) {
+
         super.setPosition(dx, dy);
     }
 
