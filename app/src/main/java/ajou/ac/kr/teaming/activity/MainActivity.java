@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
@@ -135,8 +136,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent = new Intent(MainActivity.this, GpsMainActivity.class);
 
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_dogwalker_gps) {
 
+            intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
         }
 
         if(intent != null) {

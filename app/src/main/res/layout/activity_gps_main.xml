@@ -1,62 +1,476 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.widget.LinearLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical"
-    tools:context=".activity.gps.GpsMainActivity">
+    android:background="@color/colorAccent">
+
+    <RelativeLayout
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="457dp"
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTmap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:paddingTop="2dip"
+        android:layout_height="150dip"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fillViewport="true"
+            android:scrollbarStyle="outsideOverlay">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnOverlay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="overlay"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnAnimateTo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="animateTo"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnSetLocationPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="setLocationPoint"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnGetLocationPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="getLocationPoint"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnSetIcon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="아이콘설정"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnSetCompassMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="나침반모드 설정"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnGetIsCompass"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="나침반모드 사용여부"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnZoomIn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="확대"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnZoomOut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="축소"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnGetZoomLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="현재 줌 레벨"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnSetZoomLevel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="setZoomLevel"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnSetMapType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="지도타입선택"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnGetCenterPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="화면중심좌표"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnTileType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tile Type"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnSetSightVisible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="setsightvisible"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnSetTrackIngMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="setTrackingMode 트래킹모드 설정"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnGetIsTracking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="getIstracking 트래킹모드 사용여부"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnAddTMapCircle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="addCircle"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnRemoveTMapCircle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="removeCircle"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnDrawPolyLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="drawLine"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnErasePolyLine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="eraseLine"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnDrawPolygon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="drawPolygon"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnErasePolygon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="erasePolygon"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnMapPath"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="draw_map_path"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnRemoveMapPath"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="remove_map_path"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnDisplayMapInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="displaymapinfo"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnNaviGuide"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="naviguide"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnCarPath"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="car_path"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnPedestrian_Path"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="pedestrian_path"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnMarkerPoint2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="showmarker2"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnMarkerPoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="showmarker"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnRemoveMarker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="emovemarker"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnMoveFrontMarker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="movefrontmarker"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnMoveBackMarker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="movetomarker"
+                        android:layout_weight="1"/>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+                    <Button
+                        android:id="@+id/btnFindAllPoi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="통합검색"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnConvertToAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주소변환"
+                        android:layout_weight="1"/>
+                    <Button
+                        android:id="@+id/btnGetAroundBizPoi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주변업종검색"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnInvokeRoute"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T map 길안내"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnInvokeSetLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T map 위치이동"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnInvokeSearchPortal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T map 통합검색"
+                        android:layout_weight="1"/>
+
+                    <Button
+                        android:id="@+id/btnTMapInstall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="T map 설치"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnCapture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="화면 캡처"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnDisalbeZoom"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Disable Zoom"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <Button
+                        android:id="@+id/btnTimeMachine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="타임머신"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/buttonMove1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="N서울타워"></Button>
-        <Button
-            android:id="@+id/buttonMove2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="경복궁"></Button>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/buttonZoomIn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="확대"></Button>
-        <Button
-            android:id="@+id/buttonZoomOut"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="축소"></Button>
-        <Button
-            android:id="@+id/buttonZoomLevel10"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="ZoomLevel=10"></Button>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayoutTmap"
-        android:layout_width="match_parent"
-        android:layout_height="565dp"
-        android:orientation="vertical"></LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <Button
@@ -74,4 +488,4 @@
             android:text="채팅하기" />
     </LinearLayout>
 
-</android.widget.LinearLayout>
+</LinearLayout>

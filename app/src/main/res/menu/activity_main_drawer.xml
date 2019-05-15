@@ -33,9 +33,9 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="GPS TEST" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_dogwalker_gps"
                 android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="GPS TEST DOGWALKER" />
         </menu>
     </item>
 
