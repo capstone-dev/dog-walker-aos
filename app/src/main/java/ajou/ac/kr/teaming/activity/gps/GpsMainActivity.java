@@ -51,6 +51,33 @@ import java.util.HashMap;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
 
+/**  <사용자 메인 액티비티>
+ *
+ * 사용자는 Tmap 지도를 사용할 수 있다.
+ * 도그워커의 위치를 파악할 수 있다.
+ * 도그워커가 이동한 경로 및 거리와 산책 시간을 확인할 수 있다.
+ * 마커를 눌렀을 시, 풍선뷰가 생성된다.
+ * 풍선뷰를 통해 도그워커가 남긴 사진정보와 위치 정보를 확인할 수 있다.
+ *
+ *
+ * 도그워커와 통화하기 및 채팅하기
+ * ----------------------------------------------------------------------------
+ *
+ * - 생성해야할 메소드
+ *
+ * 1. 마커 클릭
+ * 2. 풍선뷰 확인
+ * 3. 도그워커 위치 추적 (fab)
+ * 4. 도그워커의 이동경로 지도에 표시
+ * 5. 도그워커가 이동한 거리 및 산책시간 확인
+ * 6. 풍선뷰 안의 사진정보와 위치정보 확인
+ *
+ * */
+
+
+
+
+
 public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager.onLocationChangedCallback{
 
     private final String TAG = "GpsMainActivity";
@@ -449,7 +476,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
         latitude = Math.min(37.575113, latitude);
         latitude = Math.max(37.483086, latitude);
-
         longitude = Math.min(127.027359, longitude);
         longitude = Math.max(126.878357, longitude);
 

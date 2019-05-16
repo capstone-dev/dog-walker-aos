@@ -13,6 +13,37 @@
         android:layout_width="match_parent"
         android:layout_height="107dp"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnGetDogWalkerLocationPoint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="위치정보 얻기" />
+
+            <Button
+                android:id="@+id/btnPhotoAndMarker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사진 찍기 및 마커생성" />
+
+            <Button
+                android:id="@+id/btnWalkDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="산책거리 확인" />
+
+            <Button
+                android:id="@+id/btnWalkEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="산책 종료" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <RelativeLayout
@@ -20,6 +51,16 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutDogwalkerTmap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
     </RelativeLayout>
 
 
@@ -29,14 +70,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/buttonCall"
+            android:id="@+id/btnCallToUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="통화하기" />
 
         <Button
-            android:id="@+id/buttonMessage"
+            android:id="@+id/btnChatToUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
