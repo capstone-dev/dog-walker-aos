@@ -66,11 +66,15 @@ import ajou.ac.kr.teaming.activity.LogManager;
  * - 생성해야할 메소드
  *
  * 1. 마커 클릭
+ * 1-1.풍선뷰 안의 사진정보와 위치정보 확인
  * 2. 풍선뷰 확인
  * 3. 도그워커 위치 추적 (fab)
  * 4. 도그워커의 이동경로 지도에 표시
  * 5. 도그워커가 이동한 거리 및 산책시간 확인
- * 6. 풍선뷰 안의 사진정보와 위치정보 확인
+ *
+ *
+ * 2.3.4.5는 도그워커의 지도를 공유하는 방식으로 만들 생각.
+ *
  *
  * */
 
@@ -107,36 +111,23 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * 버튼 아이디 정리
      */
     private static final int[] mArrayMapButton = {
-            R.id.btnZoomIn,
-            R.id.btnZoomOut,
             R.id.btnSetMapType,
             R.id.btnGetLocationPoint,
             R.id.btnSetLocationPoint,
-            R.id.btnSetIcon,
             R.id.btnSetCompassMode,
             R.id.btnGetIsCompass,
             R.id.btnSetSightVisible,
             R.id.btnSetTrackIngMode,
             R.id.btnGetIsTracking,
-            R.id.btnMarkerPoint,
             R.id.btnMapPath,
             R.id.btnRemoveMapPath,
             R.id.btnDisplayMapInfo,
-            R.id.btnNaviGuide,
-            R.id.btnCarPath,
             R.id.btnPedestrian_Path,
             R.id.btnGetCenterPoint,
             R.id.btnFindAllPoi,
             R.id.btnConvertToAddress,
-            R.id.btnGetAroundBizPoi,
             R.id.btnTileType,
             R.id.btnCapture,
-            R.id.btnDisalbeZoom,
-            R.id.btnInvokeRoute,
-            R.id.btnInvokeSetLocation,
-            R.id.btnInvokeSearchPortal,
-            R.id.btnTimeMachine,
-            R.id.btnTMapInstall,
             R.id.btnMarkerPoint2
     };
 
@@ -181,6 +172,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
         mContext = this;
         permissionManager = new PermissionManager(this); // 권한요청 관리자
+
+
 
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
@@ -408,13 +401,11 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
     @Override
     protected void onResume() {
-
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-
         super.onPause();
     }
 
@@ -435,42 +426,33 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      */
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnZoomIn			  : 	mapZoomIn(); 			break;
-            case R.id.btnZoomOut		  : 	mapZoomOut(); 			break;
             case R.id.btnSetMapType		  :		setMapType(); 			break;
             case R.id.btnGetLocationPoint : 	getLocationPoint(); 	break;
             case R.id.btnSetLocationPoint : 	setLocationPoint(); 	break;
-            //case R.id.btnSetIcon		  : 	setMapIcon(); 			break;
             case R.id.btnSetCompassMode	  : 	setCompassMode();		break;
             case R.id.btnGetIsCompass     :	getIsCompass();			break;
             case R.id.btnSetSightVisible  : 	setSightVisible();		break;
             case R.id.btnSetTrackIngMode  : 	setTrackingMode();		break;
             case R.id.btnGetIsTracking	  : 	getIsTracking();		break;
-            case R.id.btnMarkerPoint	  :     showMarkerPoint(); 		break;
             case R.id.btnRemoveMarker     : 	removeMarker(); 		break;
             case R.id.btnMapPath		  : 	drawMapPath();			break;
             case R.id.btnRemoveMapPath    :     removeMapPath(); 		break;
             case R.id.btnDisplayMapInfo   :     displayMapInfo(); 		break;
-            case R.id.btnNaviGuide		  :     naviGuide();			break;
-            case R.id.btnCarPath		  :     drawCarPath(); 			break;
             case R.id.btnPedestrian_Path  :     drawPedestrianPath(); break;
             case R.id.btnGetCenterPoint   :     getCenterPoint();		break;
-            case R.id.btnFindAllPoi		  :     findAllPoi();			break;
             case R.id.btnConvertToAddress :    convertToAddress(); 	break;
-            case R.id.btnGetAroundBizPoi  :    getAroundBizPoi();     break;
             case R.id.btnTileType		  : 	setTileType();			break;
-            case R.id.btnInvokeRoute	  :     invokeRoute();			break;
-            case R.id.btnInvokeSetLocation: 	invokeSetLocation();    break;
-            case R.id.btnInvokeSearchPortal: 	invokeSearchProtal(); 	break;
             case R.id.btnCapture		  :     captureImage(); 		break;
-            case R.id.btnDisalbeZoom	  : 	disableZoom();			break;
-            case R.id.btnTimeMachine	  :   	timeMachine(); 			break;
-            case R.id.btnTMapInstall	  :     tmapInstall(); 			break;
             case R.id.btnMarkerPoint2    :    showMarkerPoint2();     break;
         }
     }
 
     public TMapPoint randomTMapPoint() {
+
+        /**
+         * 서울 특별시 내부
+         * */
+
         double latitude = ((double)Math.random() ) * (37.575113-37.483086) + 37.483086;
         double longitude = ((double)Math.random() ) * (127.027359-126.878357) + 126.878357;
 
@@ -486,22 +468,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         return point;
     }
 
-
-
-    /**
-     * mapZoomIn
-     * 지도를 한단계 확대한다.
-     */
-    public void mapZoomIn() {
-        tMapView.MapZoomIn();
-    }
-    /**
-     * mapZoomOut
-     * 지도를 한단계 축소한다.
-     */
-    public void mapZoomOut() {
-        tMapView.MapZoomOut();
-    }
 
     /**
      * setMapType
@@ -626,6 +592,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * 현재 클릭시 오류 발생중
      *
      */
+    /*
     public void showMarkerPoint() {
         Bitmap bitmap = null;
 
@@ -747,6 +714,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             mArrayMarkerID.add(strID);
         }
     }
+    */
 
     public void showMarkerPoint2() {
         ArrayList<Bitmap> markerList = null;
@@ -784,9 +752,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
 
 
-
-
-
     public void removeMarker() {
         if(mArrayMarkerID.size() <= 0 )
             return;
@@ -796,24 +761,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         mArrayMarkerID.remove(mArrayMarkerID.size() - 1);
     }
 
-    /**
-     * drawMapPath
-     * 지도에 시작-종료 점에 대해서 경로를 표시한다.
-     */
-    public void drawMapPath() {
-        TMapPoint point1 = tMapView.getCenterPoint();
-        TMapPoint point2 = randomTMapPoint();
 
-        TMapData tmapdata = new TMapData();
-
-        tmapdata.findPathData(point1, point2, new TMapData.FindPathDataListenerCallback() {
-
-            @Override
-            public void onFindPathData(TMapPolyLine polyLine) {
-                tMapView.addTMapPath(polyLine);
-            }
-        });
-    }
 
     /**
      * displayMapInfo()
@@ -844,6 +792,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         Common.showAlertDialog(this, "", strInfo );
     }
 
+
+
     /**
      * removeMapPath
      * 경로 표시를 삭제한다. 
@@ -853,38 +803,24 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     }
 
     /**
-     * naviGuide
-     * 길안내 
+     * drawMapPath
+     * 지도에 시작-종료 점에 대해서 경로를 표시한다.
      */
-    public void naviGuide() {
+    public void drawMapPath() {
         TMapPoint point1 = tMapView.getCenterPoint();
         TMapPoint point2 = randomTMapPoint();
 
         TMapData tmapdata = new TMapData();
 
-        tmapdata.findPathDataAll(point1, point2, new TMapData.FindPathDataAllListenerCallback() {
-            @Override
-            public void onFindPathDataAll(Document doc) {
-                LogManager.printLog("onFindPathDataAll: " + doc);
-            }
-        });
-    }
+        tmapdata.findPathData(point1, point2, new TMapData.FindPathDataListenerCallback() {
 
-    public void drawCarPath() {
-
-
-        TMapPoint point1 = tMapView.getCenterPoint();
-        TMapPoint point2 = randomTMapPoint();
-
-        TMapData tmapdata = new TMapData();
-
-        tmapdata.findPathDataWithType(TMapData.TMapPathType.CAR_PATH, point1, point2, new TMapData.FindPathDataListenerCallback() {
             @Override
             public void onFindPathData(TMapPolyLine polyLine) {
                 tMapView.addTMapPath(polyLine);
             }
         });
     }
+
 
     public void drawPedestrianPath() {
         TMapPoint point1 = tMapView.getCenterPoint();
@@ -911,48 +847,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         Common.showAlertDialog(this, "", "지도의 중심 좌표는 " + point.getLatitude() + " " + point.getLongitude() );
     }
 
-    /**
-     * findAllPoi
-     * 통합검색 POI를 요청한다. 
-     */
-    public void findAllPoi() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("POI 통합 검색");
-
-        final EditText input = new EditText(this);
-        builder.setView(input);
-
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final String strData = input.getText().toString();
-                TMapData tmapdata = new TMapData();
-
-                tmapdata.findAllPOI(strData, new TMapData.FindAllPOIListenerCallback() {
-                    @Override
-                    public void onFindAllPOI(ArrayList<TMapPOIItem> poiItem) {
-                        for (int i = 0; i < poiItem.size(); i++) {
-                            TMapPOIItem  item = poiItem.get(i);
-
-                            LogManager.printLog("POI Name: " + item.getPOIName().toString() + ", " +
-                                    "Address: " + item.getPOIAddress().replace("null", "")  + ", " +
-                                    "Point: " + item.getPOIPoint().toString());
-                        }
-                    }
-                });
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-
-    }
 
 
     /**
@@ -1016,26 +910,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     }
     */
 
-    /**
-     * getAroundBizPoi
-     * 업종별 주변검색 POI 데이터를 요청한다. 
-     */
-    public void getAroundBizPoi() {
-        TMapData tmapdata = new TMapData();
-
-        TMapPoint point = tMapView.getCenterPoint();
-
-        tmapdata.findAroundNamePOI(point, "편의점;은행", 1, 99, new TMapData.FindAroundNamePOIListenerCallback() {
-            @Override
-            public void onFindAroundNamePOI(ArrayList<TMapPOIItem> poiItem) {
-                for (int i = 0; i < poiItem.size(); i++) {
-                    TMapPOIItem item = poiItem.get(i);
-                    LogManager.printLog("POI Name: " + item.getPOIName() + "," + "Address: "
-                            + item.getPOIAddress().replace("null", ""));
-                }
-            }
-        });
-    }
 
     public void setTileType() {
         AlertDialog dlg = new AlertDialog.Builder(this)
@@ -1060,82 +934,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
                         }
                     }
                 }).show();
-    }
-
-    public void invokeRoute() {
-        final TMapPoint point = tMapView.getCenterPoint();
-        TMapData tmapdata = new TMapData();
-
-        if(tMapView.isValidTMapPoint(point)) {
-            tmapdata.convertGpsToAddress(point.getLatitude(), point.getLongitude(), new TMapData.ConvertGPSToAddressListenerCallback() {
-                @Override
-                public void onConvertToGPSToAddress(String strAddress) {
-                    TMapTapi tmaptapi = new TMapTapi(GpsMainActivity.this);
-                    float fY = (float)point.getLatitude();
-                    float fX = (float)point.getLongitude();
-                    tmaptapi.invokeRoute(strAddress, fX, fY);
-                }
-            });
-        }
-    }
-
-    public void invokeSetLocation() {
-        final TMapPoint point = tMapView.getCenterPoint();
-        TMapData tmapdata = new TMapData();
-
-        tmapdata.convertGpsToAddress(point.getLatitude(), point.getLongitude(), new TMapData.ConvertGPSToAddressListenerCallback() {
-            @Override
-            public void onConvertToGPSToAddress(String strAddress) {
-                TMapTapi tmaptapi = new TMapTapi(GpsMainActivity.this);
-                float fY = (float) point.getLatitude();
-                float fX = (float) point.getLongitude();
-                tmaptapi.invokeSetLocation(strAddress, fX, fY);
-            }
-        });
-    }
-
-    public void invokeSearchProtal() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("T MAP 통합 검색");
-
-        final EditText input = new EditText(this);
-        builder.setView(input);
-
-        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                final String strSearch = input.getText().toString();
-
-                new Thread() {
-                    @Override
-                    public void run() {
-                        TMapTapi tmaptapi = new TMapTapi(GpsMainActivity.this);
-                        if (strSearch.trim().length() > 0)
-                            tmaptapi.invokeSearchPortal(strSearch);
-                    }
-                }.start();
-            }
-        });
-        builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
-    }
-
-    public void tmapInstall() {
-        new Thread() {
-            @Override
-            public void run() {
-                TMapTapi tmaptapi = new TMapTapi(GpsMainActivity.this);
-                Uri uri = Uri.parse(tmaptapi.getTMapDownUrl().get(0));
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
-            }
-
-        }.start();
     }
 
 
@@ -1195,31 +993,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
     private boolean bZoomEnable = false;
 
-    public void disableZoom() {
-        bZoomEnable = !bZoomEnable;
-        tMapView.setUserScrollZoomEnable(bZoomEnable);
-    }
 
-    public void timeMachine() {
-        TMapData tmapdata = new TMapData();
-
-        HashMap<String, String> pathInfo = new HashMap<String, String>();
-        pathInfo.put("rStName", "T Tower");
-        pathInfo.put("rStlat", Double.toString(37.566474));
-        pathInfo.put("rStlon", Double.toString(126.985022));
-        pathInfo.put("rGoName", "신도림");
-        pathInfo.put("rGolat", "37.50861147");
-        pathInfo.put("rGolon", "126.8911457");
-        pathInfo.put("type", "arrival");
-
-        Date currentTime = new Date();
-        tmapdata.findTimeMachineCarPath(pathInfo, currentTime, null, new TMapData.FindTimeMachineCarPathListenerCallback() {
-            @Override
-            public void onFindTimeMachineCarPath(Document document) {
-                LogManager.printLog("onFindTimeMachineCarPath: " + document);
-            }
-        });
-    }
     
 
 

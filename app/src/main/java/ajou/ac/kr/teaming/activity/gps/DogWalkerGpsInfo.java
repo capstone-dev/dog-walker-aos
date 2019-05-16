@@ -19,11 +19,8 @@ import android.support.v4.content.ContextCompat;
 
 /***
  *
- *
  * 도그워커의 gps정보를 받아오기 위한 클래스
  * 도그워커는 Tmap을 통해 위치 정보를 받는 것이 아니므로, LocationListener를 통해 따로 위치 정보를 받음
- *
- *
  *
  * **************/
 
@@ -197,19 +194,16 @@ public class DogWalkerGpsInfo extends Service implements LocationListener {
         return null;
     }
     public void onLocationChanged(Location location) {
-        // TODO Auto-generated method stub
+
     }
 
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
+
     }
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
 
     }
 
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
-
     }
 }

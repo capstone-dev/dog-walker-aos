@@ -10,6 +10,33 @@
     android:background="@color/colorAccent">
 
     <LinearLayout
+        android:id="@+id/LinearButtonView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnShowLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="위치 보여주기" />
+
+        <TextView
+            android:id="@+id/txtLat"
+            android:layout_width="120dp"
+            android:layout_height="41dp"
+            android:text="TextView" />
+
+        <TextView
+            android:id="@+id/txtLon"
+            android:layout_width="120dp"
+            android:layout_height="41dp"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="107dp"
         android:orientation="vertical">
@@ -27,7 +54,6 @@
                     android:id="@+id/btnSetDogwalkerLocationPoint"
                     android:layout_width="103dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
                     android:text="도그워커 위치 변경" />
 
                 <Button
@@ -66,25 +92,15 @@
         android:layout_weight="1">
 
 
-        <Button
-            android:id="@+id/btnShowLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="위치 보여주기" />
+        <LinearLayout
+            android:id="@+id/linearLayoutTmap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtLat"
-            android:layout_width="88dp"
-            android:layout_height="41dp"
-            android:layout_below="@+id/btnShowLocation"
-            android:text="TextView" />
 
-        <TextView
-            android:id="@+id/txtLon"
-            android:layout_width="88dp"
-            android:layout_height="46dp"
-            android:layout_below="@+id/txtLat"
-            android:text="TextView" />
     </RelativeLayout>
 
 

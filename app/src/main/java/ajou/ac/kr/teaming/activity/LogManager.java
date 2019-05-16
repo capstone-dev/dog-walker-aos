@@ -14,7 +14,6 @@ public class LogManager
         }
     }
 
-
     public static void printError(String text) {
         if(_DEBUG)
             Log.e(_TAG, "**ERROR** : " + text);
