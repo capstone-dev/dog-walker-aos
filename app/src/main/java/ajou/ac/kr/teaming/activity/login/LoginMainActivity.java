@@ -70,10 +70,12 @@ public class LoginMainActivity extends AppCompatActivity {
 
 
 
+
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent=new Intent(LoginMainActivity.this,RegisterActivity.class);
+                Intent registerIntent=new Intent(LoginMainActivity.this,MainActivity.class);
                 LoginMainActivity.this.startActivity(registerIntent);
             }
         });
@@ -126,8 +128,6 @@ public class LoginMainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<RegisterVO> call, Throwable t) {
                 Toast.makeText(LoginMainActivity.this,"Error",Toast.LENGTH_SHORT).show();
-
-                Intent intent=new Intent(LoginMainActivity.this,MainActivity.class);
 
             }
         });
