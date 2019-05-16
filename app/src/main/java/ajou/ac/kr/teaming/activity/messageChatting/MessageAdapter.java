@@ -28,8 +28,12 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     // 외부에서 아이템 삭제 요청 시 사용
-    public void remove(int position) {
-        messageList.remove(position);
+    public void remove(String message) {
+        int index=0;
+        for(MessageListContents s:messageList){
+            index++;
+            /*if(s.equals(message)) messageList.remove()*/
+        }
     }
 
     @Override

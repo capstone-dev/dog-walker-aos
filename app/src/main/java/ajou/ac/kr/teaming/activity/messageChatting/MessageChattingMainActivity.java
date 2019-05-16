@@ -33,17 +33,7 @@ public class MessageChattingMainActivity extends Activity {
         messageListView.setAdapter(messageAdapter);
 
 
-    /* 메시지 adapter 테스트*/
-        messageAdapter.add("이건 뭐지", 1);
-        messageAdapter.add("쿨쿨", 1);
-        messageAdapter.add("쿨쿨쿨쿨", 0);
-        messageAdapter.add("재미있게", 1);
-        messageAdapter.add("놀자라구나힐힐 감사합니다. 동해물과 백두산이 마르고 닳도록 놀자 놀자 우리 놀자", 1);
-        messageAdapter.add("재미있게", 1);
-        messageAdapter.add("재미있게", 0);
-        messageAdapter.add("2015/11/20", 2);
-        messageAdapter.add("재미있게", 1);
-        messageAdapter.add("재미있게", 1);
+        /* 메시지 adapter 테스트*/
 
 
         /*
@@ -58,18 +48,21 @@ public class MessageChattingMainActivity extends Activity {
                     refresh(inputValue, 0);
                 }
         );
+
         /*
          *
          * <p > 송신측 메시지 표시</p >
          */
-
         findViewById(R.id.button2).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
                     String inputValue = editText.getText().toString();
                     editText.setText("");
-                    refresh(inputValue, 1);
-                    FirebaseMessagingService firebaseMessagingService=new FirebaseMessagingService();
+
+                    //firebasemessage 실시간 채팅 이벤트 핸들링
+                    FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService(inputValue);
+                    firebaseMessagingService.onClick(v);
                     firebaseMessagingService.initFirebaseDatabase(messageAdapter);
+
                 }
         );
 

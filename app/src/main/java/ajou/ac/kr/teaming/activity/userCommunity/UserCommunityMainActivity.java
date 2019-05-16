@@ -11,6 +11,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
+import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
@@ -104,6 +105,11 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
      */
     public void onClickSearch(View view) {
 
+        /**
+         * 테스트 잠시 서버안돼서....
+         */
+        Intent intent = new Intent(UserCommunityMainActivity.this, MessageChattingMainActivity.class);
+        startActivity(intent);
     }
 
 }
