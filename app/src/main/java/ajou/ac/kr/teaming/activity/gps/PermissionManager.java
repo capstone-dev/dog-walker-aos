@@ -55,7 +55,6 @@ public class PermissionManager {
                     cntGrant++;
                 }
             }
-
             if( grantResults.length == cntGrant ) {
                 // 권한 승인 허가
                 alPermissionListener.get(requestCode).granted();

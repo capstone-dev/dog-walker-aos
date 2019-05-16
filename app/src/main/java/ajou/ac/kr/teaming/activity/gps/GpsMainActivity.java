@@ -504,7 +504,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     }
 
     /**
-     * seetMapType
+     * setMapType
      * Map의 Type을 설정한다.
      */
     public void setMapType() {
@@ -621,13 +621,9 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     /**
      * showMarkerPoint
      * 지도에 마커를 표출한다.
-     *
-     *
+
      *
      * 현재 클릭시 오류 발생중
-     *
-     *
-     *
      *
      */
     public void showMarkerPoint() {

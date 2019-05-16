@@ -1,28 +1,16 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.graphics.PointF;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-
-import com.skt.Tmap.TMapGpsManager;
-import com.skt.Tmap.TMapPoint;
-import com.skt.Tmap.TMapView;
-
-import java.util.ArrayList;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
-import ajou.ac.kr.teaming.activity.LogManager;
 
 /**  <도그워커 메인 액티비티>
  *
@@ -48,15 +36,15 @@ import ajou.ac.kr.teaming.activity.LogManager;
  * 6. 산책거리 계산 및 반영
  * 7. 산책시간 계산 및 반영
  * 8. 산책 종료시 코멘트 화면 이동
+ *
+ * ----------------------------------------------------------------------------
+ *
+ * 도그워커의 위치 정보를 Tmap위치정보로 치환해야함.
+ *
  * */
 
 
-public class DogwalkerGpsActivity extends AppCompatActivity {
-
-
-    private final String TMAP_API_DOGWALKER_KEY = "d6eadaec-baa2-4266-b054-204122d5a779";
-
-
+public class DogwalkerGpsActivity extends AppCompatActivity{
 
     /***
      * 버튼 아이디 정리
@@ -65,34 +53,42 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             R.id.btnCallToUser,
             R.id.btnChatToUser,
             R.id.btnPhotoAndMarker,
+            R.id.btnSetDogwalkerLocationPoint,
             R.id.btnGetDogWalkerLocationPoint,
             R.id.btnWalkDistance,
             R.id.btnWalkEnd,
     };
 
-    private double m_Latitude;
-    private double m_Longitude;
-
     private PermissionManager permissionManager = null;
-    private boolean m_bTrackingMode;
-    private TMapView tMapView = null;
-    private TMapGpsManager tMapGps = null;
+    private Button btnShowLocation;
+    private TextView txtLat;
+    private TextView txtLon;
+    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
+    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
+    private boolean isAccessFineLocation = false;
+    private boolean isAccessCoarseLocation = false;
+    private boolean isPermission = false;
+
+
+    // GPSTracker class
+    private DogWalkerGpsInfo gps;
+
+
 
     /**
-     * setSKTMapApiKey()에 ApiKey를 입력 한다.
-     */
-    private void apiKeyMapView() {
-        tMapView.setSKTMapApiKey(TMAP_API_DOGWALKER_KEY);
-    }
-
-    /**
-     * 권한 요청 관리자
-     * */
+     * 단말의 위치탐색 메소드
+     *
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
+    public void onLocationChange(Location location) {
+        LogManager.printLog("onLocationChange :::> " + location.getLatitude() +
+                " " + location.getLongitude() +
+                " " + location.getSpeed() +
+                " " + location.getAccuracy());
+        if(m_bTrackingMode) {
+            tMapView.setLocationPoint(location.getLongitude(), location.getLatitude());
+        }
     }
-
+    */
 
     /**
      * onCreate
@@ -102,113 +98,85 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dogwalker_gps);
 
-        LinearLayout linearLayoutDogwalkerTmap = (LinearLayout)findViewById(R.id.linearLayoutDogwalkerTmap);
-        tMapView = new TMapView(this);
-        apiKeyMapView(); //T MAP API 서버키 인증
-        linearLayoutDogwalkerTmap.addView( tMapView );
+        btnShowLocation = (Button) findViewById(R.id.btnShowLocation);
+        txtLat = (TextView) findViewById(R.id.txtLat);
+        txtLon = (TextView) findViewById(R.id.txtLon);
 
         initView();
-        setGps();
-
-        /**
-         * PermissionManager 클래스에서 상속
-         * 위치정보 허용기능
-         * */
-        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-            @Override
-            public void granted() {
-                tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
-                tMapGps.setMinTime(1000);
-                tMapGps.setMinDistance(5);
-                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
-                tMapGps.OpenGps();
-                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-                tMapGps.OpenGps();
-            }
-            @Override
-            public void denied() {
-                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
-            }
-        });
 
 
-        /**
-         * 클릭 이벤트 설정 구간
-         * Toast시. MapEvent.this가 아닌 getApplicationContext()를 사용할 것.
-         * **/
-        // 클릭 이벤트 설정
-        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
-            @Override
-            public boolean onPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                //    Toast.makeText(getApplicationContext(), "onPress~!", Toast.LENGTH_SHORT).show();
 
-                return false;
-            }
-            @Override
-            public boolean onPressUpEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                //   Toast.makeText(getApplicationContext(), "onPressUp~!", Toast.LENGTH_SHORT).show();
-                return false;
+        // 버튼 클릭시 GPS 정보를 보여주기 위한 이벤트 클래스 등록
+        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                // 권한 요청을 해야 함
+                if (!isPermission) {
+                    callPermission();
+                    return;
+                }
+
+                gps = new DogWalkerGpsInfo(DogwalkerGpsActivity.this);
+                // GPS 사용유무 가져오기
+                if (gps.isGetLocation()) {
+
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    txtLat.setText(String.valueOf(latitude));
+                    txtLon.setText(String.valueOf(longitude));
+
+                    Toast.makeText(
+                            getApplicationContext(),
+                            "당신의 위치 - \n위도: " + latitude + "\n경도: " + longitude,
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    // GPS 를 사용할수 없으므로
+                    gps.showSettingsAlert();
+                }
             }
         });
-
-
-
-
-        // 롱 클릭 이벤트 설정
-        tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
-            @Override
-            public void onLongPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint) {
-                //    Toast.makeText(getApplicationContext(), "onLongPress~!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // 지도 스크롤 종료시, 확대 레벨 및 경도 위도 출력
-        tMapView.setOnDisableScrollWithZoomLevelListener(new TMapView.OnDisableScrollWithZoomLevelCallback() {
-            @Override
-            public void onDisableScrollWithZoomLevelEvent(float zoom, TMapPoint centerPoint) {
-                //       Toast.makeText(getApplicationContext(), "zoomLevel=" + zoom +
-                //                                       "\n경도 =" + centerPoint.getLongitude() +
-                //                                      "\n위도 =" + centerPoint.getLatitude(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        callPermission();  // 권한 요청을 해야 함
     }//onCreate
 
 
-    /**
-     * 현재 위치정보 받기
-     * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
-     * */
-    private final LocationListener mLocationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            isAccessFineLocation = true;
 
-            if (location != null) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                tMapView.setLocationPoint(longitude, latitude);
-                tMapView.setCenterPoint(longitude, latitude);
-            }
+        } else if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            isAccessCoarseLocation = true;
         }
-        public void onProviderDisabled(String provider) {
-        }
-        public void onProviderEnabled(String provider) {
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
 
-    public void setGps(){
-        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        if (isAccessFineLocation && isAccessCoarseLocation) {
+            isPermission = true;
         }
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);
+    }
+
+    // 전화번호 권한 요청
+    private void callPermission() {
+        // Check the SDK version and whether the permission is already granted or not.
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_ACCESS_FINE_LOCATION);
+
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+
+            requestPermissions(
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    PERMISSIONS_ACCESS_COARSE_LOCATION);
+        } else {
+            isPermission = true;
+        }
     }
 
 
@@ -232,12 +200,27 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
             case R.id.btnPhotoAndMarker	               	  : 	makePhotoAndMarker(); 			break;
-            case R.id.btnGetDogWalkerLocationPoint		  : 	getDogwalkerLocationPoint(); 	break;
+      //      case R.id.btnGetDogWalkerLocationPoint		  : 	getDogwalkerLocationPoint(); 	break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
+            //    case R.id.btnSetDogwalkerLocationPoint       :    setDogwalkerLocation();         break;
         }
     }
 
+    /*
+    private void setDogwalkerLocation() {
+        double 	Latitude  = 37.5077664;
+        double Longitude = 126.8805826;
+
+        LogManager.printLog("setLocationPoint " + Latitude + " " + Longitude);
+        tMapView.setLocationPoint(Longitude, Latitude);
+        String strResult = String.format("현재위치의 좌표의 위도 경도를 설정\n Latitude = %f Longitude = %f", Latitude, Longitude);
+        Common.showAlertDialog(this, "", strResult);
+
+
+    }
+
+    */
 
     /**
      * 강아지 주인과 통화하기
@@ -264,6 +247,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     /**
      * 도그워커의 위치 받기
      * */
+
+    /*
     private void getDogwalkerLocationPoint() {
         TMapPoint point = tMapView.getLocationPoint();
         double Latitude = point.getLatitude();
@@ -277,6 +262,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
         Common.showAlertDialog(this, "", strResult);
     }
+    */
 
     /**
      * 도그워커의 이동거리 계산
