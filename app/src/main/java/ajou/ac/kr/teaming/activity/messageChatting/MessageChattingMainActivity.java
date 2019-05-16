@@ -1,4 +1,3 @@
-/*
 
 package ajou.ac.kr.teaming.activity.messageChatting;
 
@@ -9,6 +8,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import ajou.ac.kr.teaming.R;
+
+import ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging.FirebaseMessagingService;
 
 public class MessageChattingMainActivity extends Activity {
 
@@ -32,10 +33,8 @@ public class MessageChattingMainActivity extends Activity {
         messageListView.setAdapter(messageAdapter);
 
 
-
-       */
-/* 메시지 adapter 테스트
-        maessageAdapter.add("이건 뭐지", 1);
+    /* 메시지 adapter 테스트*/
+        messageAdapter.add("이건 뭐지", 1);
         messageAdapter.add("쿨쿨", 1);
         messageAdapter.add("쿨쿨쿨쿨", 0);
         messageAdapter.add("재미있게", 1);
@@ -44,14 +43,13 @@ public class MessageChattingMainActivity extends Activity {
         messageAdapter.add("재미있게", 0);
         messageAdapter.add("2015/11/20", 2);
         messageAdapter.add("재미있게", 1);
-        messageAdapter.add("재미있게", 1);*//*
+        messageAdapter.add("재미있게", 1);
 
 
-
-        */
-/**
-         * <p>수신측 메시지 표시</p>
-         *//*
+        /*
+         *
+         * <p > 수신측 메시지 표시</p >
+         */
 
         findViewById(R.id.button1).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
@@ -60,17 +58,18 @@ public class MessageChattingMainActivity extends Activity {
                     refresh(inputValue, 0);
                 }
         );
-
-        */
-/**
-         * <p>송신측 메시지 표시</p>
-         *//*
+        /*
+         *
+         * <p > 송신측 메시지 표시</p >
+         */
 
         findViewById(R.id.button2).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.editText1);
                     String inputValue = editText.getText().toString();
                     editText.setText("");
                     refresh(inputValue, 1);
+                    FirebaseMessagingService firebaseMessagingService=new FirebaseMessagingService();
+                    firebaseMessagingService.initFirebaseDatabase(messageAdapter);
                 }
         );
 
@@ -81,4 +80,3 @@ public class MessageChattingMainActivity extends Activity {
         messageAdapter.notifyDataSetChanged();
     }
 }
-*/

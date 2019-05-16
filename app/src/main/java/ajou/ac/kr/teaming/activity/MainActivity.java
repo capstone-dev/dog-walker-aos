@@ -28,6 +28,7 @@ import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.service.history.HistoryService;
 import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.SampleVO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private GalleryService galleryService = ServiceBuilder.create(GalleryService.class);
     private HistoryService historyService = ServiceBuilder.create(HistoryService.class);
     private GpsService gpsService = ServiceBuilder.create(GpsService.class);
+    private RegisterVO registerVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+        /**
+         * loging activity로 부터 main activity로 사용자 정보 받아옴
+         */
+        Intent intent =getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
 
     }
