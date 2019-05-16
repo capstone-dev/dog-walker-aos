@@ -1,6 +1,8 @@
 package ajou.ac.kr.teaming.vo;
 
-public class RegisterVO {
+import java.io.Serializable;
+
+public class RegisterVO implements Serializable {
 
     private String UserID;
     private String UserPassword;
