@@ -98,7 +98,6 @@ public class RegisterActivity extends AppCompatActivity {
                                 inputregister.put("UserGender", ((Spinner) findViewById(R.id.UserGender)).getSelectedItem().toString());
                                 inputregister.put("UserBigcity", ((Spinner) findViewById(R.id.UserBigcity)).getSelectedItem().toString());
                                 inputregister.put("UserPhoneNumber", ((EditText) findViewById(R.id.numberText)).getText().toString());
-                                inputregister.put("UserSmallcity", ((Spinner) findViewById(R.id.UserSmallcity)).getSelectedItem().toString());
 
 
                                 Call<RegisterVO> request = RegisterService.postSignUp(inputregister);
@@ -117,7 +116,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                 Log.d("TEST", RegisterVOs.getUserPhoneNumber());
                                                 Log.d("TEST", RegisterVOs.getUserGender());
                                                 Log.d("TEST", RegisterVOs.getUserBigcity());
-                                                Log.d("TEST", RegisterVOs.getUserSmallcity());
 
                                             }
                                         }
