@@ -1,6 +1,7 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -9,12 +10,18 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +34,10 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
 import java.util.ArrayList;
+import java.util.Timer;
+
+import android.os.CountDownTimer;
+
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
@@ -50,15 +61,22 @@ import ajou.ac.kr.teaming.activity.LogManager;
  * 1. 사진찍기
  * 2. 마커 생성
  * 3. 풍선뷰 불러오기
- * 4. 위치정보 받기
- * 5. 사진 정보 기록
+ * 4. 위치 정보 받기
+ * 5. 사진 정보 기록 (각 단말의 기본 앱 사용)
  * 6. 산책거리 계산 및 반영
- * 7. 산책시간 계산 및 반영
+ * 7. 산책시간 계산 및 반영 (타이머?)
  * 8. 산책 종료시 코멘트 화면 이동
  *
  * ----------------------------------------------------------------------------
  *
- * 사용자와 도그워커 액티비티가 같은 지도를 공유하게끔 만든다.
+ * 도그워커의 이동경로는 도그워커 좌표의 지속적 변경을 계속 기록하고 선을 이어 경로를 생성
+ * 이를 응용해 거리를 계산하고, 이 데이터를 서버로 전송
+ *
+ * 사진찍기 시, 핸드폰 기본앱(카메라)를 통해 사진을 찍음.
+ * 이를 도그워커 앱으로 가져와서 업로드.
+ * 그 이후 이 사진 정보또한 서버로 전송
+ *
+ * 사용자는 서버로부터 위의 데이터를 받고 지도에 표시한다.
  * */
 
 
@@ -71,36 +89,36 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
      * 버튼 아이디 정리
      */
     private static final int[] mArrayMapDogwalkerButton = {
+            R.id.btnWalkStart,
             R.id.btnCallToUser, //통화하기
             R.id.btnChatToUser, //채팅하기
             R.id.btnPhotoAndMarker, //사진찍기 및 마커생성
-            R.id.btnSetDogwalkerLocationPoint,
-            R.id.btnGetDogWalkerLocationPoint,
-            R.id.btnWalkDistance, // 산책거리계산
+            R.id.btnWalkDistance, // 산책거리계산 및 표시
             R.id.btnWalkEnd, //산책 종료
             R.id.btnShowLocation,
     };
 
 
+    /**텍스트뷰 **/
     private TextView txtLat;
     private TextView txtLon;
-    private TextView walkDistance;
-    private TextView walkTime;
+    private TextView txtShowWalkDistance;
+    private TextView txtShowWalkTime;
 
-
-    private final String TMAP_API_KEY = "78f4044b-3ca4-439d-8d0e-10135941f054";
+    private final String TMAP_API_KEY = "78f4044b-3ca4-439d-8d0e-10135941f054";  //Tmap 인증키
     private Context mContext;
     private TMapView tMapView = null;
 
     TMapGpsManager tMapGps = null;
     PermissionManager permissionManager = null; // 권한요청 관리자
 
-    private Button btnShowLocation;
+
     private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
     private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
     private boolean isAccessFineLocation = false;
     private boolean isAccessCoarseLocation = false;
     private boolean isPermission = false;
+    private boolean isRunning;
 
     private boolean m_bShowMapIcon = false;
     private boolean m_bTrafficeMode = false;
@@ -110,7 +128,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
     private int m_nCurrentZoomLevel = 0;
     private ArrayList<Bitmap> mOverlayList;
 
-
     private double m_Latitude;
     private double m_Longitude;
     private static int 	mMarkerID;
@@ -118,6 +135,18 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
 
     // GPSTracker class
     private DogWalkerGpsInfo gps;
+
+
+    private long startTime = 0L;
+    private long timeInMilliseconds = 0L;
+    private long timeSwapBuff = 0L;
+    private long updateTime = 0L;
+    private Handler customHandler;
+
+    private Chronometer chronometer;
+
+
+
 
 
 
@@ -152,6 +181,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
         }
     }
 
+
+
+
+
+
     /**
      * onCreate
      * */
@@ -167,15 +201,23 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
         txtLon = (TextView) findViewById(R.id.txtLon);
 
 
+
+
         LinearLayout linearLayoutDogwalkerTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         apiKeyMapView(); //T MAP API 서버키 인증
         linearLayoutDogwalkerTmap.addView(tMapView);
 
-        initView();
-        setGps();
+        initView(); //리스너 실행
+        tMapView.setTrackingMode(true);
+        tMapView.setSightVisible(true);
+        tMapView.setZoomLevel(15);
+        tMapView.setIconVisibility(true);
+        setGps(); //현재위치 찾기
+        Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_SHORT).show();
 
-        //callPermission();  // 권한 요청을 해야 함
+        chronometer = findViewById(R.id.chronometer);
+
 
 
         /**
@@ -453,16 +495,36 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
      */
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnShowLocation                    :    showLocation();                break;
+            case R.id.btnWalkStart                       :     walkStart();                   break;
+            case R.id.btnShowLocation                    :     showLocation();                break;
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
             case R.id.btnPhotoAndMarker	               	  : 	makePhotoAndMarker(); 			break;
-      //      case R.id.btnGetDogWalkerLocationPoint		  : 	getDogwalkerLocationPoint(); 	break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
-            //    case R.id.btnSetDogwalkerLocationPoint       :    setDogwalkerLocation();         break;
         }
     }
+
+    private void walkStart() {
+
+        /**산책 시작 시 동작해야할 것
+         * 1. 타이머 동작
+         * 2. 자신의 위치 정보 반환
+         * 3. 위치 이동을 통해 보행자 길 표시
+         * 4. 서버 전송
+         * 5. 사진찍기 및 마커생성 동작 가능
+         * */
+        tMapView.setCompassMode(true);
+        if(!isRunning){
+            chronometer.setBase(SystemClock.elapsedRealtime());
+            chronometer.start();
+            isRunning = true;
+        }
+
+    }
+
+
+
 
 
 
@@ -475,7 +537,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
 
                 double latitude = gps.getLatitude();
                 double longitude = gps.getLongitude();
-
 
                 txtLat.setText(String.valueOf(latitude));
                 txtLon.setText(String.valueOf(longitude));
@@ -556,6 +617,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity implements TMapGpsMa
      * 도그워커 산책 종료
      **/
     private void walkEnd() {
+
     }
 
 }//DogwalkerGpsActivity

@@ -174,7 +174,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         permissionManager = new PermissionManager(this); // 권한요청 관리자
 
 
-
+        /**지도 생성*/
         LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         apiKeyMapView(); //T MAP API 서버키 인증
