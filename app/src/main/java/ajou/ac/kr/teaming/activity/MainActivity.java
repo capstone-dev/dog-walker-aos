@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         /**
          * loging activity로 부터 main activity로 사용자 정보 받아옴
          */
-        Intent intent =getIntent();
+        Intent intent = getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
 
@@ -115,8 +115,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-
 
         int id = item.getItemId();
         Intent intent = null;

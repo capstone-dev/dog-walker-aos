@@ -4,7 +4,7 @@ public class GpsVo {
 
     private String gpsId;
     private String userId;
-    private String startGpsPosition;
+    private String getDogwalkerLocation;
     private String endGpsPosition;
     private String photoGps;
     private String distance;
@@ -28,12 +28,12 @@ public class GpsVo {
         this.userId = userId;
     }
 
-    public String getStartGpsPosition() {
-        return startGpsPosition;
+    public String getGetDogwalkerLocation() {
+        return getDogwalkerLocation;
     }
 
-    public void setStartGpsPosition(String startGpsPosition) {
-        this.startGpsPosition = startGpsPosition;
+    public void setGetDogwalkerLocation(String getDogwalkerLocation) {
+        this.getDogwalkerLocation = getDogwalkerLocation;
     }
 
     public String getEndGpsPosition() {
