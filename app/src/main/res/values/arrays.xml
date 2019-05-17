@@ -2,13 +2,33 @@
 
 <resources>
     
-    <string-array name="city">
+    <string-array name="bigcity">
         <item> 경기도</item>
         <item>서울특별시</item>
         <item>세종특별시</item>
 
 
     </string-array>
+
+    <string-array name="seoul">
+        <item>영등포구</item>
+        <item>중구</item>
+        <item>송파구</item>
+        <item>강남</item>
+
+
+    </string-array>
+
+
+    <string-array name="gyeonggi">
+        <item>수원시</item>
+        <item>고양시</item>
+        <item>안양시</item>
+        <item>의왕시</item>
+
+
+    </string-array>
+
 
 
 

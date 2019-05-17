@@ -122,7 +122,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"></Spinner>
 
-
             <Button
                 android:id="@+id/registerButton"
                 android:layout_width="280dp"
@@ -130,7 +129,6 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="#FFEABD3E"
-                android:onClick="registerButton"
                 android:text="가입하기"
                 android:textColor="#000000"
                 android:textSize="20dp"

@@ -10,17 +10,9 @@ public class RegisterVO implements Serializable {
     private String UserEmail;
     private String UserGender;
     private String UserPhoneNumber;
-    private String Userbigcity;
-
-
-    {
-
-
-    }
+    private String UserBigcity;
 
     public String getUserID() {
-
-
         return UserID;
     }
 
@@ -68,11 +60,12 @@ public class RegisterVO implements Serializable {
         UserPhoneNumber = userPhoneNumber;
     }
 
-    public String getUserbigcity() {
-        return Userbigcity;
+
+    public String getUserBigcity() {
+        return UserBigcity;
     }
 
-    public void setUserbigcity(String userbigcity) {
-        Userbigcity = userbigcity;
+    public void setUserBigcity(String userBigcity) {
+        UserBigcity = userBigcity;
     }
 }
