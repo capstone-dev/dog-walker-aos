@@ -14,6 +14,7 @@ import java.util.List;
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityService;
@@ -29,6 +30,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
     private UserCommunityService userCommunityService = ServiceBuilder.create(UserCommunityService.class);
     private RecyclerView userthreadView;
     private UserCommunityThreadAdapter userCommunityThreadAdapter;
+    private RegisterVO registerVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,9 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
         userCommunityThreadAdapter=new UserCommunityThreadAdapter(this::showThreadContentEvent);
         userthreadView.setAdapter(userCommunityThreadAdapter);
         setUserthreadList();
+
+        Intent intent =getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
     }
 
     /**
@@ -109,6 +114,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
          * 테스트 잠시 서버안돼서....
          */
         Intent intent = new Intent(UserCommunityMainActivity.this, MessageChattingMainActivity.class);
+        intent.putExtra("RegisterVO",registerVO);
         startActivity(intent);
     }
 

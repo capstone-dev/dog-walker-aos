@@ -19,7 +19,7 @@ public class MessageAdapter extends BaseAdapter {
     private ArrayList<MessageListContents> messageList;
 
     public MessageAdapter() {
-        messageList = new ArrayList<MessageListContents>();
+        messageList = new ArrayList<>();
     }
 
     // 외부에서 아이템 추가 요청 시 사용
@@ -31,8 +31,8 @@ public class MessageAdapter extends BaseAdapter {
     public void remove(String message) {
         int index=0;
         for(MessageListContents s:messageList){
+            if(s.equals(message)) {messageList.remove(index);}
             index++;
-            /*if(s.equals(message)) messageList.remove()*/
         }
     }
 

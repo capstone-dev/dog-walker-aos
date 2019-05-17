@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
      */
     public void onClickGetCommunityButton(View view) {
         Intent intent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
+        intent.putExtra("RegisterVO",registerVO);
         startActivity(intent);
     }
 }
