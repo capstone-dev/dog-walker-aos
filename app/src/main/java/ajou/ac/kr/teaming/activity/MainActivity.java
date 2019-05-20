@@ -72,8 +72,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          */
         Intent intent = getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
-
-
     }
 
     @Override
