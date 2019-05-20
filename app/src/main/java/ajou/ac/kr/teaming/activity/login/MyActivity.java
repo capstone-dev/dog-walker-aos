@@ -118,7 +118,7 @@ public class MyActivity extends AppCompatActivity {
 
             }
         });
-
+        Intent intent=new Intent(MyActivity.this, MyPageActivity.class);
     }
 
 
