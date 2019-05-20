@@ -273,7 +273,6 @@
             app:layout_constraintRight_toRightOf="@+id/Search_F"
             app:layout_constraintLeft_toRightOf="@+id/ModifyButton"
             tools:ignore="MissingConstraints"
-
             />
 
 
