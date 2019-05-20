@@ -36,6 +36,11 @@
                 android:id="@+id/nav_dogwalker_gps"
                 android:icon="@drawable/ic_menu_send"
                 android:title="GPS TEST DOGWALKER" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/logout"
+                android:title="로그아웃" />
         </menu>
     </item>
 

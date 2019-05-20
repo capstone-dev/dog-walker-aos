@@ -13,6 +13,5 @@ public class DogwalkerVo {
     private String UserTime;
     private String UserSmallcity;
     private String Userdate;
-    private Image User;
 }
 
