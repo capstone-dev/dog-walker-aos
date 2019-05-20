@@ -34,6 +34,7 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 import ajou.ac.kr.teaming.R;
@@ -43,8 +44,6 @@ import ajou.ac.kr.teaming.vo.GpsVo;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**  <도그워커 메인 액티비티>
  *
@@ -384,8 +383,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             //위도 경도 텍스트뷰에 보여주기
             txtLat.setText(String.valueOf(m_Latitude));
             txtLon.setText(String.valueOf(m_Longitude));
-            //날씨 가져오기 통신
-            getDogwalerLocation(m_Latitude, m_Longitude);
+            //위치 전달하기 통신
+            setDogwalerLocation(m_Latitude, m_Longitude);
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
 
@@ -599,7 +598,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     }
 
     /*
-    private void setDogwalkerLocation() {
+    private void doSetDogwalkerLocation() {
         double 	m_Latitude  = 37.5077664;
         double m_Longitude = 126.8805826;
 
@@ -669,43 +668,39 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
     /**
      * Retrofit Method
-     *
      * 아래부터는 Retrofit이 들어가는 메소드만을 모아두었다.
      *
      * ************/
     /**
+     *
+     * POST DOGWALKER LOCATION
      * 도그워커의 현재 위치를 반환한다.
      * */
-    private void getDogwalerLocation(double latitude, double longitude) {
-        Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(GpsService.BASEURL)
-                .build();
-        GpsService apiService = retrofit.create(GpsService.class);
-        Call<GpsVo> call = apiService.getDogwalkerLocation(1,latitude,longitude);
-        call.enqueue(new Callback<GpsVo>() {
+    private void setDogwalerLocation(double latitude, double longitude) {
+        HashMap<String,Object> setLocation = new HashMap<>();
+        setLocation.put("Latitude", ((TextView) findViewById(R.id.txtLat)).getText().toString());
+        setLocation.put("Longitude", ((TextView) findViewById(R.id.txtLon)).getText().toString());
+
+
+        GpsService gpsService = GpsService.retrofit.create(GpsService.class);
+        Call<GpsVo> call = gpsService.doSetDogwalkerLocation(setLocation);
+        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                if (response.isSuccessful()){
-                    //데이터를 받아옴
-                    GpsVo GpsVos = response.body();
-                    if (GpsVos != null) {
-                        //데이터가 null 이 아니라면 날씨 데이터를 텍스트뷰로 보여주기
-                        txtLat.setText(GpsVos.toString());
-                    }
+                GpsVo GpsVos = response.body();
+                if(GpsVos != null){
+
+                    /**
+                     * 어떻게 해야하지?
+                     * */
                 }
+
+                Log.d("TEST", "onResponse:END ");
             }
             @Override
             public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                /*알림 메시지*/
-                AlertDialog.Builder alert = new AlertDialog.Builder(DogwalkerGpsActivity.this);
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();     //닫기
-                    }
-                });
-                alert.setMessage("Retrofit 통신 실패!!!\n어흒마이깟!");
-                alert.show();
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
             }
         });
     }

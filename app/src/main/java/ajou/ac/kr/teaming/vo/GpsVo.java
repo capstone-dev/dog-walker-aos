@@ -4,13 +4,16 @@ public class GpsVo {
 
     private String gpsId;
     private String userId;
-    private String getDogwalkerLocation;
-    private String endGpsPosition;
+    private double DogwalkerLatitude;
+    private double DogwalkerLongitude;
+    private String endDogwalkerLatitude;
+    private String endDogwalkerLongitude;
     private String photoGps;
     private String distance;
     private String startTime;
     private String endTime;
     private String totalTime;
+
 
     public String getGpsId() {
         return gpsId;
@@ -28,20 +31,36 @@ public class GpsVo {
         this.userId = userId;
     }
 
-    public String getGetDogwalkerLocation() {
-        return getDogwalkerLocation;
+    public double getDogwalkerLatitude() {
+        return DogwalkerLatitude;
     }
 
-    public void setGetDogwalkerLocation(String getDogwalkerLocation) {
-        this.getDogwalkerLocation = getDogwalkerLocation;
+    public void setDogwalkerLatitude(double dogwalkerLatitude) {
+        DogwalkerLatitude = dogwalkerLatitude;
     }
 
-    public String getEndGpsPosition() {
-        return endGpsPosition;
+    public double getDogwalkerLongitude() {
+        return DogwalkerLongitude;
     }
 
-    public void setEndGpsPosition(String endGpsPosition) {
-        this.endGpsPosition = endGpsPosition;
+    public void setDogwalkerLongitude(double dogwalkerLongitude) {
+        DogwalkerLongitude = dogwalkerLongitude;
+    }
+
+    public String getEndDogwalkerLatitude() {
+        return endDogwalkerLatitude;
+    }
+
+    public void setEndDogwalkerLatitude(String endDogwalkerLatitude) {
+        this.endDogwalkerLatitude = endDogwalkerLatitude;
+    }
+
+    public String getEndDogwalkerLongitude() {
+        return endDogwalkerLongitude;
+    }
+
+    public void setEndDogwalkerLongitude(String endDogwalkerLongitude) {
+        this.endDogwalkerLongitude = endDogwalkerLongitude;
     }
 
     public String getPhotoGps() {
@@ -83,4 +102,6 @@ public class GpsVo {
     public void setTotalTime(String totalTime) {
         this.totalTime = totalTime;
     }
+
+
 }

@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -14,8 +13,8 @@ import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +44,11 @@ import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.service.gps.GpsService;
+import ajou.ac.kr.teaming.vo.GpsVo;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**  <사용자 메인 액티비티>
  *
@@ -108,7 +112,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     private static final int[] mArrayMapButton = {
             R.id.btnSetMapType,
             R.id.btnGetLocationPoint,
-            R.id.btnSetLocationPoint,
+            R.id.btnGetDogwalkerLocation,
             R.id.btnSetCompassMode,
             R.id.btnGetIsCompass,
             R.id.btnSetSightVisible,
@@ -422,8 +426,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btnSetMapType		  :		setMapType(); 			break;
-            case R.id.btnGetLocationPoint : 	getLocationPoint(); 	break;
-            case R.id.btnSetLocationPoint : 	setLocationPoint(); 	break;
+            case R.id.btnGetDogwalkerLocation: 	getDogwalkerLocation(); 	break;
             case R.id.btnSetCompassMode	  : 	setCompassMode();		break;
             case R.id.btnGetIsCompass     :	getIsCompass();			break;
             case R.id.btnSetSightVisible  : 	setSightVisible();		break;
@@ -483,30 +486,13 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
                 }).show();
     }
 
-    /**
-     * getLocationPoint
-     * 현재위치로 표시될 좌표의 위도, 경도를 반환한다.
-     */
-    public void getLocationPoint() {
-        TMapPoint point = tMapView.getLocationPoint();
-
-        double Latitude = point.getLatitude();
-        double Longitude = point.getLongitude();
-
-        m_Latitude  = Latitude;
-        m_Longitude = Longitude;
-
-        LogManager.printLog("Latitude " + Latitude + " Longitude " + Longitude);
-        String strResult = String.format("Latitude = %f Longitude = %f", Latitude, Longitude);
-
-        Common.showAlertDialog(this, "", strResult);
-    }
 
     /**
      * setLocationPoint
      * 현재위치로 표시될 좌표의 위도,경도를 설정한다.
      */
     public void setLocationPoint() {
+
         double 	Latitude  = 37.5077664;
         double Longitude = 126.8805826;
 
@@ -986,10 +972,43 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         });
     }
 
-    private boolean bZoomEnable = false;
 
+    /**
+     * Retrofit Method
+     * */
 
-    
+    /**
+     * GET DOGWALKER LOCATION
+     * 도그워커의 좌표의 위도, 경도를 서버로부터 받아온다.
+     */
+    public void getDogwalkerLocation() {
+
+        GpsService gpsService = GpsService.retrofit.create(GpsService.class);
+        Call<GpsVo> call = gpsService.doGetDogwalkerLocation(m_Latitude,m_Longitude);
+        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
+                GpsVo GpsVos = response.body();
+                if(GpsVos != null){
+
+                    Toast.makeText(getApplicationContext(), "도그워커 위도" + GpsVos.getDogwalkerLatitude()
+                                                                + "도그워커 경도" + GpsVos.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
+
+                    tMapView.setLocationPoint(GpsVos.getDogwalkerLatitude(), GpsVos.getDogwalkerLongitude());
+                    String strResult = String.format("현재위치의 좌표의 위도 경도를 설정\n " +
+                            "Latitude = %f Longitude = %f", GpsVos.getDogwalkerLatitude(), GpsVos.getDogwalkerLongitude());
+                    Common.showAlertDialog(GpsMainActivity.this, "", strResult);
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
+            }
+        });
+    }
+
 
 
 }//GpsMainActivity
