@@ -7,14 +7,176 @@
     tools:context=".activity.login.MyActivity">
 
 
-<android.support.constraint.ConstraintLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:ignore="MissingConstraints">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_Function"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFEABD3E"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:text="회원정보"
+            android:gravity="center"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/Search_Functio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/Search_Function"
+        app:layout_constraintTop_toBottomOf="@id/Search_Function">
+
+
+        <TextView
+            android:id="@+id/idText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="@+id/Search_Functio"
+            app:layout_constraintLeft_toRightOf="@+id/id"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:text="ID : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_Functio"
+            app:layout_constraintLeft_toRightOf="@+id/idText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_Functi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_Functio"
+        app:layout_constraintTop_toBottomOf="@id/Search_Functio">
+
+
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="@+id/Search_Functi"
+            app:layout_constraintLeft_toRightOf="@+id/name"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="이름 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_Functi"
+            app:layout_constraintLeft_toRightOf="@+id/nameText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_Funct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_Functi"
+        app:layout_constraintTop_toBottomOf="@id/Search_Functi">
+
+
+        <TextView
+            android:id="@+id/EmailText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="@+id/Search_Funct"
+            app:layout_constraintLeft_toRightOf="@+id/Email"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/Email"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="Email : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_Funct"
+            app:layout_constraintLeft_toRightOf="@+id/EmailText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_Func"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_Funct"
+        app:layout_constraintTop_toBottomOf="@id/Search_Funct">
+
+
+        <TextView
+            android:id="@+id/PhoneNumberText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="@+id/Search_Func"
+            app:layout_constraintLeft_toRightOf="@+id/PhoneNumber"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/PhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Phone Number : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_Func"
+            app:layout_constraintLeft_toRightOf="@+id/PhoneNumberText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+
 
 
 
