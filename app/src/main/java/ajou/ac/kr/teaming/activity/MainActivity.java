@@ -145,16 +145,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_dogwalker_gps) {
 
             intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
-        } else if (id == R.id.nav_logout) {
+        } /*else if (id == R.id.nav_logout) {
 
             Intent logout= new Intent(MainActivity.this, LoginMainActivity.class);
             logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(logout);
 
 
-
-
-    }
+    }*/
 
         if(intent != null) {
             startActivity(intent);

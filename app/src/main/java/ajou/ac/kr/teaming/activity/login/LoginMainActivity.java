@@ -119,7 +119,6 @@ public class LoginMainActivity extends AppCompatActivity {
 
                   Intent intent=new Intent(LoginMainActivity.this,MainActivity.class);
                     intent.putExtra("registerVO", registerVO);
-
                     startActivity(intent);
                 }
 
