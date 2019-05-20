@@ -103,7 +103,7 @@ public class LoginMainActivity extends AppCompatActivity {
 
     private void doLogin(final String userid,final String userpassword){
 
-        Call<RegisterVO> call=loginService.DoLogin("summy","1234");
+        Call<RegisterVO> call=loginService.DoLogin(userid,userpassword);
         call.enqueue(new Callback<RegisterVO>() {
             @Override
             public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
