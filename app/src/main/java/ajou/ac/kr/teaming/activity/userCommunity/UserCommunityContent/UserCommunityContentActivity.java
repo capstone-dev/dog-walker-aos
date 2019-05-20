@@ -19,6 +19,7 @@ import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityContentCommentService;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import retrofit2.Call;
@@ -38,6 +39,7 @@ public class UserCommunityContentActivity extends Activity {
     private UserCommunityContentCommentAdapter userCommunityContentCommentAdapter;
 
     private UserCommunityThreadVO userCommunityThreadVO;
+    private RegisterVO registerVO;
     private TextView threadTitle;
     private TextView userId;
     private TextView threadContent;
@@ -57,6 +59,8 @@ public class UserCommunityContentActivity extends Activity {
         //userCommunityMainActivity로 부터 가져온 객체 setting
         Intent intent = getIntent();
         userCommunityThreadVO=(UserCommunityThreadVO) intent.getSerializableExtra("userCommunityThreadVO");
+        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+
         userId.setText(userCommunityThreadVO.getUserId());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         threadContent.setText(userCommunityThreadVO.getContent());
@@ -130,7 +134,7 @@ public class UserCommunityContentActivity extends Activity {
 
         inputThread.put("commentContent",((EditText)findViewById(R.id.comment)).getText().toString());
         inputThread.put("threadId",userCommunityThreadVO.getThreadId());
-        inputThread.put("userId",1);   //테스트용
+        inputThread.put("userId",registerVO);   //테스트용
 
         Call<UserCommunityContentCommentVO> request = userCommunityContentCommentService.postComment(inputThread);
         request.enqueue(new Callback<UserCommunityContentCommentVO>() {

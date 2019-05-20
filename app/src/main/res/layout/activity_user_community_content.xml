@@ -81,10 +81,12 @@
                     android:id="@+id/thread_content"
                     android:layout_width="match_parent"
                     android:layout_height="330dp"
+                    android:background="@drawable/layout_border"
                     android:padding="6dp"
                     android:textSize="11dp"
-                    android:background="@drawable/layout_border"
-                    tools:ignore="MissingConstraints" />
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="-547dp"
+                    tools:layout_editor_absoluteY="16dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/comment_list"

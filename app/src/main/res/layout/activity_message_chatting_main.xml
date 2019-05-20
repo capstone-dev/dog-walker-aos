@@ -3,6 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -24,6 +25,37 @@
 
     </LinearLayout>
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/user_id_form"
+        android:background="@drawable/layout_border"
+        >
+
+        <TextView
+            android:id="@+id/user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintLeft_toLeftOf="@id/user_id_form"
+            android:text="user_id와의 채팅"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/submit_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="@+id/user_id_form"
+            android:text="예약 승인"
+            android:textStyle="bold"
+            android:onClick="onClickServiceSubmit"
+            android:textSize="20dp"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <LinearLayout
         android:id="@+id/im1"
@@ -36,6 +68,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
 
+
+
             <ListView
                 android:id="@+id/listView1"
                 android:layout_width="fill_parent"
@@ -43,7 +77,8 @@
                 android:cacheColorHint="#00000000"
                 android:divider="#000000"
                 android:listSelector="#00000000"
-                android:transcriptMode="alwaysScroll" />
+                android:transcriptMode="alwaysScroll"
+                />
 
         </FrameLayout>
 

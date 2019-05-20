@@ -91,6 +91,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
 
         Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityContentActivity.class);
         intent.putExtra("userCommunityThreadVO", userCommunityThreadVO);
+        intent.putExtra("registerVO",registerVO);
 
         startActivity(intent);
     }

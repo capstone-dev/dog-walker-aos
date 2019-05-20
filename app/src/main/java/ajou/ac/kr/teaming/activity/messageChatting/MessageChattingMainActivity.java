@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 
@@ -28,25 +29,20 @@ public class MessageChattingMainActivity extends Activity {
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
         // 커스텀 어댑터 생성
         messageAdapter = new MessageAdapter();
-
-        // Xml에서 추가한 ListView 연결
-        messageListView = (ListView) findViewById(R.id.listView1);
+        messageListView = findViewById(R.id.listView1);
         messageListView.setAdapter(messageAdapter);
-
 
         //파이어 베이스 메시징 서비스 이벤트 처리
         FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
         firebaseMessagingService.initFirebaseDatabase(messageAdapter);
 
         /*
-         *
          * <p > 메시지 전송 표시</p >
          */
         findViewById(R.id.send_message).setOnClickListener(v -> {
                     EditText editText = (EditText) findViewById(R.id.message);
                     String inputValue = editText.getText().toString();
                     editText.setText("");
-
                     //메시지 추가
                     firebaseMessagingService.onClick(v,inputValue);
                 }
@@ -54,8 +50,11 @@ public class MessageChattingMainActivity extends Activity {
 
     }
 
-    private void refresh(String inputValue, int _str) {
-        messageAdapter.add(inputValue, _str);
-        messageAdapter.notifyDataSetChanged();
+
+    /**
+     * 서비스 최종 에약 승인 클릭 이벤트 확인
+     * @param view
+     */
+    public void onClickServiceSubmit(View view) {
     }
 }
