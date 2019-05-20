@@ -2,33 +2,50 @@ package ajou.ac.kr.teaming.vo;
 
 public class GpsVo {
 
-    private String gpsId;
-    private String userId;
+    private String walkId;
+    private String markerId;
+    private String photoData;
+    private String photoGps;
     private double DogwalkerLatitude;
     private double DogwalkerLongitude;
-    private String endDogwalkerLatitude;
-    private String endDogwalkerLongitude;
-    private String photoGps;
-    private String distance;
-    private String startTime;
-    private String endTime;
-    private String totalTime;
+    private double startDogwalkerLatitude;
+    private double startDogwalkerLongitude;
+    private double endDogwalkerLatitude;
+    private double endDogwalkerLongitude;
+    private String walkDistance;
+    private String walkTime;
 
 
-    public String getGpsId() {
-        return gpsId;
+    public String getWalkId() {
+        return walkId;
     }
 
-    public void setGpsId(String gpsId) {
-        this.gpsId = gpsId;
+    public void setWalkId(String walkId) {
+        this.walkId = walkId;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getMarkerId() {
+        return markerId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setMarkerId(String markerId) {
+        this.markerId = markerId;
+    }
+
+    public String getPhotoData() {
+        return photoData;
+    }
+
+    public void setPhotoData(String photoData) {
+        this.photoData = photoData;
+    }
+
+    public String getPhotoGps() {
+        return photoGps;
+    }
+
+    public void setPhotoGps(String photoGps) {
+        this.photoGps = photoGps;
     }
 
     public double getDogwalkerLatitude() {
@@ -47,61 +64,52 @@ public class GpsVo {
         DogwalkerLongitude = dogwalkerLongitude;
     }
 
-    public String getEndDogwalkerLatitude() {
+    public double getStartDogwalkerLatitude() {
+        return startDogwalkerLatitude;
+    }
+
+    public void setStartDogwalkerLatitude(double startDogwalkerLatitude) {
+        this.startDogwalkerLatitude = startDogwalkerLatitude;
+    }
+
+    public double getStartDogwalkerLongitude() {
+        return startDogwalkerLongitude;
+    }
+
+    public void setStartDogwalkerLongitude(double startDogwalkerLongitude) {
+        this.startDogwalkerLongitude = startDogwalkerLongitude;
+    }
+
+    public double getEndDogwalkerLatitude() {
         return endDogwalkerLatitude;
     }
 
-    public void setEndDogwalkerLatitude(String endDogwalkerLatitude) {
+    public void setEndDogwalkerLatitude(double endDogwalkerLatitude) {
         this.endDogwalkerLatitude = endDogwalkerLatitude;
     }
 
-    public String getEndDogwalkerLongitude() {
+    public double getEndDogwalkerLongitude() {
         return endDogwalkerLongitude;
     }
 
-    public void setEndDogwalkerLongitude(String endDogwalkerLongitude) {
+    public void setEndDogwalkerLongitude(double endDogwalkerLongitude) {
         this.endDogwalkerLongitude = endDogwalkerLongitude;
     }
 
-    public String getPhotoGps() {
-        return photoGps;
+    public String getWalkDistance() {
+        return walkDistance;
     }
 
-    public void setPhotoGps(String photoGps) {
-        this.photoGps = photoGps;
+    public void setWalkDistance(String walkDistance) {
+        this.walkDistance = walkDistance;
     }
 
-    public String getDistance() {
-        return distance;
+    public String getWalkTime() {
+        return walkTime;
     }
 
-    public void setDistance(String distance) {
-        this.distance = distance;
+    public void setWalkTime(String walkTime) {
+        this.walkTime = walkTime;
     }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getTotalTime() {
-        return totalTime;
-    }
-
-    public void setTotalTime(String totalTime) {
-        this.totalTime = totalTime;
-    }
-
 
 }

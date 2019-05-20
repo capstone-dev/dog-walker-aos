@@ -99,6 +99,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             R.id.btnWalkDistance, // 산책거리계산 및 표시
             R.id.btnWalkEnd, //산책 종료
             R.id.btnShowLocation,
+            R.id.btnPostDogwalkerLocation,
     };
 
 
@@ -384,7 +385,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             txtLat.setText(String.valueOf(m_Latitude));
             txtLon.setText(String.valueOf(m_Longitude));
             //위치 전달하기 통신
-            setDogwalerLocation(m_Latitude, m_Longitude);
+            postDogwalerLocation();
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
 
@@ -549,6 +550,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             case R.id.btnPhotoAndMarker	               	  : 	makePhotoAndMarker(); 			break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
+            case R.id.btnPostDogwalkerLocation           :    postDogwalerLocation();         break;
         }
     }
 
@@ -664,6 +666,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
         AlertDialog alert = alert_confirm.create();
         alert.show();
 
+
+
+        onResume();
     }//walkEnd();
 
     /**
@@ -674,9 +679,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     /**
      *
      * POST DOGWALKER LOCATION
-     * 도그워커의 현재 위치를 반환한다.
+     * 도그워커의 현재 위치를 서버로 전송한다.
      * */
-    private void setDogwalerLocation(double latitude, double longitude) {
+    private void postDogwalerLocation() {
         HashMap<String,Object> setLocation = new HashMap<>();
         setLocation.put("Latitude", ((TextView) findViewById(R.id.txtLat)).getText().toString());
         setLocation.put("Longitude", ((TextView) findViewById(R.id.txtLon)).getText().toString());
@@ -703,6 +708,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
                 Log.d("TEST", "통신 실패");
             }
         });
+
+
+        return;
     }
 
 

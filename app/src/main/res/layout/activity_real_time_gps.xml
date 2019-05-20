@@ -1,9 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.gps.RealTimeGpsActivity">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@color/colorAccent">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:id="@+id/contentView"
+        android:layout_width="match_parent"
+        android:layout_height="457dp"
+        android:layout_weight="1"
+        android:background="@android:color/darker_gray">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnFloatingActionButton"
+            android:layout_width="132dp"
+            android:layout_height="132dp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="580dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="20dp"
+
+            android:clickable="true"
+            app:fabSize="normal"
+            app:srcCompat="@android:drawable/ic_menu_mylocation" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTmap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/cardview_dark_background">
+
+        <Button
+            android:id="@+id/btnEnlargeCircle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="검색반경넓히기" />
+
+        <Button
+            android:id="@+id/btnNarrowCircle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="검색반경좁히기" />
+
+        <Button
+            android:id="@+id/btnIntentWalkerPage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="목록으로 넘어가기" />
+    </LinearLayout>
+
+</LinearLayout>

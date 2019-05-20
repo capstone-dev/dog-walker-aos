@@ -87,19 +87,18 @@
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtShowWalkDistance"
-            android:layout_width="fill_parent"
-            android:layout_height="41dp"
+        <Button
+            android:id="@+id/btnPostDogwalkerLocation"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="산책거리 표시" />
+            android:text="위치 서버로 전송" />
 
         <Chronometer
             android:id="@+id/chronometer"
-            android:layout_width="fill_parent"
+            android:layout_width="125dp"
             android:layout_height="wrap_content"
-            android:text="00:00:00"
-            />
+            android:text="00:00:00" />
     </LinearLayout>
 
     <RelativeLayout

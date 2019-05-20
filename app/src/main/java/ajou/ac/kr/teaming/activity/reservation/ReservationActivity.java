@@ -10,6 +10,7 @@ import android.widget.TextView;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.gps.RealTimeGpsActivity;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.RegisterActivity;
 
@@ -25,7 +26,7 @@ public class ReservationActivity extends AppCompatActivity {
         RealTimeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent realtimeIntent=new Intent(ReservationActivity.this, GpsMainActivity.class);
+                Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeGpsActivity.class);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
         });
@@ -34,7 +35,7 @@ public class ReservationActivity extends AppCompatActivity {
         RealTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent realtimeIntent=new Intent(ReservationActivity.this, GpsMainActivity.class);
+                Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeGpsActivity.class);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
         });
