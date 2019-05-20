@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.gps.RealTimeGpsActivity"></activity>
+        <activity android:name=".activity.reservation.SearchResultActivity"></activity>
+        <activity android:name=".activity.gps.RealTimeGpsActivity" />
         <activity android:name=".activity.gps.DogwalkerGpsActivity" />
         <activity android:name=".activity.reservation.ReservationActivity" />
         <activity android:name=".activity.login.MyPageActivity" />
