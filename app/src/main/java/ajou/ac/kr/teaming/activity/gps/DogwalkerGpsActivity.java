@@ -10,7 +10,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
-import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -33,7 +32,9 @@ import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -107,7 +108,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private TextView txtLat;
     private TextView txtLon;
     private TextView txtShowWalkDistance;
-    private TextView txtShowWalkTime;
+    private TextView txtWalkTime;
+    private TextView txtCurrentTime;
+
 
     private ImageView iconCompass;
 
@@ -143,14 +146,20 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private DogWalkerGpsInfo gps;
 
 
-    private long startTime = 0L;
-    private long timeInMilliseconds = 0L;
-    private long timeSwapBuff = 0L;
-    private long updateTime = 0L;
+    private long currentTime;
+    private long start_time;
+    private long end_time;
+    private long walkTime;
+    private long nine;
+
+
     private Handler customHandler;
 
     private Chronometer chronometer;
     private boolean isRunning;  //Chronometer 동작변수
+
+
+
 
 
 
@@ -191,6 +200,47 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     */
 
 
+    //갱신을 위한 스레드
+    Thread walkTimeThread = new Thread() {
+        @Override
+        public void run() {
+            start_time = System.currentTimeMillis();
+            try {
+                while (!isInterrupted()) {
+                    Thread.sleep(1000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateCurrentTime();
+
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+            }
+        }
+    };
+
+
+
+
+    ///////////////////
+    private void updateCurrentTime() {
+
+        currentTime = System.currentTimeMillis();
+        walkTime = currentTime - start_time;
+        Date date = new Date(walkTime);
+        // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+        SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
+        // nowDate 변수에 값을 저장한다.
+        String formatDate = sdfNow.format(date);
+
+        txtWalkTime = (TextView) findViewById(R.id.txtWalkTime);
+        txtWalkTime.setText(formatDate);    // TextView 에 현재 시간 문자열 할당
+
+    }
+
+
     /**
      * onCreate
      * */
@@ -228,16 +278,17 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
         initView(); //리스너 실행
         tMapView.setTrackingMode(true);
-        tMapView.setSightVisible(true);
         tMapView.setZoomLevel(15);
         tMapView.setIconVisibility(true);
         setGps(); //현재위치 찾기
         Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
 
 
+
+        /*
         /**
          * 크로노미터
-         * **/
+         *
         chronometer = findViewById(R.id.chronometer);
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
             @Override
@@ -252,6 +303,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
                 chronometer.setText(hh+":"+mm+":"+ss);
             }
         });
+        */
 
 
 
@@ -320,57 +372,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
 
     /**
-     * onRequestPermissionsResult / callPermission
-    * Tmap이 아닌 안드로이드에 있는 gps정보 받아오기
-     *
-     * ***/
-
-    /*
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                           int[] grantResults) {
-        if (requestCode == PERMISSIONS_ACCESS_FINE_LOCATION
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            isAccessFineLocation = true;
-
-        } else if (requestCode == PERMISSIONS_ACCESS_COARSE_LOCATION
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            isAccessCoarseLocation = true;
-        }
-
-        if (isAccessFineLocation && isAccessCoarseLocation) {
-            isPermission = true;
-        }
-    }
-
-    // 전화번호 권한 요청
-    private void callPermission() {
-        // Check the SDK version and whether the permission is already granted or not.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            requestPermissions(
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_ACCESS_FINE_LOCATION);
-
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
-
-            requestPermissions(
-                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                    PERMISSIONS_ACCESS_COARSE_LOCATION);
-        } else {
-            isPermission = true;
-        }
-    }
-
-*/
-
-
-    /**
      * 현재 위치정보 받기
      * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
      * */
@@ -384,8 +385,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
             //위도 경도 텍스트뷰에 보여주기
             txtLat.setText(String.valueOf(m_Latitude));
             txtLon.setText(String.valueOf(m_Longitude));
-            //위치 전달하기 통신
-            postDogwalerLocation();
+
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
 
@@ -538,16 +538,27 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+
+
+
+
+
+
+
     /**
      * onClick Event
      */
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btnWalkStart                       :     walkStart();                   break;
-            case R.id.btnShowLocation                    :     showLocation();                break;
+        //    case R.id.btnShowLocation                    :     showLocation();                break;
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
-            case R.id.btnPhotoAndMarker	               	  : 	makePhotoAndMarker(); 			break;
+       //     case R.id.btnPhotoAndMarker	               	  : 	makePhotoAndMarker(); 			break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
             case R.id.btnPostDogwalkerLocation           :    postDogwalerLocation();         break;
@@ -557,24 +568,16 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private void walkStart() {
 
         /**산책 시작 시 동작해야할 것
-         * 1. 타이머 동작
+         * 1. 산책시간 측정
          * 2. 자신의 위치 정보 반환
          * 3. 위치 이동을 통해 보행자 길 표시
          * 4. 서버 전송
          * 5. 사진찍기 및 마커생성 동작 가능
          * */
-        if(!isRunning){
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            chronometer.start();
-            isRunning = true;
-        }
+
+        walkTimeThread.start();
 
     }
-
-
-
-
-
 
 
     /********** onClickEvent Method **************/
@@ -629,12 +632,40 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
     /**
      * 사진 찍기 시 마커 생성
-     * */
+     *
     private void makePhotoAndMarker() {
 
+        ArrayList<Bitmap> markerList = null;
+        TMapPoint point = new TMapPoint(m_Latitude, m_Longitude)
+
+        MarkerOverlay marker1 = new MarkerOverlay(this, tMapView);
+        String strID = String.format("%02d", i);
+
+        marker1.setID(strID); //마커 ID
+        marker1.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.gpsmarker));
+        marker1.setTMapPoint(randomTMapPoint());
+
+
+        if (markerList == null) {
+            markerList = new ArrayList<Bitmap>();
+        }
+
+        markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gpsmarker));
+        markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
+
+        marker1.setAnimationIcons(markerList);
+        tMapView.addMarkerItem2(strID, marker1);
+        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
+            @Override
+            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
+                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
+
+                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
+                Common.showAlertDialog(DogwalkerGpsActivity.this, "TMapMarker2", strMessage);
+            }
+        });
     }
-
-
+    */
 
     /**
      * 도그워커의 이동거리 계산

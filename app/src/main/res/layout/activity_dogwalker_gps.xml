@@ -94,11 +94,20 @@
             android:layout_weight="1"
             android:text="위치 서버로 전송" />
 
-        <Chronometer
-            android:id="@+id/chronometer"
-            android:layout_width="125dp"
+        <TextView
+            android:id="@+id/txtCurrentTime"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:00:00" />
+            android:layout_weight="1"
+            android:text="현재시각" />
+
+        <TextView
+            android:id="@+id/txtWalkTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="산책시간" />
+
     </LinearLayout>
 
     <RelativeLayout
