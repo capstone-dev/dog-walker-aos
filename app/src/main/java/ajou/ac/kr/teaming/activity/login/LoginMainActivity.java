@@ -115,6 +115,7 @@ public class LoginMainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<RegisterVO> call, Throwable t) {
+                    Log.d("TEST", "통신 실패");
                     Toast.makeText(LoginMainActivity.this, "Error", Toast.LENGTH_SHORT).show();
 
                 }
