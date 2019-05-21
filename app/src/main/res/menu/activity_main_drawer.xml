@@ -37,10 +37,10 @@
                 android:icon="@drawable/ic_menu_send"
                 android:title="GPS TEST DOGWALKER" />
 
-            <!--<item
+            <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/logout"
-                android:title="로그아웃" />-->
+                android:title="로그아웃" />
         </menu>
     </item>
 
