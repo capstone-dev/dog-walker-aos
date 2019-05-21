@@ -77,6 +77,7 @@ public class LoginMainActivity extends AppCompatActivity {
                 registerVO.setUserPassword("1234");
                 registerVO.setUserName("kim");
                 registerVO.setUserEmail("hello@gmail.com");
+
                 registerVO.setUserGender("여");
                 registerVO.setUserPhoneNumber("010-6454-5784");
                 registerVO.setUserBigcity("수원");
