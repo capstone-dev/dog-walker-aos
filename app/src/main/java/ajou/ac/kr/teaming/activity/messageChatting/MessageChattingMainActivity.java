@@ -56,5 +56,7 @@ public class MessageChattingMainActivity extends Activity {
      * @param view
      */
     public void onClickServiceSubmit(View view) {
+        Intent intent = new Intent(MessageChattingMainActivity.this, ServiceSubmitActivity.class);
+        startActivity(intent);
     }
 }

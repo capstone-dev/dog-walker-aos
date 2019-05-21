@@ -1,12 +1,15 @@
 package ajou.ac.kr.teaming.activity.messageChatting;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.view.WindowManager;
 
 import ajou.ac.kr.teaming.R;
 
-public class ServiceSubmitActivity extends AppCompatActivity {
+public class ServiceSubmitActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,4 +20,26 @@ public class ServiceSubmitActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_service_submit);
     }
+
+    /**
+     * 닫기 버튼 클릭 시 액티비티(팝업) 닫기
+     */
+    public void onclickCloseActivity(View v){
+        //기존 INTENT 제작
+        Intent intent=new Intent();
+        finish();
+    }
+
+    /**
+     *안드로이드 백버튼 막기
+     */
+    @Override
+    public void onBackPressed() {
+        return;
+    }
+
+    /**
+     * 게시글 댓글 남기는 이벤트 handle
+     * @param view
+     */
 }

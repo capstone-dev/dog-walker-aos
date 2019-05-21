@@ -1,9 +1,257 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="340dp"
+    android:layout_height="500dp"
     tools:context=".activity.messageChatting.ServiceSubmitActivity">
+
+    <LinearLayout
+        android:id="@+id/main_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="서비스 예약"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_bar">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/service_value_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints">
+
+                <TextView
+                    android:id="@+id/service_cost_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="6dp"
+                    android:text="서비스 금액"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/service_cost"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/layout_border"
+                    android:padding="6dp"
+                    android:text="금액 삽입"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/service_cost_form"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+
+                <TextView
+                    android:id="@+id/dogwalker_id_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="6dp"
+                    android:text="도그워커 ID"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/service_cost_form" />
+
+                <TextView
+                    android:id="@+id/dogwalker_id"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/layout_border"
+                    android:padding="6dp"
+                    android:text="도그워커 id 삽입"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/dogwalker_id_form"
+                    app:layout_constraintTop_toBottomOf="@id/service_cost"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/service_location_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="6dp"
+                    android:text="산책     장소"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/dogwalker_id_form" />
+
+                <TextView
+                    android:id="@+id/service_location"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/layout_border"
+                    android:padding="6dp"
+                    android:text="산책 장소 삽입"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/service_location_form"
+                    app:layout_constraintTop_toBottomOf="@id/dogwalker_id"
+                    tools:ignore="MissingConstraints" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/dog_image_form"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/service_value_form">
+
+            <ImageView
+                android:id="@+id/dog_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/dog_image_test"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/service_time_platform"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/dog_image_form">
+
+                <TextView
+                    android:id="@+id/service_time_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="30dp"
+                    android:padding="6dp"
+                    android:text="서비스 시간"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/service_time"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/layout_border"
+                    android:hint="서비스 시간을 입력하세요."
+                    android:padding="6dp"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/service_time_form"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/service_time_explain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="6dp"
+                    android:text="해당 서비스 시간은 기존 도그워커의 금액에 비례하여 추가되며, 최종승인 완료 후, 등록된 결제카드로 자동 결제됩니다."
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/service_time_form" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/service_time_platform">
+
+                <TextView
+                    android:id="@+id/service_time_range_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="30dp"
+                    android:padding="6dp"
+                    android:text="이용 시간"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+                <EditText
+                    android:id="@+id/service_time_range"
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/layout_border"
+                    android:hint="이용 시간을 입력하세요."
+                    android:padding="6dp"
+                    android:textSize="13sp"
+                    app:layout_constraintTop_toBottomOf="@id/service_time_range_form"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/total_cost"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:background="#333333"
+                    android:text="총 합계 ~원"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/service_time_range"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:id="@+id/pay_button"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:background="#FFEABD3E"
+                    android:text="결제 승인"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/total_cost"
+                    app:layout_constraintTop_toBottomOf="@id/service_time_range" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>
