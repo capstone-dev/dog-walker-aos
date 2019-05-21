@@ -38,8 +38,16 @@ public class ServiceSubmitActivity extends Activity {
         return;
     }
 
+
+    public void onClickSetCommentButton(View view) {
+    }
+
+
     /**
-     * 게시글 댓글 남기는 이벤트 handle
+     * 서비스 구매 결정시 이벤트 handle
      * @param view
      */
+    public void onClickPaySetButton(View view) {
+    }
+
 }
