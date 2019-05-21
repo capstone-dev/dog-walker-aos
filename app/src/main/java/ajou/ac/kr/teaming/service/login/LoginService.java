@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 
 public interface LoginService {
 
-    @GET("/signUp")//가입
+    @GET("/login")//가입
     Call<RegisterVO> DoLogin (@Query("UserID") String UserID, @Query("UserPassword") String UserPassword);
 
 
