@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dog_walker"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@drawable/layout_border"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/dog_walker_name"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="이름"
+        android:textSize="8sp"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="150dp"
+        android:id="@+id/big_city"
+        android:text="큰 도시"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toRightOf="@id/dog_walker_name"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="100dp"
+        android:id="@+id/small_city"
+        android:text="작은 도시"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toRightOf="@id/big_city"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="110dp"
+        android:id="@+id/dogwalker_gender"
+        android:text="성별"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toRightOf="@id/small_city"
+        tools:ignore="MissingConstraints" />
+
+</android.support.constraint.ConstraintLayout>

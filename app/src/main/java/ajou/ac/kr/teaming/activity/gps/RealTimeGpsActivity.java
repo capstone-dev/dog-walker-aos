@@ -376,15 +376,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
             case R.id.btnCapture		                :   captureImage(); 		break;
             case R.id.btnEnlargeCircle                 :   EnlargeCircle();        break;
             case R.id.btnNarrowCircle                  :   NarrowCircle();         break;
-            case R.id.btnIntentWalkerPage              :   IntentRealTimeWalkerPage(); break;
         }
-    }
-
-    private void IntentRealTimeWalkerPage() {
-
-        intent = new Intent(RealTimeGpsActivity.this, RealTimeDogwalkerListView.class);
-        RealTimeGpsActivity.this.startActivity(intent);
-
     }
 
     private void NarrowCircle() {
@@ -494,6 +486,12 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         });
     }
 
-
-
+    /**
+     * 도그워커 실시간으로 가능한 리스트 보여주는 이벤트 handle
+     * @param view
+     */
+    public void onClcikShowListButton(View view) {
+        Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerAcitvity.class);
+        startActivity(intent);
+    }
 }

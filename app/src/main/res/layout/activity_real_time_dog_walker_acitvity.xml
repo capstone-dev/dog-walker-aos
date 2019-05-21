@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_community_thread"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.gps.RealTimeDogWalkerAcitvity">
+
+    <LinearLayout
+        android:id="@+id/main_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFEABD3E"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="실시간도그워커"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/main_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/dogwalker_register_form"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:padding="4dp"
+                android:layout_marginBottom="10dp"
+                app:layout_constraintBottom_toTopOf="@+id/realtime_dogwalker_form"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="도그워커 등록"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="@id/dogwalker_register_form"
+                    tools:ignore="MissingConstraints" />
+
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickDogwalkerRegister"
+                    android:text="등록"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintRight_toRightOf="@id/dogwalker_register_form"
+                    tools:ignore="MissingConstraints" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/realtime_dogwalker_form"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/layout_border"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dogwalker_register_form">
+
+                <TextView
+                    android:id="@+id/dogwalker_name_form"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:padding="6dp"
+                    android:text="이름"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="@id/realtime_dogwalker_form"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/dogwalker_big_city_form"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:padding="6dp"
+                    android:text="큰 도시"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/dogwalker_name_form"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/dogwalker_small_city_form"
+                    android:layout_width="110dp"
+                    android:layout_height="30dp"
+                    android:padding="6dp"
+                    android:text="작은 도시"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/dogwalker_big_city_form"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/dogwalker_gender_form"
+                    android:layout_width="110dp"
+                    android:layout_height="30dp"
+                    android:padding="6dp"
+                    android:text="성별"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/dogwalker_small_city_form"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:ignore="MissingConstraints" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/dogwalker_list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/layout_border"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/realtime_dogwalker_form">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/realtime_dogwalker_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/layout_border"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:ignore="MissingConstraints"
+                    android:nestedScrollingEnabled="false">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+            </android.support.constraint.ConstraintLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+</android.support.constraint.ConstraintLayout>
