@@ -2,66 +2,76 @@ package ajou.ac.kr.teaming.vo;
 
 public class GpsVo {
 
-    private String walkId;
-    private String markerId;
-    private String photoData;
-    private String photoGps;
-    private double DogwalkerLatitude;
-    private double DogwalkerLongitude;
+    private int gpsId;
+    private int markerId;
+    private byte[] photoData;
+    private double photoLatitude;
+    private double photoLongitude;
+    private double dogwalkerLatitude;
+    private double dogwalkerLongitude;
     private double startDogwalkerLatitude;
     private double startDogwalkerLongitude;
     private double endDogwalkerLatitude;
     private double endDogwalkerLongitude;
-    private String walkDistance;
-    private String walkTime;
+    private long startTime;
+    private long endTime;
+    private long walkTime;
 
 
-    public String getWalkId() {
-        return walkId;
+    public int getGpsId() {
+        return gpsId;
     }
 
-    public void setWalkId(String walkId) {
-        this.walkId = walkId;
+    public void setGpsId(int gpsId) {
+        this.gpsId = gpsId;
     }
 
-    public String getMarkerId() {
+    public int getMarkerId() {
         return markerId;
     }
 
-    public void setMarkerId(String markerId) {
+    public void setMarkerId(int markerId) {
         this.markerId = markerId;
     }
 
-    public String getPhotoData() {
+    public byte[] getPhotoData() {
         return photoData;
     }
 
-    public void setPhotoData(String photoData) {
+    public void setPhotoData(byte[] photoData) {
         this.photoData = photoData;
     }
 
-    public String getPhotoGps() {
-        return photoGps;
+    public double getPhotoLatitude() {
+        return photoLatitude;
     }
 
-    public void setPhotoGps(String photoGps) {
-        this.photoGps = photoGps;
+    public void setPhotoLatitude(double photoLatitude) {
+        this.photoLatitude = photoLatitude;
+    }
+
+    public double getPhotoLongitude() {
+        return photoLongitude;
+    }
+
+    public void setPhotoLongitude(double photoLongitude) {
+        this.photoLongitude = photoLongitude;
     }
 
     public double getDogwalkerLatitude() {
-        return DogwalkerLatitude;
+        return dogwalkerLatitude;
     }
 
     public void setDogwalkerLatitude(double dogwalkerLatitude) {
-        DogwalkerLatitude = dogwalkerLatitude;
+        this.dogwalkerLatitude = dogwalkerLatitude;
     }
 
     public double getDogwalkerLongitude() {
-        return DogwalkerLongitude;
+        return dogwalkerLongitude;
     }
 
     public void setDogwalkerLongitude(double dogwalkerLongitude) {
-        DogwalkerLongitude = dogwalkerLongitude;
+        this.dogwalkerLongitude = dogwalkerLongitude;
     }
 
     public double getStartDogwalkerLatitude() {
@@ -96,20 +106,29 @@ public class GpsVo {
         this.endDogwalkerLongitude = endDogwalkerLongitude;
     }
 
-    public String getWalkDistance() {
-        return walkDistance;
+    public long getStartTime() {
+        return startTime;
     }
 
-    public void setWalkDistance(String walkDistance) {
-        this.walkDistance = walkDistance;
+    public void setStartTime(long startTime) {
+        this.startTime = startTime;
     }
 
-    public String getWalkTime() {
+    public long getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(long endTime) {
+        this.endTime = endTime;
+    }
+
+    public long getWalkTime() {
         return walkTime;
     }
 
-    public void setWalkTime(String walkTime) {
+    public void setWalkTime(long walkTime) {
         this.walkTime = walkTime;
     }
+
 
 }
