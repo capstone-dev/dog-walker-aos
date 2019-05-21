@@ -48,16 +48,18 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
         String threadTitle=((EditText)findViewById(R.id.thread_title_edit_text)).getText().toString();
         String userLocation=((EditText)findViewById(R.id.thread_location_edit_text)).getText().toString();
         int threadNumber=Integer.parseInt(((EditText)findViewById(R.id.thread_number_edit_text)).getText().toString());
+        String threadWalkDate=((EditText)findViewById(R.id.thread_date_edit_text)).getText().toString();
         String threadContent=((EditText)findViewById(R.id.thread_content_edit_text)).getText().toString();
 
         //등록 폼 검증 후 모든 값이 검증이 된다면 게시글 post
         if(checkThreadRegisterForm(threadTitle,userLocation,threadNumber,threadContent)) {
 
             //inputThread에 post해죽기 위해 값을 넣음.
-            inputThread.put("userId", 1);
+            inputThread.put("userId", "kihong22");
             inputThread.put("threadTitle", threadTitle);
             inputThread.put("userLocation", userLocation);
             inputThread.put("threadNumber", threadNumber);
+            inputThread.put("threadWalkDate",threadWalkDate);
             inputThread.put("threadContent", threadContent);
             inputThread.put("chatroomUserName", "테스트");
 

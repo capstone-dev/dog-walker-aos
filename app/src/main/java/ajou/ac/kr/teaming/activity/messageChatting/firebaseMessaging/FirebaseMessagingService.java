@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import ajou.ac.kr.teaming.activity.messageChatting.MessageAdapter;
+import ajou.ac.kr.teaming.vo.ChatDataVO;
 
 public class FirebaseMessagingService {
 
@@ -20,14 +21,15 @@ public class FirebaseMessagingService {
     private DatabaseReference databaseReference =firebaseDatabase.getReference("message");
     private ChildEventListener childEventListener;
 
-    public void initFirebaseDatabase(MessageAdapter messageAdapter) {
+    public void initFirebaseDatabase(MessageAdapter messageAdapter,String systemUserId) {
 
         childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String message = dataSnapshot.getValue(String.class);
-                Log.d("TEST", "onChildAdded: ");
-                messageAdapter.add(message, 1);
+                ChatDataVO chatDataVO=dataSnapshot.getValue(ChatDataVO.class);
+                chatDataVO.firebaseKey=dataSnapshot.getKey();
+
+                messageAdapter.add(chatDataVO,systemUserId);
                 messageAdapter.notifyDataSetChanged();
             }
 
@@ -38,8 +40,15 @@ public class FirebaseMessagingService {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                String message=dataSnapshot.getValue(String.class);
-                messageAdapter.remove(message);
+                String firebaseKey=dataSnapshot.getKey();
+                int count=messageAdapter.getCount();
+
+                //메시지에 같은 firebasekey가 중복으로 있으면 삭제제
+               for(int i=0;i<count;i++){
+                    if(messageAdapter.getItem(i).firebaseKey.equals(firebaseKey)){
+                        messageAdapter.remove(messageAdapter.getItem(i));
+                    }
+                }
             }
 
             @Override
@@ -55,9 +64,13 @@ public class FirebaseMessagingService {
         databaseReference.addChildEventListener(childEventListener);
     }
 
-    public void onClick(View v,String message){
+    public void onClick(View v,String message,String userName){
         if(!TextUtils.isEmpty(message)){
-            databaseReference.push().setValue(message);
+            ChatDataVO chatDataVO=new ChatDataVO();
+            chatDataVO.userName=userName;
+            chatDataVO.message=message;
+            chatDataVO.time=System.currentTimeMillis();
+            databaseReference.push().setValue(chatDataVO);
         }
     }
 }

@@ -114,9 +114,6 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
         /**
          * 테스트 잠시 서버안돼서....
          */
-        Intent intent = new Intent(UserCommunityMainActivity.this, MessageChattingMainActivity.class);
-        intent.putExtra("RegisterVO",registerVO);
-        startActivity(intent);
     }
 
 }
