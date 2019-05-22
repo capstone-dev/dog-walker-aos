@@ -51,7 +51,7 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         /**
          * 데이터 바인딩
          */
-        userCommunityThreadViewHolder.chatRoomUserName.setText(userCommunityThreadVO.getChatroomUserName());
+        userCommunityThreadViewHolder.chatRoomUserName.setText(userCommunityThreadVO.getUser_UserID());
         userCommunityThreadViewHolder.threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         userCommunityThreadViewHolder.userLocation.setText(userCommunityThreadVO.getUserLocation());
         userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate().substring(0,10)+" "+userCommunityThreadVO.

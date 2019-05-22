@@ -1,15 +1,25 @@
 package ajou.ac.kr.teaming.vo;
 
+import java.io.Serializable;
+
 /**
  * 특정 사용자 게시글에 대한 객체 생성
  */
-public class UserCommunityContentCommentVO {
+public class UserCommunityContentCommentVO implements Serializable {
 
     private String commentId;
     private String commentContent;
     private String commentDate;
-    private String threadId;
-    private String userId;
+    private int threadId;
+    private String user_UserID;
+
+    public String getUser_UserID() {
+        return user_UserID;
+    }
+
+    public void setUser_UserID(String user_UserID) {
+        this.user_UserID = user_UserID;
+    }
 
     public String getCommentId() {
         return commentId;
@@ -35,19 +45,11 @@ public class UserCommunityContentCommentVO {
         this.commentDate = commentDate;
     }
 
-    public String getThreadId() {
+    public int getThreadId() {
         return threadId;
     }
 
-    public void setThreadId(String threadId) {
+    public void setThreadId(int threadId) {
         this.threadId = threadId;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 }

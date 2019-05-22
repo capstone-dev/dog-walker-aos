@@ -34,6 +34,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_bar"
         tools:ignore="MissingConstraints">
 
         <android.support.constraint.ConstraintLayout

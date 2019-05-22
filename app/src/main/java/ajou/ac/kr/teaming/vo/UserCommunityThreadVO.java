@@ -9,13 +9,38 @@ import java.io.Serializable;
 public class UserCommunityThreadVO implements Serializable {
 
     private String threadId;
-    private String userId;
+    private String threadContent;
     private String threadTitle;
     private String userLocation;
-    private int threadNumber;
+    private  int threadNumber;
     private String chatroomUserName;
     private String threadDate;
-    private String threadContent;
+    private String threadWalkDate;
+    private String user_UserID;
+
+    public String getThreadWalkDate() {
+        return threadWalkDate;
+    }
+
+    public void setThreadWalkDate(String threadWalkDate) {
+        this.threadWalkDate = threadWalkDate;
+    }
+
+    public String getThreadContent() {
+        return threadContent;
+    }
+
+    public void setThreadContent(String threadContent) {
+        this.threadContent = threadContent;
+    }
+
+    public String getUser_UserID() {
+        return user_UserID;
+    }
+
+    public void setUser_UserID(String user_UserID) {
+        this.user_UserID = user_UserID;
+    }
 
     public String getThreadTitle() {
         return threadTitle;
@@ -47,14 +72,6 @@ public class UserCommunityThreadVO implements Serializable {
 
     public void setThreadDate(String threadDate) {
         this.threadDate = threadDate;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getThreadId() { return threadId; }

@@ -31,9 +31,9 @@
         android:layout_height="30dp"
         android:id="@+id/message_button"
         android:text="연결"
-        android:onClick="onClickMessageActivity"
         android:textSize="8sp"
         android:padding="6dp"
+        android:visibility="gone"
         app:layout_constraintLeft_toRightOf="@id/user_comment_content"
         tools:ignore="MissingConstraints" />
 

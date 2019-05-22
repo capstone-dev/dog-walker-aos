@@ -102,6 +102,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
      */
     public void onClickThreadRegister(View view) {
         Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityThreadRegisterActivity.class);
+        intent.putExtra("registerVO",registerVO);
         startActivity(intent);
     }
 

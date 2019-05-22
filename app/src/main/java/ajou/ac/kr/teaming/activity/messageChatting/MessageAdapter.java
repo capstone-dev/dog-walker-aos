@@ -31,6 +31,7 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         this.systemUserId=systemUserId;
     }
 
+
     @Override
     public int getCount() {
         return messageList.size();
@@ -121,13 +122,6 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
     }
 }
 
-class MessageListContents {
-
-    ChatDataVO chatDataVO;
-    MessageListContents(ChatDataVO chatDataVO) {
-        this.chatDataVO=chatDataVO;
-    }
-}
 
 class CustomHolder {
     TextView m_TextView;

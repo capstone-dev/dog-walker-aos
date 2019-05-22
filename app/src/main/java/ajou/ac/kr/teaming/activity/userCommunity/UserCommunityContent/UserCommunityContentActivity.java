@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ import retrofit2.Response;
  * 사용자가 커뮤니티 게시글 리스트에서 특정 게시글을 선택하였을 때
  * 게시글에 대한 정보를 보여주는 Activity
  */
-public class UserCommunityContentActivity extends Activity {
+public class UserCommunityContentActivity extends Activity implements UserCommunityContentCommentAdapter.OnItemClickListener {
 
     private UserCommunityContentCommentService userCommunityContentCommentService =
             ServiceBuilder.create(UserCommunityContentCommentService.class);
@@ -43,6 +44,7 @@ public class UserCommunityContentActivity extends Activity {
     private TextView threadTitle;
     private TextView userId;
     private TextView threadContent;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +62,20 @@ public class UserCommunityContentActivity extends Activity {
         Intent intent = getIntent();
         userCommunityThreadVO=(UserCommunityThreadVO) intent.getSerializableExtra("userCommunityThreadVO");
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
+        Log.d("TEST", "onCreate:확인 "+registerVO.getUserID());
 
-        userId.setText(userCommunityThreadVO.getUserId());
+        userId.setText(userCommunityThreadVO.getUser_UserID());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         threadContent.setText(userCommunityThreadVO.getContent());
+        //로그인한 사용자 정보와 해당 클릭한 게시글 작성자 정보가 동알할 시 댓글 사용자와 메시지 할 수 있는 버튼 visible
+        if(registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) { type=1;}  //동일
+        else {type=0;}   //다를 때
 
         //userCommunityContentCommentAdapter에서 가져온 댓글리스트 생성
         userCommunityCommentView=findViewById(R.id.comment_list);
         userCommunityCommentView.setLayoutManager(new LinearLayoutManager(this));
 
-        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter();
+        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter(this::matchMessageUserEvent);
         userCommunityCommentView.setAdapter(userCommunityContentCommentAdapter);
         setCommentList();
     }
@@ -95,7 +101,7 @@ public class UserCommunityContentActivity extends Activity {
                         userCommunityThreadVOArrayList.add(userCommunityContentCommentVO);
                         Log.d("TEST", "onResponse: "+userCommunityContentCommentVO.getCommentContent());
                     }
-                    userCommunityContentCommentAdapter.addCommentList(userCommunityThreadVOArrayList);
+                    userCommunityContentCommentAdapter.addCommentList(userCommunityThreadVOArrayList,type);
                 }
                 Log.d("TEST", "onResponse:END ");
             }
@@ -134,7 +140,7 @@ public class UserCommunityContentActivity extends Activity {
 
         inputThread.put("commentContent",((EditText)findViewById(R.id.comment)).getText().toString());
         inputThread.put("threadId",userCommunityThreadVO.getThreadId());
-        inputThread.put("userId",registerVO.getUserID());   //테스트용
+        inputThread.put("user_UserID",registerVO.getUserID());
 
         Call<UserCommunityContentCommentVO> request = userCommunityContentCommentService.postComment(inputThread);
         request.enqueue(new Callback<UserCommunityContentCommentVO>() {
@@ -143,9 +149,10 @@ public class UserCommunityContentActivity extends Activity {
                 // 성공시
                 if(response.isSuccessful()){
                     UserCommunityContentCommentVO userCommunityContentCommentVO = response.body();
+                    Log.d("TEST", "CONTENT TEST onResponse: "+userCommunityContentCommentVO);
                     //테스트 확인 log값
                     if(userCommunityContentCommentVO!=null){
-                        Log.d("TEST", userCommunityContentCommentVO.getUserId());
+                        Log.d("TEST", userCommunityContentCommentVO.getUser_UserID());
                         Log.d("TEST", userCommunityContentCommentVO.getCommentDate());
                         Log.d("TEST", userCommunityContentCommentVO.getCommentContent());
                     }
@@ -164,13 +171,16 @@ public class UserCommunityContentActivity extends Activity {
     /**
      * 연결 버튼을 누르게 되면 해당 사용자와 message 할 수 있게됨
      * @param view
+     * @param userCommunityContentCommentVO 해당 commentVO
      */
-    public void onClickMessageActivity(View view){
+    @Override
+    public void matchMessageUserEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO) {
         //메시지 연결
         Log.d("TEST", "onClickMessageActivity: ");
         Intent intent = new Intent(UserCommunityContentActivity.this, MessageChattingMainActivity.class);
         intent.putExtra("RegisterVO",registerVO);
-        intent.putExtra("userCommunityThreadVO", userCommunityThreadVO);
+        intent.putExtra("UserCommunityContentCommentVO", userCommunityContentCommentVO);
+        intent.putExtra("UserCommunityThreadVO",this.userCommunityThreadVO);
         startActivity(intent);
     }
 }

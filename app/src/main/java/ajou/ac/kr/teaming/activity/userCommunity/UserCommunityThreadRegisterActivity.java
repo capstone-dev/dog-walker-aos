@@ -13,6 +13,7 @@ import java.util.HashMap;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityThreadRegisterService;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -21,11 +22,16 @@ import retrofit2.Response;
 public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
     private UserCommunityThreadRegisterService userCommunityThreadRegister = ServiceBuilder.create(UserCommunityThreadRegisterService.class);
+    private RegisterVO registerVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_community_thread_register);
+
+
+        Intent intent = getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
     }
 
     /**
@@ -55,7 +61,8 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
         if(checkThreadRegisterForm(threadTitle,userLocation,threadNumber,threadContent)) {
 
             //inputThread에 post해죽기 위해 값을 넣음.
-            inputThread.put("userId", "kihong22");
+            Log.d("TEST", "onClickSubmitButton: USERID "+registerVO.getUserID());
+            inputThread.put("user_UserID", registerVO.getUserID());
             inputThread.put("threadTitle", threadTitle);
             inputThread.put("userLocation", userLocation);
             inputThread.put("threadNumber", threadNumber);
@@ -70,9 +77,10 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
                     // 성공시
                     if (response.isSuccessful()) {
                         UserCommunityThreadVO userCommunityThreadVOs = response.body();
+                        Log.d("TEST", "onResponseBODY: "+response.body());
                         //테스트 확인 log값
-                        if (userCommunityThreadVOs != null) {
-                            Log.d("TEST", userCommunityThreadVOs.getUserId());
+                       if (userCommunityThreadVOs != null) {
+                            Log.d("TEST", userCommunityThreadVOs.getUser_UserID());
                             Log.d("TEST", userCommunityThreadVOs.getThreadDate());
                             Log.d("TEST", userCommunityThreadVOs.getContent());
                         }
@@ -89,6 +97,7 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
             //현재 페이지에서 메인 usercommunitymain으로 새로고침 하면서 이동
             Intent intent = new Intent(UserCommunityThreadRegisterActivity.this, UserCommunityMainActivity.class);
+            intent.putExtra("RegisterVO",registerVO);
             startActivity(intent);
         }
     }
