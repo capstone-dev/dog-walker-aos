@@ -40,9 +40,9 @@ public class MessageChattingMainActivity extends Activity {
         userIdTextView = (TextView) findViewById(R.id.user_id);
 
         if (registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) {
-            userIdTextView.setText(userCommunityContentCommentVO.getUser_UserID() + "님과의 chatting");
+            userIdTextView.setText(userCommunityContentCommentVO.getUser_UserID() + "님과의 채팅");
         } else {
-            userIdTextView.setText(userCommunityThreadVO.getUser_UserID() + "님과의 chatting");
+            userIdTextView.setText(userCommunityThreadVO.getUser_UserID() + "님과의 채팅");
         }
 
         // 커스텀 어댑터 생성
@@ -85,6 +85,10 @@ public class MessageChattingMainActivity extends Activity {
      */
     public void onClickServiceSubmit(View view) {
         Intent intent = new Intent(MessageChattingMainActivity.this, ServiceSubmitActivity.class);
+        intent.putExtra("registerVO",registerVO);
+        intent.putExtra("userCommunityThreadVO",userCommunityThreadVO);
+        intent.putExtra("UserCommunityContentCommentVO",userCommunityContentCommentVO);
+
         startActivity(intent);
     }
 
@@ -95,6 +99,6 @@ public class MessageChattingMainActivity extends Activity {
      * @param view
      */
     public void onClickBackButton(View view) {
-
+        finish();
     }
 }

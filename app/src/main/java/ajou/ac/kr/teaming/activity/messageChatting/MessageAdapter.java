@@ -3,6 +3,7 @@ package ajou.ac.kr.teaming.activity.messageChatting;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,6 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         this.systemUserId=systemUserId;
     }
 
-
     @Override
     public int getCount() {
         return messageList.size();
@@ -53,6 +53,7 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         final Context context = parent.getContext();
 
         TextView text;
+        TextView id;
         CustomHolder holder;
         LinearLayout layout;
         View viewRight;
@@ -68,6 +69,7 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
             text = (TextView) convertView.findViewById(R.id.text);
             viewRight = (View) convertView.findViewById(R.id.imageViewright);
             viewLeft = (View) convertView.findViewById(R.id.imageViewleft);
+            id=(TextView)convertView.findViewById(R.id.user_id);
 
 
             // 홀더 생성 및 Tag로 등록
@@ -88,12 +90,15 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         // Text 등록
         text.setText(messageList.get(position).message);
 
-        if (messageList.get(position).userId != systemUserId) {
+        if (!messageList.get(position).userId.equals(systemUserId)) {
+            Log.d("TEST", "MESSAGE1: "+messageList.get(position).message);
             text.setBackgroundResource(R.drawable.inbox2);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
-        } else if (messageList.get(position).userId== systemUserId) {
+        } else if (messageList.get(position).userId.equals(systemUserId)) {
+
+            Log.d("TEST", "MESSAGE2: "+messageList.get(position).message);
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
 
