@@ -70,22 +70,8 @@ public class LoginMainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //테스트용
-                Intent loginIntent = new Intent(LoginMainActivity.this, MainActivity.class);
-                RegisterVO registerVO=new RegisterVO();
-                registerVO.setUserID("jeon12");
-                registerVO.setUserPassword("1234");
-                registerVO.setUserName("kim");
-                registerVO.setUserEmail("hello@gmail.com");
-
-                registerVO.setUserGender("여");
-                registerVO.setUserPhoneNumber("010-6454-5784");
-                registerVO.setUserBigcity("수원");
-                loginIntent.putExtra("registerVO", registerVO);
-
-                Log.d("TEST", "LOGIN onClick: "+registerVO);
+                Intent loginIntent = new Intent(LoginMainActivity.this, RegisterActivity.class);
                 LoginMainActivity.this.startActivity(loginIntent);
-                //테스트용
             }
         });
     }
