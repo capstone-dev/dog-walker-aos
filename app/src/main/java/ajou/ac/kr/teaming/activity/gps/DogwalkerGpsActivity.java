@@ -11,7 +11,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -21,11 +20,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -558,7 +554,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
-            case R.id.btnPostDogwalkerLocation           :    postDogwalerLocation();         break;
+            case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();         break;
         }
     }
 
@@ -716,15 +712,38 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * POST DOGWALKER LOCATION
      * 도그워커의 현재 위치를 서버로 전송한다.
      * */
-    private void postDogwalerLocation() {
-        HashMap<String, Object> inputLocation = new HashMap<>();
-        inputLocation.put("DogwalkerLatitude", tMapGps.getLocation());
-        inputLocation.put("DogwalkerLongitude", tMapGps.getLocation());
-
-
+    private void postDogwalkerLocation() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.postLocation(inputLocation);
-        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
+
+        /*Integer Data*/
+        HashMap<String, Integer> inputIntegerData = new HashMap<>();
+        inputIntegerData.put("gpsId", 1);
+        inputIntegerData.put("markerId", 1);
+
+        /* String Data*/
+        HashMap<String, String> inputStringData = new HashMap<>();
+        inputStringData.put("photoData", "사진");
+
+        /*Double Data*/
+        HashMap<String, Double> inputDoubleData = new HashMap<>();
+        inputDoubleData.put("photoLatitude", 37.2744762);
+        inputDoubleData.put("photoLongitude", 127.0342091);
+        inputDoubleData.put("dogwalkerLatitude", 37.2844762);
+        inputDoubleData.put("dogwalkerLongitude", 127.0442091);
+        inputDoubleData.put("startDogwalkerLatitude", 37.2844762);
+        inputDoubleData.put("startDogwalkerLongitude", 127.0442091);
+        inputDoubleData.put("endDogwalkerLatitude", 38.2844762);
+        inputDoubleData.put("endDogwalkerLongitude", 126.0442091);
+
+        /*Long Data*/
+        HashMap<String, Long> inputLongData = new HashMap<>();
+        inputLongData.put("startTime", null);
+        inputLongData.put("endTime", null);
+        inputLongData.put("walkTime", null);
+
+
+        Call<GpsVo> callInteger = gpsService.postIntegerData(inputIntegerData);
+        callInteger.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
                 GpsVo GpsVos = response.body();
@@ -738,6 +757,56 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Log.d("TEST", "통신 실패");
             }
         });
+
+        Call<GpsVo> callString = gpsService.postStringData(inputStringData);
+        callString.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
+                GpsVo GpsVos = response.body();
+                if(GpsVos != null){
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
+            }
+        });
+
+        Call<GpsVo> callDouble = gpsService.postDoubleData(inputDoubleData);
+        callDouble.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
+                GpsVo GpsVos = response.body();
+                if(GpsVos != null){
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
+            }
+        });
+
+        Call<GpsVo> callLong = gpsService.postLongData(inputLongData);
+        callLong.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
+                GpsVo GpsVos = response.body();
+                if(GpsVos != null){
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
+            }
+        });
+
+
 
 
         return;

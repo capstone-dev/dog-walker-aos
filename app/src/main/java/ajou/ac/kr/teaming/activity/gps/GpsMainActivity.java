@@ -991,15 +991,29 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                GpsVo GpsVos = response.body();
-                if(GpsVos != null){
+                GpsVo gpsVo = response.body();
+                if(gpsVo != null){
+                    Toast.makeText(getApplicationContext(), "도그워커 위도" + gpsVo.getDogwalkerLatitude()
+                                                                + "도그워커 경도" + gpsVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
 
-                    Toast.makeText(getApplicationContext(), "도그워커 위도" + GpsVos.getDogwalkerLatitude()
-                                                                + "도그워커 경도" + GpsVos.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
+                    Log.d("TEST", "onResponse: " + gpsVo.getGpsId());
+                    Log.d("TEST", "onResponse: " + gpsVo.getMarkerId());
+                    Log.d("TEST", "onResponse: " + gpsVo.getPhotoData());
+                    Log.d("TEST", "onResponse: " + gpsVo.getPhotoLatitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getPhotoLongitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getDogwalkerLatitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getDogwalkerLongitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getStartDogwalkerLatitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getStartDogwalkerLongitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getEndDogwalkerLatitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getEndDogwalkerLongitude());
+                    Log.d("TEST", "onResponse: " + gpsVo.getStartTime());
+                    Log.d("TEST", "onResponse: " + gpsVo.getEndTime());
+                    Log.d("TEST", "onResponse: " + gpsVo.getWalkTime());
 
-                    tMapView.setLocationPoint(GpsVos.getDogwalkerLatitude(), GpsVos.getDogwalkerLongitude());
+                    tMapView.setLocationPoint(gpsVo.getDogwalkerLatitude(), gpsVo.getDogwalkerLongitude());
                     String strResult = String.format("현재위치의 좌표의 위도 경도를 설정\n " +
-                            "Latitude = %f Longitude = %f", GpsVos.getDogwalkerLatitude(), GpsVos.getDogwalkerLongitude());
+                            "Latitude = %f Longitude = %f", gpsVo.getDogwalkerLatitude(), gpsVo.getDogwalkerLongitude());
                     Common.showAlertDialog(GpsMainActivity.this, "", strResult);
                 }
                 Log.d("TEST", "onResponse:END ");

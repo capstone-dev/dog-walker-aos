@@ -16,6 +16,15 @@ public interface GpsService {
             @Query("latitude") double lat, @Query("longitude") double lon);
 
     @POST("/gps") ///gps?
-            Call<GpsVo> postLocation(@FieldMap HashMap<String, Object> param);
+            Call<GpsVo> postStringData(@FieldMap HashMap<String, String> param);
+
+    @POST("/gps") ///gps?
+            Call<GpsVo> postIntegerData(@FieldMap HashMap<String, Integer> param);
+
+    @POST("/gps") ///gps?
+            Call<GpsVo> postDoubleData(@FieldMap HashMap<String, Double> param);
+
+    @POST("/gps") ///gps?
+            Call<GpsVo> postLongData(@FieldMap HashMap<String, Long> param);
 
 } //GpsService
