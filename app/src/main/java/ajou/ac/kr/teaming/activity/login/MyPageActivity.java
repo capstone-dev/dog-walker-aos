@@ -27,7 +27,7 @@ public class MyPageActivity extends AppCompatActivity {
        DogwalkerButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-               Intent DogwalkerIntent=new Intent(MyPageActivity.this, MainActivity.class);
+               Intent DogwalkerIntent=new Intent(MyPageActivity.this, DogwalkerRegister.class);
                MyPageActivity.this.startActivity(DogwalkerIntent);
            }
        });

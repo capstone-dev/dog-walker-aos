@@ -23,6 +23,7 @@ import ajou.ac.kr.teaming.service.login.LoginService;
 import ajou.ac.kr.teaming.service.login.RegisterService;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
+import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,24 +34,28 @@ import static retrofit2.converter.gson.GsonConverterFactory.create;
 
 public class MyActivity extends AppCompatActivity {
 
-    EditText idText;
+    TextView idText;
     EditText passwordText;
     Button ModifyButton;
     LoginService loginService;
+    RegisterVO registerVO;
 
 
-
-
-        @Override
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
 
 
-            idText = (EditText)findViewById(R.id.idText);
             passwordText = (EditText)findViewById(R.id.passwordText);
             ModifyButton = (Button)findViewById(R.id.ModifyButton);
             loginService =ServiceBuilder.create(LoginService.class);
+        idText = (TextView)findViewById(R.id.idText);
+
+
+
+        Intent intent =getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
 
             ModifyButton.setOnClickListener(new View.OnClickListener(){
 

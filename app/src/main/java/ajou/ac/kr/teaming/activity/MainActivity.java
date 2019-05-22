@@ -125,11 +125,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }else if (id == R.id.nav_my){
 
-            //mypage로 이동
-            intent = new Intent(MainActivity.this, MyActivity.class);
+            Intent my = new Intent(MainActivity.this, MyActivity.class);
+            intent.putExtra("RegisterVO",registerVO);
+            startActivity(my);
         }
 
-        else if (id == R.id.nav_gallery) {
+
+        else if (id == R.id.user_community) {
+
+            Intent fintent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
+            fintent.putExtra("RegisterVO",registerVO);
+            startActivity(fintent);
+
+
+
 
         } else if (id == R.id.nav_history) {
 
@@ -143,15 +152,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_dogwalker_gps) {
 
             intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
-        } /*else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
 
             Intent logout= new Intent(MainActivity.this, LoginMainActivity.class);
             logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(logout);
 
 
-    }*/
-
+    }
         if(intent != null) {
             startActivity(intent);
 
@@ -162,39 +170,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    /**
-     * <p>
-     * 통신 test
-     * @param view 현재 메인페이지 MainActivity
-     * </p>
-     */
-    public void onClickGetButton(View view) {
-        Call<SampleVO> request = sampleService.getUser(1);
-        request.enqueue(new Callback<SampleVO>() {
-            @Override
-            public void onResponse(Call<SampleVO> call, Response<SampleVO> response) {
-                SampleVO sampleVO = response.body();
-                // 성공시
-                Log.d(TAG, "통신 성공 data: " + sampleVO);
-                Toast.makeText(getApplicationContext(), "통신 성공: name = " + sampleVO.getName(), Toast.LENGTH_LONG).show();
-            }
-            @Override
-            public void onFailure(Call<SampleVO> call, Throwable t) {
-                //실패시
-                Log.e(TAG, "통신 실패");
-            }
-        });
-    }
-
-    /**
-     * <p>
-     * user community event handle
-     * 사용자 커뮤니티 페이지로 넘어감 </p>
-     * @param view 현재 메인페이지 MainActivity
-     */
-    public void onClickGetCommunityButton(View view) {
-        Intent intent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
-        intent.putExtra("RegisterVO",registerVO);
-        startActivity(intent);
-    }
 }
