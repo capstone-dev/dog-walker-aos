@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -167,6 +168,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_gps_main);
 
         mContext = this;
@@ -1003,7 +1005,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             }
             @Override
             public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달받을 수 없습니다.",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패");
             }
         });

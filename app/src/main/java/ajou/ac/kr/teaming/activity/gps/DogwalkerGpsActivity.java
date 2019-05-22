@@ -3,6 +3,7 @@ package ajou.ac.kr.teaming.activity.gps;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
@@ -35,7 +36,6 @@ import com.skt.Tmap.TMapView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 
 import ajou.ac.kr.teaming.R;
@@ -110,6 +110,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private TextView txtShowWalkDistance;
     private TextView txtWalkTime;
     private TextView txtCurrentTime;
+    private TextView txtStartTime;
 
 
     private ImageView iconCompass;
@@ -137,8 +138,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private int m_nCurrentZoomLevel = 0;
     private ArrayList<Bitmap> mOverlayList;
 
-    private double m_Latitude;
-    private double m_Longitude;
+    private double dogwalkerLatitude;
+    private double dogwalkerLongitude;
     private static int 	mMarkerID;
     ArrayList<String> mArrayMarkerID;
 
@@ -150,7 +151,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private long start_time;
     private long end_time;
     private long walkTime;
-    private long nine;
+    private long nine = 32400000;
 
 
     private Handler customHandler;
@@ -228,15 +229,34 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private void updateCurrentTime() {
 
         currentTime = System.currentTimeMillis();
-        walkTime = currentTime - start_time;
-        Date date = new Date(walkTime);
+        walkTime = currentTime - start_time - nine;
+        Date walkdate = new Date(walkTime);
         // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
         SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
         // nowDate 변수에 값을 저장한다.
-        String formatDate = sdfNow.format(date);
+        String formatDate = sdfNow.format(walkdate);
 
         txtWalkTime = (TextView) findViewById(R.id.txtWalkTime);
-        txtWalkTime.setText(formatDate);    // TextView 에 현재 시간 문자열 할당
+        txtWalkTime.setText(formatDate.substring(0,8));    // TextView 에 현재 시간 문자열 할당
+
+
+        Date date = new Date(currentTime);
+        // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+        SimpleDateFormat sdfNow1 = new SimpleDateFormat("HH:mm:ss");
+        // nowDate 변수에 값을 저장한다.
+        String formatDate1 = sdfNow1.format(date);
+
+        txtCurrentTime = (TextView) findViewById(R.id.txtCurrentTime);
+        txtCurrentTime.setText(formatDate1.substring(0,8));    // TextView 에 현재 시간 문자열 할당
+
+        Date startDate = new Date(start_time);
+        // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+        SimpleDateFormat sdfNow2 = new SimpleDateFormat("HH:mm:ss");
+        // nowDate 변수에 값을 저장한다.
+        String formatDate2 = sdfNow2.format(startDate);
+
+        txtStartTime = (TextView) findViewById(R.id.txtStartTime);
+        txtStartTime.setText(formatDate2.substring(0,8));    // TextView 에 현재 시간 문자열 할당
 
     }
 
@@ -247,6 +267,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_dogwalker_gps);
 
         mContext = this;
@@ -380,11 +401,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
              /*현재 위치에서 위도경도 값을 받아온뒤 우리는 지속해서 위도 경도를 읽어올것이 아니니
              날씨 api에 위도경도 값을 넘겨주고 위치 정보 모니터링을 제거한다.*/
-            m_Latitude = location.getLatitude();
-            m_Longitude = location.getLongitude();
+            dogwalkerLatitude = location.getLatitude();
+            dogwalkerLongitude = location.getLongitude();
             //위도 경도 텍스트뷰에 보여주기
-            txtLat.setText(String.valueOf(m_Latitude));
-            txtLon.setText(String.valueOf(m_Longitude));
+            txtLat.setText(String.valueOf(dogwalkerLatitude));
+            txtLon.setText(String.valueOf(dogwalkerLongitude));
 
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
@@ -558,7 +579,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
         //    case R.id.btnShowLocation                    :     showLocation();                break;
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
-       //     case R.id.btnPhotoAndMarker	               	  : 	makePhotoAndMarker(); 			break;
+            case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
             case R.id.btnPostDogwalkerLocation           :    postDogwalerLocation();         break;
@@ -604,12 +625,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
     /*
     private void doSetDogwalkerLocation() {
-        double 	m_Latitude  = 37.5077664;
-        double m_Longitude = 126.8805826;
+        double 	dogwalkerLatitude  = 37.5077664;
+        double dogwalkerLongitude = 126.8805826;
 
-        LogManager.printLog("setLocationPoint " + m_Latitude + " " + m_Longitude);
-        tMapView.setLocationPoint(m_Longitude, m_Latitude);
-        String strResult = String.format("현재위치의 좌표의 위도 경도를 설정\n m_Latitude = %f m_Longitude = %f", m_Latitude, m_Longitude);
+        LogManager.printLog("setLocationPoint " + dogwalkerLatitude + " " + dogwalkerLongitude);
+        tMapView.setLocationPoint(dogwalkerLongitude, dogwalkerLatitude);
+        String strResult = String.format("현재위치의 좌표의 위도 경도를 설정\n dogwalkerLatitude = %f dogwalkerLongitude = %f", dogwalkerLatitude, dogwalkerLongitude);
         Common.showAlertDialog(this, "", strResult);
     }
 
@@ -632,40 +653,44 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
     /**
      * 사진 찍기 시 마커 생성
-     *
-    private void makePhotoAndMarker() {
+     * */
+    private void alertPhotoAndMarker() {
 
-        ArrayList<Bitmap> markerList = null;
-        TMapPoint point = new TMapPoint(m_Latitude, m_Longitude)
-
-        MarkerOverlay marker1 = new MarkerOverlay(this, tMapView);
-        String strID = String.format("%02d", i);
-
-        marker1.setID(strID); //마커 ID
-        marker1.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.gpsmarker));
-        marker1.setTMapPoint(randomTMapPoint());
-
-
-        if (markerList == null) {
-            markerList = new ArrayList<Bitmap>();
-        }
-
-        markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.gpsmarker));
-        markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
-
-        marker1.setAnimationIcons(markerList);
-        tMapView.addMarkerItem2(strID, marker1);
-        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
+        /**산책 종료 확인 창*/
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(DogwalkerGpsActivity.this);
+        alert_confirm.setMessage("마커를 생성하시겠습니까?").setCancelable(false).setPositiveButton("네", new DialogInterface.OnClickListener() {
             @Override
-            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
-                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
-
-                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
-                Common.showAlertDialog(DogwalkerGpsActivity.this, "TMapMarker2", strMessage);
+            public void onClick(DialogInterface dialog, int which) {
+                // 'YES'
+                makePhotoAndMarker();
             }
-        });
+        }).setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'No'
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
+
     }
-    */
+
+
+    public void makePhotoAndMarker(){
+
+
+
+    }
+
+
+
+
+
+
+
+
 
     /**
      * 도그워커의 이동거리 계산
@@ -684,7 +709,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
-                        chronometer.stop();
                     }
                 }).setNegativeButton("취소",
                 new DialogInterface.OnClickListener() {
@@ -697,9 +721,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
         AlertDialog alert = alert_confirm.create();
         alert.show();
 
-
-
-        onResume();
     }//walkEnd();
 
     /**
@@ -713,22 +734,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
      * 도그워커의 현재 위치를 서버로 전송한다.
      * */
     private void postDogwalerLocation() {
-        HashMap<String,Object> setLocation = new HashMap<>();
-        setLocation.put("Latitude", ((TextView) findViewById(R.id.txtLat)).getText().toString());
-        setLocation.put("Longitude", ((TextView) findViewById(R.id.txtLon)).getText().toString());
-
-
         GpsService gpsService = GpsService.retrofit.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doSetDogwalkerLocation(setLocation);
+        Call<GpsVo> call = gpsService.doSetDogwalkerLocation(gps.getLatitude(), gps.getLongitude());
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
                 GpsVo GpsVos = response.body();
                 if(GpsVos != null){
 
-                    /**
-                     * 어떻게 해야하지?
-                     * */
                 }
 
                 Log.d("TEST", "onResponse:END ");

@@ -31,6 +31,6 @@ public interface GpsService {
 
     @POST("setLocationToServer")
     Call<GpsVo> doSetDogwalkerLocation(
-            @FieldMap HashMap<String,Object> param);
+            @Query("latitude") double lat, @Query("longitude") double lon);
 
 } //GpsService

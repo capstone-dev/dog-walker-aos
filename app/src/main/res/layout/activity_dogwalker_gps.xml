@@ -89,7 +89,7 @@
 
         <Button
             android:id="@+id/btnPostDogwalkerLocation"
-            android:layout_width="120dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="위치 서버로 전송" />
@@ -100,6 +100,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="현재시각" />
+
+        <TextView
+            android:id="@+id/txtStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="시작시각" />
 
         <TextView
             android:id="@+id/txtWalkTime"
