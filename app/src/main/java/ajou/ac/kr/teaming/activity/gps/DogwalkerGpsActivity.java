@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
@@ -15,10 +14,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -48,16 +46,20 @@ import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.activity.camera.CameraMainFragment;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
-import ajou.ac.kr.teaming.service.gallery.GalleryService;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 /**  <도그워커 메인 액티비티>
  *
@@ -99,7 +101,7 @@ import retrofit2.Response;
 
 public class DogwalkerGpsActivity extends AppCompatActivity{
 
-
+    private static final String TAG = "DogwalkerGpsActivity";
     private GpsService gpsService = ServiceBuilder.create(GpsService.class);
 
     /*********Field Part***********/
@@ -138,6 +140,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     TMapGpsManager tMapGps = null;
     PermissionManager permissionManager = null; // 권한요청 관리자
+    Fragment currentFragment;
 
 
     private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
@@ -168,9 +171,17 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private long end_time;
     private long walkTime;
     private long nine = 32400000;
-
     private boolean walkStatus;
 
+    public static final int MY_PERMISSION_CAMERA = 1111;
+    private static final int REQUEST_TAKE_PHOTO = 2222;
+    private static final int REQUEST_TAKE_ALBUM = 3333;
+    private static final int REQUEST_IMAGE_CROP = 4444;
+    String mCurrentPhotoPath;
+
+    Uri imageUri;
+    Uri photoURI, albumURI;
+    ImageView iv_view;
 
 
 
@@ -189,10 +200,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 권한 요청 관리자*/
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
+        final int SUCCESS = 200;
+        if (requestCode != SUCCESS) {
+            Log.e(TAG, "fail");
+        }
+
+        if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+            Log.e(TAG, "denied");
+        }
     }
-
-
 
 
     //갱신을 위한 스레드
@@ -420,8 +436,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
+                1000 * 300, // 통지사이의 최소 시간간격 (miliSecond)
+                30, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
 
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
@@ -527,6 +543,13 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
+        checkAllPermission();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
     }
 
     @Override
@@ -549,21 +572,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 
-
-
-
-
-
-
-
-
     /**
      * onClick Event
      */
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btnWalkStart                       :     walkStart();                     break;
-        //    case R.id.btnShowLocation                    :     showLocation();                break;
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
             case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
@@ -571,7 +585,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
             case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();          break;
             case R.id.btnImageUploadSample               : 	imageUploadSample(); 			    break;
-
         }
     }
 
@@ -635,15 +648,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 강아지 주인과 통화하기
      * */
     private void callToUser() {
-
     }
 
     /**
      * 강아지 주인과 채팅하기
      * */
-
     private void chatToUser(){
-
     }
 
     /**
@@ -672,6 +682,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
     /**
+     * Retrofit Method
      * 안드로이드 파일 업로드 샘플
      */
     private void imageUploadSample() {
@@ -684,16 +695,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         byte[] dataArray = baos.toByteArray();
 
         //RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), data);
-
         //MultipartBody.Part fileBody = MultipartBody.Part.createFormData("picture", "aa.jpg", requestFile);
 
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
 
-
-
         Map<String, RequestBody> params = new HashMap<>();
-        params.put("file\"; filename=\"photo.png", fileBody);
+        params.put("fileUpload\"; filename=\"photo.png", fileBody);
         params.put("gpsId", RequestBody.create(MediaType.parse("text"), "1"));
+        params.put("markerId", RequestBody.create(MediaType.parse("text"), "2"));
 
 
         Call<GpsVo> call = gpsService.postObjectData(params);
@@ -702,9 +711,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
                 if (response.isSuccessful()) {
                     GpsVo gpsVo = response.body();
-
                     if (gpsVo!= null) {
                         Log.d("TEST", "" + gpsVo.getGpsId());
+                        Log.d("TEST", "" + gpsVo.getMarkerId());
+                        Log.d("TEST", "" + gpsVo.getId());
                     }
                 }
             }
@@ -718,16 +728,51 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     }
 
+
+
+
     public void makePhotoAndMarker(){
+       /* Intent intent = new Intent(DogwalkerGpsActivity.this,GpsCameraActivity.class);
+        startActivity(intent);*/
+
+        currentFragment = new CameraMainFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.dogwalkerGpsMain,currentFragment);
+        transaction.commit();
 
     }
 
 
-
-
-
-
-
+  /*  private void checkPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
+            if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
+                    (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))) {
+                new AlertDialog.Builder(this)
+                        .setTitle("알림")
+                        .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
+                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                intent.setData(Uri.parse("package:" + getPackageName()));
+                                startActivity(intent);
+                            }
+                        })
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                finish();
+                            }
+                        })
+                        .setCancelable(false)
+                        .create()
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
+            }
+        }
+    }*/
 
 
 
@@ -748,7 +793,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
-                        walkTimeThread.stop();
+                        walkTimeThread.interrupt();
                     }
                 }).setNegativeButton("취소",
                 new DialogInterface.OnClickListener() {
@@ -778,113 +823,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         /**
          * 통신 테스트를 위해 임의의 값을 넣어봄.
          * **/
-/*        *//*Integer Data*//*
-        HashMap<String, Integer> inputIntegerData = new HashMap<>();
-        inputIntegerData.put("gpsId", 1);
-        inputIntegerData.put("markerId", 1);
-
-        *//* String Data*//*
-        HashMap<String, String> inputStringData = new HashMap<>();
-        inputStringData.put("photoData", "사진");
-
-        *//*Double Data*//*
-        HashMap<String, Double> inputDoubleData = new HashMap<>();
-        inputDoubleData.put("photoLatitude", 37.2744762);
-        inputDoubleData.put("photoLongitude", 127.0342091);
-        inputDoubleData.put("dogwalkerLatitude", 37.2844762);
-        inputDoubleData.put("dogwalkerLongitude", 127.0442091);
-        inputDoubleData.put("startDogwalkerLatitude", 37.2844762);
-        inputDoubleData.put("startDogwalkerLongitude", 127.0442091);
-        inputDoubleData.put("endDogwalkerLatitude", 38.2844762);
-        inputDoubleData.put("endDogwalkerLongitude", 126.0442091);
-
-        *//*Long Data*//*
-        HashMap<String, Long> inputLongData = new HashMap<>();
-        inputLongData.put("startTime", null);
-        inputLongData.put("endTime", null);
-        inputLongData.put("walkTime", null);
 
 
-        Call<GpsVo> callInteger = gpsService.postIntegerData(inputIntegerData);
-        callInteger.enqueue(new Callback<GpsVo>() { //비동기적 호출
-            @Override
-            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                GpsVo GpsVos = response.body();
-                if(GpsVos != null){
-                }
-                Log.d("TEST", "onResponse:END ");
-            }
-            @Override
-            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
-            }
-        });
-
-        Call<GpsVo> callString = gpsService.postStringData(inputStringData);
-        callString.enqueue(new Callback<GpsVo>() { //비동기적 호출
-            @Override
-            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                GpsVo GpsVos = response.body();
-                if(GpsVos != null){
-                }
-                Log.d("TEST", "onResponse:END ");
-            }
-            @Override
-            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
-            }
-        });
-
-        Call<GpsVo> callDouble = gpsService.postDoubleData(inputDoubleData);
-        callDouble.enqueue(new Callback<GpsVo>() { //비동기적 호출
-            @Override
-            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                GpsVo GpsVos = response.body();
-                if(GpsVos != null){
-                }
-                Log.d("TEST", "onResponse:END ");
-            }
-            @Override
-            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
-            }
-        });
-
-        Call<GpsVo> callLong = gpsService.postLongData(inputLongData);
-        callLong.enqueue(new Callback<GpsVo>() { //비동기적 호출
-            @Override
-            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                GpsVo GpsVos = response.body();
-                if(GpsVos != null){
-                }
-                Log.d("TEST", "onResponse:END ");
-            }
-            @Override
-            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
-            }
-        });*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        HashMap<String, Object> inputObjectData = new HashMap<>();
+/*        HashMap<String, Object> inputObjectData = new HashMap<>();
         inputObjectData.put("gpsId", 1);
         inputObjectData.put("markerId", 1);
         inputObjectData.put("photoData", "사진");
@@ -895,7 +836,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         inputObjectData.put("startDogwalkerLatitude", 37.2844762);
         inputObjectData.put("startDogwalkerLongitude", 127.0442091);
         inputObjectData.put("endDogwalkerLatitude", 38.2844762);
-        inputObjectData.put("endDogwalkerLongitude", 126.0442091);
+        inputObjectData.put("endDogwalkerLongitude", 126.0442091);*/
 /*        inputObjectData.put("walkDistance", null);
         inputObjectData.put("start_time", null);
         inputObjectData.put("end_time", null);
@@ -923,6 +864,17 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         */
     }
+
+    private void checkAllPermission() {
+        final String[] needPermissions = {CAMERA, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, INTERNET};
+        for (String permission: needPermissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this, needPermissions, PackageManager.PERMISSION_GRANTED);
+                return;
+            }
+        }
+    }
+
 
 
 }//DogwalkerGpsActivity

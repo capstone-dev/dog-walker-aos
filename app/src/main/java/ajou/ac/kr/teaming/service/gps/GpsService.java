@@ -36,7 +36,7 @@ public interface GpsService {
 
 
     @Multipart
-    @POST("/gps") ///gps?
+    @POST("/gps") //gps?
     Call<GpsVo> postObjectData(@PartMap Map<String, RequestBody> params);
 
 

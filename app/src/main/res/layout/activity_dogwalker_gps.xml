@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.gps.GpsMainActivity"
-    android:background="@color/colorAccent">
+    android:background="@color/colorAccent"
+    android:id="@+id/dogwalkerGpsMain">
 
     <LinearLayout
         android:layout_width="fill_parent"
