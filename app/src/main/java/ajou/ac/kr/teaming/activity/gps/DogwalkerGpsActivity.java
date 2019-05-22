@@ -10,6 +10,7 @@ import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -21,8 +22,10 @@ import android.view.View;
 import android.widget.Button;
 
 import android.widget.Chronometer;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +39,7 @@ import com.skt.Tmap.TMapView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 import ajou.ac.kr.teaming.R;
@@ -84,7 +88,7 @@ import retrofit2.Response;
  * */
 
 
-public class DogwalkerGpsActivity extends AppCompatActivity {
+public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
     /*********Field Part***********/
@@ -144,7 +148,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     ArrayList<String> mArrayMarkerID;
 
     // GPSTracker class
-    private DogWalkerGpsInfo gps;
+    private TMapGpsManager gps;
 
 
     private long currentTime;
@@ -158,13 +162,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
     private Chronometer chronometer;
     private boolean isRunning;  //Chronometer 동작변수
-
-
-
-
-
-
-
+    private boolean walkStatus;
 
 
 /*****************************************************************************/
@@ -184,21 +182,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     }
 
 
-    /*
-    /**
-     * 단말의 위치탐색 메소드
-     *
-    @Override
-    public void onLocationChange(Location location) {
-        LogManager.printLog("onLocationChange :::> " + location.getLatitude() +
-                " " + location.getLongitude() +
-                " " + location.getSpeed() +
-                " " + location.getAccuracy());
-        if(m_bTrackingMode) {
-            tMapView.setLocationPoint(location.getLongitude(), location.getLatitude());
-        }
-    }
-    */
 
 
     //갱신을 위한 스레드
@@ -261,6 +244,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     }
 
 
+
+
     /**
      * onCreate
      * */
@@ -301,30 +286,27 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
         tMapView.setTrackingMode(true);
         tMapView.setZoomLevel(15);
         tMapView.setIconVisibility(true);
-        setGps(); //현재위치 찾기
         Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
 
+        gps = new TMapGpsManager(DogwalkerGpsActivity.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-
-        /*
-        /**
-         * 크로노미터
-         *
-        chronometer = findViewById(R.id.chronometer);
-        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
-            @Override
-            public void onChronometerTick(Chronometer chronometer) {
-                long time = SystemClock.elapsedRealtime() - chronometer.getBase();
-                int h   = (int)(time /3600000);
-                int m = (int)(time - h*3600000)/60000;
-                int s= (int)(time - h*3600000- m*60000)/1000 ;
-                String hh = h < 10 ? "0"+h: h+"";
-                String mm = m < 10 ? "0"+m: m+"";
-                String ss = s < 10 ? "0"+s: s+"";
-                chronometer.setText(hh+":"+mm+":"+ss);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1); //위치권한 탐색 허용 관련 내용
             }
-        });
-        */
+            return;
+        }
+        setGps();
+
+        tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
+        tMapGps.setMinTime(1000);
+        tMapGps.setMinDistance(5);
+        tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
+        tMapGps.OpenGps();
+        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+        tMapGps.OpenGps();
+
 
 
 
@@ -370,27 +352,21 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
          * PermissionManager 클래스에서 상속
          * 위치정보 허용기능
          * */
-        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
+       /* permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
             @Override
             public void granted() {
-                tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
-                tMapGps.setMinTime(1000);
-                tMapGps.setMinDistance(5);
-                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
-                tMapGps.OpenGps();
-                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-                tMapGps.OpenGps();
             }
 
             @Override
             public void denied() {
                 Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
             }
-        });
+        });*/
 
     }//onCreate
 
 
+    /*
 
     /**
      * 현재 위치정보 받기
@@ -399,8 +375,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
     private final LocationListener mLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
 
-             /*현재 위치에서 위도경도 값을 받아온뒤 우리는 지속해서 위도 경도를 읽어올것이 아니니
-             날씨 api에 위도경도 값을 넘겨주고 위치 정보 모니터링을 제거한다.*/
+//             현재 위치에서 위도경도 값을 받아온뒤 우리는 지속해서 위도 경도를 읽어올것이 아니니
+//             날씨 api에 위도경도 값을 넘겨주고 위치 정보 모니터링을 제거한다.
             dogwalkerLatitude = location.getLatitude();
             dogwalkerLongitude = location.getLongitude();
             //위도 경도 텍스트뷰에 보여주기
@@ -409,7 +385,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
 
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
-
 
             if (location != null) {
                 double latitude = location.getLatitude();
@@ -443,6 +418,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
                 1, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
     }
+
 
 
 
@@ -596,13 +572,19 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
          * 5. 사진찍기 및 마커생성 동작 가능
          * */
 
-        walkTimeThread.start();
+        if(walkStatus != true){
+            walkStatus = true;
+            walkTimeThread.start();
+
+        }else {
+
+        }
 
     }
 
 
     /********** onClickEvent Method **************/
-    private void showLocation() {
+ /*   private void showLocation() {
             gps = new DogWalkerGpsInfo(DogwalkerGpsActivity.this);
             // GPS 사용유무 가져오기
             if (gps.isGetLocation()) {
@@ -621,7 +603,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
                 // GPS 를 사용할수 없으므로
                 gps.showSettingsAlert();
             }
-    }
+    }*/
 
     /*
     private void doSetDogwalkerLocation() {
@@ -709,6 +691,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
+                        walkTimeThread.stop();
                     }
                 }).setNegativeButton("취소",
                 new DialogInterface.OnClickListener() {
@@ -734,16 +717,21 @@ public class DogwalkerGpsActivity extends AppCompatActivity {
      * 도그워커의 현재 위치를 서버로 전송한다.
      * */
     private void postDogwalerLocation() {
+
+
+        HashMap<String, Object> inputLocation = new HashMap<>();
+        inputLocation.put("DogwalkerLatitude", dogwalkerLatitude);
+        inputLocation.put("DogwalkerLongitude", dogwalkerLongitude);
+
+
         GpsService gpsService = GpsService.retrofit.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doSetDogwalkerLocation(gps.getLatitude(), gps.getLongitude());
+        Call<GpsVo> call = gpsService.postLocation(inputLocation);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
                 GpsVo GpsVos = response.body();
                 if(GpsVos != null){
-
                 }
-
                 Log.d("TEST", "onResponse:END ");
             }
             @Override

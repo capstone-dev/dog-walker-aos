@@ -16,11 +16,11 @@ import retrofit2.http.Query;
 public interface GpsService {
 
     static final String BASEURL = "http://54.180.115.101:3000";
-    static final String APIKEY ="78f4044b-3ca4-439d-8d0e-10135941f054";
 
 
 
-    public static final Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+
+    Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .baseUrl(GpsService.BASEURL)
             .build();
 
@@ -29,8 +29,7 @@ public interface GpsService {
             @Query("latitude") double lat, @Query("longitude") double lon);
 
 
-    @POST("setLocationToServer")
-    Call<GpsVo> doSetDogwalkerLocation(
-            @Query("latitude") double lat, @Query("longitude") double lon);
+    @POST("LocationToServer")
+            Call<GpsVo> postLocation(@FieldMap HashMap<String, Object> param);
 
 } //GpsService
