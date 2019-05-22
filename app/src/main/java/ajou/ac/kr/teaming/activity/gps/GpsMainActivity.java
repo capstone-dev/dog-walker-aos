@@ -113,7 +113,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      */
     private static final int[] mArrayMapButton = {
             R.id.btnSetMapType,
-            R.id.btnGetLocationPoint,
+            R.id.btnSetDogwalkerLocation,
             R.id.btnGetDogwalkerLocation,
             R.id.btnSetCompassMode,
             R.id.btnGetIsCompass,
@@ -985,9 +985,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * 도그워커의 좌표의 위도, 경도를 서버로부터 받아온다.
      */
     public void getDogwalkerLocation() {
-
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetDogwalkerLocation(m_Latitude,m_Longitude);
+        Call<GpsVo> call = gpsService.doGetDogwalkerLocation();
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
@@ -1007,8 +1006,9 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
                     Log.d("TEST", "onResponse: " + gpsVo.getStartDogwalkerLongitude());
                     Log.d("TEST", "onResponse: " + gpsVo.getEndDogwalkerLatitude());
                     Log.d("TEST", "onResponse: " + gpsVo.getEndDogwalkerLongitude());
-                    Log.d("TEST", "onResponse: " + gpsVo.getStartTime());
-                    Log.d("TEST", "onResponse: " + gpsVo.getEndTime());
+                    Log.d("TEST", "onResponse: " + gpsVo.getWalkDistance());
+                    Log.d("TEST", "onResponse: " + gpsVo.getStart_time());
+                    Log.d("TEST", "onResponse: " + gpsVo.getEnd_time());
                     Log.d("TEST", "onResponse: " + gpsVo.getWalkTime());
 
                     tMapView.setLocationPoint(gpsVo.getDogwalkerLatitude(), gpsVo.getDogwalkerLongitude());

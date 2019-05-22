@@ -2,6 +2,8 @@ package ajou.ac.kr.teaming.vo;
 
 public class GpsVo {
 
+
+    private int id;
     private int gpsId;
     private int markerId;
     private String photoData;
@@ -13,10 +15,18 @@ public class GpsVo {
     private double startDogwalkerLongitude;
     private double endDogwalkerLatitude;
     private double endDogwalkerLongitude;
-    private long startTime;
-    private long endTime;
-    private long walkTime;
+    private String walkDistance;
+    private String start_time;
+    private String end_time;
+    private String walkTime;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getGpsId() {
         return gpsId;
@@ -106,29 +116,39 @@ public class GpsVo {
         this.endDogwalkerLongitude = endDogwalkerLongitude;
     }
 
-    public long getStartTime() {
-        return startTime;
+    public String getWalkDistance() {
+        return walkDistance;
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
+    public void setWalkDistance(String walkDistance) {
+        this.walkDistance = walkDistance;
     }
 
-    public long getEndTime() {
-        return endTime;
+
+    public String getStart_time() {
+        return start_time;
     }
 
-    public void setEndTime(long endTime) {
-        this.endTime = endTime;
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
     }
 
-    public long getWalkTime() {
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getWalkTime() {
         return walkTime;
     }
 
-    public void setWalkTime(long walkTime) {
+    public void setWalkTime(String walkTime) {
         this.walkTime = walkTime;
     }
+
 
 
 

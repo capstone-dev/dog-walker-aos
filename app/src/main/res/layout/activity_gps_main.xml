@@ -66,13 +66,13 @@
                     android:layout_gravity="center_horizontal">
 
                     <Button
-                        android:id="@+id/btnGetDogwalkerLocation"
+                        android:id="@+id/btnSetDogwalkerLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="setLocationPoint"
                         android:layout_weight="1"/>
                     <Button
-                        android:id="@+id/btnGetLocationPoint"
+                        android:id="@+id/btnGetDogwalkerLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="getLocationPoint"

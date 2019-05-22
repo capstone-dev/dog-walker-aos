@@ -714,17 +714,19 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * */
     private void postDogwalkerLocation() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-
-        /*Integer Data*/
+        /**
+         * 통신 테스트를 위해 임의의 값을 넣어봄.
+         * **/
+/*        *//*Integer Data*//*
         HashMap<String, Integer> inputIntegerData = new HashMap<>();
         inputIntegerData.put("gpsId", 1);
         inputIntegerData.put("markerId", 1);
 
-        /* String Data*/
+        *//* String Data*//*
         HashMap<String, String> inputStringData = new HashMap<>();
         inputStringData.put("photoData", "사진");
 
-        /*Double Data*/
+        *//*Double Data*//*
         HashMap<String, Double> inputDoubleData = new HashMap<>();
         inputDoubleData.put("photoLatitude", 37.2744762);
         inputDoubleData.put("photoLongitude", 127.0342091);
@@ -735,7 +737,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         inputDoubleData.put("endDogwalkerLatitude", 38.2844762);
         inputDoubleData.put("endDogwalkerLongitude", 126.0442091);
 
-        /*Long Data*/
+        *//*Long Data*//*
         HashMap<String, Long> inputLongData = new HashMap<>();
         inputLongData.put("startTime", null);
         inputLongData.put("endTime", null);
@@ -804,12 +806,42 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패");
             }
+        });*/
+
+        HashMap<String, Object> inputObjectData = new HashMap<>();
+        inputObjectData.put("gpsId", 1);
+        inputObjectData.put("markerId", 1);
+        inputObjectData.put("photoData", "사진");
+        inputObjectData.put("photoLatitude", 37.2744762);
+        inputObjectData.put("photoLongitude", 127.0342091);
+        inputObjectData.put("dogwalkerLatitude", 37.2844762);
+        inputObjectData.put("dogwalkerLongitude", 127.0442091);
+        inputObjectData.put("startDogwalkerLatitude", 37.2844762);
+        inputObjectData.put("startDogwalkerLongitude", 127.0442091);
+        inputObjectData.put("endDogwalkerLatitude", 38.2844762);
+        inputObjectData.put("endDogwalkerLongitude", 126.0442091);
+/*        inputObjectData.put("walkDistance", null);
+        inputObjectData.put("start_time", null);
+        inputObjectData.put("end_time", null);
+        inputObjectData.put("walkTime", null);*/
+
+
+        Call<GpsVo> call = gpsService.postObjectData(inputObjectData);
+        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
+                GpsVo GpsVos = response.body();
+                Log.d("TEST", "onResponseBODY: " + response.body());
+                if(GpsVos != null){
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
+            }
         });
-
-
-
-
-        return;
     }
 
 

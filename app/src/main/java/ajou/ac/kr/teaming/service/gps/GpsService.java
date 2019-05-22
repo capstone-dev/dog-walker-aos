@@ -7,15 +7,13 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 public interface GpsService {
 
     @GET("/gps") //gps?
-    Call<GpsVo> doGetDogwalkerLocation (
-            @Query("latitude") double lat, @Query("longitude") double lon);
+            Call<GpsVo> doGetDogwalkerLocation();
 
-    @POST("/gps") ///gps?
+  /*  @POST("/gps") ///gps?
             Call<GpsVo> postStringData(@FieldMap HashMap<String, String> param);
 
     @POST("/gps") ///gps?
@@ -25,6 +23,9 @@ public interface GpsService {
             Call<GpsVo> postDoubleData(@FieldMap HashMap<String, Double> param);
 
     @POST("/gps") ///gps?
-            Call<GpsVo> postLongData(@FieldMap HashMap<String, Long> param);
+            Call<GpsVo> postLongData(@FieldMap HashMap<String, Long> param);*/
+
+    @POST("/gps") ///gps?
+            Call<GpsVo> postObjectData(@FieldMap HashMap<String, Object> param);
 
 } //GpsService
