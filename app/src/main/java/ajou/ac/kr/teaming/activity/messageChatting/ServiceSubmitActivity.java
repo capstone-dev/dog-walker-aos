@@ -48,6 +48,7 @@ public class ServiceSubmitActivity extends Activity {
      * @param view
      */
     public void onClickPaySetButton(View view) {
+
     }
 
 }

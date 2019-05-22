@@ -59,7 +59,7 @@ public class UserCommunityContentActivity extends Activity {
         //userCommunityMainActivity로 부터 가져온 객체 setting
         Intent intent = getIntent();
         userCommunityThreadVO=(UserCommunityThreadVO) intent.getSerializableExtra("userCommunityThreadVO");
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
         userId.setText(userCommunityThreadVO.getUserId());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
@@ -134,7 +134,7 @@ public class UserCommunityContentActivity extends Activity {
 
         inputThread.put("commentContent",((EditText)findViewById(R.id.comment)).getText().toString());
         inputThread.put("threadId",userCommunityThreadVO.getThreadId());
-        inputThread.put("userId",registerVO);   //테스트용
+        inputThread.put("userId",registerVO.getUserID());   //테스트용
 
         Call<UserCommunityContentCommentVO> request = userCommunityContentCommentService.postComment(inputThread);
         request.enqueue(new Callback<UserCommunityContentCommentVO>() {
@@ -169,6 +169,8 @@ public class UserCommunityContentActivity extends Activity {
         //메시지 연결
         Log.d("TEST", "onClickMessageActivity: ");
         Intent intent = new Intent(UserCommunityContentActivity.this, MessageChattingMainActivity.class);
+        intent.putExtra("RegisterVO",registerVO);
+        intent.putExtra("userCommunityThreadVO", userCommunityThreadVO);
         startActivity(intent);
     }
 }

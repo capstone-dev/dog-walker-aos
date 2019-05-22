@@ -7,33 +7,28 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.vo.ChatDataVO;
 
-public class MessageAdapter extends BaseAdapter {
+public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
 
-    private ArrayList<MessageListContents> messageList;
+    private ArrayList<ChatDataVO> messageList=new ArrayList<>();
+    private String systemUserId;
 
-    public MessageAdapter() {
-        messageList = new ArrayList<>();
+    public MessageAdapter(Context context, int resource) {
+        super(context,resource);
     }
 
     // 외부에서 아이템 추가 요청 시 사용
-    public void add(String message, int type) {
-        messageList.add(new MessageListContents(message, type));
-    }
-
-    // 외부에서 아이템 삭제 요청 시 사용
-    public void remove(String message) {
-        int index=0;
-        for(MessageListContents s:messageList){
-            if(s.equals(message)) {messageList.remove(index);}
-            index++;
-        }
+    public void add(ChatDataVO chatDataVO,String systemUserId) {
+        messageList.add(chatDataVO);
+        this.systemUserId=systemUserId;
     }
 
     @Override
@@ -42,7 +37,7 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public ChatDataVO getItem(int position) {
         return messageList.get(position);
     }
 
@@ -92,17 +87,17 @@ public class MessageAdapter extends BaseAdapter {
         // Text 등록
         text.setText(messageList.get(position).message);
 
-        if (messageList.get(position).type == 0) {
+        if (messageList.get(position).userName != systemUserId) {
             text.setBackgroundResource(R.drawable.inbox2);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
-        } else if (messageList.get(position).type == 1) {
+        } else if (messageList.get(position).userName== systemUserId) {
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
-        } else if (messageList.get(position).type == 2) {
+        } else  {
             text.setBackgroundResource(R.drawable.datebg);
             layout.setGravity(Gravity.CENTER);
             viewRight.setVisibility(View.VISIBLE);
@@ -127,12 +122,10 @@ public class MessageAdapter extends BaseAdapter {
 }
 
 class MessageListContents {
-    String message;
-    int type;
 
-    MessageListContents(String message, int type) {
-        this.message = message;
-        this.type = type;
+    ChatDataVO chatDataVO;
+    MessageListContents(ChatDataVO chatDataVO) {
+        this.chatDataVO=chatDataVO;
     }
 }
 
