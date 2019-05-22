@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.DogwalkerVo;
 
 /**
@@ -21,7 +22,7 @@ import ajou.ac.kr.teaming.vo.DogwalkerVo;
 
 public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeDogWalkerViewHolder> {
 
-    private ArrayList<DogwalkerVo> dogwalkerVoArrayList=new ArrayList<>();
+    private ArrayList<DogwalkerListVO> dogwalkerVoArrayList = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
 
 
@@ -29,7 +30,7 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
      */
     public interface OnItemClickListener{
-        void chooseDogWalkerEvent(View view, DogwalkerVo dogwalkerVo);
+        void chooseDogWalkerEvent(View view, DogwalkerListVO dogwalkerListVO);
 
     }
 
@@ -48,14 +49,13 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
     @Override
     public void onBindViewHolder(@NonNull RealTimeDogWalkerViewHolder realTimeDogWalkerViewHolder, int i) {
 
-        DogwalkerVo dogwalkerVo=dogwalkerVoArrayList.get(i);
+        DogwalkerListVO dogwalkerListVo = dogwalkerVoArrayList.get(i);
         /**
          * 데이터 바인딩
          */
-        realTimeDogWalkerViewHolder.dogwalkerName.setText(dogwalkerVo.getUserName());
-        realTimeDogWalkerViewHolder.bigCity.setText(dogwalkerVo.getUserBigcity());
-        realTimeDogWalkerViewHolder.smallCity.setText(dogwalkerVo.getUserSmallcity());
-        realTimeDogWalkerViewHolder.gender.setText(dogwalkerVo.getUserGender());
+        realTimeDogWalkerViewHolder.dogwalkerName.setText(dogwalkerListVo.getDogwalkerID());
+        realTimeDogWalkerViewHolder.bigCity.setText(dogwalkerListVo.getDogwalkerBigcity());
+        realTimeDogWalkerViewHolder.smallCity.setText(dogwalkerListVo.getDogwalkerSmallcity());
         //해당 게시글 constraintLayout 클릭시 발생 event handle
         realTimeDogWalkerViewHolder.constraintLayout.setOnClickListener(v ->
                 onItemClickListener.chooseDogWalkerEvent(v, dogwalkerVoArrayList.get(i)));
@@ -66,7 +66,7 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
         return dogwalkerVoArrayList.size();
     }
 
-    public void addThread(ArrayList<DogwalkerVo> dogwalkerVoList) {
+    public void addThread(ArrayList<DogwalkerListVO> dogwalkerVoList) {
         Log.d("TEST", "addThread: ");
         dogwalkerVoArrayList.addAll(dogwalkerVoList);
         notifyDataSetChanged();
@@ -82,7 +82,6 @@ class RealTimeDogWalkerViewHolder extends RecyclerView.ViewHolder{
     TextView dogwalkerName;
     TextView bigCity;
     TextView smallCity;
-    TextView gender;
     ConstraintLayout constraintLayout;
 
     public RealTimeDogWalkerViewHolder(@NonNull View itemView) {
@@ -91,6 +90,5 @@ class RealTimeDogWalkerViewHolder extends RecyclerView.ViewHolder{
         dogwalkerName=itemView.findViewById(R.id.dog_walker_name);
         bigCity=itemView.findViewById(R.id.big_city);
         smallCity=itemView.findViewById(R.id.small_city);
-        gender=itemView.findViewById(R.id.dogwalker_gender);
     }
 }

@@ -2,6 +2,7 @@ package ajou.ac.kr.teaming.service.gps;
 
 import java.util.List;
 
+import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.DogwalkerVo;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,6 +14,6 @@ import retrofit2.http.Query;
  */
 public interface GpsRealTimeDogwalkerService {
 
-    @GET("/thread")   //thread?users=summy
-    Call<List<DogwalkerVo>> getThread(@Query("users") String name);
+    @GET("/dogwalkerRealTimeService")   ///dogwalkerRealTimeService?users=summy
+    Call<List<DogwalkerListVO>> getThread();
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsRealTimeDogwalkerService;
+import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.DogwalkerVo;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,28 +43,28 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
      * <p> 서버로부터 커뮤니티 게시글 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
      */
     public void setRealTimeDogwalkerList(){
-
         GpsRealTimeDogwalkerService gpsRealTimeDogwalkerService = ServiceBuilder.create(GpsRealTimeDogwalkerService.class);
-        Call<List<DogwalkerVo>> request = gpsRealTimeDogwalkerService.getThread("summy");
-        request.enqueue(new Callback<List<DogwalkerVo>>() {
+        Call<List<DogwalkerListVO>> request = gpsRealTimeDogwalkerService.getThread();
+        request.enqueue(new Callback<List<DogwalkerListVO>>() {
             @Override
-            public void onResponse(Call<List<DogwalkerVo>> call, Response<List<DogwalkerVo>> response) {
-
-                List<DogwalkerVo> dogwalkerListVos = response.body();
+            public void onResponse(Call<List<DogwalkerListVO>> call, Response<List<DogwalkerListVO>> response) {
+                List<DogwalkerListVO> dogwalkerListVos = response.body();
                 // 성공시
-                ArrayList<DogwalkerVo> realTimeDogwalkerList = new ArrayList<>();
+                ArrayList<DogwalkerListVO> realTimeDogwalkerList = new ArrayList<>();
                 if(dogwalkerListVos!=null){
-                    for (DogwalkerVo dogwalkerVo:dogwalkerListVos){
+                    for (DogwalkerListVO dogwalkerListVO:dogwalkerListVos){
                         //서버로 부터 읽어드린 게시글 리스트를 전부 adapter 에 저장
-                        realTimeDogwalkerList.add(dogwalkerVo);
-                        Log.d("TEST", "onResponse: " + dogwalkerVo.getUserID());
+                        realTimeDogwalkerList.add(dogwalkerListVO);
+                        Log.d("TEST", "onResponse: " + dogwalkerListVO.getDogwalkerID());
+                        Log.d("TEST", "onResponse: " + dogwalkerListVO.getDogwalkerBigcity());
+                        Log.d("TEST", "onResponse: "+ dogwalkerListVO.getDogwalkerSmallcity());
                     }
                     realTimeDogwalkerListAdapter.addThread(realTimeDogwalkerList);
                 }
                 Log.d("TEST", "onResponse:END ");
             }
             @Override
-            public void onFailure(Call<List<DogwalkerVo>> call, Throwable t) {
+            public void onFailure(Call<List<DogwalkerListVO>> call, Throwable t) {
                 //실패시
                 Log.d("TEST", "통신 실패");
             }
@@ -75,9 +76,9 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
     /**
      * 실시간 dogwalker리스트에서 선택하였을때 일어나는 이벤트 handle
      * @param view
-     * @param dogwalkerVo -> 선택한 도그원커
+     * @param dogwalkerListVo -> 선택한 도그원커
      */
-    private void chooseDogWalkerEvent(View view, DogwalkerVo dogwalkerVo) {
+    private void chooseDogWalkerEvent(View view, DogwalkerListVO dogwalkerListVo) {
     }
 
 
