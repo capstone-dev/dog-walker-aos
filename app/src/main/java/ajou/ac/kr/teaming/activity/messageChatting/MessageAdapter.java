@@ -96,6 +96,7 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         } else if (messageList.get(position).userId== systemUserId) {
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
+
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         } else  {
