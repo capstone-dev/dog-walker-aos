@@ -16,6 +16,7 @@ import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.servicePay.ServicePayService;
+import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.ServiceVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
@@ -31,6 +32,8 @@ public class ServiceSubmitActivity extends Activity {
     private RegisterVO registerVO;
     private UserCommunityContentCommentVO userCommunityContentCommentVO;
     private UserCommunityThreadVO userCommunityThreadVO;
+    private DogwalkerListVO dogwalkerListVO;
+    private String activityName;
 
     private EditText serviceCost;
     private TextView dogwalkerId;
@@ -50,8 +53,7 @@ public class ServiceSubmitActivity extends Activity {
 
         Intent intent = getIntent();
         registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
-        userCommunityContentCommentVO = (UserCommunityContentCommentVO) intent.getSerializableExtra("UserCommunityContentCommentVO");
-        userCommunityThreadVO = (UserCommunityThreadVO) intent.getSerializableExtra("userCommunityThreadVO");
+        activityName = intent.getExtras().getString("activityName");
 
         serviceCost = findViewById(R.id.service_cost);
         dogwalkerId = findViewById(R.id.dogwalker_id);
@@ -60,8 +62,19 @@ public class ServiceSubmitActivity extends Activity {
         totalCost = findViewById(R.id.total_cost);
         walkingTime = findViewById(R.id.service_time_range);
 
-        dogwalkerId.setText(userCommunityThreadVO.getUser_UserID());
-        serviceLocation.setText(userCommunityThreadVO.getUserLocation());
+        if(activityName.equals("사용자커뮤니티")) {
+            userCommunityContentCommentVO = (UserCommunityContentCommentVO) intent.getSerializableExtra("UserCommunityContentCommentVO");
+            userCommunityThreadVO = (UserCommunityThreadVO) intent.getSerializableExtra("userCommunityThreadVO");
+
+            dogwalkerId.setText(userCommunityThreadVO.getUser_UserID());
+            serviceLocation.setText(userCommunityThreadVO.getUserLocation());
+        }
+
+        else if(activityName.equals("실시간도그워커")){
+            dogwalkerListVO=(DogwalkerListVO) intent.getSerializableExtra("DogwalkerListVO");
+            dogwalkerId.setText(dogwalkerListVO.getDogwalkerID());
+            serviceLocation.setText("현재 사용자 위치");
+        }
     }
 
 
@@ -85,13 +98,23 @@ public class ServiceSubmitActivity extends Activity {
         //post할 serviceVO값 넣기
         inputService.put("price", serviceCost);
         inputService.put("walkingTime", walkingTime);
-        inputService.put("user_UserID", userCommunityContentCommentVO.getUser_UserID());
-        inputService.put("user_DogwalkerID", userCommunityThreadVO.getUser_UserID());
-        inputService.put("serviceLocation", userCommunityThreadVO.getUserLocation());
+
+        if(activityName.equals("사용자커뮤니티")) {
+            inputService.put("user_UserID", userCommunityContentCommentVO.getUser_UserID());
+            inputService.put("user_DogwalkerID", userCommunityThreadVO.getUser_UserID());
+            inputService.put("serviceLocation", userCommunityThreadVO.getUserLocation());
 /*
         userCommunityThreadVO.setThreadNumber(userCommunityThreadVO.getThreadNumber()-1);*/
-        inputService.put("peopleNumber",userCommunityThreadVO.getThreadNumber());
+            inputService.put("peopleNumber", userCommunityThreadVO.getThreadNumber());
+        }
 
+        else if(activityName.equals("실시간도그워커")){
+            inputService.put("user_UserID",registerVO.getUserID());
+            inputService.put("user_DogwalkerID",dogwalkerListVO.getDogwalkerID());
+            inputService.put("serviceLocation",serviceLocation);
+
+            inputService.put("peopleNumber","1");
+        }
         Call<ServiceVO> request = servicePayService.postService(inputService);
         request.enqueue(new Callback<ServiceVO>() {
             @Override

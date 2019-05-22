@@ -26,6 +26,7 @@ public class MessageChattingMainActivity extends Activity {
     private UserCommunityContentCommentVO userCommunityContentCommentVO;
     private UserCommunityThreadVO userCommunityThreadVO;
     private TextView userIdTextView;
+    private String activityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +36,7 @@ public class MessageChattingMainActivity extends Activity {
         //해당 사용자 등록 정보
         Intent intent = getIntent();
         registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
-        String activityName = intent.getExtras().getString("activityName");
+        activityName = intent.getExtras().getString("activityName");
 
         if(activityName.equals("사용자커뮤니티")) {
             userCommunityContentCommentVO = (UserCommunityContentCommentVO) intent.getSerializableExtra("UserCommunityContentCommentVO");
@@ -126,10 +127,16 @@ public class MessageChattingMainActivity extends Activity {
      */
     public void onClickServiceSubmit(View view) {
         Intent intent = new Intent(MessageChattingMainActivity.this, ServiceSubmitActivity.class);
-        intent.putExtra("registerVO",registerVO);
-        intent.putExtra("userCommunityThreadVO",userCommunityThreadVO);
-        intent.putExtra("UserCommunityContentCommentVO",userCommunityContentCommentVO);
-
+        intent.putExtra("RegisterVO",registerVO);
+        if(activityName.equals("사용자커뮤니티")) {
+            intent.putExtra("userCommunityThreadVO", userCommunityThreadVO);
+            intent.putExtra("UserCommunityContentCommentVO", userCommunityContentCommentVO);
+            intent.putExtra("activityName","사용자커뮤니티");
+        }
+        else if(activityName.equals("실시간도그워커")){
+            intent.putExtra("DogwalkerListVO",dogwalkerListVO);
+            intent.putExtra("activityName","실시간도그워커");
+        }
         startActivity(intent);
     }
 
