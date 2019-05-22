@@ -5,6 +5,8 @@ public class ChatDataVO {
     public String userId;
     public String message;
     public String commentId;
+    public String time;
+    public String opponenetId;
 
     public String getUserId() {
         return userId;
@@ -21,9 +23,6 @@ public class ChatDataVO {
     public void setCommentId(String commentId) {
         this.commentId = commentId;
     }
-
-    public long time;
-    public String opponenetId;
 
     public String getOpponenetId() {
         return opponenetId;
@@ -57,11 +56,11 @@ public class ChatDataVO {
         this.message = message;
     }
 
-    public long getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(long time) {
+    public void setTime(String time) {
         this.time = time;
     }
 }

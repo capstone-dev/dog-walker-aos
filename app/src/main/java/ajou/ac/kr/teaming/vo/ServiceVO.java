@@ -3,34 +3,27 @@ package ajou.ac.kr.teaming.vo;
 import java.io.Serializable;
 
 public class ServiceVO implements Serializable {
-    private String id;
-    private int price;
+    private int id;
+    private String price;
     private String walkingTime;
     private String user_UserID;
     private String user_DogwalkerID;
     private String serviceLocation;
+    private String peopleNumber;
 
-    public String getServiceLocation() {
-        return serviceLocation;
-    }
-
-    public void setServiceLocation(String serviceLocation) {
-        this.serviceLocation = serviceLocation;
-    }
-
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public int getPrice() {
+    public String getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(String price) {
         this.price = price;
     }
 
@@ -56,5 +49,21 @@ public class ServiceVO implements Serializable {
 
     public void setUser_DogwalkerID(String user_DogwalkerID) {
         this.user_DogwalkerID = user_DogwalkerID;
+    }
+
+    public String getServiceLocation() {
+        return serviceLocation;
+    }
+
+    public void setServiceLocation(String serviceLocation) {
+        this.serviceLocation = serviceLocation;
+    }
+
+    public String getPeopleNumber() {
+        return peopleNumber;
+    }
+
+    public void setPeopleNumber(String peopleNumber) {
+        this.peopleNumber = peopleNumber;
     }
 }

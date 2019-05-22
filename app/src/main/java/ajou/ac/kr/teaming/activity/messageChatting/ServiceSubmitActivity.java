@@ -88,6 +88,9 @@ public class ServiceSubmitActivity extends Activity {
         inputService.put("user_UserID", userCommunityContentCommentVO.getUser_UserID());
         inputService.put("user_DogwalkerID", userCommunityThreadVO.getUser_UserID());
         inputService.put("serviceLocation", userCommunityThreadVO.getUserLocation());
+/*
+        userCommunityThreadVO.setThreadNumber(userCommunityThreadVO.getThreadNumber()-1);*/
+        inputService.put("peopleNumber",userCommunityThreadVO.getThreadNumber());
 
         Call<ServiceVO> request = servicePayService.postService(inputService);
         request.enqueue(new Callback<ServiceVO>() {
@@ -104,18 +107,17 @@ public class ServiceSubmitActivity extends Activity {
                         Log.d("TEST", String.valueOf(serviceVO.getPrice()));
                     }
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "시버스 입력 성공 ");
             }
 
             @Override
             public void onFailure(Call<ServiceVO> call, Throwable t) {
                 //실패시
-                Log.d("TEST", "통신 실패");
+                Log.d("TEST", "서비스 입력 실패");
             }
         });
         Intent intent = new Intent(ServiceSubmitActivity.this, MainActivity.class);
         startActivity(intent);
-
         Toast.makeText(this, "산책 서비스 신청이 완료되었습니다!", Toast.LENGTH_SHORT).show();
     }
 

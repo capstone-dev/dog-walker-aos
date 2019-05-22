@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +52,10 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         final Context context = parent.getContext();
 
         TextView text;
-        TextView id;
+        TextView idLeft;
+        TextView idRight;
+        TextView timeLeft;
+        TextView timeRight;
         CustomHolder holder;
         LinearLayout layout;
         View viewRight;
@@ -69,12 +71,19 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
             text = (TextView) convertView.findViewById(R.id.text);
             viewRight = (View) convertView.findViewById(R.id.imageViewright);
             viewLeft = (View) convertView.findViewById(R.id.imageViewleft);
-            id=(TextView)convertView.findViewById(R.id.user_id);
+            idLeft=(TextView)convertView.findViewById(R.id.user_id_left);
+            idRight=(TextView)convertView.findViewById(R.id.user_id_right);
+            timeLeft=(TextView)convertView.findViewById(R.id.time_left);
+            timeRight=(TextView)convertView.findViewById(R.id.time_right);
 
 
             // 홀더 생성 및 Tag로 등록
             holder = new CustomHolder();
             holder.m_TextView = text;
+            holder.m_userId_Left=idLeft;
+            holder.m_userId_Right=idRight;
+            holder.m_time_Left=timeLeft;
+            holder.m_time_Right=timeRight;
             holder.layout = layout;
             holder.viewRight = viewRight;
             holder.viewLeft = viewLeft;
@@ -82,6 +91,10 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         } else {
             holder = (CustomHolder) convertView.getTag();
             text = holder.m_TextView;
+            idLeft=holder.m_userId_Left;
+            timeLeft=holder.m_time_Left;
+            timeRight=holder.m_time_Right;
+            idRight=holder.m_userId_Right;
             layout = holder.layout;
             viewRight = holder.viewRight;
             viewLeft = holder.viewLeft;
@@ -89,10 +102,16 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
 
         // Text 등록
         text.setText(messageList.get(position).message);
+        idLeft.setText(messageList.get(position).userId);
+        idRight.setText(messageList.get(position).userId);
+        timeLeft.setText(messageList.get(position).time);
+        timeRight.setText(messageList.get(position).time);
 
         if (!messageList.get(position).userId.equals(systemUserId)) {
             Log.d("TEST", "MESSAGE1: "+messageList.get(position).message);
             text.setBackgroundResource(R.drawable.inbox2);
+            idRight.setVisibility(View.GONE);
+            timeRight.setVisibility(View.GONE);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
@@ -101,7 +120,8 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
             Log.d("TEST", "MESSAGE2: "+messageList.get(position).message);
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
-
+            idLeft.setVisibility(View.GONE);
+            timeLeft.setVisibility(View.GONE);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         } else  {
@@ -131,6 +151,10 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
 
 class CustomHolder {
     TextView m_TextView;
+    TextView m_userId_Left;
+    TextView m_userId_Right;
+    TextView m_time_Left;
+    TextView m_time_Right;
     LinearLayout layout;
     View viewRight;
     View viewLeft;

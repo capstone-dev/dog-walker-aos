@@ -12,6 +12,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import ajou.ac.kr.teaming.activity.messageChatting.MessageAdapter;
 import ajou.ac.kr.teaming.vo.ChatDataVO;
 
@@ -74,7 +77,12 @@ public class FirebaseMessagingService {
             chatDataVO.message=message;
             chatDataVO.opponenetId=oppoentId;
             chatDataVO.commentId=commentId;
-            chatDataVO.time=System.currentTimeMillis();
+            //시간 출력
+
+            Date date=new Date();
+            SimpleDateFormat fullDate=new SimpleDateFormat("yyyy-MM-dd,hh:mm:ss a");
+            chatDataVO.time=fullDate.format(date).toString();/*
+            chatDataVO.time=System.currentTimeMillis();*/
             databaseReference.push().setValue(chatDataVO);
         }
     }
