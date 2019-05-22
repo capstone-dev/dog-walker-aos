@@ -10,7 +10,10 @@ public class DogwalkerVo {
     private String UserGender;
     private String UserPhoneNumber;
     private String UserBigcity;
+    private String UserSmallcity;
+    private String Userdate;
     private String UserTime;
+
 
     public String getUserID() {
         return UserID;
@@ -84,7 +87,5 @@ public class DogwalkerVo {
         Userdate = userdate;
     }
 
-    private String UserSmallcity;
-    private String Userdate;
 }
 

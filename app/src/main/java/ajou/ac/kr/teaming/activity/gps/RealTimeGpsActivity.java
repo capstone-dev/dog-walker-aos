@@ -13,8 +13,6 @@ import android.location.LocationManager;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -376,7 +374,13 @@ public class RealTimeGpsActivity extends AppCompatActivity {
             case R.id.btnCapture		                :   captureImage(); 		break;
             case R.id.btnEnlargeCircle                 :   EnlargeCircle();        break;
             case R.id.btnNarrowCircle                  :   NarrowCircle();         break;
+            case R.id.btnIntentWalkerPage              :   intentWalkerListPage(); break;
         }
+    }
+
+    private void intentWalkerListPage() {
+        Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerListAcitvity.class);
+        startActivity(intent);
     }
 
     private void NarrowCircle() {
@@ -491,7 +495,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      * @param view
      */
     public void onClcikShowListButton(View view) {
-        Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerAcitvity.class);
+        Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerListAcitvity.class);
         startActivity(intent);
     }
 }

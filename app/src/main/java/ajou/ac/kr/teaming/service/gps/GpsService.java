@@ -15,15 +15,6 @@ import retrofit2.http.Query;
 
 public interface GpsService {
 
-    static final String BASEURL = "http://54.180.115.101:3000";
-
-
-
-
-    Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(GpsService.BASEURL)
-            .build();
-
     @GET("current/hourly")
     Call<GpsVo> doGetDogwalkerLocation (
             @Query("latitude") double lat, @Query("longitude") double lon);

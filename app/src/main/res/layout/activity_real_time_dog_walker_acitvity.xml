@@ -6,7 +6,7 @@
     android:id="@+id/user_community_thread"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.gps.RealTimeDogWalkerAcitvity">
+    tools:context=".activity.gps.RealTimeDogWalkerListAcitvity">
 
     <LinearLayout
         android:id="@+id/main_bar"

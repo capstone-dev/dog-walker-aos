@@ -44,6 +44,7 @@ import java.util.HashMap;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import retrofit2.Call;
@@ -157,12 +158,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private long walkTime;
     private long nine = 32400000;
 
-
-    private Handler customHandler;
-
-    private Chronometer chronometer;
-    private boolean isRunning;  //Chronometer 동작변수
     private boolean walkStatus;
+
+
+
+
 
 
 /*****************************************************************************/
@@ -717,14 +717,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 도그워커의 현재 위치를 서버로 전송한다.
      * */
     private void postDogwalerLocation() {
-
-
         HashMap<String, Object> inputLocation = new HashMap<>();
-        inputLocation.put("DogwalkerLatitude", dogwalkerLatitude);
-        inputLocation.put("DogwalkerLongitude", dogwalkerLongitude);
+        inputLocation.put("DogwalkerLatitude", tMapGps.getLocation());
+        inputLocation.put("DogwalkerLongitude", tMapGps.getLocation());
 
 
-        GpsService gpsService = GpsService.retrofit.create(GpsService.class);
+        GpsService gpsService = ServiceBuilder.create(GpsService.class);
         Call<GpsVo> call = gpsService.postLocation(inputLocation);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override

@@ -45,6 +45,7 @@ import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import retrofit2.Call;
@@ -985,7 +986,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      */
     public void getDogwalkerLocation() {
 
-        GpsService gpsService = GpsService.retrofit.create(GpsService.class);
+        GpsService gpsService = ServiceBuilder.create(GpsService.class);
         Call<GpsVo> call = gpsService.doGetDogwalkerLocation(m_Latitude,m_Longitude);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override

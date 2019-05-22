@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.gps.RealTimeDogWalkerAcitvity"></activity>
+        <activity android:name=".activity.gps.RealTimeDogWalkerListAcitvity"></activity>
         <activity android:name=".activity.login.DogwalkerRegister" />
         <activity
             android:name=".activity.messageChatting.ServiceSubmitActivity"
