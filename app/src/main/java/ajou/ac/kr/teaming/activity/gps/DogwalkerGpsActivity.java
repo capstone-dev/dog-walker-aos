@@ -3,15 +3,21 @@ package ajou.ac.kr.teaming.activity.gps;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -32,17 +38,23 @@ import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.service.gallery.GalleryService;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsVo;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -88,6 +100,8 @@ import retrofit2.Response;
 public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
+    private GpsService gpsService = ServiceBuilder.create(GpsService.class);
+
     /*********Field Part***********/
 
     /***
@@ -102,6 +116,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             R.id.btnWalkEnd, //산책 종료
             R.id.btnShowLocation,
             R.id.btnPostDogwalkerLocation,
+            R.id.btnImageUploadSample, // 파일 업로드 샘플
     };
 
 
@@ -547,14 +562,16 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      */
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnWalkStart                       :     walkStart();                   break;
+            case R.id.btnWalkStart                       :     walkStart();                     break;
         //    case R.id.btnShowLocation                    :     showLocation();                break;
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
             case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
             case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
-            case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();         break;
+            case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();          break;
+            case R.id.btnImageUploadSample               : 	imageUploadSample(); 			    break;
+
         }
     }
 
@@ -652,15 +669,59 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 });
         AlertDialog alert = alert_confirm.create();
         alert.show();
-
     }
 
+    /**
+     * 안드로이드 파일 업로드 샘플
+     */
+    private void imageUploadSample() {
+        //R.id.compassIcon;
+        ImageView imageView = findViewById(R.id.compassIcon);
+
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] dataArray = baos.toByteArray();
+
+        //RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), data);
+
+        //MultipartBody.Part fileBody = MultipartBody.Part.createFormData("picture", "aa.jpg", requestFile);
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
+
+
+
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("file\"; filename=\"photo.png", fileBody);
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"), "1"));
+
+
+        Call<GpsVo> call = gpsService.postObjectData(params);
+        call.enqueue(new Callback<GpsVo>() {
+            @Override
+            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
+                if (response.isSuccessful()) {
+                    GpsVo gpsVo = response.body();
+
+                    if (gpsVo!= null) {
+                        Log.d("TEST", "" + gpsVo.getGpsId());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GpsVo> call, Throwable t) {
+                Log.d("TEST", "통신 실패");
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
 
     public void makePhotoAndMarker(){
 
-
-
     }
+
 
 
 
@@ -808,6 +869,21 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
         });*/
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         HashMap<String, Object> inputObjectData = new HashMap<>();
         inputObjectData.put("gpsId", 1);
         inputObjectData.put("markerId", 1);
@@ -826,6 +902,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         inputObjectData.put("walkTime", null);*/
 
 
+
+/*
         Call<GpsVo> call = gpsService.postObjectData(inputObjectData);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
@@ -842,6 +920,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Log.d("TEST", "통신 실패");
             }
         });
+
+        */
     }
 
 
