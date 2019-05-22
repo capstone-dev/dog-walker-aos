@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          * loging activity로 부터 main activity로 사용자 정보 받아옴
          */
         Intent intent = getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
+        registerVO = (RegisterVO) intent.getSerializableExtra("registerVO");
     }
 
     @Override
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @SuppressWarnings("StatementWithEmptyBody")
     /**
-    *  사이드 바 메뉴
-    *  Intent 기능 사용
-    * */
+     *  사이드 바 메뉴
+     *  Intent 기능 사용
+     * */
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -120,24 +120,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_search) {
             //예약 페이지로 이동
-            intent = new Intent(MainActivity.this, ReservationActivity.class);
-
-
-        }else if (id == R.id.nav_my){
-
-            Intent my = new Intent(MainActivity.this, MyActivity.class);
-            intent.putExtra("RegisterVO",registerVO);
-            startActivity(my);
-        }
-
-
-        else if (id == R.id.user_community) {
-
-            Intent fintent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
-            fintent.putExtra("RegisterVO",registerVO);
+            Intent fintent = new Intent(MainActivity.this, ReservationActivity.class);
+            fintent.putExtra("RegisterVO", registerVO);
             startActivity(fintent);
 
+        } else if (id == R.id.nav_my) {
 
+            Intent my = new Intent(MainActivity.this, MyActivity.class);
+            intent.putExtra("RegisterVO", registerVO);
+            startActivity(my);
+        } else if (id == R.id.user_community) {
+
+            Intent fintent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
+            fintent.putExtra("RegisterVO", registerVO);
+            startActivity(fintent);
 
 
         } else if (id == R.id.nav_history) {
@@ -154,13 +150,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
         } else if (id == R.id.nav_logout) {
 
-            Intent logout= new Intent(MainActivity.this, LoginMainActivity.class);
-            logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            Intent logout = new Intent(MainActivity.this, LoginMainActivity.class);
+            logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(logout);
 
 
-    }
-        if(intent != null) {
+        }
+        if (intent != null) {
             startActivity(intent);
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);

@@ -1,11 +1,30 @@
 package ajou.ac.kr.teaming.vo;
 
-public class DogwalkerListVO {
+import java.io.Serializable;
+
+public class DogwalkerListVO implements Serializable {
 
     private String DogwalkerID;
     private String DogwalkerBigcity;
     private String DogwalkerSmallcity;
+    private String DogWalkerGender;
+    private String selected;
 
+    public String getSelect() {
+        return selected;
+    }
+
+    public String getDogWalkerGender() {
+        return DogWalkerGender;
+    }
+
+    public void setDogWalkerGender(String dogWalkerGender) {
+        DogWalkerGender = dogWalkerGender;
+    }
+
+    public void setSelect(String selected) {
+        this.selected = selected;
+    }
 
     public String getDogwalkerID() {
         return DogwalkerID;

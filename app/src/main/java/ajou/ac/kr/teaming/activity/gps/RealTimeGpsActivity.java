@@ -37,9 +37,11 @@ import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class RealTimeGpsActivity extends AppCompatActivity {
 
+    private RegisterVO registerVO;
 
     private final String TAG = "RealTimeGpsActivity";
     private final String TMAP_API_KEY = "78f4044b-3ca4-439d-8d0e-10135941f054";
@@ -99,6 +101,11 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_time_gps);
+
+
+        Intent intent = getIntent();
+        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
+
 
         mContext = this;
         permissionManager = new PermissionManager(this); // 권한요청 관리자
@@ -295,6 +302,8 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                 return false;
             }
 
+
+
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> markerlist,ArrayList<TMapPOIItem> poilist, TMapPoint point, PointF pointf) {
                 LogManager.printLog("MainActivity onPressEvent " + markerlist.size());
@@ -380,6 +389,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
     private void intentWalkerListPage() {
         Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerListAcitvity.class);
+        intent.putExtra("RegisterVO", registerVO);
         startActivity(intent);
     }
 

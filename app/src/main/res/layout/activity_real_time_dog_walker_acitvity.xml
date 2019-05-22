@@ -130,7 +130,6 @@
                     android:textSize="10sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@id/dogwalker_small_city_form"
-                    app:layout_constraintRight_toRightOf="parent"
                     tools:ignore="MissingConstraints" />
 
             </android.support.constraint.ConstraintLayout>

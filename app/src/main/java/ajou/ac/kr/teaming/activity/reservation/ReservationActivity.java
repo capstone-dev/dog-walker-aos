@@ -13,20 +13,25 @@ import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.gps.RealTimeGpsActivity;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.RegisterActivity;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class ReservationActivity extends AppCompatActivity {
 
+    private RegisterVO registerVO;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reservation);
 
+        Intent intent = getIntent();
+        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
 
         ImageView RealTimeImage = findViewById(R.id.RealTimeImage);
         RealTimeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeGpsActivity.class);
+                realtimeIntent.putExtra("RegisterVO", registerVO);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
         });
@@ -36,6 +41,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeGpsActivity.class);
+                realtimeIntent.putExtra("RegisterVO", registerVO);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
         });

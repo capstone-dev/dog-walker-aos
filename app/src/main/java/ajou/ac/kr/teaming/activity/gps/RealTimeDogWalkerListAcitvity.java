@@ -1,5 +1,6 @@
 package ajou.ac.kr.teaming.activity.gps;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,20 +8,25 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
+import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsRealTimeDogwalkerService;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.DogwalkerVo;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
 
+    private RegisterVO registerVO;
     private RecyclerView dogwalkerview;
     private RealTimeDogwalkerListAdapter realTimeDogwalkerListAdapter;
 
@@ -31,6 +37,9 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
 
         dogwalkerview=findViewById(R.id.realtime_dogwalker_list);
         dogwalkerview.setLayoutManager(new LinearLayoutManager(this));
+
+        Intent intent = getIntent();
+        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
 
 
         realTimeDogwalkerListAdapter = new RealTimeDogwalkerListAdapter(this::chooseDogWalkerEvent);
@@ -76,11 +85,17 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
     /**
      * 실시간 dogwalker리스트에서 선택하였을때 일어나는 이벤트 handle
      * @param view
-     * @param dogwalkerListVo -> 선택한 도그원커
+     * @param dogwalkerListVO -> 선택한 도그원커
      */
-    private void chooseDogWalkerEvent(View view, DogwalkerListVO dogwalkerListVo) {
+    private void chooseDogWalkerEvent(View view, DogwalkerListVO dogwalkerListVO) {
+        Log.d("TEST", "onClickMessageActivity: ");
+        dogwalkerListVO.setSelect(registerVO.getUserID());
+        Intent intent = new Intent(RealTimeDogWalkerListAcitvity.this, MessageChattingMainActivity.class);
+        intent.putExtra("RegisterVO",registerVO);
+        intent.putExtra("DogwalkerListVO", dogwalkerListVO);
+        intent.putExtra("activityName","실시간도그워커");
+        startActivity(intent);
     }
-
 
     /**
      * 도그워커가 실시간 서비스를 신청하는 이벤트 handle

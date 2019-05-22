@@ -24,7 +24,7 @@ public class FirebaseMessagingService {
     private DatabaseReference databaseReference =firebaseDatabase.getReference("message");
     private ChildEventListener childEventListener;
 
-    public void initFirebaseDatabase(MessageAdapter messageAdapter,String threadUserId,String commentUserId,String systemId,String commentId) {
+    public void initFirebaseDatabase(MessageAdapter messageAdapter,String systemId,String commentId) {
 
         childEventListener = new ChildEventListener() {
             @Override
@@ -46,7 +46,7 @@ public class FirebaseMessagingService {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                String firebaseKey=dataSnapshot.getKey();
+                /*String firebaseKey=dataSnapshot.getKey();
                 int count=messageAdapter.getCount();
 
                 //메시지에 같은 firebasekey가 중복으로 있으면 삭제제
@@ -54,7 +54,7 @@ public class FirebaseMessagingService {
                     if(messageAdapter.getItem(i).firebaseKey.equals(firebaseKey)){
                         messageAdapter.remove(messageAdapter.getItem(i));
                     }
-                }
+                }*/
             }
 
             @Override

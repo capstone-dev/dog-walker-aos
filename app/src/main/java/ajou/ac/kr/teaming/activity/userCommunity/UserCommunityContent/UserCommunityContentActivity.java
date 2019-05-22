@@ -179,6 +179,7 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
         Log.d("TEST", "onClickMessageActivity: ");
         Intent intent = new Intent(UserCommunityContentActivity.this, MessageChattingMainActivity.class);
         intent.putExtra("RegisterVO",registerVO);
+        intent.putExtra("activityName","사용자커뮤니티");
         intent.putExtra("UserCommunityContentCommentVO", userCommunityContentCommentVO);
         intent.putExtra("UserCommunityThreadVO",this.userCommunityThreadVO);
         startActivity(intent);
