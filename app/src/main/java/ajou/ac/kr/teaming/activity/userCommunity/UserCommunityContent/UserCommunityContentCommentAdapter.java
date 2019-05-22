@@ -52,15 +52,14 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
         userCommunityContentCommentViewHolder.commentDate.setText(userCommunityContentCommentVO.getCommentDate().substring(0,10)+" "+
                 userCommunityContentCommentVO.getCommentDate().substring(11,16));
 
-/*
         //테스트
-        userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.VISIBLE);*/
-        if(type==1) {
+        userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.VISIBLE);
+       /* if(type==1) {
             userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.VISIBLE);
         }
         else{
             userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.INVISIBLE);
-        }
+        }*/
 
         //해당 댓글 연결 버튼 클릭시 발생 event handle
         userCommunityContentCommentViewHolder.connectMessage.setOnClickListener(v ->

@@ -2,8 +2,26 @@ package ajou.ac.kr.teaming.vo;
 
 public class ChatDataVO {
     public String firebaseKey;
-    public String userName;
+    public String userId;
     public String message;
+    public String commentId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
     public long time;
     public String opponenetId;
 
@@ -24,11 +42,11 @@ public class ChatDataVO {
     }
 
     public String getUserName() {
-        return userName;
+        return userId;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserName(String userId) {
+        this.userId = userId;
     }
 
     public String getMessage() {

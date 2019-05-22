@@ -88,12 +88,12 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         // Text 등록
         text.setText(messageList.get(position).message);
 
-        if (messageList.get(position).userName != systemUserId) {
+        if (messageList.get(position).userId != systemUserId) {
             text.setBackgroundResource(R.drawable.inbox2);
             layout.setGravity(Gravity.LEFT);
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
-        } else if (messageList.get(position).userName== systemUserId) {
+        } else if (messageList.get(position).userId== systemUserId) {
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
             viewRight.setVisibility(View.GONE);
