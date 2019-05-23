@@ -7,7 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.gps.GpsMainActivity"
-    android:background="@color/colorAccent">
+    android:background="@color/colorAccent"
+    android:id="@+id/dogwalkerGpsMain">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -53,32 +54,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/LinearButtonView"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnShowLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="위치 보여주기" />
-
-        <TextView
-            android:id="@+id/txtLat"
-            android:layout_width="120dp"
-            android:layout_height="41dp"
-            android:text="" />
-
-        <TextView
-            android:id="@+id/txtLon"
-            android:layout_width="120dp"
-            android:layout_height="41dp"
-            android:text="" />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/LinearButtonView2"
@@ -89,31 +64,21 @@
 
         <Button
             android:id="@+id/btnPostDogwalkerLocation"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="위치 서버로 전송" />
 
-        <TextView
-            android:id="@+id/txtCurrentTime"
+        <Button
+            android:id="@+id/btnImageUploadSample"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="현재시각" />
-
-        <TextView
-            android:id="@+id/txtStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="시작시각" />
+            android:text="사진업로드샘플" />
 
         <TextView
             android:id="@+id/txtWalkTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="산책시간" />
+            android:text="산책시간표시란" />
 
     </LinearLayout>
 
@@ -123,12 +88,13 @@
         android:layout_height="fill_parent"
         android:layout_weight="1">
 
-
         <ImageView
             android:id="@+id/compassIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/compass_icon"/>
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            app:srcCompat="@drawable/maps_compass_icon"/>
 
         <LinearLayout
             android:id="@+id/linearLayoutTmap"
@@ -142,9 +108,39 @@
 
 
     <LinearLayout
+        android:id="@+id/LinearButtonView"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/cardview_light_background"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txtLat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/txtgongback"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="      " />
+
+        <TextView
+            android:id="@+id/txtLon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
         <Button
             android:id="@+id/btnCallToUser"
@@ -160,5 +156,7 @@
             android:layout_weight="1"
             android:text="채팅하기" />
     </LinearLayout>
+
+
 
 </android.widget.LinearLayout>

@@ -148,6 +148,14 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
                 setGps();
                 Toast.makeText(getApplicationContext(), "위치 찾기를 실행합니다.\n검색 반경을 생성합니다.", Toast.LENGTH_LONG).show();
+                tMapGps = new TMapGpsManager(RealTimeGpsActivity.this);
+                tMapGps.setMinTime(1000);
+                tMapGps.setMinDistance(5);
+                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
+                tMapGps.OpenGps();
+                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+                tMapGps.OpenGps();
+
             }
         });
 
@@ -197,16 +205,11 @@ public class RealTimeGpsActivity extends AppCompatActivity {
          * PermissionManager 클래스에서 상속
          * 위치정보 허용기능
          * */
+/*
         permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
             @Override
             public void granted() {
-                tMapGps = new TMapGpsManager(RealTimeGpsActivity.this);
-                tMapGps.setMinTime(1000);
-                tMapGps.setMinDistance(5);
-                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
-                tMapGps.OpenGps();
-                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-                tMapGps.OpenGps();
+
             }
 
             @Override
@@ -214,6 +217,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                 Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
             }
         });
+*/
 
     }//initView
 
@@ -379,7 +383,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      */
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;
+/*            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;*/
             case R.id.btnCapture		                :   captureImage(); 		break;
             case R.id.btnEnlargeCircle                 :   EnlargeCircle();        break;
             case R.id.btnNarrowCircle                  :   NarrowCircle();         break;

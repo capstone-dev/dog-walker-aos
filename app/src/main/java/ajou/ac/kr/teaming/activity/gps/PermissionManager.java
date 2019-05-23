@@ -1,12 +1,18 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 
 import java.util.ArrayList;
-
+import static android.Manifest.permission.CAMERA;
+import static android.Manifest.permission.INTERNET;
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 /**
  * Created by JWCha on 2017-03-31.
  * dependencies 에 support-v4 추가 필요
@@ -17,6 +23,7 @@ import java.util.ArrayList;
 
 public class PermissionManager {
 
+    private static final String TAG = "PermissionManager";
     private Activity mActivity = null;
     private ArrayList<PermissionListener> alPermissionListener = new ArrayList<PermissionListener>();
 
@@ -68,4 +75,5 @@ public class PermissionManager {
             alPermissionListener.get(requestCode).denied();
         }
     }
+
 }

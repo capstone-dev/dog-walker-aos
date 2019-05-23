@@ -112,8 +112,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * 버튼 아이디 정리
      */
     private static final int[] mArrayMapButton = {
-            R.id.btnSetMapType,
-            R.id.btnGetLocationPoint,
+/*            R.id.btnSetMapType,
+            R.id.btnSetDogwalkerLocation,
             R.id.btnGetDogwalkerLocation,
             R.id.btnSetCompassMode,
             R.id.btnGetIsCompass,
@@ -128,8 +128,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             R.id.btnFindAllPoi,
             R.id.btnConvertToAddress,
             R.id.btnTileType,
+            R.id.btnMarkerPoint2*/
             R.id.btnCapture,
-            R.id.btnMarkerPoint2
     };
 
     /**
@@ -196,10 +196,10 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             @Override
             public void onClick(View v) {
                 tMapView.setTrackingMode(true);
-                tMapView.setSightVisible(true);
                 tMapView.setZoomLevel(15);
                 tMapView.setIconVisibility(true);
                 setGps();
+                Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -299,6 +299,11 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
                     android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+                1000, // 통지사이의 최소 시간간격 (miliSecond)
+                1, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
+
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
                 1000, // 통지사이의 최소 시간간격 (miliSecond)
                 1, // 통지사이의 최소 변경거리 (m)
@@ -428,7 +433,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      */
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnSetMapType		  :		setMapType(); 			break;
+/*            case R.id.btnSetMapType		  :		setMapType(); 			break;
             case R.id.btnGetDogwalkerLocation: 	getDogwalkerLocation(); 	break;
             case R.id.btnSetCompassMode	  : 	setCompassMode();		break;
             case R.id.btnGetIsCompass     :	getIsCompass();			break;
@@ -443,8 +448,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
             case R.id.btnGetCenterPoint   :     getCenterPoint();		break;
             case R.id.btnConvertToAddress :    convertToAddress(); 	break;
             case R.id.btnTileType		  : 	setTileType();			break;
+            case R.id.btnMarkerPoint2    :    showMarkerPoint2();     break;*/
             case R.id.btnCapture		  :     captureImage(); 		break;
-            case R.id.btnMarkerPoint2    :    showMarkerPoint2();     break;
         }
     }
 
@@ -985,9 +990,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
      * 도그워커의 좌표의 위도, 경도를 서버로부터 받아온다.
      */
     public void getDogwalkerLocation() {
-
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetDogwalkerLocation(m_Latitude,m_Longitude);
+        Call<GpsVo> call = gpsService.doGetDogwalkerLocation();
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
@@ -1007,8 +1011,9 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
                     Log.d("TEST", "onResponse: " + gpsVo.getStartDogwalkerLongitude());
                     Log.d("TEST", "onResponse: " + gpsVo.getEndDogwalkerLatitude());
                     Log.d("TEST", "onResponse: " + gpsVo.getEndDogwalkerLongitude());
-                    Log.d("TEST", "onResponse: " + gpsVo.getStartTime());
-                    Log.d("TEST", "onResponse: " + gpsVo.getEndTime());
+                    Log.d("TEST", "onResponse: " + gpsVo.getWalkDistance());
+                    Log.d("TEST", "onResponse: " + gpsVo.getStart_time());
+                    Log.d("TEST", "onResponse: " + gpsVo.getEnd_time());
                     Log.d("TEST", "onResponse: " + gpsVo.getWalkTime());
 
                     tMapView.setLocationPoint(gpsVo.getDogwalkerLatitude(), gpsVo.getDogwalkerLongitude());
