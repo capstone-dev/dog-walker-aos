@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.login.MyPetActivity">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/MyPet_Function"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFEABD3E"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:text="MyPet 조회"
+            android:gravity="center"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/MyPet_Functio"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/layout_border"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MyPet_Function">
+
+        <TextView
+            android:id="@+id/dog_name_form"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:padding="6dp"
+            android:text="이름"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="@+id/MyPet_Functio"
+            tools:ignore="MissingConstraints" />
+
+
+        <TextView
+            android:id="@+id/dog_type_form"
+            android:layout_width="180dp"
+            android:layout_height="30dp"
+            android:padding="6dp"
+            android:text="종"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/dog_name_form"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/_form"
+            android:layout_width="110dp"
+            android:layout_height="30dp"
+            android:padding="6dp"
+            android:text="나이"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/dog_type_form"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:ignore="MissingConstraints" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/MyPet_Functi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/MyPet_Functio"
+        app:layout_constraintTop_toBottomOf="@id/MyPet_Functio">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/MyPet_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:ignore="MissingConstraints"
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/MyPet_Funct"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/layout_border"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/MyPet_Functi">
+
+        <Button
+            android:id="@+id/MyPetRegisterButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="161dp"
+            tools:layout_editor_absoluteY="0dp"
+            tools:ignore="MissingConstraints"
+            android:background="#FFEABD3E"
+            android:text="MyPet 추가등록"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+</android.support.constraint.ConstraintLayout>
