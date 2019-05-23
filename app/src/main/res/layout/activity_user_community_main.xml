@@ -29,6 +29,7 @@
 
     </LinearLayout>
 
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -36,9 +37,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/main_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/main_bar">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -49,8 +50,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
-                android:padding="4dp"
                 android:layout_marginBottom="10dp"
+                android:padding="4dp"
                 app:layout_constraintBottom_toTopOf="@+id/user_community_form"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -151,11 +152,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/layout_border"
+                    android:nestedScrollingEnabled="false"
                     android:orientation="vertical"
                     android:visibility="visible"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    tools:ignore="MissingConstraints"
-                    android:nestedScrollingEnabled="false">
+                    tools:ignore="MissingConstraints">
 
                 </android.support.v7.widget.RecyclerView>
 
@@ -178,9 +179,9 @@
                         android:layout_marginTop="5dp"
                         android:text="검색어"
                         android:textSize="12sp"
+                        app:layout_constraintLeft_toLeftOf="@id/thread_search"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toLeftOf="@id/thread_search"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/thread_search_edit_text"
@@ -211,6 +212,5 @@
             </android.support.constraint.ConstraintLayout>
 
         </android.support.constraint.ConstraintLayout>
-
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

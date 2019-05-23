@@ -42,6 +42,9 @@ public class ServiceSubmitActivity extends Activity {
     private EditText walkingTime;
     private TextView totalCost;
 
+    private String uploadCost;
+    private String uploadTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,8 +99,8 @@ public class ServiceSubmitActivity extends Activity {
 
         HashMap<String, Object> inputService = new HashMap<>();
         //post할 serviceVO값 넣기
-        inputService.put("price", serviceCost);
-        inputService.put("walkingTime", walkingTime);
+        inputService.put("price", uploadCost);
+        inputService.put("walkingTime", uploadTime);
 
         if(activityName.equals("사용자커뮤니티")) {
             inputService.put("user_UserID", userCommunityContentCommentVO.getUser_UserID());
@@ -111,7 +114,7 @@ public class ServiceSubmitActivity extends Activity {
         else if(activityName.equals("실시간도그워커")){
             inputService.put("user_UserID",registerVO.getUserID());
             inputService.put("user_DogwalkerID",dogwalkerListVO.getDogwalkerID());
-            inputService.put("serviceLocation",serviceLocation);
+            inputService.put("serviceLocation",((TextView)serviceLocation).getText().toString());
 
             inputService.put("peopleNumber","1");
         }
@@ -163,7 +166,8 @@ public class ServiceSubmitActivity extends Activity {
         int cost = Integer.parseInt(String.valueOf(serviceCost.getText()));
         int time = Integer.parseInt(String.valueOf(serviceTime.getText()));
 
-
         totalCost.setText("총 금액: " + String.valueOf(cost * time) + "원");
+        uploadCost= ((TextView)totalCost).getText().toString();
+        uploadTime= ((EditText)walkingTime).getText().toString();
     }
 }
