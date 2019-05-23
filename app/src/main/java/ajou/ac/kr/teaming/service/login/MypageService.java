@@ -10,5 +10,5 @@ import retrofit2.http.Query;
 public interface MypageService {
 
     @GET("/signUp")   //thread?UserId=summy
-    Call<List<RegisterVO>> getsignUP(@Query("UserID") String UserID);
+    Call<RegisterVO> getsignUP(@Query("UserID") String UserID);
 }

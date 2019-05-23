@@ -70,7 +70,7 @@ public class LoginMainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginIntent = new Intent(LoginMainActivity.this, RegisterActivity.class);
+                Intent loginIntent = new Intent(LoginMainActivity.this, DogwalkerRegister.class);
 
 
                 LoginMainActivity.this.startActivity(loginIntent);
@@ -119,6 +119,7 @@ public class LoginMainActivity extends AppCompatActivity {
                 public void onFailure(Call<RegisterVO> call, Throwable t) {
                     Log.d("TEST", "통신 실패");
                     Toast.makeText(LoginMainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+
 
                 }
             });

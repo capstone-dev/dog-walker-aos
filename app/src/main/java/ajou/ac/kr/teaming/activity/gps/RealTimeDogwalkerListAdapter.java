@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
-import ajou.ac.kr.teaming.vo.DogwalkerVo;
 
 /**
  * 사용자 커뮤니티 게시글 리스트 recycler view
