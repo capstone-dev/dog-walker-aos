@@ -2,7 +2,7 @@ package ajou.ac.kr.teaming.vo;
 
 import android.media.Image;
 
-public class DogwalkerVo {
+public class DogwalkerVO {
 
     private String UserID;
     private String UserName;
@@ -10,9 +10,9 @@ public class DogwalkerVo {
     private String UserGender;
     private String UserPhoneNumber;
     private String UserBigcity;
-    private String UserSmallcity;
-    private String Userdate;
-    private String UserTime;
+    private String[] UserSmallcity;
+    private String[] Userdate;
+    private String[] UserTime;
 
 
     public String getUserID() {
@@ -63,29 +63,27 @@ public class DogwalkerVo {
         UserBigcity = userBigcity;
     }
 
-    public String getUserTime() {
+    public String[] getUserTime() {
         return UserTime;
     }
 
-    public void setUserTime(String userTime) {
+    public void setUserTime(String[] userTime) {
         UserTime = userTime;
     }
 
-    public String getUserSmallcity() {
+    public String[] getUserSmallcity() {
         return UserSmallcity;
     }
 
-    public void setUserSmallcity(String userSmallcity) {
+    public void setUserSmallcity(String[] userSmallcity) {
         UserSmallcity = userSmallcity;
     }
 
-    public String getUserdate() {
+    public String[] getUserdate() {
         return Userdate;
     }
 
-    public void setUserdate(String userdate) {
-        Userdate = userdate;
-    }
+    public void setUserdate(String[] userdate) { Userdate = userdate; }
 
 }
 
