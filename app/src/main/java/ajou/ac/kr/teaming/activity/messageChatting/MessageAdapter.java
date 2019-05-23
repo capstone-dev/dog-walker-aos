@@ -108,7 +108,6 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         timeRight.setText(messageList.get(position).time);
 
         if (!messageList.get(position).userId.equals(systemUserId)) {
-            Log.d("TEST", "MESSAGE1: "+messageList.get(position).message);
             text.setBackgroundResource(R.drawable.inbox2);
             idRight.setVisibility(View.GONE);
             timeRight.setVisibility(View.GONE);
@@ -116,8 +115,6 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
             viewRight.setVisibility(View.GONE);
             viewLeft.setVisibility(View.GONE);
         } else if (messageList.get(position).userId.equals(systemUserId)) {
-
-            Log.d("TEST", "MESSAGE2: "+messageList.get(position).message);
             text.setBackgroundResource(R.drawable.outbox2);
             layout.setGravity(Gravity.RIGHT);
             idLeft.setVisibility(View.GONE);
@@ -134,13 +131,11 @@ public class MessageAdapter extends ArrayAdapter<ChatDataVO> {
         // 리스트 아이템을 터치 했을 때 이벤트 발생
         convertView.setOnClickListener(v -> {
             // 터치 시 해당 아이템 이름 출력
-            Toast.makeText(context, "리스트 클릭 : " + messageList.get(pos), Toast.LENGTH_SHORT).show();
         });
 
         // 리스트 아이템을 길게 터치 했을때 이벤트 발생
         convertView.setOnLongClickListener(v -> {
             // 터치 시 해당 아이템 이름 출력
-            Toast.makeText(context, "리스트 롱 클릭 : " + messageList.get(pos), Toast.LENGTH_SHORT).show();
             return true;
         });
 

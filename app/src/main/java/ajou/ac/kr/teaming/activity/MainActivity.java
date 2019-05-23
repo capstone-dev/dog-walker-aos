@@ -20,8 +20,10 @@ import android.widget.Toast;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
+import ajou.ac.kr.teaming.activity.login.MyPetActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
 import ajou.ac.kr.teaming.service.gallery.GalleryService;
@@ -126,19 +128,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_my) {
 
-            Intent my = new Intent(MainActivity.this, MyActivity.class);
-            intent.putExtra("RegisterVO", registerVO);
+            Intent my = new Intent(MainActivity.this, DogwalkerRegister.class);
             startActivity(my);
+
+
         } else if (id == R.id.user_community) {
 
             Intent fintent = new Intent(MainActivity.this, UserCommunityMainActivity.class);
             fintent.putExtra("RegisterVO", registerVO);
             startActivity(fintent);
 
-
-        } else if (id == R.id.nav_history) {
-
-        } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_gps) {
 
@@ -148,7 +147,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_dogwalker_gps) {
 
             intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
-        } else if (id == R.id.nav_logout) {
+
+
+        }else if(id==R.id.nav_puppy){
+
+            Intent vintent = new Intent(MainActivity.this, MyPetActivity.class);
+            vintent.putExtra("RegisterVO", registerVO);
+            startActivity(vintent);
+
+
+
+        }else if (id == R.id.nav_logout) {
 
             Intent logout = new Intent(MainActivity.this, LoginMainActivity.class);
             logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -156,6 +165,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         }
+
+
+
+
+
         if (intent != null) {
             startActivity(intent);
 

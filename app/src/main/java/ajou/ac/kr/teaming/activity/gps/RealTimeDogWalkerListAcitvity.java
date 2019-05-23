@@ -8,17 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
-import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsRealTimeDogwalkerService;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
-import ajou.ac.kr.teaming.vo.DogwalkerVo;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import retrofit2.Call;
 import retrofit2.Callback;

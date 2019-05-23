@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -23,8 +24,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.PermissionManager;
@@ -34,20 +40,18 @@ public class DogwalkerRegister extends AppCompatActivity {
 
     private static final int FROM_CAMERA=0;
     private static final int FROM_ALBUM=1;
+    private Uri imgUri, photoURI, albumURI;
+    private String mCurrentPhotoPath;
 
 
-    Button upButton;
     Button DogwalkerRegisterButton;
     TextView idText;
     TextView BigcityText;
     EditText siText;
-    EditText Dong1Text,Dong3Text,Dong2Text;
-    Spinner Time3Spinner,Time1Spinner,Time2Spinner;
-    ArrayAdapter<CharSequence> adapter1,adapter2,adapter3;
+    EditText Dong1Text, Dong3Text, Dong2Text;
+    Spinner Time3Spinner, Time1Spinner, Time2Spinner;
+    ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
     ImageView DogwalkerImage;
-    private Uri imgUri, photoURI, albumURI;
-    private String mCurrentPhotoPath;
-
 
 
     @Override
@@ -55,7 +59,42 @@ public class DogwalkerRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dogwalker_register);
 
-        Time1Spinner = (Spinner) findViewById(R.id.Time1Spinner);
+
+        idText = (TextView) findViewById(R.id.idText);
+        BigcityText = (TextView) findViewById(R.id.BigcityText);
+        DogwalkerRegisterButton = (Button) findViewById(R.id.DogwalkerRegisterButton);
+        siText = (EditText) findViewById(R.id.siText);
+        Dong1Text = (EditText) findViewById(R.id.Dong1Text);
+        Dong2Text = (EditText) findViewById(R.id.Dong2Text);
+        Dong3Text = (EditText) findViewById(R.id.Dong3Text);
+        DogwalkerImage = (ImageView) findViewById(R.id.DogwalkerImage);
+
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+
+                Toast.makeText(DogwalkerRegister.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+
+                Toast.makeText(DogwalkerRegister.this,"권한실패"+ deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionListener)
+                .setDeniedMessage("정상서비스를 받으시려면 권한을 승인해 주세요")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+                .check();
+
+
+
+
+       Time1Spinner = (Spinner) findViewById(R.id.Time1Spinner);
         adapter1 = ArrayAdapter.createFromResource(this, R.array.Time, android.R.layout.simple_spinner_dropdown_item);
         Time1Spinner.setAdapter(adapter3);
 
@@ -67,38 +106,7 @@ public class DogwalkerRegister extends AppCompatActivity {
         adapter3 = ArrayAdapter.createFromResource(this, R.array.Time, android.R.layout.simple_spinner_dropdown_item);
         Time3Spinner.setAdapter(adapter3);
 
-
-        idText = (TextView) findViewById(R.id.idText);
-        BigcityText = (TextView) findViewById(R.id.BigcityText);
-        upButton = (Button) findViewById(R.id.upButton);
-        DogwalkerRegisterButton = (Button) findViewById(R.id.DogwalkerRegisterButton);
-        siText = (EditText) findViewById(R.id.siText);
-        Dong1Text = (EditText) findViewById(R.id.Dong1Text);
-        Dong2Text = (EditText) findViewById(R.id.Dong2Text);
-        Dong3Text = (EditText) findViewById(R.id.Dong3Text);
-        DogwalkerImage=(ImageView)findViewById(R.id.DogwalkerImage);
-
-
-        PermissionManager.PermissionListener permissionListener = new PermissionManager.PermissionListener() {
-            @Override
-            public void granted() {
-                Toast.makeText(DogwalkerRegister.this, "Permission Granted", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void denied() {
-                Toast.makeText(DogwalkerRegister.this, "Permission denied", Toast.LENGTH_SHORT).show();
-            }
-
-        };
-
-
-
-
-
-
-
-        upButton.setOnClickListener(new View.OnClickListener() {
+        DogwalkerImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 makeDialog();

@@ -13,18 +13,9 @@
             android:icon="@drawable/ic_menu_send"
             android:title="예약하기" />
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="사진첩" />
-        <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/ic_menu_share"
-            android:title="이용 기록" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="사용자 설정" />
-
+            android:id="@+id/nav_puppy"
+            android:icon="@drawable/puppy"
+            android:title="Mypet" />
         <item
             android:id="@+id/user_community"
             android:icon="@drawable/ic_people_black_24dp"

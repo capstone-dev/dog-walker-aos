@@ -61,7 +61,6 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
         if(checkThreadRegisterForm(threadTitle,userLocation,threadNumber,threadContent)) {
 
             //inputThread에 post해죽기 위해 값을 넣음.
-            Log.d("TEST", "onClickSubmitButton: USERID "+registerVO.getUserID());
             inputThread.put("user_UserID", registerVO.getUserID());
             inputThread.put("threadTitle", threadTitle);
             inputThread.put("userLocation", userLocation);
@@ -77,21 +76,18 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
                     // 성공시
                     if (response.isSuccessful()) {
                         UserCommunityThreadVO userCommunityThreadVOs = response.body();
-                        Log.d("TEST", "onResponseBODY: "+response.body());
                         //테스트 확인 log값
                        if (userCommunityThreadVOs != null) {
                             Log.d("TEST", userCommunityThreadVOs.getUser_UserID());
-                            Log.d("TEST", userCommunityThreadVOs.getThreadDate());
-                            Log.d("TEST", userCommunityThreadVOs.getContent());
                         }
                     }
-                    Log.d("TEST", "onResponse:END ");
+                    Log.d("TEST", "등록 성공 ");
                 }
 
                 @Override
                 public void onFailure(Call<UserCommunityThreadVO> call, Throwable t) {
                     //실패시
-                    Log.d("TEST", "통신 실패");
+                    Log.d("TEST", "등록 실패");
                 }
             });
 

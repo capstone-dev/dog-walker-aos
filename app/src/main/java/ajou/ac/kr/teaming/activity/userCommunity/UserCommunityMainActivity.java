@@ -69,12 +69,12 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
                     }
                     userCommunityThreadAdapter.addThread(userCommunityThreadList);
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "게시글 통신 성공");
             }
             @Override
             public void onFailure(Call<List<UserCommunityThreadVO>> call, Throwable t) {
                 //실패시
-                Log.d("TEST", "통신 실패");
+                Log.d("TEST", "게시글 통신 실패");
             }
         });
     }

@@ -39,7 +39,6 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
     @NonNull
     @Override
     public UserCommunityThreadViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        Log.d("TEST", "onCreate thread : ");
         return new UserCommunityThreadViewHolder(LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.user_community_thread,viewGroup,false));
     }
@@ -67,7 +66,6 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
     }
 
     public void addThread(ArrayList<UserCommunityThreadVO> userCommunityThreadVOList) {
-        Log.d("TEST", "addThread: ");
         userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
         notifyDataSetChanged();
     }

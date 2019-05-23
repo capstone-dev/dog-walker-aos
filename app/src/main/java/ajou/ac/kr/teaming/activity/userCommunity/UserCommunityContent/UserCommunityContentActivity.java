@@ -62,7 +62,6 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
         Intent intent = getIntent();
         userCommunityThreadVO=(UserCommunityThreadVO) intent.getSerializableExtra("userCommunityThreadVO");
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
-        Log.d("TEST", "onCreate:확인 "+registerVO.getUserID());
 
         userId.setText(userCommunityThreadVO.getUser_UserID());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
@@ -95,18 +94,16 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
                 if(userCommunityContentCommentVOS!=null){
                     for (UserCommunityContentCommentVO userCommunityContentCommentVO:userCommunityContentCommentVOS){
                         //서버로 부터 읽어드린 댓글 리스트를 전부 adapter 에 저장
-
                         userCommunityCommentVOArrayList.add(userCommunityContentCommentVO);
-                        Log.d("TEST", "onResponse: "+userCommunityContentCommentVO.getCommentContent());
                     }
                     userCommunityContentCommentAdapter.addCommentList(userCommunityCommentVOArrayList,registerVO,userCommunityThreadVO);
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "댓글 리스트 post 성공 ");
             }
             @Override
             public void onFailure(Call<List<UserCommunityContentCommentVO>> call, Throwable t) {
                 //실패시
-                Log.d("TEST", "통신 실패");
+                Log.d("TEST", "댓글 불러오기 실패");
             }
         });
     }
@@ -147,20 +144,17 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
                 // 성공시
                 if(response.isSuccessful()){
                     UserCommunityContentCommentVO userCommunityContentCommentVO = response.body();
-                    Log.d("TEST", "CONTENT TEST onResponse: "+userCommunityContentCommentVO);
                     //테스트 확인 log값
                     if(userCommunityContentCommentVO!=null){
                         Log.d("TEST", userCommunityContentCommentVO.getUser_UserID());
-                        Log.d("TEST", userCommunityContentCommentVO.getCommentDate());
-                        Log.d("TEST", userCommunityContentCommentVO.getCommentContent());
                     }
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "댓글 남기기 성공");
             }
             @Override
             public void onFailure(Call<UserCommunityContentCommentVO> call, Throwable t) {
                 //실패시
-                Log.d("TEST", "통신 실패");
+                Log.d("TEST", "댓글 남기기 실패");
             }
         });
         setCommentList();
@@ -174,7 +168,6 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
     @Override
     public void matchMessageUserEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO) {
         //메시지 연결
-        Log.d("TEST", "onClickMessageActivity: ");
         Intent intent = new Intent(UserCommunityContentActivity.this, MessageChattingMainActivity.class);
         intent.putExtra("RegisterVO",registerVO);
         intent.putExtra("activityName","사용자커뮤니티");
