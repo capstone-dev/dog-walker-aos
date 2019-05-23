@@ -30,7 +30,9 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
     private RecyclerView dogwalkerview;
     private RealTimeDogwalkerListAdapter realTimeDogwalkerListAdapter;
 
-    @Override
+    //테스트용 야매
+
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_time_dog_walker_acitvity);
