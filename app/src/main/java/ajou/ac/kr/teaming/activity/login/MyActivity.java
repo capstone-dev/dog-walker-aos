@@ -100,6 +100,8 @@ public class MyActivity extends AppCompatActivity {
         Call<RegisterVO> call=loginService.DoLogin(userid,userpassword);
         call.enqueue(new Callback<RegisterVO>() {
             @Override
+
+
             public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
                 if(response.isSuccessful()){
                     RegisterVO registerVO=response.body();
