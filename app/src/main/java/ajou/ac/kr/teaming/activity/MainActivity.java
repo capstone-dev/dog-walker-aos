@@ -24,6 +24,7 @@ import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.login.MyPetActivity;
+import ajou.ac.kr.teaming.activity.myService.MyServiceMainActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
 import ajou.ac.kr.teaming.service.gallery.GalleryService;
@@ -164,6 +165,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(logout);
 
 
+        }else if(id==R.id.my_service){
+            Intent service=new Intent(MainActivity.this, MyServiceMainActivity.class);
+            service.putExtra("RegisterVO",registerVO);
+            startActivity(service);
         }
 
 
