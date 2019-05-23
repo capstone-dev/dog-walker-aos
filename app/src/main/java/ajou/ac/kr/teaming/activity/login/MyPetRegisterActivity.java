@@ -3,6 +3,8 @@ package ajou.ac.kr.teaming.activity.login;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -23,22 +25,35 @@ import android.widget.Toast;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.login.LoginService;
 import ajou.ac.kr.teaming.service.login.MyPetService;
+import ajou.ac.kr.teaming.vo.GpsVo;
+import ajou.ac.kr.teaming.vo.MyPetVO;
+import ajou.ac.kr.teaming.vo.RegisterVO;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyPetRegisterActivity extends AppCompatActivity {
 
-    private static final int FROM_CAMERA=0;
-    private static final int FROM_ALBUM=1;
+    private static final int FROM_CAMERA = 0;
+    private static final int FROM_ALBUM = 1;
     private Uri imgUri, photoURI, albumURI;
     private String mCurrentPhotoPath;
+
+
 
 
     Button MypetRegisterButton;
@@ -49,10 +64,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
     ArrayAdapter<CharSequence> adapter;
     ImageView MyPetImage;
     MyPetService MyPetService;
-
-
-
-
+    RegisterVO registerVO;
 
 
     @Override
@@ -64,16 +76,12 @@ public class MyPetRegisterActivity extends AppCompatActivity {
         ageSinner = (Spinner) findViewById(R.id.ageSinner);
         adapter = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
         ageSinner.setAdapter(adapter);
-        idText= (EditText) findViewById(R.id.idText);
-        Mypet_name_Text= (EditText) findViewById(R.id.Mypet_name_Text);
+        idText = (TextView) findViewById(R.id.idText);
+        Mypet_name_Text = (EditText) findViewById(R.id.Mypet_name_Text);
         typeText = (EditText) findViewById(R.id.Mypet_name_Text);
         MypetRegisterButton = (Button) findViewById(R.id.MypetRegisterButton);
         MyPetImage = (ImageView) findViewById(R.id.MyPetImage);
-
         MyPetService = ServiceBuilder.create(MyPetService.class);
-
-
-
 
 
         PermissionListener permissionListener = new PermissionListener() {
@@ -87,7 +95,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
             @Override
             public void onPermissionDenied(List<String> deniedPermissions) {
 
-                Toast.makeText(MyPetRegisterActivity.this,"권한실패"+ deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyPetRegisterActivity.this, "권한실패" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
 
             }
         };
@@ -108,8 +116,8 @@ public class MyPetRegisterActivity extends AppCompatActivity {
     }
 
 
-    public void makeDialog(){
-        AlertDialog.Builder alt_bld=new AlertDialog.Builder(MyPetRegisterActivity.this,R.style.popupTheme);
+    public void makeDialog() {
+        AlertDialog.Builder alt_bld = new AlertDialog.Builder(MyPetRegisterActivity.this, R.style.popupTheme);
         alt_bld.setTitle("사진업로드").setIcon(R.drawable.ic_local_see_black_24dp).setCancelable(false).setPositiveButton("사진촬영",
 
                 new DialogInterface.OnClickListener() {
@@ -160,7 +168,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
     }
 
-    public void takePhoto(){
+    public void takePhoto() {
 
         // 촬영 후 이미지 가져옴
 
@@ -169,27 +177,27 @@ public class MyPetRegisterActivity extends AppCompatActivity {
         //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
 
-        if(Environment.MEDIA_MOUNTED.equals(state)){
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-            if(intent.resolveActivity(getPackageManager())!=null){
+            if (intent.resolveActivity(getPackageManager()) != null) {
 
                 File photoFile = null;
 
-                try{
+                try {
 
                     photoFile = createImageFile();
 
-                }catch (IOException e){
+                } catch (IOException e) {
 
                     e.printStackTrace();
 
                 }
 
-                if(photoFile!=null){
+                if (photoFile != null) {
 
-                    Uri providerURI = FileProvider.getUriForFile(this,getPackageName(),photoFile);
+                    Uri providerURI = FileProvider.getUriForFile(this, getPackageName(), photoFile);
 
                     imgUri = providerURI;
 
@@ -201,7 +209,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
             }
 
-        }else{
+        } else {
 
             Log.v("알림", "저장공간에 접근 불가능");
 
@@ -213,27 +221,26 @@ public class MyPetRegisterActivity extends AppCompatActivity {
     }
 
 
-    public File createImageFile() throws IOException{
+    public File createImageFile() throws IOException {
 
         String imgFileName = System.currentTimeMillis() + ".jpg";
 
-        File imageFile= null;
+        File imageFile = null;
 
         File storageDir = new File(Environment.getExternalStorageDirectory() + "/Pictures", "ireh");
 
 
+        if (!storageDir.exists()) {
 
-        if(!storageDir.exists()){
-
-            Log.v("알림","storageDir 존재 x " + storageDir.toString());
+            Log.v("알림", "storageDir 존재 x " + storageDir.toString());
 
             storageDir.mkdirs();
 
         }
 
-        Log.v("알림","storageDir 존재함 " + storageDir.toString());
+        Log.v("알림", "storageDir 존재함 " + storageDir.toString());
 
-        imageFile = new File(storageDir,imgFileName);
+        imageFile = new File(storageDir, imgFileName);
 
         mCurrentPhotoPath = imageFile.getAbsolutePath();
 
@@ -245,7 +252,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
     //앨범 선택 클릭
 
-    public void selectAlbum(){
+    public void selectAlbum() {
 
         //앨범에서 이미지 가져옴
 
@@ -265,7 +272,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
     }
 
 
-    public void galleryAddPic(){
+    public void galleryAddPic() {
 
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
 
@@ -277,10 +284,9 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
         sendBroadcast(mediaScanIntent);
 
-        Toast.makeText(this,"사진이 저장되었습니다",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "사진이 저장되었습니다", Toast.LENGTH_SHORT).show();
 
     }
-
 
 
     @Override
@@ -290,21 +296,21 @@ public class MyPetRegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
 
-        if(resultCode != RESULT_OK){
+        if (resultCode != RESULT_OK) {
 
             return;
 
         }
 
-        switch (requestCode){
+        switch (requestCode) {
 
-            case FROM_ALBUM : {
+            case FROM_ALBUM: {
 
                 //앨범에서 가져오기
 
-                if(data.getData()!=null){
+                if (data.getData() != null) {
 
-                    try{
+                    try {
 
                         File albumFile = null;
 
@@ -322,11 +328,11 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
                         //cropImage();
 
-                    }catch (Exception e){
+                    } catch (Exception e) {
 
                         e.printStackTrace();
 
-                        Log.v("알림","앨범에서 가져오기 에러");
+                        Log.v("알림", "앨범에서 가져오기 에러");
 
                     }
 
@@ -336,11 +342,11 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
             }
 
-            case FROM_CAMERA : {
+            case FROM_CAMERA: {
 
                 //카메라 촬영
 
-                try{
+                try {
 
                     Log.v("알림", "FROM_CAMERA 처리");
 
@@ -348,7 +354,7 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
                     MyPetImage.setImageURI(imgUri);
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                     e.printStackTrace();
 
@@ -360,13 +366,71 @@ public class MyPetRegisterActivity extends AppCompatActivity {
 
         }
 
+
+        Intent intent = getIntent();
+        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
+        idText.setText(registerVO.getUserID());
+
+        MypetRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String userid = registerVO.getUserID();
+                String dogname = Mypet_name_Text.getText().toString();
+                String dog_species = typeText.getText().toString();
+                String dog_age=ageSinner.getSelectedItem().toString();
+
+                ImageView Mypet = findViewById(R.id.MyPetImage);
+
+                Bitmap bitmap = ((BitmapDrawable) MyPetImage.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] dataArray = baos.toByteArray();
+
+
+
+                RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
+
+                Map<String, RequestBody> mypet = new HashMap<>();
+                mypet.put("fileUpload\"; filename=\"photo.png", fileBody);
+                mypet.put("UserID",RequestBody.create(MediaType.get("Text"),userid));
+                mypet.put("dog_species",RequestBody.create(MediaType.get("Text"),dog_species));
+                mypet.put("dog_age",RequestBody.create(MediaType.get("Text"),dog_age));
+
+
+
+                Call<MyPetVO> call = MyPetService.postObjectData(mypet);
+
+               call.enqueue(new Callback<MyPetVO>() {
+                   @Override
+                   public void onResponse(Call<MyPetVO> call, Response<MyPetVO> response) {
+                       MyPetVO myPetVO = response.body();
+
+                       Log.d("TEST", "" + myPetVO.getDog_age());
+                       Log.d("TEST", "" + myPetVO.getDog_name());
+                       Log.d("TEST", "" + myPetVO.getDog_species());
+                       Log.d("TEST", "" + myPetVO.getUserID());
+
+
+
+
+                   }
+
+                   @Override
+                   public void onFailure(Call<MyPetVO> call, Throwable t) {
+
+                       Log.d("TEST", "통신 실패");
+
+
+                   }
+               });
+
+            }
+        });
+
+
     }
-
-
-
-
-
-
 }
+
 
 
