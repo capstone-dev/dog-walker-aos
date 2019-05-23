@@ -97,7 +97,7 @@ public class CameraMainFragment extends Fragment {
         super.onResume();
         Log.e(TAG, "OnResume");
 
-        startBackgourdThread();
+        startBackgroundThread();
 
         if (textureView.isAvailable()) {
             openCamera();
@@ -111,7 +111,7 @@ public class CameraMainFragment extends Fragment {
         Log.e(TAG, "onPause");
 
         //closeCamera();
-        stopBackgroudThread();
+        stopBackgroundThread();
 
         super.onPause();
     }
@@ -127,7 +127,7 @@ public class CameraMainFragment extends Fragment {
         startActivity(intent); //이미지를
     }
 
-    public void savePhoto() {
+   /* public void savePhoto() {
         ImageReader reader = ImageReader.newInstance(textureView.getBitmap().getWidth(), textureView.getBitmap().getHeight(), ImageFormat.JPEG, 1);
 
         List<Surface> outputSurfaces = new ArrayList<>(2);
@@ -139,8 +139,8 @@ public class CameraMainFragment extends Fragment {
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
 
-        int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-        captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
+            int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+            captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATIONS.get(rotation));
 
             final File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
             reader.setOnImageAvailableListener(new ImageReader.OnImageAvailableListener() {
@@ -185,7 +185,7 @@ public class CameraMainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @SuppressLint("MissingPermission")
     private void openCamera() {
@@ -264,13 +264,13 @@ public class CameraMainFragment extends Fragment {
         }
     }
 
-    private void startBackgourdThread() {
+    private void startBackgroundThread() {
         backgroudThread = new HandlerThread("camera backgroud");
         backgroudThread.start();
         backgroudHandler = new Handler(backgroudThread.getLooper());
     }
 
-    private void stopBackgroudThread() {
+    private void stopBackgroundThread() {
         backgroudThread.quitSafely();
         try {
             backgroudThread.join();
