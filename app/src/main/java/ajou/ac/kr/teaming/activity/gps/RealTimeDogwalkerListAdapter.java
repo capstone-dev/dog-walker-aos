@@ -59,11 +59,14 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
         realTimeDogWalkerViewHolder.smallCity.setText(dogwalkerListVo.getDogwalkerSmallcity());
         realTimeDogWalkerViewHolder.gender.setText(dogwalkerListVo.getDogWalkerGender());
         //해당 게시글 constraintLayout 클릭시 발생 event handle
+        if(!dogwalkerListVo.getSelect().equals("0")){
+            realTimeDogWalkerViewHolder.constraintLayout.setBackgroundColor(Color.rgb(139,137,137));
+        }
+
         realTimeDogWalkerViewHolder.constraintLayout.setOnClickListener(v ->{
                 onItemClickListener.chooseDogWalkerEvent(v, dogwalkerVoArrayList.get(i));
                 realTimeDogWalkerViewHolder.constraintLayout.setBackgroundColor(Color.rgb(139,137,137));
         });
-
     }
 
     @Override
@@ -89,6 +92,7 @@ class RealTimeDogWalkerViewHolder extends RecyclerView.ViewHolder {
     TextView smallCity;
     TextView gender;
     ConstraintLayout constraintLayout;
+    String selected;
 
     public RealTimeDogWalkerViewHolder(@NonNull View itemView) {
         super(itemView);

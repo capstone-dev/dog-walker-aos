@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class MessageChattingMainActivity extends Activity {
     private UserCommunityThreadVO userCommunityThreadVO;
     private TextView userIdTextView;
     private String activityName;
+    private Button submitService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +40,15 @@ public class MessageChattingMainActivity extends Activity {
         registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
         activityName = intent.getExtras().getString("activityName");
 
+        submitService=findViewById(R.id.submit_service);
+
         if(activityName.equals("사용자커뮤니티")) {
             userCommunityContentCommentVO = (UserCommunityContentCommentVO) intent.getSerializableExtra("UserCommunityContentCommentVO");
             userCommunityThreadVO = (UserCommunityThreadVO) intent.getSerializableExtra("UserCommunityThreadVO");
 
             //커뮤니티에서 메시지 연결시 해당 커뮤니티 게시글 댓글 사용자 ID 받아옴
             userIdTextView = (TextView) findViewById(R.id.user_id);
+            submitService.setVisibility(View.GONE);
 
             if (registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) {
                 userIdTextView.setText(userCommunityContentCommentVO.getUser_UserID() + "님과의 채팅");
@@ -55,6 +60,8 @@ public class MessageChattingMainActivity extends Activity {
             dogwalkerListVO=(DogwalkerListVO) intent.getSerializableExtra("DogwalkerListVO");
             userIdTextView = (TextView) findViewById(R.id.user_id);
 
+
+            submitService.setVisibility(View.VISIBLE);
             if (registerVO.getUserID().equals(dogwalkerListVO.getDogwalkerID())) {
                 userIdTextView.setText(dogwalkerListVO.getSelect() + "님과의 채팅");
             } else if (registerVO.getUserID().equals(dogwalkerListVO.getSelect())){
@@ -69,6 +76,7 @@ public class MessageChattingMainActivity extends Activity {
 
         //파이어 베이스 메시징 서비스 이벤트 처리
         if(activityName.equals("사용자커뮤니티")) {
+
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
             firebaseMessagingService.initFirebaseDatabase(messageAdapter,  registerVO.getUserID(), userCommunityContentCommentVO.getCommentId());
 

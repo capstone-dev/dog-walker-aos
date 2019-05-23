@@ -27,9 +27,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/popupTheme" />
         <activity android:name=".activity.reservation.SearchResultActivity" />
-        <activity android:name=".activity.gps.RealTimeGpsActivity" />
+        <activity android:name=".activity.gps.RealTimeGpsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.gps.DogwalkerGpsActivity" />
-        <activity android:name=".activity.reservation.ReservationActivity" />
+        <activity android:name=".activity.reservation.ReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.login.MyPageActivity" />
         <activity android:name=".activity.login.MyActivity" />
         <activity android:name=".activity.reservation.SearchActivity" />
@@ -60,6 +62,11 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.messageChatting.MessageChattingMainActivity" />
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
+
     </application>
 
 </manifest>

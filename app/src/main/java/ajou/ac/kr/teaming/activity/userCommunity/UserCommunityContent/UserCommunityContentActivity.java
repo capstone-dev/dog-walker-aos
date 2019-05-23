@@ -67,9 +67,6 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
         userId.setText(userCommunityThreadVO.getUser_UserID());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         threadContent.setText(userCommunityThreadVO.getContent());
-        //로그인한 사용자 정보와 해당 클릭한 게시글 작성자 정보가 동알할 시 댓글 사용자와 메시지 할 수 있는 버튼 visible
-        if(registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) { type=1;}  //동일
-        else {type=0;}   //다를 때
 
         //userCommunityContentCommentAdapter에서 가져온 댓글리스트 생성
         userCommunityCommentView=findViewById(R.id.comment_list);
@@ -94,14 +91,15 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
 
                 List<UserCommunityContentCommentVO> userCommunityContentCommentVOS = response.body();
                 // 성공시
-                ArrayList<UserCommunityContentCommentVO> userCommunityThreadVOArrayList=new ArrayList<>();
+                ArrayList<UserCommunityContentCommentVO> userCommunityCommentVOArrayList=new ArrayList<>();
                 if(userCommunityContentCommentVOS!=null){
                     for (UserCommunityContentCommentVO userCommunityContentCommentVO:userCommunityContentCommentVOS){
                         //서버로 부터 읽어드린 댓글 리스트를 전부 adapter 에 저장
-                        userCommunityThreadVOArrayList.add(userCommunityContentCommentVO);
+
+                        userCommunityCommentVOArrayList.add(userCommunityContentCommentVO);
                         Log.d("TEST", "onResponse: "+userCommunityContentCommentVO.getCommentContent());
                     }
-                    userCommunityContentCommentAdapter.addCommentList(userCommunityThreadVOArrayList,type);
+                    userCommunityContentCommentAdapter.addCommentList(userCommunityCommentVOArrayList,registerVO,userCommunityThreadVO);
                 }
                 Log.d("TEST", "onResponse:END ");
             }

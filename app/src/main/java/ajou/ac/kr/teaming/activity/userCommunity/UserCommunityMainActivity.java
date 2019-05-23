@@ -84,7 +84,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
      * 특정 커뮤니티 게시글을 클릭하게 되면
      * 해당 게시글에 내한 내용을 확인할 수 있게 되는 eventhandler </p>
      * @param view 현재 사용자 커뮤니티 MainActivity
-     * @Param userCommunityThreadVO 해당 게시글에 대한 정보를 포함하고 있는 객체;
+     * @Param userCommunityThreadVO 해당 게시글에 대한 정보를 포함하고 있는 객체
      *  팝업 창으로 게시글 아이디 넘겨준다.
      */
     public void showThreadContentEvent(View view, UserCommunityThreadVO userCommunityThreadVO){
