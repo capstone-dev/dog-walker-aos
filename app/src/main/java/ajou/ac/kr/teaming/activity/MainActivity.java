@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,14 +14,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
-import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.login.MyPetActivity;
 import ajou.ac.kr.teaming.activity.myService.MyServiceMainActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
@@ -33,10 +30,6 @@ import ajou.ac.kr.teaming.service.history.HistoryService;
 import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.RegisterVO;
-import ajou.ac.kr.teaming.vo.SampleVO;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
