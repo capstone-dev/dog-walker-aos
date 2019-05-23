@@ -116,7 +116,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             R.id.btnPhotoAndMarker, //사진찍기 및 마커생성
             R.id.btnWalkDistance, // 산책거리계산 및 표시
             R.id.btnWalkEnd, //산책 종료
-            R.id.btnShowLocation,
+/*            R.id.btnShowLocation,*/
             R.id.btnPostDogwalkerLocation,
             R.id.btnImageUploadSample, // 파일 업로드 샘플
     };
@@ -129,6 +129,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private TextView txtWalkTime;
     private TextView txtCurrentTime;
     private TextView txtStartTime;
+    private TextView txtgongback;
 
 
     private ImageView iconCompass;
@@ -150,7 +151,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private boolean isPermission = false;
 
 
-    private boolean m_bCompassmode = false;
+    private boolean isCompassmode = false;
     private boolean m_bSightVisible = false;
     private boolean m_bTrackingMode = false;
     private boolean m_bOverlayMode = false;
@@ -249,6 +250,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         txtWalkTime = (TextView) findViewById(R.id.txtWalkTime);
         txtWalkTime.setText(formatDate.substring(0,8));    // TextView 에 현재 시간 문자열 할당
 
+/*
 
         Date date = new Date(currentTime);
         // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
@@ -267,6 +269,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         txtStartTime = (TextView) findViewById(R.id.txtStartTime);
         txtStartTime.setText(formatDate2.substring(0,8));    // TextView 에 현재 시간 문자열 할당
+*/
 
     }
 
@@ -287,16 +290,19 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         txtLat = (TextView) findViewById(R.id.txtLat);
         txtLon = (TextView) findViewById(R.id.txtLon);
+        txtgongback = (TextView) findViewById(R.id.txtgongback);
 
         iconCompass = (ImageView) findViewById(R.id.compassIcon);
         iconCompass.bringToFront() ;
         iconCompass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(m_bCompassmode != true) {
+                if(isCompassmode != true) {
+                    isCompassmode = true;
                     tMapView.setCompassMode(true);
                 }
                 else{
+                    isCompassmode = false;
                     tMapView.setCompassMode(false);
                 }
             }
@@ -435,6 +441,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
                     android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
+        Log.e(TAG,"setGps Activated");
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
                 1000 * 300, // 통지사이의 최소 시간간격 (miliSecond)
                 30, // 통지사이의 최소 변경거리 (m)
@@ -534,7 +542,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         });
 
         m_nCurrentZoomLevel = -1;
-        m_bCompassmode = false;
+        isCompassmode = false;
         m_bSightVisible = false;
         m_bTrackingMode = false;
     }
@@ -732,14 +740,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
     public void makePhotoAndMarker(){
-       /* Intent intent = new Intent(DogwalkerGpsActivity.this,GpsCameraActivity.class);
-        startActivity(intent);*/
+        Log.e(TAG, "onPause");
+        onPause();
 
-        currentFragment = new CameraMainFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.dogwalkerGpsMain,currentFragment);
-        transaction.commit();
-
+        Intent intent = new Intent(DogwalkerGpsActivity.this,DogwalkerGpsCamera.class);
+        startActivity(intent);
+        //onResume();
     }
 
 
@@ -787,24 +793,32 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 도그워커 산책 종료
      **/
     private void walkEnd() {
-        /**산책 종료 확인 창*/
-        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(DogwalkerGpsActivity.this);
-        alert_confirm.setMessage("산책을 종료 하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // 'YES'
-                        walkTimeThread.interrupt();
-                    }
-                }).setNegativeButton("취소",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // 'No'
-                        dialog.dismiss();
-                    }
-                });
-        AlertDialog alert = alert_confirm.create();
-        alert.show();
+
+        if(walkStatus = true){
+            walkStatus = false;
+            /**산책 종료 확인 창*/
+            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(DogwalkerGpsActivity.this);
+            alert_confirm.setMessage("산책을 종료 하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // 'YES'
+                    walkTimeThread.interrupt();
+                }
+            }).setNegativeButton("취소",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // 'No'
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog alert = alert_confirm.create();
+            alert.show();
+        }else {
+            Toast.makeText(getApplicationContext(),"산책 중이 아닙니다..",Toast.LENGTH_LONG).show();
+        }
+
+
 
     }//walkEnd();
 

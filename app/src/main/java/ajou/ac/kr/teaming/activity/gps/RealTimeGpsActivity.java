@@ -374,7 +374,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      */
     public void onClick(View v) {
         switch(v.getId()) {
-            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;
+/*            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;*/
             case R.id.btnCapture		                :   captureImage(); 		break;
             case R.id.btnEnlargeCircle                 :   EnlargeCircle();        break;
             case R.id.btnNarrowCircle                  :   NarrowCircle();         break;
