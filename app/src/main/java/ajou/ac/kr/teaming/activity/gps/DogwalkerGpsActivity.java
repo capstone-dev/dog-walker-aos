@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
@@ -16,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,6 +29,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapLabelInfo;
 import com.skt.Tmap.TMapMarkerItem;
@@ -41,12 +43,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
-import ajou.ac.kr.teaming.activity.camera.CameraMainFragment;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsVo;
@@ -56,10 +57,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.Manifest.permission.CAMERA;
+/*import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;*/
 
 /**  <도그워커 메인 액티비티>
  *
@@ -174,6 +175,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private long nine = 32400000;
     private boolean walkStatus;
 
+
+    private byte[] photoData;
+
     public static final int MY_PERMISSION_CAMERA = 1111;
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private static final int REQUEST_TAKE_ALBUM = 3333;
@@ -197,8 +201,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapView.setSKTMapApiKey(TMAP_API_KEY);
     }
 
-    /**
-     * 권한 요청 관리자*/
+/*    *//**
+     * 권한 요청 관리자*//*
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         final int SUCCESS = 200;
@@ -209,7 +213,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
             Log.e(TAG, "denied");
         }
-    }
+    }*/
 
 
     //갱신을 위한 스레드
@@ -340,6 +344,32 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
         tMapGps.OpenGps();
 
+
+
+        /**
+         * 위치 이외에 카메라, 저장공간 접근 권한 허용을 위해 만든 부분
+         * 오픈소스인 TedPermission을 이용하여 쉽게 구현
+         * */
+
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Log.e(TAG, "Permission Granted");
+                Toast.makeText(DogwalkerGpsActivity.this, "Permission Granted", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Log.e(TAG, "Permission Denied");
+                Toast.makeText(DogwalkerGpsActivity.this,"Permission Denied"+ deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionListener)
+                .setDeniedMessage("산책 서비스를 이용하기 위해 위치, 저장공간, 카메라 접근 권한을 허용해주세요.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
+                                Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
 
 
 
@@ -551,7 +581,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        checkAllPermission();
     }
 
     @Override
@@ -737,48 +766,61 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
 
-
-
     public void makePhotoAndMarker(){
         Log.e(TAG, "onPause");
         onPause();
 
-        Intent intent = new Intent(DogwalkerGpsActivity.this,DogwalkerGpsCamera.class);
-        startActivity(intent);
+        /**
+         * 카메라를 통해 이미지 가져오는 방식
+         *
+         * DogwalkerGpsActivity -> DogwalkerGpsCameraBackground -> (CameraMainFragment -> CameraPhotoActivity) -> DogwalkerGpsActivity
+         * (맞는지 모르겠다..)
+         * 1. startActivityForResult()로 Activity 호출하기
+         * 2. 호출된 Activity에서 setResult()로 결과 돌려주기
+         * 3. onActivityResult()에서 결과 확인하기
+         * */
+
+        Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsCameraBackground.class);
+        startActivityForResult(intent,REQUEST_TAKE_PHOTO);
         //onResume();
+
+
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO) {
+            if (resultCode == RESULT_OK) {
+
+                /*  사진파일을 다시 가져올떄 쓰일 코드*/
+                Intent intent = getIntent();
+                photoData = intent.getByteArrayExtra("photoImageBytes");
+
+                ImageView imageView = findViewById(R.id.imageView);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(photoData, 0, photoData.length);
+                imageView.setImageBitmap(bitmap);
+
+                Log.e(TAG,"사진 파일 가져오기 성공");
+
+            } else {   // RESULT_CANCEL
+
+                Log.e(TAG,"사진 파일 가져오기 실패");
+            }
+//        } else if (requestCode == REQUEST_ANOTHER) {
+//            ...
+        }
     }
 
 
-  /*  private void checkPermission(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            // 처음 호출시엔 if()안의 부분은 false로 리턴 됨 -> else{..}의 요청으로 넘어감
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) ||
-                    (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA))) {
-                new AlertDialog.Builder(this)
-                        .setTitle("알림")
-                        .setMessage("저장소 권한이 거부되었습니다. 사용을 원하시면 설정에서 해당 권한을 직접 허용하셔야 합니다.")
-                        .setNeutralButton("설정", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                intent.setData(Uri.parse("package:" + getPackageName()));
-                                startActivity(intent);
-                            }
-                        })
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        })
-                        .setCancelable(false)
-                        .create()
-                        .show();
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, MY_PERMISSION_CAMERA);
-            }
-        }
-    }*/
+
+
+
+
+
+
+
 
 
 
@@ -879,15 +921,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         */
     }
 
-    private void checkAllPermission() {
-        final String[] needPermissions = {CAMERA, WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE, INTERNET};
-        for (String permission: needPermissions) {
-            if (ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this, needPermissions, PackageManager.PERMISSION_GRANTED);
-                return;
-            }
-        }
-    }
 
 
 

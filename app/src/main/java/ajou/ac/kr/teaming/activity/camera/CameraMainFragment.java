@@ -1,8 +1,10 @@
 package ajou.ac.kr.teaming.activity.camera;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
@@ -24,7 +26,9 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -97,7 +101,7 @@ public class CameraMainFragment extends Fragment {
         super.onResume();
         Log.e(TAG, "OnResume");
 
-        startBackgroundThread();
+        startBackgourdThread();
 
         if (textureView.isAvailable()) {
             openCamera();
@@ -111,7 +115,7 @@ public class CameraMainFragment extends Fragment {
         Log.e(TAG, "onPause");
 
         //closeCamera();
-        stopBackgroundThread();
+        stopBackgroudThread();
 
         super.onPause();
     }
@@ -127,7 +131,7 @@ public class CameraMainFragment extends Fragment {
         startActivity(intent); //이미지를
     }
 
-   /* public void savePhoto() {
+    public void savePhoto() {
         ImageReader reader = ImageReader.newInstance(textureView.getBitmap().getWidth(), textureView.getBitmap().getHeight(), ImageFormat.JPEG, 1);
 
         List<Surface> outputSurfaces = new ArrayList<>(2);
@@ -185,7 +189,7 @@ public class CameraMainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     @SuppressLint("MissingPermission")
     private void openCamera() {
@@ -264,13 +268,13 @@ public class CameraMainFragment extends Fragment {
         }
     }
 
-    private void startBackgroundThread() {
+    private void startBackgourdThread() {
         backgroudThread = new HandlerThread("camera backgroud");
         backgroudThread.start();
         backgroudHandler = new Handler(backgroudThread.getLooper());
     }
 
-    private void stopBackgroundThread() {
+    private void stopBackgroudThread() {
         backgroudThread.quitSafely();
         try {
             backgroudThread.join();
