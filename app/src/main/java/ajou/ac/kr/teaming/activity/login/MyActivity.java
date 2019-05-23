@@ -50,12 +50,15 @@ public class MyActivity extends AppCompatActivity {
             passwordText = (EditText)findViewById(R.id.passwordText);
             ModifyButton = (Button)findViewById(R.id.ModifyButton);
             loginService =ServiceBuilder.create(LoginService.class);
-        idText = (TextView)findViewById(R.id.idText);
+          idText = (TextView)findViewById(R.id.idText);
 
 
 
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        idText.setText(registerVO.getUserID());
+
+
 
             ModifyButton.setOnClickListener(new View.OnClickListener(){
 
@@ -63,7 +66,8 @@ public class MyActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
 
-                    String userid=idText.getText().toString();
+                    String userid=registerVO.getUserID();
+
                     String userpassword=passwordText.getText().toString();
 
                     //Validate form
@@ -82,10 +86,7 @@ public class MyActivity extends AppCompatActivity {
 
         }
     private boolean ValidateLogin(String userid,String userpassword){
-        if (userid==null ||userid.trim().isEmpty()){
-            Toast.makeText(this,"아이디를 입력하세요",Toast.LENGTH_SHORT).show();
-            return false;
-        }
+
         if (userpassword==null ||userpassword.trim().isEmpty()){
             Toast.makeText(this,"비밀번호를 입력하세요",Toast.LENGTH_SHORT).show();
             return false;
@@ -117,12 +118,14 @@ public class MyActivity extends AppCompatActivity {
 
             }
 
+
             @Override
             public void onFailure(Call<RegisterVO> call, Throwable t) {
                 Toast.makeText(MyActivity.this,"Error",Toast.LENGTH_SHORT).show();
 
             }
         });
+
         Intent intent=new Intent(MyActivity.this, MyPageActivity.class);
     }
 

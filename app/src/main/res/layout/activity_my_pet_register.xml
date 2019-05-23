@@ -181,6 +181,41 @@
         app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Fun"
         app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Fun">
 
+        <EditText
+            android:id="@+id/idText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/id"
+            android:layout_marginLeft="20dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="아이디 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Mypet_Register_Fu"
+            app:layout_constraintLeft_toRightOf="@+id/idText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Mypet_Register_F"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Fu"
+        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Fu">
+
+
 
         <Button
             android:id="@+id/MypetRegisterButton"
@@ -194,6 +229,8 @@
             tools:ignore="MissingConstraints,OnClick"
             tools:layout_editor_absoluteX="124dp"
             tools:layout_editor_absoluteY="0dp" />
+
+
 
 
     </android.support.constraint.ConstraintLayout>
