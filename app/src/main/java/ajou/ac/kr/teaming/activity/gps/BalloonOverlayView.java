@@ -1,6 +1,9 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,29 +18,28 @@ import ajou.ac.kr.teaming.R;
 public class BalloonOverlayView extends FrameLayout {
 
     private LinearLayout layout;
-    private TextView allPath;
-    private TextView sectionPath;
-    private ImageView clickImage;
+    private TextView title;
+    private TextView subTitle;
+    private ImageView image;
 
-    public BalloonOverlayView(Context context, int balloonBottomOffset) {
+    public BalloonOverlayView(Context context, String labelName, String id) {
 
         super(context);
 
-        setPadding(10, 0, 10, balloonBottomOffset);
-        layout = new LinearLayout(context); //���� ���̾ƿ�
+        setPadding(10, 0, 10, 0);
+        layout = new LinearLayout(context);
         layout.setVisibility(VISIBLE);
 
-        setupView(context, layout);
+        setupView(context, layout, labelName, id);
 
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+        LayoutParams params = new LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.NO_GRAVITY;
-
         addView(layout, params);
     }
 
 
-    protected void setupView(Context context, final ViewGroup parent) {
+    protected void setupView(Context context, final ViewGroup parent, String labelName, String id) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
@@ -45,13 +47,16 @@ public class BalloonOverlayView extends FrameLayout {
 
     }
 
-
-    public ImageView getClickImage() {
-
-        return clickImage;
+    public void setTitle(String str) {
+        title.setText(str);
     }
 
+    public void setSubTitle(String str) {
+        subTitle.setText(str);
+    }
 
-
+    public void setImage(Bitmap img) {
+        image.setImageBitmap(img);
+    }
 }
 

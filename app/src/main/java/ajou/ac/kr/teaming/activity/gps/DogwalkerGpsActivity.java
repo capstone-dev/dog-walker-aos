@@ -39,6 +39,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapLabelInfo;
 import com.skt.Tmap.TMapMarkerItem;
+import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
@@ -729,7 +730,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 /*        Log.e(TAG, "onPause");
         onPause();*/
 
-        onStop();
         /**
          * 카메라를 통해 이미지 가져옴*/
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -761,7 +761,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         return image;
     }
 
-
     /**
      * 사진 촬영 이후 실행되는 메소드
      * */
@@ -787,9 +786,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 exifDegree = 0;
             }
 
-            onRestart();
-            ((ImageView) findViewById(R.id.compassIcon)).setImageBitmap(rotate(bitmap,exifDegree));
-            imageUploadSample(); //이미지 업로드 메소드
+            //((ImageView) findViewById(R.id.compassIcon)).setImageBitmap(rotate(bitmap,exifDegree));
+            showMarkerPoint(); //사진찍은 위치에 마커생성
+           // imageUploadSample(); //이미지 업로드 메소드
         }
     }
 
@@ -797,7 +796,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     /**
      * 카메라 사진 회전 메소드
      * */
-
     private int exifOrientationToDegress(int exifOrientation) {
         if  (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90){
             return 90;
@@ -808,12 +806,71 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         }
         return 0;
     }
-
     private Bitmap rotate(Bitmap bitmap, float degree){
         Matrix matrix = new Matrix();
         matrix.postRotate(degree);
         return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
     }
+
+
+    public void showMarkerPoint() {
+
+        ArrayList<Bitmap> markerList = null;
+        for(int i = 0; i < 20; i++) {
+            //도그워커의 현재위치에 포인트 생성
+            TMapPoint markerPoint = new TMapPoint(dogwalkerLatitude, dogwalkerLongitude);
+            MarkerOverlay marker1 = new MarkerOverlay(this, tMapView);
+            String strID = String.format("%02d", i);
+
+
+            //	String MarkerID = marker1.getID();  마커 아이디 반환
+            // 	marker1.setID("id"); //마커 아이디 설정
+
+            //   마커의 애니메이션 이미지 설정
+            //   ArrayList list = null;
+            //   list.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.map_pin_red));
+            //   list.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
+            //   tMapMarkerItem2.setAnimationIcons(list);
+
+            //마커의 애니메이션 실행
+            //tMapMarkerItem2.startAnimation();
+
+            //마커의 중심좌표 설정
+            marker1.setPosition(0.2f, 0.2f);
+            marker1.getTMapPoint();
+            marker1.setID(strID);
+            //마커이미지 설정
+            marker1.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
+            //마커위치 설정
+            marker1.setTMapPoint(markerPoint);
+
+            if (markerList == null) {
+                markerList = new ArrayList<Bitmap>();
+            }
+
+            markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.map_pin_red));
+            markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
+
+            tMapView.addMarkerItem2(strID, marker1);
+        }
+
+
+        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
+
+            @Override
+            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
+                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
+                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
+                Common.showAlertDialog(DogwalkerGpsActivity.this, "사진 상세정보", strMessage);
+            }
+        });
+    }
+
+
+
+
+
+
 
 
 
