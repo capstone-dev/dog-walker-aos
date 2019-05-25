@@ -1,12 +1,8 @@
 package ajou.ac.kr.teaming.activity.camera;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -18,17 +14,13 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.CaptureResult;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
@@ -40,19 +32,14 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import ajou.ac.kr.teaming.R;
 
 public class CameraMainFragment extends Fragment {
 
     private static final String TAG = "CameraMainFragment";
+    private static final int RESULT_OK = 1;
 
     private TextureView textureView;
 
@@ -74,6 +61,8 @@ public class CameraMainFragment extends Fragment {
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
+//    private OnCameraClickListener CameraClickListener;
+
     /** Life Cycle */
 
     @Nullable
@@ -90,11 +79,36 @@ public class CameraMainFragment extends Fragment {
             public void onClick(View v) {
                 //savePhoto();
                 takePhoto();
+
             }
         });
 
         return view;
     }
+
+
+
+  /*  public interface OnCameraClickListener {
+        void onCameraClickSet(byte[] bytes);
+    }
+
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if (context instanceof OnCameraClickListener){
+            CameraClickListener = (OnCameraClickListener) context;
+        } else{
+            throw new RuntimeException(context.toString()
+                    + "must implement onCameraClickListenr");
+        }
+    }*/
+
+/*    @Override
+    public void onDetach(){
+        super.onDetach();
+        CameraClickListener = null;
+    }*/
 
     @Override
     public void onResume() {
@@ -126,11 +140,9 @@ public class CameraMainFragment extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
         byte[] bytes = stream.toByteArray();
 
-        Intent intent = new Intent(getActivity(), CameraPhotoActivity.class);
-        intent.putExtra("imageBytes", bytes);
-        startActivity(intent); //이미지를
+/*        CameraClickListener.onCameraClickSet(bytes);*/
     }
-
+/*
     public void savePhoto() {
         ImageReader reader = ImageReader.newInstance(textureView.getBitmap().getWidth(), textureView.getBitmap().getHeight(), ImageFormat.JPEG, 1);
 
@@ -189,7 +201,7 @@ public class CameraMainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     @SuppressLint("MissingPermission")
     private void openCamera() {

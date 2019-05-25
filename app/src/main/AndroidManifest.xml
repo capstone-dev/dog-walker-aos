@@ -66,6 +66,17 @@
         <activity android:name=".activity.messageChatting.MessageChattingMainActivity" />
         <activity android:name=".activity.gps.DogwalkerGpsCameraBackground" />
         <activity android:name=".activity.camera.CameraPhotoActivity"/>
+        
+        <provider
+            android:authorities="ajou.ac.kr.teaming"
+            android:name="android.support.v4.content.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>

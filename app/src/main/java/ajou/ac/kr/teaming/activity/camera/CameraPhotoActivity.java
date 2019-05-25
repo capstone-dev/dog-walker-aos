@@ -34,8 +34,6 @@ public class CameraPhotoActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
 
         Log.e(TAG,"onCreate");
-
-
     }
 
     public void onClickUpload(View view) {

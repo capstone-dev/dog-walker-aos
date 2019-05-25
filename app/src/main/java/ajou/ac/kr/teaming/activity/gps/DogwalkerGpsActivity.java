@@ -8,15 +8,20 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +44,8 @@ import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,6 +55,7 @@ import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.activity.camera.CameraMainFragment;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsVo;
@@ -182,11 +190,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private static final int REQUEST_TAKE_PHOTO = 2222;
     private static final int REQUEST_TAKE_ALBUM = 3333;
     private static final int REQUEST_IMAGE_CROP = 4444;
-    String mCurrentPhotoPath;
 
-    Uri imageUri;
-    Uri photoURI, albumURI;
-    ImageView iv_view;
+   private static final int REQUEST_IMAGE_CAPTURE = 672;
+   private String imageFilePath;
+   private Uri photoUri;
 
 
 
@@ -344,13 +351,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
         tMapGps.OpenGps();
 
-
-
-        /**
-         * 위치 이외에 카메라, 저장공간 접근 권한 허용을 위해 만든 부분
-         * 오픈소스인 TedPermission을 이용하여 쉽게 구현
-         * */
-
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -364,12 +364,21 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
         };
 
+        /**
+         * 위치 이외에 카메라, 저장공간 접근 권한 허용을 위해 만든 부분
+         * 오픈소스인 TedPermission을 이용하여 쉽게 구현
+         * */
         TedPermission.with(this)
                 .setPermissionListener(permissionListener)
                 .setDeniedMessage("산책 서비스를 이용하기 위해 위치, 저장공간, 카메라 접근 권한을 허용해주세요.")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
                                 Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .check();
+
+        /**
+         * 퍼미션이 허용되거나 거부되었을 때 하는 액션 메소드
+         * */
+
 
 
 
@@ -680,7 +689,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
     */
-
     /**
      * 강아지 주인과 통화하기
      * */
@@ -697,7 +705,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 사진 찍기 시 마커 생성
      * */
     private void alertPhotoAndMarker() {
-
         /**산책 종료 확인 창*/
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(DogwalkerGpsActivity.this);
         alert_confirm.setMessage("마커를 생성하시겠습니까?").setCancelable(false).setPositiveButton("네", new DialogInterface.OnClickListener() {
@@ -718,107 +725,96 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         alert.show();
     }
 
-    /**
-     * Retrofit Method
-     * 안드로이드 파일 업로드 샘플
-     */
-    private void imageUploadSample() {
-        //R.id.compassIcon;
-        ImageView imageView = findViewById(R.id.compassIcon);
-
-        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] dataArray = baos.toByteArray();
-
-        //RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), data);
-        //MultipartBody.Part fileBody = MultipartBody.Part.createFormData("picture", "aa.jpg", requestFile);
-
-        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
-
-        Map<String, RequestBody> params = new HashMap<>();
-        params.put("fileUpload\"; filename=\"photo.png", fileBody);
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"), "1"));
-        params.put("markerId", RequestBody.create(MediaType.parse("text"), "2"));
-
-
-        Call<GpsVo> call = gpsService.postObjectData(params);
-        call.enqueue(new Callback<GpsVo>() {
-            @Override
-            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
-                if (response.isSuccessful()) {
-                    GpsVo gpsVo = response.body();
-                    if (gpsVo!= null) {
-                        Log.d("TEST", "" + gpsVo.getGpsId());
-                        Log.d("TEST", "" + gpsVo.getMarkerId());
-                        Log.d("TEST", "" + gpsVo.getId());
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GpsVo> call, Throwable t) {
-                Log.d("TEST", "통신 실패");
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-    }
-
 
     public void makePhotoAndMarker(){
-        Log.e(TAG, "onPause");
-        onPause();
+/*        Log.e(TAG, "onPause");
+        onPause();*/
 
+        onStop();
         /**
-         * 카메라를 통해 이미지 가져오는 방식
-         *
-         * DogwalkerGpsActivity -> DogwalkerGpsCameraBackground -> (CameraMainFragment -> CameraPhotoActivity) -> DogwalkerGpsActivity
-         * (맞는지 모르겠다..)
-         * 1. startActivityForResult()로 Activity 호출하기
-         * 2. 호출된 Activity에서 setResult()로 결과 돌려주기
-         * 3. onActivityResult()에서 결과 확인하기
-         * */
+         * 카메라를 통해 이미지 가져옴*/
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            File photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException e) {
 
-        Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsCameraBackground.class);
-        startActivityForResult(intent,REQUEST_TAKE_PHOTO);
-        //onResume();
-
-
-
+            }
+            if (photoFile != null) {
+                photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
     }
 
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "TEST_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,
+                ".jpg",
+                storageDir
+        );
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
+
+    /**
+     * 사진 촬영 이후 실행되는 메소드
+     * */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_TAKE_PHOTO) {
-            if (resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
+            ExifInterface exif = null;
 
-                /*  사진파일을 다시 가져올떄 쓰일 코드*/
-                Intent intent = getIntent();
-                photoData = intent.getByteArrayExtra("photoImageBytes");
-
-                ImageView imageView = findViewById(R.id.imageView);
-                Bitmap bitmap = BitmapFactory.decodeByteArray(photoData, 0, photoData.length);
-                imageView.setImageBitmap(bitmap);
-
-                Log.e(TAG,"사진 파일 가져오기 성공");
-
-            } else {   // RESULT_CANCEL
-
-                Log.e(TAG,"사진 파일 가져오기 실패");
+            try {
+                exif = new ExifInterface(imageFilePath);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-//        } else if (requestCode == REQUEST_ANOTHER) {
-//            ...
+
+            int exifOrientation;
+            int exifDegree;
+
+            if (exif != null) {
+                exifOrientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+                exifDegree = exifOrientationToDegress(exifOrientation);
+            } else {
+                exifDegree = 0;
+            }
+
+            onRestart();
+            ((ImageView) findViewById(R.id.compassIcon)).setImageBitmap(rotate(bitmap,exifDegree));
+            imageUploadSample(); //이미지 업로드 메소드
         }
     }
 
 
+    /**
+     * 카메라 사진 회전 메소드
+     * */
 
+    private int exifOrientationToDegress(int exifOrientation) {
+        if  (exifOrientation == ExifInterface.ORIENTATION_ROTATE_90){
+            return 90;
+        } else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_180){
+            return 180;
+        } else if(exifOrientation == ExifInterface.ORIENTATION_ROTATE_270){
+            return 270;
+        }
+        return 0;
+    }
 
-
-
-
+    private Bitmap rotate(Bitmap bitmap, float degree){
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(bitmap, 0,0,bitmap.getWidth(),bitmap.getHeight(),matrix,true);
+    }
 
 
 
@@ -835,7 +831,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 도그워커 산책 종료
      **/
     private void walkEnd() {
-
         if(walkStatus = true){
             walkStatus = false;
             /**산책 종료 확인 창*/
@@ -893,7 +888,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         inputObjectData.put("startDogwalkerLongitude", 127.0442091);
         inputObjectData.put("endDogwalkerLatitude", 38.2844762);
         inputObjectData.put("endDogwalkerLongitude", 126.0442091);*/
-/*        inputObjectData.put("walkDistance", null);
+/*      inputObjectData.put("walkDistance", null);
         inputObjectData.put("start_time", null);
         inputObjectData.put("end_time", null);
         inputObjectData.put("walkTime", null);*/
@@ -922,6 +917,53 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
 
+
+    /**
+     * Retrofit Method
+     * 안드로이드 파일 업로드 샘플
+     */
+    private void imageUploadSample() {
+
+        ImageView imageView = findViewById(R.id.compassIcon);
+
+        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] dataArray = baos.toByteArray();
+
+        //RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), data);
+        //MultipartBody.Part fileBody = MultipartBody.Part.createFormData("picture", "aa.jpg", requestFile);
+
+        RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
+
+        Map<String, RequestBody> params = new HashMap<>();
+        params.put("fileUpload\"; filename=\"photo.png", fileBody);
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"), "1"));
+        params.put("markerId", RequestBody.create(MediaType.parse("text"), "2"));
+
+
+        Call<GpsVo> call = gpsService.postObjectData(params);
+        call.enqueue(new Callback<GpsVo>() {
+            @Override
+            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
+                if (response.isSuccessful()) {
+                    GpsVo gpsVo = response.body();
+                    if (gpsVo!= null) {
+                        Log.d("TEST", "" + gpsVo.getGpsId());
+                        Log.d("TEST", "" + gpsVo.getMarkerId());
+                        Log.d("TEST", "" + gpsVo.getId());
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GpsVo> call, Throwable t) {
+                Log.d("TEST", "통신 실패");
+                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }//imageUploadSample
 
 
 }//DogwalkerGpsActivity
