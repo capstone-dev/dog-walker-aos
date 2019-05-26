@@ -63,12 +63,6 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btnPostDogwalkerLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="위치 서버로 전송" />
-
-        <Button
             android:id="@+id/btnImageUploadSample"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -79,6 +73,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="산책시간표시란" />
+
+        <TextView
+            android:id="@+id/txtgongback2"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="      " />
+
+        <TextView
+            android:id="@+id/txtWalkDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="이동거리" />
 
     </LinearLayout>
 
@@ -125,6 +132,7 @@
             android:id="@+id/txtgongback"
             android:layout_width="30dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="      " />
 
         <TextView
