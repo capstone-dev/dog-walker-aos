@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.activity.gps.PermissionManager;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.login.LoginService;
@@ -39,6 +40,7 @@ import ajou.ac.kr.teaming.service.login.RegisterService;
 import ajou.ac.kr.teaming.vo.MyPetVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -93,6 +95,10 @@ public class PetRegisterActivity extends AppCompatActivity {
                 String dog_species = typeText.getText().toString();
                 String dog_age = dogageText.getText().toString();
 
+
+
+
+
                 ImageView Mypet = findViewById(R.id.MyPetImage);
 
                 Bitmap bitmap = ((BitmapDrawable) PetImage.getDrawable()).getBitmap();
@@ -116,11 +122,13 @@ public class PetRegisterActivity extends AppCompatActivity {
                     public void onResponse(Call<MyPetVO> call, Response<MyPetVO> response) {
 
                         MyPetVO myPetVO = response.body();
+                        Log.d("TEST", "통신 성공");
 
-                        Log.d("TEST", myPetVO.getDog_age());
-                        Log.d("TEST", myPetVO.getDog_name());
-                        Log.d("TEST", myPetVO.getDog_species());
-                        Log.d("TEST", myPetVO.getUserID());
+
+                        Intent intent = new Intent(PetRegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+
+
 
 
                     }
