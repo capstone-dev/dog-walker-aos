@@ -54,7 +54,7 @@ public class MyActivity extends AppCompatActivity {
 
 
 
-        Intent intent =getIntent();
+         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
         idText.setText(registerVO.getUserID());
 
@@ -98,6 +98,7 @@ public class MyActivity extends AppCompatActivity {
     private void doLogin(final String userid,final String userpassword){
 
         Call<RegisterVO> call=loginService.DoLogin(userid,userpassword);
+
         call.enqueue(new Callback<RegisterVO>() {
             @Override
 
