@@ -13,9 +13,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
-
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -24,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.gps.RealTimeDogWalkerListAcitvity"></activity>
+        <activity android:name=".activity.login.PetRegisterActivity"></activity>
+        <activity android:name=".activity.gps.RealTimeDogWalkerListAcitvity" />
         <activity android:name=".activity.login.DogwalkerRegister" />
         <activity
             android:name=".activity.messageChatting.ServiceSubmitActivity"
@@ -34,8 +32,7 @@
         <activity android:name=".activity.gps.RealTimeGpsActivity" />
         <activity
             android:name=".activity.gps.DogwalkerGpsActivity"
-            android:configChanges="orientation|screenSize"
-            />
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".activity.reservation.ReservationActivity" />
         <activity android:name=".activity.login.MyPageActivity" />
         <activity android:name=".activity.login.MyActivity" />
@@ -68,14 +65,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.messageChatting.MessageChattingMainActivity" />
         <activity android:name=".activity.gps.DogwalkerGpsCameraBackground" />
-        <activity android:name=".activity.camera.CameraPhotoActivity"/>
-        
+        <activity android:name=".activity.camera.CameraPhotoActivity" />
+
         <provider
-            android:authorities="ajou.ac.kr.teaming"
             android:name="android.support.v4.content.FileProvider"
+            android:authorities="ajou.ac.kr.teaming"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

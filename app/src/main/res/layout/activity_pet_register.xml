@@ -4,11 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.login.MyPetRegisterActivity">
+    tools:context=".activity.login.PetRegisterActivity">
+
+
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/Mypet_Register_Funtion"
+        android:id="@+id/Pet_Register_Funtion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:ignore="MissingConstraints">
@@ -27,14 +29,14 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_marginTop="10dp"
-        android:id="@+id/Mypet_Register_Funtio"
+        android:id="@+id/Pet_Register_Funtio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Funtion"
-        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Funtion">
+        app:layout_constraintStart_toStartOf="@+id/Pet_Register_Funtion"
+        app:layout_constraintTop_toBottomOf="@+id/Pet_Register_Funtion">
 
         <ImageView
-            android:id="@+id/MyPetImage"
+            android:id="@+id/PetImage"
             android:src="@drawable/puppy"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -42,13 +44,14 @@
             android:maxHeight="100dp"
             android:maxWidth="100dp"
             android:adjustViewBounds="true"
+            android:onClick="onClick"
             android:layout_marginLeft="30dp"
-            app:layout_constraintLeft_toRightOf="@id/MyPetImageText"
+            app:layout_constraintLeft_toRightOf="@id/petImageText"
             tools:ignore="MissingConstraints,OnClick" />
 
 
         <TextView
-            android:id="@+id/MyPetImageText"
+            android:id="@+id/petImageText"
             android:layout_width="100dp"
             android:layout_height="30dp"
             android:text="사진등록 : "
@@ -62,35 +65,35 @@
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/Mypet_Register_Funti"
+        android:id="@+id/Pet_Register_Funti"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Funtio"
-        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Funtio">
+        app:layout_constraintStart_toStartOf="@+id/Pet_Register_Funtio"
+        app:layout_constraintTop_toBottomOf="@+id/Pet_Register_Funtio">
 
 
-        <EditText
-            android:id="@+id/Mypet_name_Text"
+        <TextView
+            android:id="@+id/idText"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:textColor="#000000"
             android:textSize="20sp"
             android:layout_marginLeft="20dp"
-            app:layout_constraintLeft_toRightOf="@+id/Mypet_name"
+            app:layout_constraintLeft_toRightOf="@+id/id"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
 
 
         <TextView
-            android:id="@+id/Mypet_name"
-            android:layout_width="130dp"
+            android:id="@+id/id"
+            android:layout_width="80dp"
             android:layout_height="30dp"
-            android:text="강아지 이름 : "
+            android:text="아이디 : "
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@+id/Mypet_Register_Funti"
-            app:layout_constraintLeft_toRightOf="@+id/Mypet_name_Text"
+            app:layout_constraintLeft_toLeftOf="@+id/Pet_Register_Funti"
+            app:layout_constraintLeft_toRightOf="@+id/idText"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
 
@@ -98,12 +101,49 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/Mypet_Register_Funt"
+        android:id="@+id/Pet_Register_Funt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Funti"
-        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Funti">
+        app:layout_constraintStart_toStartOf="@+id/Pet_Register_Funti"
+        app:layout_constraintTop_toBottomOf="@+id/Pet_Register_Funti">
+
+
+        <EditText
+            android:id="@+id/dognameText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/dogname"
+            android:layout_marginLeft="20dp"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/dogname"
+            android:layout_width="120dp"
+            android:layout_height="30dp"
+            android:text="강아지 이름 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Pet_Register_Funt"
+            app:layout_constraintLeft_toRightOf="@+id/dognameText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Pet_Register_Fun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Pet_Register_Funt"
+        app:layout_constraintTop_toBottomOf="@+id/Pet_Register_Funt">
 
 
         <EditText
@@ -119,12 +159,12 @@
 
         <TextView
             android:id="@+id/type"
-            android:layout_width="60dp"
+            android:layout_width="100dp"
             android:layout_height="30dp"
-            android:text="견종 : "
+            android:text=" 강아지 종 : "
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@+id/Mypet_Register_Funt"
+            app:layout_constraintLeft_toLeftOf="@+id/Pet_Register_Fun"
             app:layout_constraintLeft_toRightOf="@+id/typeText"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
@@ -135,101 +175,62 @@
 
 
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/Mypet_Register_Fun"
+        android:id="@+id/Pet_Register_Fu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Funt"
-        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Funt">
+        app:layout_constraintStart_toStartOf="@+id/Pet_Register_Fun"
+        app:layout_constraintTop_toBottomOf="@+id/Pet_Register_Fun">
 
 
         <EditText
-            android:id="@+id/ageText"
+            android:id="@+id/dogageText"
             android:layout_width="200dp"
             android:layout_height="50dp"
             android:textColor="#000000"
-            android:hint="숫자만 기입해주세요"
             android:textSize="20sp"
-            app:layout_constraintLeft_toRightOf="@+id/age"
+            android:hint="숫자만 입력해 주세요"
+            app:layout_constraintLeft_toRightOf="@+id/dogage"
             android:layout_marginLeft="20dp"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
 
         <TextView
-            android:id="@+id/age"
-            android:layout_width="60dp"
+            android:id="@+id/dogage"
+            android:layout_width="120dp"
             android:layout_height="30dp"
-            android:text="나이 : "
+            android:text=" 강아지 나이 : "
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@+id/Mypet_Register_Fun"
-            app:layout_constraintLeft_toRightOf="@+id/ageText"
+            app:layout_constraintLeft_toLeftOf="@+id/Pet_Register_Fu"
+            app:layout_constraintLeft_toRightOf="@+id/dogageText"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
+
 
 
     </android.support.constraint.ConstraintLayout>
 
-
-
-
     <android.support.constraint.ConstraintLayout
-        android:id="@+id/Mypet_Register_Fu"
+        android:id="@+id/Pet_Register_F"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Fun"
-        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Fun">
-
-        <TextView
-            android:id="@+id/idText"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toRightOf="@+id/id"
-            android:layout_marginLeft="20dp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <TextView
-            android:id="@+id/id"
-            android:layout_width="70dp"
-            android:layout_height="30dp"
-            android:text="아이디 : "
-            android:textColor="#000000"
-            android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@+id/Mypet_Register_Fu"
-            app:layout_constraintLeft_toRightOf="@+id/idText"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="0dp" />
-
-    </android.support.constraint.ConstraintLayout>
-
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/Mypet_Register_F"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintStart_toStartOf="@+id/Mypet_Register_Fu"
-        app:layout_constraintTop_toBottomOf="@+id/Mypet_Register_Fu">
-
+        app:layout_constraintStart_toStartOf="@+id/Pet_Register_Fu"
+        app:layout_constraintTop_toBottomOf="@+id/Pet_Register_Fu">
 
 
         <Button
-            android:id="@+id/MypetRegisterButton"
+            android:id="@+id/petRegisterButton"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:background="#FFEABD3E"
             android:text="MyPet 등록"
             android:textColor="#000000"
             android:textSize="20sp"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="124dp"
+            tools:ignore="MissingConstraints,OnClick"
+            tools:layout_editor_absoluteX="151dp"
             tools:layout_editor_absoluteY="0dp" />
-
-
 
 
     </android.support.constraint.ConstraintLayout>

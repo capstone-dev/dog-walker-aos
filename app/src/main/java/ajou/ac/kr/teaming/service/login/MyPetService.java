@@ -17,6 +17,6 @@ public interface MyPetService {
 
     @Multipart
     @POST("/login")
-    Call<MyPetVO> postObjectData(@PartMap Map<String, RequestBody> params);
+    Call<MyPetVO> myPetData(@PartMap Map<String, RequestBody> params);
 
 }
