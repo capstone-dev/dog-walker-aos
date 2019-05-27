@@ -105,9 +105,10 @@ public class PetRegisterActivity extends AppCompatActivity {
 
                 Map<String, RequestBody> mypet = new HashMap<>();
                 mypet.put("fileUpload\"; filename=\"photo.png", fileBody);
-                mypet.put("dog_species", RequestBody.create(MediaType.get("Text"), dog_species));
-                mypet.put("dog_age", RequestBody.create(MediaType.get("Text"), dog_age));
-                mypet.put("dog_name", RequestBody.create(MediaType.get("Text"), dogname));
+                mypet.put("UserID", RequestBody.create(MediaType.parse("Text"), userid));
+                mypet.put("dog_species", RequestBody.create(MediaType.parse("Text"), dog_species));
+                mypet.put("dog_age", RequestBody.create(MediaType.parse("Text"), dog_age));
+                mypet.put("dog_name", RequestBody.create(MediaType.parse("Text"), dogname));
 
                 Call<MyPetVO> call=myPetService.myPet(mypet);
                 call.enqueue(new Callback<MyPetVO>() {
