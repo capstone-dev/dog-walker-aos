@@ -127,7 +127,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             R.id.btnCallToUser, //통화하기
             R.id.btnChatToUser, //채팅하기
             R.id.btnPhotoAndMarker, //사진찍기 및 마커생성
-            R.id.btnWalkDistance, // 산책거리계산 및 표시
+//            R.id.btnWalkDistance, // 산책거리계산 및 표시
             R.id.btnWalkEnd, //산책 종료
 /*            R.id.btnShowLocation,*/
 //            R.id.btnPostDogwalkerLocation,
@@ -175,8 +175,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     private double dogwalkerLatitude;
     private double dogwalkerLongitude;
-    private static double startDogwalkerLatitude;
-    private static double startDogwalkerLongitude;
+    private double startDogwalkerLatitude;
+    private double startDogwalkerLongitude;
 
     private static int 	mMarkerID;
     ArrayList<String> mArrayMarkerID;
@@ -204,6 +204,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private String imageFilePath;
    private Uri photoUri;
    private ImageView resultImage;
+   private double recentWalkDistance;
 
 
 /*****************************************************************************/
@@ -241,8 +242,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            startDogwalkerLatitude = dogwalkerLatitude;
+                            startDogwalkerLongitude = dogwalkerLongitude;
                             updateCurrentTime();
-//                            walkDistance();
+                            drawPedestrianPath(); //도그워커의 이동경로를 그리는 메소드
+                            walkDistance();
 
                         }
                     });
@@ -443,6 +447,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
         });*/
 
+        recentWalkDistance = 0;
+
     }//onCreate
 
 
@@ -490,7 +496,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         Log.e(TAG,"setGps Activated");
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
                 1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-                30, // 통지사이의 최소 변경거리 (m)
+                1, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
 
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
@@ -632,7 +638,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
             case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
             case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
-            case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
+//            case R.id.btnWalkDistance		              : 	walkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
 //            case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();          break;
             case R.id.btnImageUploadSample               : 	imageUploadSample(); 			    break;
@@ -650,10 +656,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * */
 
             walkTimeThread.start();
-            startDogwalkerLatitude = dogwalkerLatitude;
-            startDogwalkerLongitude = dogwalkerLongitude;
-            drawPedestrianPath(); //도그워커의 이동경로를 그리는 메소드
-            walkDistance(); //도그워커의 이동거리를 계산해주는 메소드
 
     }
 
@@ -861,7 +863,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.map_pin_red));
             markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
 
-
             //지도에 마커 추가
             tMapView.addMarkerItem2("Marker" + strID, marker1);
         }
@@ -907,11 +908,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         //도그워커의 시작위치는 고정, 도그워커의 현재 위치는 계속 바뀜.
         // 킬로미터(Kilo Meter) 단위
 
+        double startWalkLatitude = startDogwalkerLatitude;
+        double startWalkLongitude = startDogwalkerLongitude;
 
-        double distanceKiloMeter = distance(startDogwalkerLatitude, startDogwalkerLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
+        double distanceKiloMeter = distance(startWalkLatitude, startWalkLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
+        recentWalkDistance = recentWalkDistance + distanceKiloMeter;
         txtWalkDistance = (TextView) findViewById(R.id.txtWalkDistance);
-        txtWalkDistance.setText(String.valueOf(distanceKiloMeter + "km"));
-    }
+        txtWalkDistance.setText(recentWalkDistance + "km");
+
+}
 
 
     /**

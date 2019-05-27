@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skt.Tmap.TMapCircle;
@@ -62,13 +63,16 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     private int m_nCurrentZoomLevel = 0;
     private ArrayList<Bitmap> mOverlayList;
 
-    private double m_Latitude;
-    private double m_Longitude;
-    private static int 	mMarkerID;
+    private double userLatitude;
+    private double userLongitude;
+    private double dogwalkerLatitude;
+    private double dogwalkerLongitude;
+    private static int mMarkerID;
     ArrayList<String> mArrayMarkerID;
     Intent intent = null;
 
     private double circleRadius;
+    private double betweenWalkerDistance;
 
     /***
      * 버튼 아이디 정리
@@ -80,7 +84,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     };
 
 
-
     /**
      * setSKTMapApiKey()에 ApiKey를 입력 한다.
      */
@@ -89,12 +92,12 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     }
 
     /**
-     * 권한 요청 관리자*/
+     * 권한 요청 관리자
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
     }
-
 
 
     @Override
@@ -112,16 +115,13 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
 
         /**지도 생성*/
-        LinearLayout linearLayoutTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
+        LinearLayout linearLayoutTmap = (LinearLayout) findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         apiKeyMapView(); //T MAP API 서버키 인증
-        linearLayoutTmap.addView( tMapView );
+        linearLayoutTmap.addView(tMapView);
 
         initView(); //리스너 실행
         circleRadius = 300;
-
-
-
 
 
         /***
@@ -160,7 +160,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         });
 
 
-
         /**
          * 클릭 이벤트 설정 구간
          * Toast시. MapEvent.this가 아닌 getApplicationContext()를 사용할 것.
@@ -173,14 +172,13 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
                 return false;
             }
+
             @Override
             public boolean onPressUpEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
                 //   Toast.makeText(getApplicationContext(), "onPressUp~!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
-
-
 
 
         // 롱 클릭 이벤트 설정
@@ -222,12 +220,10 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     }//initView
 
 
-
-
     /**
      * 현재 위치정보 받기
      * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
-     * */
+     */
     private final LocationListener mLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
 
@@ -238,15 +234,18 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                 tMapView.setCenterPoint(longitude, latitude);
             }
         }
+
         public void onProviderDisabled(String provider) {
         }
+
         public void onProviderEnabled(String provider) {
         }
+
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
     };
 
-    public void setGps(){
+    public void setGps() {
         final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -258,9 +257,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                 1, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
     }
-
-
-
 
 
     /**
@@ -307,9 +303,8 @@ public class RealTimeGpsActivity extends AppCompatActivity {
             }
 
 
-
             @Override
-            public boolean onPressEvent(ArrayList<TMapMarkerItem> markerlist,ArrayList<TMapPOIItem> poilist, TMapPoint point, PointF pointf) {
+            public boolean onPressEvent(ArrayList<TMapMarkerItem> markerlist, ArrayList<TMapPOIItem> poilist, TMapPoint point, PointF pointf) {
                 LogManager.printLog("MainActivity onPressEvent " + markerlist.size());
 
                 for (int i = 0; i < markerlist.size(); i++) {
@@ -322,7 +317,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
         tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
             @Override
-            public void onLongPressEvent(ArrayList<TMapMarkerItem> markerlist,ArrayList<TMapPOIItem> poilist, TMapPoint point) {
+            public void onLongPressEvent(ArrayList<TMapMarkerItem> markerlist, ArrayList<TMapPOIItem> poilist, TMapPoint point) {
                 LogManager.printLog("MainActivity onLongPressEvent " + markerlist.size());
             }
         });
@@ -339,7 +334,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         tMapView.setOnClickReverseLabelListener(new TMapView.OnClickReverseLabelListenerCallback() {
             @Override
             public void onClickReverseLabelEvent(TMapLabelInfo findReverseLabel) {
-                if(findReverseLabel != null) {
+                if (findReverseLabel != null) {
                     LogManager.printLog("MainActivity setOnClickReverseLabelListener " + findReverseLabel.id + " / " + findReverseLabel.labelLat
                             + " / " + findReverseLabel.labelLon + " / " + findReverseLabel.labelName);
 
@@ -369,10 +364,10 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if( tMapGps != null ) {
+        if (tMapGps != null) {
             tMapGps.CloseGps();
         }
-        if(mOverlayList != null){
+        if (mOverlayList != null) {
             mOverlayList.clear();
         }
     }
@@ -382,12 +377,20 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      * onClick Event
      */
     public void onClick(View v) {
-        switch(v.getId()) {
-/*            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;*/
-            case R.id.btnCapture		                :   captureImage(); 		break;
-            case R.id.btnEnlargeCircle                 :   EnlargeCircle();        break;
-            case R.id.btnNarrowCircle                  :   NarrowCircle();         break;
-            case R.id.btnIntentWalkerPage              :   intentWalkerListPage(); break;
+        switch (v.getId()) {
+            /*            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;*/
+            case R.id.btnCapture:
+                captureImage();
+                break;
+            case R.id.btnEnlargeCircle:
+                EnlargeCircle();
+                break;
+            case R.id.btnNarrowCircle:
+                NarrowCircle();
+                break;
+            case R.id.btnIntentWalkerPage:
+                intentWalkerListPage();
+                break;
         }
     }
 
@@ -450,7 +453,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     }
 
 
-
     public void captureImage() {
         tMapView.getCaptureImage(20, new TMapView.MapCaptureImageListenerCallback() {
 
@@ -480,16 +482,15 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                                 } catch (Exception e) {
                                     Toast.makeText(RealTimeGpsActivity.this, "캡처 이미지 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
                                     e.printStackTrace();
-                                }
-                                finally {
-                                    if(out != null) {
+                                } finally {
+                                    if (out != null) {
                                         try {
                                             out.close();
-                                        }catch(Exception e1) {}
+                                        } catch (Exception e1) {
+                                        }
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(RealTimeGpsActivity.this, "캡쳐 디렉터리 생성에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -506,10 +507,65 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
     /**
      * 도그워커 실시간으로 가능한 리스트 보여주는 이벤트 handle
+     *
      * @param view
      */
     public void onClcikShowListButton(View view) {
         Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerListAcitvity.class);
         startActivity(intent);
     }
+
+
+    /**
+     * 도그워커와의 거리 계산
+     */
+
+    private void distanceToDogwalker() {
+        //도그워커의 시작위치는 고정, 도그워커의 현재 위치는 계속 바뀜.
+        // 킬로미터(Kilo Meter) 단위
+
+
+        betweenWalkerDistance = distance(userLatitude, userLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
+    }
+
+    /**
+     *
+     * 두 지점간의 거리 계산
+     *
+     * @param lat1 지점 1 위도
+     * @param lon1 지점 1 경도
+     * @param lat2 지점 2 위도
+     * @param lon2 지점 2 경도
+     * @param unit 거리 표출단위
+     * @return dist*/
+
+
+    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
+
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
+
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+
+        if (unit == "kilometer") {
+            dist = dist * 1.609344;
+        } else if (unit == "meter") {
+            dist = dist * 1609.344;
+        }
+
+        return (dist);
+    }
+
+    // This function converts decimal degrees to radians
+    private static double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    // This function converts radians to decimal degrees
+    private static double rad2deg(double rad) {
+        return (rad * 180 / Math.PI);
+    }
+
 }
