@@ -14,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.View.MeasureSpec;
 import android.view.WindowManager;
 
+
 public class MarkerOverlay extends TMapMarkerItem2 {
 
     private DisplayMetrics dm = null;
@@ -27,31 +28,26 @@ public class MarkerOverlay extends TMapMarkerItem2 {
 
     @Override
     public Bitmap getIcon() {
-
         return super.getIcon();
     }
 
     @Override
     public void setIcon(Bitmap bitmap) {
-
         super.setIcon(bitmap);
     }
 
     @Override
     public void setTMapPoint(TMapPoint point) {
-
         super.setTMapPoint(point);
     }
 
     @Override
     public TMapPoint getTMapPoint() {
-
         return super.getTMapPoint();
     }
 
     @Override
     public void setPosition(float dx, float dy) {
-
         super.setPosition(dx, dy);
     }
 
@@ -71,7 +67,7 @@ public class MarkerOverlay extends TMapMarkerItem2 {
         WindowManager wmgr = (WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
         wmgr.getDefaultDisplay().getMetrics(dm);
 
-        balloonView = new BalloonOverlayView(mContext,"0","0");
+        balloonView = new BalloonOverlayView(mContext, 0);
 
         balloonView.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));

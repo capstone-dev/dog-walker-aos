@@ -831,7 +831,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
             //마커 객체 생성
             TMapPoint markerPoint = new TMapPoint(dogwalkerLatitude, dogwalkerLongitude);
-            MarkerOverlay marker1 = new MarkerOverlay(this, tMapView);
+            MarkerOverlay marker1 = new MarkerOverlay(DogwalkerGpsActivity.this, tMapView);
             String strID = String.format("%02d", i);
 
 
@@ -848,7 +848,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             //tMapMarkerItem2.startAnimation();
 
             //마커의 중심좌표 설정
-            marker1.setPosition(0.2f, 0.2f);
             marker1.getTMapPoint();
             marker1.setID(strID);
             //마커이미지 설정
@@ -859,7 +858,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             if (markerList == null) {
                 markerList = new ArrayList<Bitmap>();
             }
-
             markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.map_pin_red));
             markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
 
@@ -879,9 +877,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
 
-
+    /**
+    * 보행자의 이동경로 함수
+     * */
     public void drawPedestrianPath() {
-        TMapPoint startPoint = new TMapPoint(startDogwalkerLatitude,startDogwalkerLongitude);
+
+        double startWalkLatitude = startDogwalkerLatitude;
+        double startWalkLongitude = startDogwalkerLongitude;
+
+        TMapPoint startPoint = new TMapPoint(startWalkLatitude,startWalkLongitude);
         TMapPoint currentPoint = new TMapPoint(dogwalkerLatitude,dogwalkerLongitude);
 
         TMapData tmapdata = new TMapData();
@@ -914,7 +918,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         double distanceKiloMeter = distance(startWalkLatitude, startWalkLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
         recentWalkDistance = recentWalkDistance + distanceKiloMeter;
         txtWalkDistance = (TextView) findViewById(R.id.txtWalkDistance);
-        txtWalkDistance.setText(recentWalkDistance + "km");
+        txtWalkDistance.setText((float) recentWalkDistance + "km");
 
 }
 
@@ -1063,7 +1067,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 안드로이드 파일 업로드 샘플
      */
     private void imageUploadSample() {
-
         ImageView imageView = findViewById(R.id.compassIcon);
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();

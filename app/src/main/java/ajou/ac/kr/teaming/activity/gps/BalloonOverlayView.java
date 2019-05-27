@@ -18,28 +18,29 @@ import ajou.ac.kr.teaming.R;
 public class BalloonOverlayView extends FrameLayout {
 
     private LinearLayout layout;
-    private TextView title;
-    private TextView subTitle;
-    private ImageView image;
+    private TextView allPath;
+    private TextView sectionPath;
+    private ImageView clickImage;
 
-    public BalloonOverlayView(Context context, String labelName, String id) {
+    public BalloonOverlayView(Context context, int balloonBottomOffset) {
 
         super(context);
 
-        setPadding(10, 0, 10, 0);
+        setPadding(10, 0, 10, balloonBottomOffset);
         layout = new LinearLayout(context);
         layout.setVisibility(VISIBLE);
 
-        setupView(context, layout, labelName, id);
+        setupView(context, layout);
 
-        LayoutParams params = new LayoutParams(
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         params.gravity = Gravity.NO_GRAVITY;
+
         addView(layout, params);
     }
 
 
-    protected void setupView(Context context, final ViewGroup parent, String labelName, String id) {
+    protected void setupView(Context context, final ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 
@@ -47,16 +48,12 @@ public class BalloonOverlayView extends FrameLayout {
 
     }
 
-    public void setTitle(String str) {
-        title.setText(str);
+
+    public ImageView getClickImage() {
+
+        return clickImage;
     }
 
-    public void setSubTitle(String str) {
-        subTitle.setText(str);
-    }
 
-    public void setImage(Bitmap img) {
-        image.setImageBitmap(img);
-    }
+
 }
-
