@@ -117,10 +117,10 @@ public class PetRegisterActivity extends AppCompatActivity {
 
                         MyPetVO myPetVO = response.body();
 
-                        Log.d("TEST", "" + myPetVO.getDog_age());
-                        Log.d("TEST", "" + myPetVO.getDog_name());
-                        Log.d("TEST", "" + myPetVO.getDog_species());
-                        Log.d("TEST", "" + myPetVO.getUserID());
+                        Log.d("TEST", myPetVO.getDog_age());
+                        Log.d("TEST", myPetVO.getDog_name());
+                        Log.d("TEST", myPetVO.getDog_species());
+                        Log.d("TEST", myPetVO.getUserID());
 
                     }
 
