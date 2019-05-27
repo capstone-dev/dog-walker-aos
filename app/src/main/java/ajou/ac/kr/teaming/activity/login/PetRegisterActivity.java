@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
@@ -12,11 +13,15 @@ import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class PetRegisterActivity extends AppCompatActivity {
 
+
+    ImageView PetImage;
     TextView idText;
     EditText dognameText;
-    Button ModifyButton;
-    LoginService loginService;
-    RegisterVO registerVO;
+    EditText typeText;
+    EditText dogageText;
+    Button petRegisterButton;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

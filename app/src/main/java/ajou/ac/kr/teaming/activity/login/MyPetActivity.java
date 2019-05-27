@@ -42,7 +42,7 @@ public class MyPetActivity extends AppCompatActivity {
         MyPetRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent mypetregisterIntent = new Intent(MyPetActivity.this, MyPetRegisterActivity.class);
+                Intent mypetregisterIntent = new Intent(MyPetActivity.this, PetRegisterActivity.class);
                 mypetregisterIntent.putExtra("registerVO", registerVO);
                 MyPetActivity.this.startActivity(mypetregisterIntent);
 
