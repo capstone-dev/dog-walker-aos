@@ -110,7 +110,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                 RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
 
                 Map<String, RequestBody> mypet = new HashMap<>();
-                mypet.put("fileUpload\"; filename=\"photo.png", fileBody);
+                mypet.put("dog_imagefile\"; filename=\"PetImage.png", fileBody);
                 mypet.put("UserID", RequestBody.create(MediaType.parse("Text"), userid));
                 mypet.put("dog_species", RequestBody.create(MediaType.parse("Text"), dog_species));
                 mypet.put("dog_age", RequestBody.create(MediaType.parse("Text"), dog_age));
