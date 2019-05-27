@@ -122,6 +122,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                         Log.d("TEST", myPetVO.getDog_species());
                         Log.d("TEST", myPetVO.getUserID());
 
+
                     }
 
                     @Override
