@@ -9,7 +9,7 @@ public class MyPetVO {
     public String dog_name;
     public String dog_species;
     public String dog_age;
-    public File dog_imagefile;
+    public byte[] dog_imagefile;
 
 
     public String getUserID() {
@@ -44,11 +44,11 @@ public class MyPetVO {
         this.dog_age = dog_age;
     }
 
-    public File getDog_imagefile() {
+    public byte[] getDog_imagefile() {
         return dog_imagefile;
     }
 
-    public void setDog_imagefile(File dog_imagefile) {
+    public void setDog_imagefile(byte[] dog_imagefile) {
         this.dog_imagefile = dog_imagefile;
     }
 }

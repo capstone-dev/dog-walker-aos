@@ -9,14 +9,60 @@ import android.widget.TextView;
 
 public class DogwalkerVO {
 
-    Button DogwalkerRegisterButton;
-    TextView idText;
-    TextView BigcityText;
-    EditText siText;
-    EditText Dong1Text, Dong3Text, Dong2Text;
-    Spinner Time3Spinner, Time1Spinner, Time2Spinner;
-    ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
-    ImageView DogwalkerImage;
+
+    public String UserID;
+    private String UserBigcity;
+    private byte[] Dogwalkerphoto;
+    private String[] UserSmallcity;
+    private String[] UserverySmallcity;
+    private String[] UserTime;
 
 
+    public String getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(String userID) {
+        UserID = userID;
+    }
+
+    public String getUserBigcity() {
+        return UserBigcity;
+    }
+
+    public void setUserBigcity(String userBigcity) {
+        UserBigcity = userBigcity;
+    }
+
+    public byte[] getDogwalkerphoto() {
+        return Dogwalkerphoto;
+    }
+
+    public void setDogwalkerphoto(byte[] dogwalkerphoto) {
+        Dogwalkerphoto = dogwalkerphoto;
+    }
+
+    public String[] getUserSmallcity() {
+        return UserSmallcity;
+    }
+
+    public void setUserSmallcity(String[] userSmallcity) {
+        UserSmallcity = userSmallcity;
+    }
+
+    public String[] getUserverySmallcity() {
+        return UserverySmallcity;
+    }
+
+    public void setUserverySmallcity(String[] userverySmallcity) {
+        UserverySmallcity = userverySmallcity;
+    }
+
+    public String[] getUserTime() {
+        return UserTime;
+    }
+
+    public void setUserTime(String[] userTime) {
+        UserTime = userTime;
+    }
 }
