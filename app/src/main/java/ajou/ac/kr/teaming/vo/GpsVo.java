@@ -6,7 +6,7 @@ public class GpsVo {
     private int id;
     private int gpsId;
     private int markerId;
-    private String photoData;
+    private byte[] photoData;
     private double photoLatitude;
     private double photoLongitude;
     private double dogwalkerLatitude;
@@ -44,14 +44,12 @@ public class GpsVo {
         this.markerId = markerId;
     }
 
-    public String getPhotoData() {
+    public byte[] getPhotoData() {
         return photoData;
     }
-
-    public void setPhotoData(String photoData) {
+    public void setPhotoData(byte[] photoData) {
         this.photoData = photoData;
     }
-
     public double getPhotoLatitude() {
         return photoLatitude;
     }
