@@ -594,16 +594,16 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
         });
 
-        tMapView.setOnClickReverseLabelListener(new TMapView.OnClickReverseLabelListenerCallback() {
-            @Override
-            public void onClickReverseLabelEvent(TMapLabelInfo findReverseLabel) {
-                if(findReverseLabel != null) {
-                    LogManager.printLog("MainActivity setOnClickReverseLabelListener " + findReverseLabel.id + " / " + findReverseLabel.labelLat
-                            + " / " + findReverseLabel.labelLon + " / " + findReverseLabel.labelName);
-
-                }
-            }
-        });
+//        tMapView.setOnClickReverseLabelListener(new TMapView.OnClickReverseLabelListenerCallback() {
+//            @Override
+//            public void onClickReverseLabelEvent(TMapLabelInfo findReverseLabel) {
+//                if(findReverseLabel != null) {
+//                    LogManager.printLog("MainActivity setOnClickReverseLabelListener " + findReverseLabel.id + " / " + findReverseLabel.labelLat
+//                            + " / " + findReverseLabel.labelLon + " / " + findReverseLabel.labelName);
+//
+//                }
+//            }
+//        });
 
         m_nCurrentZoomLevel = -1;
         isCompassmode = false;
@@ -753,21 +753,18 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         alert.show();
     }
 
-
+    /**
+     * 카메라를 통해 이미지 가져옴
+     * */
     public void makePhotoAndMarker(){
-/*        Log.e(TAG, "onPause");
-        onPause();*/
 
-        /**
-         * 카메라를 통해 이미지 가져옴*/
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            } catch (IOException e) {
+            } catch (IOException e) {  }
 
-            }
             if (photoFile != null) {
                 photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -780,11 +777,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "TEST_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         imageFilePath = image.getAbsolutePath();
         return image;
     }
@@ -795,6 +788,26 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            File file = new File(imageFilePath);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                if (bitmap != null) {
+
+                    ExifInterface ei = new ExifInterface(imageFilePath);
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                    int degree = exifOrientationToDegress(orientation);
+
+                    Bitmap rotatedBitmap = rotate(bitmap, degree);
+
+                    ((ImageView)findViewById(R.id.compassIcon)).setImageBitmap(rotatedBitmap);
+                    showMarkerPoint(); //사진찍은 위치에 마커생성
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            /*
             Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
             ExifInterface exif = null;
 
@@ -818,6 +831,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             //resultImage.setImageBitmap(rotate(bitmap,exifDegree));
             showMarkerPoint(); //사진찍은 위치에 마커생성
            // imageUploadSample(); //이미지 업로드 메소드
+           */
         }
     }
     /**
