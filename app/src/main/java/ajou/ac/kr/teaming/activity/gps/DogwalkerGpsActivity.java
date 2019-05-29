@@ -191,8 +191,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     private long currentTime;
     private long nine = 32400000;
-    private boolean walkStatus;
-
 
 
 
@@ -224,6 +222,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private long start_time;
    private long end_time;
    private long walkTime;
+
+
+   private boolean isWalkStatus;
 
 
 /*****************************************************************************/
@@ -263,7 +264,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         public void run() {
                             updateCurrentTime();
                           //  drawPedestrianPath(); //도그워커의 이동경로를 그리는 메소드
-                            calculateWalkDistance();
+
                         }
                     });
                 }
@@ -410,7 +411,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 
-
         /**
          * 클릭 이벤트 설정 구간
          * Toast시. MapEvent.this가 아닌 getApplicationContext()를 사용할 것.
@@ -448,20 +448,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
         });
 
-        /**
-         * PermissionManager 클래스에서 상속
-         * 위치정보 허용기능
-         * */
-       /* permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-            @Override
-            public void granted() {
-            }
 
-            @Override
-            public void denied() {
-                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
-            }
-        });*/
+
+
+        isWalkStatus = false;
 
     }//onCreate
 
@@ -483,6 +473,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
+
+            startDogwalkerLatitude = dogwalkerLatitude;
+            startDogwalkerLongitude = dogwalkerLongitude;
+
+
+            //위치가 바뀔때마다 다음 역할을 수행
+            calculateWalkDistance();
+            drawPedestrianPath();
+
 
             if (location != null) {
                 double latitude = location.getLatitude();
@@ -669,11 +668,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * 5. 사진찍기 및 마커생성 동작 가능
          * */
 
-            startDogwalkerLatitude = dogwalkerLatitude;
-            startDogwalkerLongitude = dogwalkerLongitude;
+        if(isWalkStatus =! true) {
+            isWalkStatus = true;
             walkingThread.start();
-            drawPedestrianPath();
-
+        } else {
+            Log.e(TAG,"WalkStatus Error");
+        }
     }
 
 
@@ -994,8 +994,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 도그워커 산책 종료
      **/
     private void walkEnd() {
-        if(walkStatus = true){
-            walkStatus = false;
+        if(isWalkStatus = true){
+            isWalkStatus = false;
             /**산책 종료 확인 창*/
             AlertDialog.Builder alert_confirm = new AlertDialog.Builder(DogwalkerGpsActivity.this);
             alert_confirm.setMessage("산책을 종료 하시겠습니까?").setCancelable(false).setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -1003,6 +1003,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 public void onClick(DialogInterface dialog, int which) {
                     // 'YES'
                     walkingThread.interrupt(); //스레드 종료
+                    isWalkStatus = false;
 
                     //산책이 끝난 현위치를 마지막 위치로 설정
                     endDogwalkerLatitude = dogwalkerLatitude;
