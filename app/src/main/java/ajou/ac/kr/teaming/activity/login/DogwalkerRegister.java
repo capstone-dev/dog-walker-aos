@@ -75,6 +75,7 @@ public class DogwalkerRegister extends AppCompatActivity {
     Spinner Time3Spinner, Time1Spinner, Time2Spinner;
     ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
     ImageView DogwalkerImage;
+    EditText InfoText;
 
 
     @Override
@@ -92,6 +93,7 @@ public class DogwalkerRegister extends AppCompatActivity {
         Dong3Text = (EditText) findViewById(R.id.Dong3Text);
         DogwalkerImage = (ImageView) findViewById(R.id.DogwalkerImage);
         DogwalkerRegisterService dogwalkerRegisterService= ServiceBuilder.create(DogwalkerRegisterService.class);
+        InfoText=(EditText)findViewById(R.id.InfoText);
 
 
 
@@ -110,6 +112,7 @@ public class DogwalkerRegister extends AppCompatActivity {
                 String userid = registerVO.getUserID();
                 String userbigcity = registerVO.getUserBigcity();
                 String userSmallcity = siText.getText().toString();
+                String userInfo=InfoText.getText().toString();
                 String[] userverysmallcity ={
                   Dong1Text.getText().toString(),
                   Dong2Text.getText().toString(),
@@ -121,6 +124,7 @@ public class DogwalkerRegister extends AppCompatActivity {
                         Time2Spinner.getSelectedItem().toString(),
                         Time3Spinner.getSelectedItem().toString()
                 };
+
 
 
                 ImageView Mypet = findViewById(R.id.DogwalkerImage);
@@ -142,6 +146,7 @@ public class DogwalkerRegister extends AppCompatActivity {
                     Dogwalker.put("UserID", RequestBody.create(MediaType.parse("Text"), userid));
                     Dogwalker.put("UserBigcity", RequestBody.create(MediaType.parse("Text"), userbigcity));
                     Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userSmallcity));
+                    Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userInfo));
 
                 for(int i=0;i < 5; i++){
                     Dogwalker.put("UserverySmallcity["+i+"]", RequestBody.create(MediaType.parse("Text"), userverysmallcity[i]));

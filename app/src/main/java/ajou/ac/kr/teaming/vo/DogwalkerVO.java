@@ -16,7 +16,15 @@ public class DogwalkerVO {
     private String UserSmallcity;
     private String[] UserverySmallcity;
     private String[] UserTime;
+    private String UserInfo;
 
+    public String getUserInfo() {
+        return UserInfo;
+    }
+
+    public void setUserInfo(String userInfo) {
+        UserInfo = userInfo;
+    }
 
     public String getUserID() {
         return UserID;
