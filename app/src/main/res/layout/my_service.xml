@@ -10,14 +10,14 @@
     <TextView
         android:id="@+id/dog_walker_id"
         android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:text="IDlist"
         android:background="@drawable/layout_border"
         android:textSize="12sp"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_width="180dp"
         android:id="@+id/service_location"
         android:text="장소 list"
@@ -27,7 +27,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_width="150dp"
         android:id="@+id/service_walking_time"
         android:background="@drawable/layout_border"

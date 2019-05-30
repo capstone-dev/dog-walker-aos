@@ -7,7 +7,6 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="default_notification_channel_id" translatable="false">fcm_default_channel</string>
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -112,4 +111,7 @@
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_dogwalker_gps_result">DogwalkerGpsResult</string>
+
+    <string name="default_notification_channel_id">Channel ID</string>
+    <string name="default_notification_channel_name" translatable="true">Test</string>
 </resources>
