@@ -10,7 +10,7 @@
 
 <ScrollView
 android:id="@+id/scrollView"
-android:layout_width="match_parent"
+android:layout_width="wrap_content"
 android:layout_height="match_parent"
 android:layout_marginStart="5dp"
 android:layout_marginEnd="5dp"
@@ -24,9 +24,48 @@ app:layout_constraintStart_toStartOf="parent">
 
 
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/Search_reservation_result_Funtion"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:id="@+id/idText"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintRight_toRightOf="@+id/Search_reservation_result_Funtion"
+            app:layout_constraintLeft_toRightOf="@+id/name"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="이름 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Funtion"
+            app:layout_constraintLeft_toRightOf="@+id/nameText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
 
 
 </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+    </android.support.constraint.ConstraintLayout>
 </ScrollView>
 
 
