@@ -18,6 +18,7 @@ import android.view.Menu;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.login.PetRegisterActivity;
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }else if(id==R.id.nav_puppy){
 
-            Intent puppy = new Intent(MainActivity.this, PetRegisterActivity.class);
+            Intent puppy = new Intent(MainActivity.this, DogwalkerRegister.class);
             puppy.putExtra("RegisterVO", registerVO);
             startActivity(puppy);
 

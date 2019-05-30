@@ -13,7 +13,7 @@ public class DogwalkerVO {
     public String UserID;
     private String UserBigcity;
     private byte[] Dogwalkerphoto;
-    private String[] UserSmallcity;
+    private String UserSmallcity;
     private String[] UserverySmallcity;
     private String[] UserTime;
 
@@ -42,11 +42,11 @@ public class DogwalkerVO {
         Dogwalkerphoto = dogwalkerphoto;
     }
 
-    public String[] getUserSmallcity() {
+    public String getUserSmallcity() {
         return UserSmallcity;
     }
 
-    public void setUserSmallcity(String[] userSmallcity) {
+    public void setUserSmallcity(String userSmallcity) {
         UserSmallcity = userSmallcity;
     }
 

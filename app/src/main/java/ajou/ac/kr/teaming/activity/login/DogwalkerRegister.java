@@ -33,15 +33,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.activity.gps.PermissionManager;
+import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.service.login.DogwalkerRegisterService;
 import ajou.ac.kr.teaming.service.login.LoginService;
 import ajou.ac.kr.teaming.service.login.MyPetService;
+import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.MyPetVO;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -54,6 +62,9 @@ public class DogwalkerRegister extends AppCompatActivity {
     private static final int FROM_ALBUM = 1;
     private Uri imgUri, photoURI, albumURI;
     private String mCurrentPhotoPath;
+    RegisterVO registerVO;
+    DogwalkerRegisterService dogwalkerRegisterService;
+    DogwalkerVO dogwalkerVO;
 
 
     Button DogwalkerRegisterButton;
@@ -80,6 +91,99 @@ public class DogwalkerRegister extends AppCompatActivity {
         Dong2Text = (EditText) findViewById(R.id.Dong2Text);
         Dong3Text = (EditText) findViewById(R.id.Dong3Text);
         DogwalkerImage = (ImageView) findViewById(R.id.DogwalkerImage);
+        DogwalkerRegisterService dogwalkerRegisterService= ServiceBuilder.create(DogwalkerRegisterService.class);
+
+
+
+
+        Intent intent =getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+
+        idText.setText(registerVO.getUserID());
+        BigcityText.setText(registerVO.getUserBigcity());
+
+
+        DogwalkerRegisterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String userid = registerVO.getUserID();
+                String userbigcity = registerVO.getUserBigcity();
+                String userSmallcity = siText.getText().toString();
+                String[] userverysmallcity ={
+                  Dong1Text.getText().toString(),
+                  Dong2Text.getText().toString(),
+                        Dong3Text.getText().toString()
+                };
+
+                String[] usertime ={
+                        Time1Spinner.getSelectedItem().toString(),
+                        Time2Spinner.getSelectedItem().toString(),
+                        Time3Spinner.getSelectedItem().toString()
+                };
+
+
+                ImageView Mypet = findViewById(R.id.DogwalkerImage);
+
+                Bitmap bitmap = ((BitmapDrawable) DogwalkerImage.getDrawable()).getBitmap();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] dataArray = baos.toByteArray();
+
+
+                RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
+
+
+
+
+                    Map<String, RequestBody> Dogwalker = new HashMap<String, RequestBody>() ;
+
+                    Dogwalker.put("Dogwalkerphoto\"; filename=\"Dogwalkerphoto.png", fileBody);
+                    Dogwalker.put("UserID", RequestBody.create(MediaType.parse("Text"), userid));
+                    Dogwalker.put("UserBigcity", RequestBody.create(MediaType.parse("Text"), userbigcity));
+                    Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userSmallcity));
+
+                for(int i=0;i < 5; i++){
+                    Dogwalker.put("UserverySmallcity["+i+"]", RequestBody.create(MediaType.parse("Text"), userverysmallcity[i]));
+                    Dogwalker.put("UserTime["+i+"]", RequestBody.create(MediaType.parse("Text"), usertime[i]));
+
+                }
+
+
+                Call<DogwalkerVO> call = dogwalkerRegisterService.RegisterDogwalker(Dogwalker);
+
+                call.enqueue(new Callback<DogwalkerVO>() {
+                    @Override
+                    public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
+                        DogwalkerVO dogwalkerVO=response.body();
+
+                        Intent intent = new Intent(DogwalkerRegister.this, MainActivity.class);
+                        startActivity(intent);
+
+
+                        Log.d("TEST", "통신 성공");
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<DogwalkerVO> call, Throwable t) {
+
+                        Log.d("TEST", "통신 실패");
+                    }
+                });
+
+
+
+
+
+            }
+        });
+
+
+
+
+
+
 
         PermissionListener permissionListener = new PermissionListener() {
             @Override
