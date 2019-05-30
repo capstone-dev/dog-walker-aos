@@ -225,6 +225,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
    private boolean isWalkStatus;
+   private int markTime = 0;
 
 
 /*****************************************************************************/
@@ -377,8 +378,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapGps.setMinDistance(5);
         tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
         tMapGps.OpenGps();
-        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-        tMapGps.OpenGps();
+//        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+//        tMapGps.OpenGps();
 
         PermissionListener permissionListener = new PermissionListener() {
             @Override
@@ -474,13 +475,13 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
 
-            startDogwalkerLatitude = dogwalkerLatitude;
-            startDogwalkerLongitude = dogwalkerLongitude;
 
+            if( isWalkStatus == true){
+                //위치가 바뀔때마다 다음 역할을 수행
+                calculateWalkDistance();
+                drawPedestrianPath();
+            }
 
-            //위치가 바뀔때마다 다음 역할을 수행
-            calculateWalkDistance();
-            drawPedestrianPath();
 
 
             if (location != null) {
@@ -512,10 +513,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 1, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
 
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);
+//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+//                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
+//                1, // 통지사이의 최소 변경거리 (m)
+//                mLocationListener);
     }
 
 
@@ -593,17 +594,17 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Common.showAlertDialog(DogwalkerGpsActivity.this, "Callout Right Button", strMessage);
             }
         });
-
-        tMapView.setOnClickReverseLabelListener(new TMapView.OnClickReverseLabelListenerCallback() {
-            @Override
-            public void onClickReverseLabelEvent(TMapLabelInfo findReverseLabel) {
-                if(findReverseLabel != null) {
-                    LogManager.printLog("MainActivity setOnClickReverseLabelListener " + findReverseLabel.id + " / " + findReverseLabel.labelLat
-                            + " / " + findReverseLabel.labelLon + " / " + findReverseLabel.labelName);
-
-                }
-            }
-        });
+//
+//        tMapView.setOnClickReverseLabelListener(new TMapView.OnClickReverseLabelListenerCallback() {
+//            @Override
+//            public void onClickReverseLabelEvent(TMapLabelInfo findReverseLabel) {
+//                if(findReverseLabel != null) {
+//                    LogManager.printLog("MainActivity setOnClickReverseLabelListener " + findReverseLabel.id + " / " + findReverseLabel.labelLat
+//                            + " / " + findReverseLabel.labelLon + " / " + findReverseLabel.labelName);
+//
+//                }
+//            }
+//        });
 
         m_nCurrentZoomLevel = -1;
         isCompassmode = false;
@@ -668,9 +669,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * 5. 사진찍기 및 마커생성 동작 가능
          * */
 
-        if(isWalkStatus =! true) {
+        if(isWalkStatus == false) {
             isWalkStatus = true;
             walkingThread.start();
+            startDogwalkerLatitude = dogwalkerLatitude;
+            startDogwalkerLongitude = dogwalkerLongitude;
+
         } else {
             Log.e(TAG,"WalkStatus Error");
         }
@@ -754,20 +758,17 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
 
+    /**
+     * 카메라를 통해 이미지 가져옴
+     * */
     public void makePhotoAndMarker(){
-/*        Log.e(TAG, "onPause");
-        onPause();*/
 
-        /**
-         * 카메라를 통해 이미지 가져옴*/
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager()) != null) {
             File photoFile = null;
             try {
                 photoFile = createImageFile();
-            } catch (IOException e) {
-
-            }
+            } catch (IOException e) { }
             if (photoFile != null) {
                 photoUri = FileProvider.getUriForFile(getApplicationContext(), getPackageName(), photoFile);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
@@ -780,11 +781,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "TEST_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,
-                ".jpg",
-                storageDir
-        );
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         imageFilePath = image.getAbsolutePath();
         return image;
     }
@@ -795,7 +792,26 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
+
+
+            File file = new File(imageFilePath);
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+                if (bitmap != null) {
+
+                    ExifInterface ei = new ExifInterface(imageFilePath);
+                    int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                    int degree = exifOrientationToDegress(orientation);
+
+                    Bitmap rotatedBitmap = rotate(bitmap, degree);
+
+                    ((ImageView)findViewById(R.id.compassIcon)).setImageBitmap(rotatedBitmap);
+                    showMarkerPoint(); //사진찍은 위치에 마커생성
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+           /* Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
             ExifInterface exif = null;
 
             try {
@@ -817,7 +833,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             //사진 표시 방법을 생각
             //resultImage.setImageBitmap(rotate(bitmap,exifDegree));
             showMarkerPoint(); //사진찍은 위치에 마커생성
-           // imageUploadSample(); //이미지 업로드 메소드
+           // imageUploadSample(); //이미지 업로드 메소드*/
         }
     }
     /**
@@ -885,6 +901,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             markerId = Integer.parseInt(strID); //마커아이디 저장
             photoLatitude = dogwalkerLatitude;
             photoLongitude = dogwalkerLongitude;
+
+            markTime += 1;
         }
 
 
@@ -900,7 +918,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
     /**
-    * 보행자의 이동경로 함수
+    * 보행자의 이동경로 메소드
      * */
     public void drawPedestrianPath() {
 
@@ -920,10 +938,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
         });
     }
-
-
-
-
 
 
 
@@ -1014,6 +1028,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     //산책이 끝난 시점의 시간을 end_time에 저장
                     end_time = currentTime;
                     walkTime = end_time - start_time;
+
+
+
+                    Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsResult.class);
+
+                    intent.putExtra("totalWalkDistance",walkDistance); /*송신*/
+                    intent.putExtra("totalWalkTime",walkTime);
+                    startActivity(intent);
                 }
             }).setNegativeButton("취소",
                     new DialogInterface.OnClickListener() {
@@ -1164,7 +1186,3 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 }//DogwalkerGpsActivity
-
-
-
-
