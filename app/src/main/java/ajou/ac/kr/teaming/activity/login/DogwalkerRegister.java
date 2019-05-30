@@ -148,7 +148,7 @@ public class DogwalkerRegister extends AppCompatActivity {
                     Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userSmallcity));
                     Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userInfo));
 
-                for(int i=0;i < 5; i++){
+                for(int i=0;i < 3; i++){
                     Dogwalker.put("UserverySmallcity["+i+"]", RequestBody.create(MediaType.parse("Text"), userverysmallcity[i]));
                     Dogwalker.put("UserTime["+i+"]", RequestBody.create(MediaType.parse("Text"), usertime[i]));
 

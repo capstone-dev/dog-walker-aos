@@ -32,6 +32,8 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
 
     }
 
+
+
     public UserCommunityThreadAdapter(OnItemClickListener onItemClickListener){
         this.onItemClickListener=onItemClickListener;
     }
@@ -66,9 +68,9 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
     }
 
     public void addThread(ArrayList<UserCommunityThreadVO> userCommunityThreadVOList) {
-        userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
-        notifyDataSetChanged();
-    }
+    userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
+    notifyDataSetChanged();
+}
 }
 
 
