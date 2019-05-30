@@ -33,15 +33,15 @@ public class MyServiceMainActivity extends AppCompatActivity implements MyServic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_service_main);
 
+        Intent intent = getIntent();
+        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
+
         myServiceView = findViewById(R.id.my_service_list_view);
         myServiceView.setLayoutManager(new LinearLayoutManager(this));
 
         myServiceAdapter = new MyServiceAdapter(this::deleteMyServiceEvent, this::contactMessageEvent);
         myServiceView.setAdapter(myServiceAdapter);
         setMyServiceList();
-
-        Intent intent = getIntent();
-        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
 
     }
 
