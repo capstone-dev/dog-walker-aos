@@ -51,16 +51,18 @@ public class DogwalkerGpsResult extends AppCompatActivity {
         Intent intent = getIntent();
 
         Double walkDistance = intent.getExtras().getDouble("totalWalkDistance");
-        inputWalkDistance.setText(walkDistance + "Km");
+        inputWalkDistance.setText(walkDistance + "m");
 
-        Long walkTime = intent.getExtras().getLong("totalWalkTIme");
-
+        Long walkTime = intent.getExtras().getLong("totalWalkTime");
         Date walkdate = new Date(walkTime);
         // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
         SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss");
         // nowDate 변수에 값을 저장한다.
         String formatDate = sdfNow.format(walkdate);
         inputWalkTime.setText(formatDate.substring(0,8));    // TextView 에 현재 시간 문자열 할당
+
+        Integer photoTImes = intent.getExtras().getInt("PhotoTImes");
+        inputPhotoOfTimes.setText(photoTImes + "회");
 
 
         btnGoToMain.setOnClickListener(new View.OnClickListener() {

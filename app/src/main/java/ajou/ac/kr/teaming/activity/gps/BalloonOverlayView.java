@@ -45,6 +45,7 @@ public class BalloonOverlayView extends FrameLayout {
 
 
         View view = inflater.inflate(R.layout.bubble_popup, parent, true);
+        ImageView image = (ImageView) findViewById(R.id.bubble_picture);
 
     }
 

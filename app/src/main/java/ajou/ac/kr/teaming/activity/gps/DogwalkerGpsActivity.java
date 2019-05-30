@@ -37,9 +37,7 @@ import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
-import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
-import com.skt.Tmap.TMapLabelInfo;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPOIItem;
@@ -132,8 +130,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      */
     private static final int[] mArrayMapDogwalkerButton = {
             R.id.btnWalkStart,
-            R.id.btnCallToUser, //통화하기
-            R.id.btnChatToUser, //채팅하기
             R.id.btnPhotoAndMarker, //사진찍기 및 마커생성
 //            R.id.btnWalkDistance, // 산책거리계산 및 표시
             R.id.btnWalkEnd, //산책 종료
@@ -185,6 +181,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     private static int 	mMarkerID;
     ArrayList<String> mArrayMarkerID;
+    ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
 
     // GPSTracker class
     private TMapGpsManager gps;
@@ -264,8 +261,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         @Override
                         public void run() {
                             updateCurrentTime();
-                          //  drawPedestrianPath(); //도그워커의 이동경로를 그리는 메소드
-
                         }
                     });
                 }
@@ -378,8 +373,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapGps.setMinDistance(5);
         tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
         tMapGps.OpenGps();
-//        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-//        tMapGps.OpenGps();
+        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+        tMapGps.OpenGps();
 
         PermissionListener permissionListener = new PermissionListener() {
             @Override
@@ -472,14 +467,18 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             txtLat.setText(String.valueOf(dogwalkerLatitude));
             txtLon.setText(String.valueOf(dogwalkerLongitude));
 
+
             //위치정보 모니터링 제거
             //locationManager.removeUpdates(DogwalkerGpsActivity.this);
 
+            //도그워커 이동경로 그리기
+            //위치가 바뀔 때마다 현재 위치에 새로운 포인트를 추가
 
             if( isWalkStatus == true){
                 //위치가 바뀔때마다 다음 역할을 수행
                 calculateWalkDistance();
                 drawPedestrianPath();
+                addPedestrianPoint();
             }
 
 
@@ -510,13 +509,13 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         Log.e(TAG,"setGps Activated");
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
                 1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
+                10, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
 
-//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-//                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-//                1, // 통지사이의 최소 변경거리 (m)
-//                mLocationListener);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
+                10, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
     }
 
 
@@ -649,10 +648,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.btnWalkStart                       :     walkStart();                     break;
-            case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
-            case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
+//            case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
+//            case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
             case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
-//            case R.id.btnWalkDistance		              : 	calculateWalkDistance(); 			    break;
             case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
 //            case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();          break;
             case R.id.btnImageUploadSample               : 	imageUploadSample(); 			    break;
@@ -674,6 +672,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             walkingThread.start();
             startDogwalkerLatitude = dogwalkerLatitude;
             startDogwalkerLongitude = dogwalkerLongitude;
+
+
+            alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
+            alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) ); // 도그워커 끝지점
+
 
         } else {
             Log.e(TAG,"WalkStatus Error");
@@ -718,20 +721,20 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     /**
      * 강아지 주인과 통화하기
      * */
-    private void callToUser() {
+//    private void callToUser() {
+//
+//        //통화하기 샘플
+//        Uri phoneNumber = Uri.parse("tel:01057461715");
+//        Intent callMe = new Intent(Intent.ACTION_VIEW, phoneNumber);
+//        startActivity(callMe);
+//
+//    }
 
-        //통화하기 샘플
-        Uri phoneNumber = Uri.parse("tel:01057461715");
-        Intent callMe = new Intent(Intent.ACTION_VIEW, phoneNumber);
-        startActivity(callMe);
-
-    }
-
-    /**
-     * 강아지 주인과 채팅하기
-     * */
-    private void chatToUser(){
-    }
+//    /**
+//     * 강아지 주인과 채팅하기
+//     * */
+//    private void chatToUser(){
+//    }
 
     /**
      * 사진 찍기 시 마커 생성
@@ -792,8 +795,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-
             File file = new File(imageFilePath);
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
@@ -806,6 +807,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Bitmap rotatedBitmap = rotate(bitmap, degree);
 
                     ((ImageView)findViewById(R.id.compassIcon)).setImageBitmap(rotatedBitmap);
+                  //  ((ImageView)findViewById(R.id.bubble_picture)).setImageBitmap(rotatedBitmap);
                     showMarkerPoint(); //사진찍은 위치에 마커생성
                 }
             } catch (IOException e) {
@@ -867,7 +869,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             MarkerOverlay marker1 = new MarkerOverlay(DogwalkerGpsActivity.this, tMapView);
             String strID = String.format("%02d", i);
 
-
             //	String MarkerID = marker1.getID();  마커 아이디 반환
             // 	marker1.setID("id"); //마커 아이디 설정
 
@@ -902,9 +903,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             photoLatitude = dogwalkerLatitude;
             photoLongitude = dogwalkerLongitude;
 
-            markTime += 1;
-        }
 
+        }
+        markTime += 1;
 
         tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
             @Override
@@ -922,21 +923,45 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * */
     public void drawPedestrianPath() {
 
-        double startWalkLatitude = startDogwalkerLatitude;
-        double startWalkLongitude = startDogwalkerLongitude;
+    //  double startWalkLatitude = startDogwalkerLatitude;
+    //  double startWalkLongitude = startDogwalkerLongitude;
 
-        TMapPoint startPoint = new TMapPoint(startWalkLatitude,startWalkLongitude);
-        TMapPoint currentPoint = new TMapPoint(dogwalkerLatitude,dogwalkerLongitude);
+//        alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
+//        alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) ); // 도그워커 끝지점
 
-        TMapData tmapdata = new TMapData();
+        TMapPolyLine tMapPolyLine = new TMapPolyLine();
+        tMapPolyLine.setLineColor(Color.YELLOW);
+        tMapPolyLine.setLineWidth(2);
+        for( int i=0; i<alTMapPoint.size(); i++ ) {
+            tMapPolyLine.addLinePoint( alTMapPoint.get(i) );
+        }
+        tMapView.addTMapPolyLine("Line1", tMapPolyLine);
 
-        tmapdata.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, currentPoint, new TMapData.FindPathDataListenerCallback() {
-            @Override
-            public void onFindPathData(TMapPolyLine polyLine) {
-                polyLine.setLineColor(Color.GREEN);
-                tMapView.addTMapPath(polyLine);
-            }
-        });
+
+//        double startWalkLatitude = startDogwalkerLatitude;
+//        double startWalkLongitude = startDogwalkerLongitude;
+//
+//        TMapPoint startPoint = new TMapPoint(startWalkLatitude,startWalkLongitude);
+//        TMapPoint currentPoint = new TMapPoint(dogwalkerLatitude,dogwalkerLongitude);
+//
+//        TMapData tmapdata = new TMapData();
+//
+//        tmapdata.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, currentPoint, new TMapData.FindPathDataListenerCallback() {
+//            @Override
+//            public void onFindPathData(TMapPolyLine polyLine) {
+//                polyLine.setLineColor(Color.GREEN);
+//                tMapView.addTMapPath(polyLine);
+//            }
+//        });
+    }
+
+
+    /**
+     * 위치가 바뀔때마다 (onLocationChanged)
+     * 현재위치에 새로운 포인트를 추가
+     * */
+    public void addPedestrianPoint(){
+        alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) );
     }
 
 
@@ -948,7 +973,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         //도그워커의 시작위치는 고정, 도그워커의 현재 위치는 계속 바뀜.
         // 킬로미터(Kilo Meter) 단위
 
-        double distanceKiloMeter = distance(startDogwalkerLatitude, startDogwalkerLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
+        double distanceKiloMeter = distance(startDogwalkerLatitude, startDogwalkerLongitude, dogwalkerLatitude, dogwalkerLongitude, "meter");
         recentWalkDistance = recentWalkDistance + distanceKiloMeter;
         txtWalkDistance = (TextView) findViewById(R.id.txtWalkDistance);
         txtWalkDistance.setText((float) recentWalkDistance + "km");
@@ -996,14 +1021,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 
-
-
-
-
-
-
-
-
     /**
      * 도그워커 산책 종료
      **/
@@ -1027,14 +1044,16 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     walkDistance = recentWalkDistance;
                     //산책이 끝난 시점의 시간을 end_time에 저장
                     end_time = currentTime;
-                    walkTime = end_time - start_time;
 
+
+                    Long totalWalkTime = walkTime;
 
 
                     Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsResult.class);
 
                     intent.putExtra("totalWalkDistance",walkDistance); /*송신*/
-                    intent.putExtra("totalWalkTime",walkTime);
+                    intent.putExtra("totalWalkTime",totalWalkTime);
+                    intent.putExtra("PhotoTImes",markTime);
                     startActivity(intent);
                 }
             }).setNegativeButton("취소",
@@ -1128,7 +1147,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         //RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), data);
         //MultipartBody.Part fileBody = MultipartBody.Part.createFormData("picture", "aa.jpg", requestFile);
-
         RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
 
         Map<String, RequestBody> params = new HashMap<>();

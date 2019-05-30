@@ -1002,7 +1002,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
                     Log.d("TEST", "onResponse: " + gpsVo.getGpsId());
                     Log.d("TEST", "onResponse: " + gpsVo.getMarkerId());
-                    Log.d("TEST", "onResponse: " + gpsVo.getPhotoData());
+                    Log.d("TEST", "onResponse: " + gpsVo.getPhotoURL());
                     Log.d("TEST", "onResponse: " + gpsVo.getPhotoLatitude());
                     Log.d("TEST", "onResponse: " + gpsVo.getPhotoLongitude());
                     Log.d("TEST", "onResponse: " + gpsVo.getDogwalkerLatitude());
