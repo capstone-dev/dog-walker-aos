@@ -31,6 +31,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/popupTheme" />
         <activity android:name=".activity.reservation.SearchResultActivity" />
+        <activity android:name=".activity.myService.MyServiceMainActivity"/>
         <activity android:name=".activity.gps.RealTimeGpsActivity" />
         <activity
             android:name=".activity.gps.DogwalkerGpsActivity"
