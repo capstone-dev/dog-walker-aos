@@ -70,13 +70,14 @@ public class FirebaseMessagingService {
         databaseReference.addChildEventListener(childEventListener);
     }
 
-    public void onClick(View v,String message,String userId,String oppoentId,String commentId){
+    public void onClick(View v,String token,String message,String userId,String oppoentId,String commentId){
         if(!TextUtils.isEmpty(message)){
             ChatDataVO chatDataVO=new ChatDataVO();
             chatDataVO.userId=userId;
             chatDataVO.message=message;
             chatDataVO.opponenetId=oppoentId;
             chatDataVO.commentId=commentId;
+            chatDataVO.firebaseKey=token;
             //시간 출력
 
             Date date=new Date();

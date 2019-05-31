@@ -1,4 +1,4 @@
-package ajou.ac.kr.teaming.activity;
+package ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.MainActivity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MsgService";

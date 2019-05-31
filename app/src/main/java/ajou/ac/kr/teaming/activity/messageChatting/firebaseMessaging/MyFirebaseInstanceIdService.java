@@ -1,4 +1,4 @@
-package ajou.ac.kr.teaming.activity;
+package ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging;
 
 import android.util.Log;
 

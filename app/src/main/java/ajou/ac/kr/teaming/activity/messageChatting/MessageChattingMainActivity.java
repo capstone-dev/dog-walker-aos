@@ -10,9 +10,12 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+
 import ajou.ac.kr.teaming.R;
 
 import ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging.FirebaseMessagingService;
+import ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging.NotificationModel;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
@@ -90,10 +93,10 @@ public class MessageChattingMainActivity extends Activity {
                         //메시지 추가
 
                         if (registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) {
-                            firebaseMessagingService.onClick(v, inputValue, registerVO.getUserID(),
+                            firebaseMessagingService.onClick(v, registerVO.getToken(),inputValue, registerVO.getUserID(),
                                     userCommunityContentCommentVO.getUser_UserID(), userCommunityContentCommentVO.getCommentId());
                         } else {
-                            firebaseMessagingService.onClick(v, inputValue, registerVO.getUserID(),
+                            firebaseMessagingService.onClick(v, registerVO.getToken(),inputValue, registerVO.getUserID(),
                                     userCommunityThreadVO.getUser_UserID(), userCommunityContentCommentVO.getCommentId());
                         }
                     }
@@ -114,10 +117,10 @@ public class MessageChattingMainActivity extends Activity {
                         //메시지 추가
 
                         if (registerVO.getUserID().equals(dogwalkerListVO.getDogwalkerID())) {
-                            firebaseMessagingService.onClick(v, inputValue, registerVO.getUserID(),
+                            firebaseMessagingService.onClick(v, registerVO.getToken(),inputValue, registerVO.getUserID(),
                                     dogwalkerListVO.getSelect(), dogwalkerListVO.getSelect());
                         } else {
-                            firebaseMessagingService.onClick(v, inputValue, registerVO.getUserID(),
+                            firebaseMessagingService.onClick(v, registerVO.getToken(),inputValue, registerVO.getUserID(),
                                     dogwalkerListVO.getDogwalkerID(), dogwalkerListVO.getDogwalkerID());
                         }
                     }
@@ -146,6 +149,13 @@ public class MessageChattingMainActivity extends Activity {
             intent.putExtra("activityName","실시간도그워커");
         }
         startActivity(intent);
+    }
+
+    public void sendFcm(){
+        Gson gson=new Gson();
+
+        NotificationModel notificationModel=new NotificationModel();
+
     }
 
     /**

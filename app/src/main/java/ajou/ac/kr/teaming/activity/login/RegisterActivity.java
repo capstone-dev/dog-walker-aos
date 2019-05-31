@@ -1,43 +1,31 @@
 package ajou.ac.kr.teaming.activity.login;
 
         import android.content.Intent;
-        import android.support.constraint.Group;
-        import android.support.v7.app.AlertDialog;
         import android.support.v7.app.AppCompatActivity;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
-        import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
         import android.widget.EditText;
         import android.widget.Spinner;
         import android.widget.Toast;
 
-        import java.util.ArrayList;
+        import com.google.firebase.iid.FirebaseInstanceId;
+
         import java.util.HashMap;
 
         import ajou.ac.kr.teaming.R;
-        import ajou.ac.kr.teaming.activity.MainActivity;
-        import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
-        import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityThreadRegisterActivity;
         import ajou.ac.kr.teaming.service.common.ServiceBuilder;
         import ajou.ac.kr.teaming.service.login.RegisterService;
-        import ajou.ac.kr.teaming.service.userCommunity.UserCommunityThreadRegisterService;
         import ajou.ac.kr.teaming.vo.RegisterVO;
-        import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
         import retrofit2.Call;
         import retrofit2.Callback;
         import retrofit2.Response;
-        import retrofit2.Retrofit;
-        import retrofit2.converter.gson.GsonConverterFactory;
-
-        import static android.os.Build.ID;
-        import static retrofit2.converter.gson.GsonConverterFactory.*;
 
 public class RegisterActivity extends AppCompatActivity {
 
-
+    String token;
     EditText idText;
     EditText passwordText;
     EditText nameText;
@@ -47,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     Spinner UserBigcity;
     Button registerButton;
     ArrayAdapter<CharSequence> adapter3, adapter1;
-
+    RegisterService registerService = ServiceBuilder.create(RegisterService.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
         adapter1 = ArrayAdapter.createFromResource(this, R.array.bigcity, android.R.layout.simple_spinner_dropdown_item);
         UserBigcity.setAdapter(adapter1);
 
-        RegisterService RegisterService = ServiceBuilder.create(RegisterService.class);
 
         idText = (EditText) findViewById(R.id.idText);
         passwordText = (EditText) findViewById(R.id.passwordText);
@@ -73,6 +60,12 @@ public class RegisterActivity extends AppCompatActivity {
         UserGender = (Spinner) findViewById(R.id.UserGender);
         UserBigcity = (Spinner) findViewById(R.id.UserBigcity);
         registerButton = (Button) findViewById(R.id.registerButton);
+
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(instanceIdResult -> {
+            token = instanceIdResult.getToken();
+            //토큰 받기
+            Log.d("TEST", "onCreate: "+token);
+        });
 
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -98,31 +91,18 @@ public class RegisterActivity extends AppCompatActivity {
                     inputregister.put("UserGender", ((Spinner) findViewById(R.id.UserGender)).getSelectedItem().toString());
                     inputregister.put("UserBigcity", ((Spinner) findViewById(R.id.UserBigcity)).getSelectedItem().toString());
                     inputregister.put("UserPhoneNumber", ((EditText) findViewById(R.id.numberText)).getText().toString());
+                    inputregister.put("token",token);
 
 
-                    Call<RegisterVO> request = RegisterService.postSignUp(inputregister);
+                    Call<RegisterVO> request = registerService.postSignUp(inputregister);
                     request.enqueue(new Callback<RegisterVO>() {
                         @Override
                         public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
                             // 성공시
                             if (response.isSuccessful()) {
                                 RegisterVO RegisterVOs = response.body();
-                                //테스트 확인 log값
-                                if (RegisterVOs != null) {
-                                    Log.d("TEST", RegisterVOs.getUserID());
-                                    Log.d("TEST", RegisterVOs.getUserPassword());
-                                    Log.d("TEST", RegisterVOs.getUserName());
-                                    Log.d("TEST", RegisterVOs.getUserEmail());
-                                    Log.d("TEST", RegisterVOs.getUserPhoneNumber());
-                                    Log.d("TEST", RegisterVOs.getUserGender());
-                                    Log.d("TEST", RegisterVOs.getUserBigcity());
-
-                                }
                             }
                             Log.d("TEST", "onResponse:END ");
-
-                            Intent intent = new Intent(RegisterActivity.this, LoginMainActivity.class);
-                            startActivity(intent);
                         }
 
                         @Override
@@ -131,9 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.d("TEST", "통신 실패");
 
                         }
-
-
                     });
+                    Intent intent = new Intent(RegisterActivity.this, LoginMainActivity.class);
+                    startActivity(intent);
                 }
 
             }
