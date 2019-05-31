@@ -18,7 +18,6 @@ import ajou.ac.kr.teaming.vo.RegisterVO;
 public class MyPageActivity extends AppCompatActivity {
 
     Button DogwalkerButton;
-
     RegisterVO registerVO;
    TextView idText;
    TextView nameText;
@@ -38,11 +37,16 @@ public class MyPageActivity extends AppCompatActivity {
 
        DogwalkerButton = (Button) findViewById(R.id.DogwalkerButton);
        ModifyButton=(Button)findViewById(R.id.ModifyButton);
-
+       idText=(TextView)findViewById(R.id.idText);
+       nameText=(TextView)findViewById(R.id.nameText);
+       EmailText=(TextView)findViewById(R.id.EmailText);
+       PhoneNumberText=(TextView)findViewById(R.id.PhoneNumberText);
+       GenderText=(TextView)findViewById(R.id.GenderText);
+       BigcityText=(TextView)findViewById(R.id.BigcityText);
 
 
         Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        RegisterVO registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
         idText.setText(registerVO.getUserID());
         nameText.setText(registerVO.getUserName());
         EmailText.setText(registerVO.getUserEmail());

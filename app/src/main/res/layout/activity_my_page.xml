@@ -41,7 +41,6 @@
             android:id="@+id/idText"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:text="TextView"
             android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintRight_toRightOf="@+id/Search_Functio"

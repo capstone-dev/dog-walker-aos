@@ -52,6 +52,7 @@ import ajou.ac.kr.teaming.vo.MyPetVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -113,17 +114,8 @@ public class DogwalkerRegister extends AppCompatActivity {
                 String userbigcity = registerVO.getUserBigcity();
                 String userSmallcity = siText.getText().toString();
                 String userInfo=InfoText.getText().toString();
-                String[] userverysmallcity ={
-                  Dong1Text.getText().toString(),
-                  Dong2Text.getText().toString(),
-                        Dong3Text.getText().toString()
-                };
-
-                String[] usertime ={
-                        Time1Spinner.getSelectedItem().toString(),
-                        Time2Spinner.getSelectedItem().toString(),
-                        Time3Spinner.getSelectedItem().toString()
-                };
+                String userverysmallcity =Dong1Text.getText().toString();
+                String usertime =Time3Spinner.getSelectedItem().toString();
 
 
 
@@ -142,17 +134,15 @@ public class DogwalkerRegister extends AppCompatActivity {
 
                     Map<String, RequestBody> Dogwalker = new HashMap<String, RequestBody>() ;
 
-                    Dogwalker.put("Dogwalkerphoto\"; filename=\"Dogwalkerphoto.png", fileBody);
+                    Dogwalker.put("fileUpload\"; filename=\"fileUpload.png", fileBody);
                     Dogwalker.put("UserID", RequestBody.create(MediaType.parse("Text"), userid));
                     Dogwalker.put("UserBigcity", RequestBody.create(MediaType.parse("Text"), userbigcity));
                     Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userSmallcity));
-                    Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userInfo));
+                    Dogwalker.put("UserverySmallcity", RequestBody.create(MediaType.parse("Text"), userverysmallcity));
+                    Dogwalker.put("UserTime", RequestBody.create(MediaType.parse("Text"), usertime));
+                Dogwalker.put("UserInfo", RequestBody.create(MediaType.parse("Text"), userInfo));
 
-                for(int i=0;i < 3; i++){
-                    Dogwalker.put("UserverySmallcity["+i+"]", RequestBody.create(MediaType.parse("Text"), userverysmallcity[i]));
-                    Dogwalker.put("UserTime["+i+"]", RequestBody.create(MediaType.parse("Text"), usertime[i]));
 
-                }
 
 
                 Call<DogwalkerVO> call = dogwalkerRegisterService.RegisterDogwalker(Dogwalker);
@@ -214,15 +204,15 @@ public class DogwalkerRegister extends AppCompatActivity {
 
 
         Time1Spinner = (Spinner) findViewById(R.id.Time1Spinner);
-        adapter1 = ArrayAdapter.createFromResource(this, R.array.Time, android.R.layout.simple_spinner_dropdown_item);
+        adapter1 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
         Time1Spinner.setAdapter(adapter3);
 
         Time2Spinner = (Spinner) findViewById(R.id.Time2Spinner);
-        adapter2 = ArrayAdapter.createFromResource(this, R.array.Time, android.R.layout.simple_spinner_dropdown_item);
+        adapter2 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
         Time2Spinner.setAdapter(adapter3);
 
         Time3Spinner = (Spinner) findViewById(R.id.Time3Spinner);
-        adapter3 = ArrayAdapter.createFromResource(this, R.array.Time, android.R.layout.simple_spinner_dropdown_item);
+        adapter3 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
         Time3Spinner.setAdapter(adapter3);
 
         DogwalkerImage.setOnClickListener(new View.OnClickListener() {

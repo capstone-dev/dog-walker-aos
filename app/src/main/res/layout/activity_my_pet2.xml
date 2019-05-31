@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.login.MyPetActivity">
+    tools:context=".activity.login.MyPet2Activity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/MyPet_Function"
@@ -99,7 +99,7 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
     <android.support.constraint.ConstraintLayout
@@ -128,7 +128,6 @@
 
 
     </android.support.constraint.ConstraintLayout>
-
 
 
 

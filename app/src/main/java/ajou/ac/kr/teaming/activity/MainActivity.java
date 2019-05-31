@@ -21,7 +21,7 @@ import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
-import ajou.ac.kr.teaming.activity.login.PetRegisterActivity;
+import ajou.ac.kr.teaming.activity.login.MyPet2Activity;
 import ajou.ac.kr.teaming.activity.myService.MyServiceMainActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_my) {
 
-            Intent my = new Intent(MainActivity.this, MyActivity.class);
+            Intent my = new Intent(MainActivity.this, DogwalkerRegister.class);
             my.putExtra("RegisterVO", registerVO);
             startActivity(my);
 
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         }else if(id==R.id.nav_puppy){
 
-            Intent puppy = new Intent(MainActivity.this, DogwalkerRegister.class);
+            Intent puppy = new Intent(MainActivity.this, MyPet2Activity.class);
             puppy.putExtra("RegisterVO", registerVO);
             startActivity(puppy);
 

@@ -70,7 +70,7 @@ public class LoginMainActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent loginIntent = new Intent(LoginMainActivity.this, DogwalkerRegister.class);
+                Intent loginIntent = new Intent(LoginMainActivity.this, RegisterActivity.class);
 
 
                 LoginMainActivity.this.startActivity(loginIntent);

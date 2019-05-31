@@ -12,11 +12,19 @@ public class DogwalkerVO {
 
     public String UserID;
     private String UserBigcity;
-    private byte[] Dogwalkerphoto;
+    private byte[] fileUpload;
     private String UserSmallcity;
-    private String[] UserverySmallcity;
-    private String[] UserTime;
+    private String UserverySmallcity;
+    private String UserTime;
     private String UserInfo;
+
+    public byte[] getFileUpload() {
+        return fileUpload;
+    }
+
+    public void setFileUpload(byte[] fileUpload) {
+        this.fileUpload = fileUpload;
+    }
 
     public String getUserInfo() {
         return UserInfo;
@@ -42,13 +50,6 @@ public class DogwalkerVO {
         UserBigcity = userBigcity;
     }
 
-    public byte[] getDogwalkerphoto() {
-        return Dogwalkerphoto;
-    }
-
-    public void setDogwalkerphoto(byte[] dogwalkerphoto) {
-        Dogwalkerphoto = dogwalkerphoto;
-    }
 
     public String getUserSmallcity() {
         return UserSmallcity;
@@ -58,19 +59,19 @@ public class DogwalkerVO {
         UserSmallcity = userSmallcity;
     }
 
-    public String[] getUserverySmallcity() {
+    public String getUserverySmallcity() {
         return UserverySmallcity;
     }
 
-    public void setUserverySmallcity(String[] userverySmallcity) {
+    public void setUserverySmallcity(String userverySmallcity) {
         UserverySmallcity = userverySmallcity;
     }
 
-    public String[] getUserTime() {
+    public String getUserTime() {
         return UserTime;
     }
 
-    public void setUserTime(String[] userTime) {
+    public void setUserTime(String userTime) {
         UserTime = userTime;
     }
 }
