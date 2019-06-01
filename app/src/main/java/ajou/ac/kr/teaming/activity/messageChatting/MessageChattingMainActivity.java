@@ -198,7 +198,7 @@ public class MessageChattingMainActivity extends Activity {
 
         NotificationModel notificationModel = new NotificationModel();
         notificationModel.to = oppenentToken;
-        notificationModel.notification.title = "Dogwalker";
+        notificationModel.notification.title = "Dog Walker";
         notificationModel.notification.text = inputValue;
 
         RequestBody requestBody=RequestBody.create(MediaType.parse("application/json; charset=utf8"),
