@@ -45,7 +45,6 @@ public class MyServiceMainActivity extends AppCompatActivity implements MyServic
 
     }
 
-
     /**
      * <p> 서버로부터 커뮤니티 게시글 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
      */
@@ -77,7 +76,6 @@ public class MyServiceMainActivity extends AppCompatActivity implements MyServic
             }
         });
     }
-
 
     @Override
     public void deleteMyServiceEvent(View view, ServiceVO serviceVO) {

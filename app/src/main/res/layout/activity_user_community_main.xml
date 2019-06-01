@@ -91,7 +91,7 @@
 
                 <TextView
                     android:id="@+id/user_name_form"
-                    android:layout_width="40dp"
+                    android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="ID"
@@ -113,7 +113,7 @@
 
                 <TextView
                     android:id="@+id/user_location_form"
-                    android:layout_width="110dp"
+                    android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="위치"
@@ -124,7 +124,7 @@
 
                 <TextView
                     android:id="@+id/user_thread_date_form"
-                    android:layout_width="110dp"
+                    android:layout_width="75dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="게시글 날짜"
@@ -176,6 +176,7 @@
                         android:layout_height="30dp"
                         android:layout_marginStart="3dp"
                         android:layout_marginTop="5dp"
+                        android:padding="4dp"
                         app:layout_constraintLeft_toLeftOf="@id/thread_search"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

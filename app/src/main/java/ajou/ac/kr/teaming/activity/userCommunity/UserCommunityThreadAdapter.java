@@ -20,43 +20,41 @@ import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 
 public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommunityThreadViewHolder> {
 
-    private ArrayList<UserCommunityThreadVO> userCommunityThreadVOArrayList=new ArrayList<>();
+    private ArrayList<UserCommunityThreadVO> userCommunityThreadVOArrayList = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
 
 
     /**
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
      */
-    public interface OnItemClickListener{
+    public interface OnItemClickListener {
         void showThreadContentEvent(View view, UserCommunityThreadVO userCommunityThreadVO);
 
     }
 
 
-
-    public UserCommunityThreadAdapter(OnItemClickListener onItemClickListener){
-        this.onItemClickListener=onItemClickListener;
+    public UserCommunityThreadAdapter(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @NonNull
     @Override
     public UserCommunityThreadViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         return new UserCommunityThreadViewHolder(LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.user_community_thread,viewGroup,false));
+                .inflate(R.layout.user_community_thread, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull UserCommunityThreadViewHolder userCommunityThreadViewHolder, int i) {
 
-        UserCommunityThreadVO userCommunityThreadVO=userCommunityThreadVOArrayList.get(i);
+        UserCommunityThreadVO userCommunityThreadVO = userCommunityThreadVOArrayList.get(i);
         /**
          * 데이터 바인딩
          */
         userCommunityThreadViewHolder.chatRoomUserName.setText(userCommunityThreadVO.getUser_UserID());
         userCommunityThreadViewHolder.threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         userCommunityThreadViewHolder.userLocation.setText(userCommunityThreadVO.getUserLocation());
-        userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate().substring(0,10)+" "+userCommunityThreadVO.
-                getThreadDate().substring(11,16));
+        userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate().substring(0, 10));
         //해당 게시글 constraintLayout 클릭시 발생 event handle
         userCommunityThreadViewHolder.constraintLayout.setOnClickListener(v ->
                 onItemClickListener.showThreadContentEvent(v, userCommunityThreadVOArrayList.get(i)));
@@ -68,16 +66,21 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
     }
 
     public void addThread(ArrayList<UserCommunityThreadVO> userCommunityThreadVOList) {
-    userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
-    notifyDataSetChanged();
-}
+        userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
+        notifyDataSetChanged();
+    }
+
+    public void deleteThread(){
+        userCommunityThreadVOArrayList.clear();
+        notifyDataSetChanged();
+    }
 }
 
 
 /**
  * <p>vidw holder에 게시글 form에 적합한 값들을 적용 </p>
  */
-class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
+class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder {
 
     TextView chatRoomUserName;
     TextView threadTitle;
@@ -87,11 +90,11 @@ class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder{
 
     public UserCommunityThreadViewHolder(@NonNull View itemView) {
         super(itemView);
-        constraintLayout=itemView.findViewById(R.id.user_thread);
-        threadTitle=itemView.findViewById(R.id.user_thread_title);
-        chatRoomUserName=itemView.findViewById(R.id.user_name);
-        userLocation=itemView.findViewById(R.id.user_location);
-        threadDate=itemView.findViewById(R.id.user_thread_date);
+        constraintLayout = itemView.findViewById(R.id.user_thread);
+        threadTitle = itemView.findViewById(R.id.user_thread_title);
+        chatRoomUserName = itemView.findViewById(R.id.user_name);
+        userLocation = itemView.findViewById(R.id.user_location);
+        threadDate = itemView.findViewById(R.id.user_thread_date);
     }
 
 }

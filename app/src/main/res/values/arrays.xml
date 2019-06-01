@@ -3,6 +3,7 @@
 <resources>
 
     <string-array name="community_select">
+        <item>검색어</item>
         <item>아이디</item>
         <item>제목</item>
         <item>위치</item>

@@ -25,7 +25,6 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
     private ArrayList<DogwalkerListVO> dogwalkerVoArrayList = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
 
-
     /**
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
      */
@@ -73,10 +72,19 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
         return dogwalkerVoArrayList.size();
     }
 
+    //게시글 더해주는 서비스
     public void addThread(ArrayList<DogwalkerListVO> dogwalkerVoList) {
         Log.d("TEST", "addThread: ");
         dogwalkerVoArrayList.addAll(dogwalkerVoList);
         notifyDataSetChanged();
+    }
+
+    //게시글 중복 체크해 주는 서비스
+    public int check(String userID) {
+        for(DogwalkerListVO dogwalkerListVO: dogwalkerVoArrayList){
+            if(dogwalkerListVO.getDogwalkerID().equals(userID)) {return 1;}
+        }
+        return 0;
     }
 }
 
