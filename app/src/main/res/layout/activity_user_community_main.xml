@@ -164,28 +164,25 @@
                     android:id="@+id/thread_search"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:layout_margin="10dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/layout_border"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/user_community_thread_list">
 
-                    <TextView
+                    <Spinner
                         android:id="@+id/search_text"
-                        android:layout_width="40dp"
+                        android:layout_width="80dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="3dp"
                         android:layout_marginTop="5dp"
-                        android:text="검색어"
-                        android:textSize="12sp"
                         app:layout_constraintLeft_toLeftOf="@id/thread_search"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <EditText
                         android:id="@+id/thread_search_edit_text"
-                        android:layout_width="200dp"
+                        android:layout_width="230dp"
                         android:layout_height="40dp"
                         android:layout_marginLeft="3dp"
                         android:layout_marginTop="8dp"

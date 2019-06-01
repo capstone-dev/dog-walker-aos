@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+
+    <string-array name="community_select">
+        <item>아이디</item>
+        <item>제목</item>
+        <item>위치</item>
+    </string-array>
     
     <string-array name="bigcity">
         <item> 경기도</item>

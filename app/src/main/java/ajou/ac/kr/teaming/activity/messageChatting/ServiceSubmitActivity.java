@@ -115,7 +115,6 @@ public class ServiceSubmitActivity extends Activity {
             inputService.put("user_UserID",registerVO.getUserID());
             inputService.put("user_DogwalkerID",dogwalkerListVO.getDogwalkerID());
             inputService.put("serviceLocation",((TextView)serviceLocation).getText().toString());
-
             inputService.put("peopleNumber","1");
         }
         Call<ServiceVO> request = servicePayService.postService(inputService);

@@ -44,7 +44,8 @@
         <activity android:name=".activity.login.MyActivity" />
         <activity android:name=".activity.reservation.SearchActivity" />
         <activity android:name=".activity.reservation.RealTimeActivity" />
-        <activity android:name=".activity.login.RegisterActivity" />
+        <activity android:name=".activity.login.RegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.userCommunity.UserCommunityThreadRegisterActivity" />
         <activity
             android:name=".activity.userCommunity.UserCommunityMainActivity"
