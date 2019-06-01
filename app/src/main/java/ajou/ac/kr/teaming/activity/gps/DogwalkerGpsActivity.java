@@ -51,6 +51,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -164,14 +165,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     TMapGpsManager tMapGps = null;
     PermissionManager permissionManager = null; // 권한요청 관리자
-    Fragment currentFragment;
-
-
-    private final int PERMISSIONS_ACCESS_FINE_LOCATION = 1000;
-    private final int PERMISSIONS_ACCESS_COARSE_LOCATION = 1001;
-    private boolean isAccessFineLocation = false;
-    private boolean isAccessCoarseLocation = false;
-    private boolean isPermission = false;
 
 
     private boolean isCompassmode = false;
@@ -186,6 +179,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private static int 	mMarkerID;
 
     ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
+    ArrayList<TMapPoint> dogwalkerPhotoPoint = new ArrayList<TMapPoint>();
 
     // GPSTracker class
     private TMapGpsManager gps;
@@ -224,7 +218,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private long end_time;
    private long walkTime;
 
-
    private boolean isWalkStatus;
    private int markTime = 0;
    private ImageView iconPhoto;
@@ -232,14 +225,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private boolean isSetGps = false;
    private ImageView bubblePicture;
    private Bitmap bitmapSample1;
-
-
-
-
-   ArrayList<String> mArrayMarkerID;
-
-
-
+   private ImageView imgSample1;
 
 
 /*****************************************************************************/
@@ -875,6 +861,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Bitmap rotatedBitmap = rotate(bitmap, degree);
 
                     ((ImageView)findViewById(R.id.compassIcon)).setImageBitmap(rotatedBitmap);
+
+                    imageUploadSample();
+                    savePhotoLocationPoint(); //사진찍은 현재위치를 ArrayList에 추가
                     showMarkerPoint(); //사진찍은 위치에 마커생성
                 }
             } catch (IOException e) {
@@ -925,28 +914,40 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
 
+    /**
+     * 도그워커가 사진을 찍은 위치를 저장하게 하는 메소드
+     *
+     * */
+    public void savePhotoLocationPoint(){
+        dogwalkerPhotoPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
+    }
+
+
+
     public void showMarkerPoint() {
 
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < dogwalkerPhotoPoint.size(); i++){
 
-            Log.d("TEST","마커생성");
+            Log.d("TEST","마커생성"+i);
+
             //도그워커의 현재위치에 마커 생성
-            TMapPoint markerPoint = new TMapPoint(dogwalkerLatitude, dogwalkerLongitude);
             TMapMarkerItem markerItem1 = new TMapMarkerItem();
             String strID = String.format("%02d", i);
             // 마커 아이콘 지정
             markerItem1.getTMapPoint();
             markerItem1.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
             // 마커의 좌표 지정
-            markerItem1.setTMapPoint(markerPoint);
+            markerItem1.setTMapPoint(dogwalkerPhotoPoint.get(i));
             markerItem1.setCanShowCallout(true);
-            markerItem1.setCalloutTitle("테스트"+i);
-            //지도에 마커 추가
-            tMapView.addMarkerItem(strID+i, markerItem1);
+            markerItem1.setCalloutTitle("테스트"+strID);
+            markerItem1.setCalloutSubTitle("안녕하세요"+strID);
 
-            //풍선뷰 왼쪽에 사용될 이미지
-//            Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),R.drawable.Icon);
-//            tItem.setCalloutLeftImage(bitmap);
+
+            Bitmap retBitmap = getBitmap("http://52.79.234.182:3000/gps/marker/image?markerId="+i);
+            markerItem1.setCalloutLeftImage(retBitmap);
+
+            //지도에 마커 추가
+            tMapView.addMarkerItem(strID, markerItem1);
         }
 /*
         ArrayList<Bitmap> markerList = null;
@@ -992,20 +993,20 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 
-        markTime += 1;
-
-        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
-            @Override
-            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
-                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
-                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
-                Common.showAlertDialog(DogwalkerGpsActivity.this, "사진 상세정보", strMessage);
-            }
-        });
+        //markTime += 1;
+//
+//        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
+//            @Override
+//            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
+//                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
+//                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
+//                Common.showAlertDialog(DogwalkerGpsActivity.this, "사진 상세정보", strMessage);
+//            }
+//        });
     }
 
 
-    /** * image url을 받아서 bitmap을 생성하고 리턴한다.
+    /*** image url을 받아서 bitmap을 생성하고 리턴한다.
      * @param url 얻고자 하는 image url
      * @return 생성된 bitmap */
     private Bitmap getBitmap(String url) {
@@ -1030,6 +1031,26 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             return retBitmap;
         }
     }
+
+
+/*    Thread justImage = new Thread(new Runnable() {
+        public void run() {
+            imgSample1 = (ImageView) findViewById(R.id.compassIcon);
+            try {
+                bitmapSample1 = getBitmap("http://52.79.234.182:3000/gps/marker/image?markerId="+i);
+            } catch (Exception e) {
+            } finally {
+                if (bitmapSample1 != null) {
+                    runOnUiThread(new Runnable() {
+                        @SuppressLint("NewApi")
+                        public void run() {
+                            imgSample1.setImageBitmap(bitmapSample1);
+                        }
+                    });
+                }
+            }
+        }
+    }).start();*/
 
 
 
@@ -1165,6 +1186,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
                     Long totalWalkTime = walkTime;
+                    markTime = dogwalkerPhotoPoint.size();
 
 
                     Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsResult.class);
@@ -1314,29 +1336,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         Log.d("TEST", "" + gpsVo.getEnd_time());
                         Log.d("TEST", "" + gpsVo.getWalkTime());*/
 
-
-
-                        /**
-                         * 풍선뷰 안의 이미지를 서버의 주소로 받아와 생성한다.
-                         * */
-                        bubblePicture = (ImageView) findViewById(R.id.bubble_pictureContext);
-                        new Thread(new Runnable() {
-                            public void run() {
-                                try {
-                                    bitmapSample1 = getBitmap("http://52.79.234.182:3000/gps/marker/image?markerId="+markerId);
-                                } catch (Exception e) {
-                                } finally {
-                                    if (bitmapSample1 != null) {
-                                        runOnUiThread(new Runnable() {
-                                            @SuppressLint("NewApi")
-                                            public void run() {
-                                                bubblePicture.setImageBitmap(bitmapSample1);
-                                            }
-                                        });
-                                    }
-                                }
-                            }
-                        }).start();
                     }
                 }
             }
