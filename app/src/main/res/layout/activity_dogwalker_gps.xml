@@ -25,22 +25,10 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btnWalkStart"
+                    android:id="@+id/btnImageUploadSample"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="산책 시작" />
-
-                <Button
-                    android:id="@+id/btnWalkEnd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="산책 종료" />
-
-                <Button
-                    android:id="@+id/btnPhotoAndMarker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="사진찍기/마커생성" />
+                    android:text="사진업로드샘플" />
 
             </LinearLayout>
         </LinearLayout>
@@ -51,21 +39,25 @@
     <LinearLayout
         android:id="@+id/LinearButtonView2"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnImageUploadSample"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="사진업로드샘플" />
+        <TextView
+            android:id="@+id/txtWalkTimeContext"
+            android:layout_width="79dp"
+            android:layout_height="match_parent"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="산책 시간 : " />
 
         <TextView
             android:id="@+id/txtWalkTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="산책시간표시란" />
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="" />
 
         <TextView
             android:id="@+id/txtgongback2"
@@ -74,15 +66,24 @@
             android:text="      " />
 
         <TextView
+            android:id="@+id/txtWalkDistanceContext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="이동 거리 : " />
+
+        <TextView
             android:id="@+id/txtWalkDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="이동거리" />
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:text="" />
 
     </LinearLayout>
 
-    <RelativeLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/contentView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -92,19 +93,46 @@
             android:id="@+id/compassIcon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/photoIcon"
+            app:layout_constraintHorizontal_bias="0.029"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/maps_compass_icon" />
+
+        <ImageView
+            android:id="@+id/photoIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+        <ImageView
+            android:id="@+id/walkEndIcon"
+            android:layout_width="78dp"
+            android:layout_height="78dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/walkendimage" />
 
         <LinearLayout
             android:id="@+id/linearLayoutTmap"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
             android:orientation="vertical" />
 
 
-    </RelativeLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
     <LinearLayout

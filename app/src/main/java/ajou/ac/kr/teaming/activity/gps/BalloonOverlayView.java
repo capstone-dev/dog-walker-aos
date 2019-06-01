@@ -21,6 +21,7 @@ public class BalloonOverlayView extends FrameLayout {
     private TextView allPath;
     private TextView sectionPath;
     private ImageView clickImage;
+    public ImageView pictureContext;
 
     public BalloonOverlayView(Context context, int balloonBottomOffset) {
 
@@ -45,7 +46,7 @@ public class BalloonOverlayView extends FrameLayout {
 
 
         View view = inflater.inflate(R.layout.bubble_popup, parent, true);
-        ImageView image = (ImageView) findViewById(R.id.bubble_picture);
+        pictureContext = (ImageView) findViewById(R.id.bubble_pictureContext);
 
     }
 

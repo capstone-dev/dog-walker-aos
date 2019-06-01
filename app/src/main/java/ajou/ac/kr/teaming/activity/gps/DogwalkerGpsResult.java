@@ -51,7 +51,8 @@ public class DogwalkerGpsResult extends AppCompatActivity {
         Intent intent = getIntent();
 
         Double walkDistance = intent.getExtras().getDouble("totalWalkDistance");
-        inputWalkDistance.setText(walkDistance + "m");
+        String walkDistanceContext = String.format("%.2f",walkDistance);
+        inputWalkDistance.setText(walkDistanceContext + "m");
 
         Long walkTime = intent.getExtras().getLong("totalWalkTime");
         Date walkdate = new Date(walkTime);

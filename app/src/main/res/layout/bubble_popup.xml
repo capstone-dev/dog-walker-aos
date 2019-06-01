@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:gravity="center_vertical"
-	android:orientation="vertical"
+	xmlns:tools="http://schemas.android.com/tools"
 	android:id="@+id/bubble_popup_bg"
 	android:layout_width="wrap_content"
-	android:layout_height="wrap_content">
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
 
-	<ImageView android:gravity="center"
-		android:layout_gravity="center"
+	<ImageView
 		android:id="@+id/bubble_picture"
-		android:background="@drawable/bubble_info"
-		android:visibility="visible"
 		android:layout_width="150dp"
 		android:layout_height="100dp"
+		android:layout_centerHorizontal="true"
+		android:layout_centerVertical="true"
+		android:background="@drawable/bubble_info"
 		android:scaleType="fitCenter"
-		android:layout_weight="100"
-		android:layout_centerInParent="true"/>
-</LinearLayout>
+		android:visibility="visible" />
+
+	<ImageView
+		android:id="@+id/bubble_pictureContext"
+		android:layout_width="140dp"
+		android:layout_height="90dp"
+		tools:srcCompat="@tools:sample/avatars[1]" />
+</FrameLayout>
 
 
