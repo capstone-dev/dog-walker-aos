@@ -24,7 +24,8 @@
         <activity android:name=".activity.login.SerchResultView"></activity>
         <activity android:name=".activity.login.MyPageModifyActivity" />
         <activity android:name=".activity.login.PetRegisterActivity" />
-        <activity android:name=".activity.gps.RealTimeDogWalkerListAcitvity" />
+        <activity android:name=".activity.gps.RealTimeDogWalkerListAcitvity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.login.DogwalkerRegister" />
         <activity
             android:name=".activity.messageChatting.ServiceSubmitActivity"
