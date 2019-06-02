@@ -1142,7 +1142,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         if (unit == "kilometer") {
             dist = dist * 1.609344;
         } else if(unit == "meter"){
-            dist = dist * 1609.344;
+            dist = dist * 100.0; //1000.0
         }
 
         return (dist);
