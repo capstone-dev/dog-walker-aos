@@ -225,6 +225,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private ImageView imgSample1;
     private double currentDogwalkerLatitude;
     private double currentDogwalkerLongitude;
+    private ImageView imageUploadTest;
+    private Bitmap resizedImage;
+    private int cameraTimes = -1;
 
 
 /*****************************************************************************/
@@ -368,6 +371,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 walkEnd();
             }
         });
+
+
+        //ImageUpload 테스트 이미지뷰
+        imageUploadTest = (ImageView) findViewById(R.id.imageUploadTestView);
+        imageUploadTest.bringToFront() ;
 
 
 
@@ -541,7 +549,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         Log.e(TAG,"setGps Activated");
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
                 1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-                10, // 통지사이의 최소 변경거리 (m)
+                5, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
 
 /*        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
@@ -685,7 +693,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 //            case R.id.btnPhotoAndMarker	              : 	alertPhotoAndMarker(); 			break;
 //            case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
 //            case R.id.btnPostDogwalkerLocation              postDogwalkerLocation();          break;
-            case R.id.btnImageUploadSample               : 	imageUploadSample(); postGpsData();  			    break;
+            case R.id.btnImageUploadSample               : 	imageUploadSample();   			    break; //postGpsData();
         }
     }
 
@@ -863,14 +871,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
                     Bitmap rotatedBitmap = rotate(bitmap, degree);
 
-                    ((ImageView)findViewById(R.id.compassIcon)).setImageBitmap(rotatedBitmap);
-
+                    ((ImageView)findViewById(R.id.imageUploadTestView)).setImageBitmap(rotatedBitmap);
                     photoLatitude = dogwalkerLatitude;
                     photoLongitude = dogwalkerLongitude;
 
-                    imageUploadSample();
+                    cameraTimes += 1;
+
                     savePhotoLocationPoint(); //사진찍은 현재위치를 ArrayList에 추가
-                    showMarkerPoint(); //사진찍은 위치에 마커생성
+                    imageUploadSample(); //사진찍은 현재위치의 ArrayList를 기준으로 이미지를 서버에 POST
+                    showMarkerPoint(cameraTimes); //사진찍은 위치에 마커생성
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -930,24 +939,27 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 
-    public void showMarkerPoint() {
-        for(int i = 0; i < dogwalkerPhotoPoint.size(); i++){
-            Log.d("TEST","마커생성"+i);
+    public void showMarkerPoint(int number) {
+
+            Log.d("TEST","마커생성"+number);
             //도그워커의 현재위치에 마커 생성
             TMapMarkerItem markerItem = new TMapMarkerItem();
-            String strID = String.format("%02d", i); //두자릿수로 나오도록 설정
-            markerId = i; //마커 아이디 변수 지정
+            String strID = String.format("%02d", number); //두자릿수로 나오도록 설정
+            markerId = number; //마커 아이디 변수 지정
             // 마커 아이콘 지정
             markerItem.getTMapPoint();
             markerItem.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
             // 마커의 좌표 지정
-            markerItem.setTMapPoint(dogwalkerPhotoPoint.get(i));
+            markerItem.setTMapPoint(dogwalkerPhotoPoint.get(number));
             markerItem.setCanShowCallout(true);
             markerItem.setCalloutTitle("테스트"+strID);
             markerItem.setCalloutSubTitle("안녕하세요"+strID);
 
-            final int markerUrlId = i;
 
+            /**
+             * 이미지뷰를 URL에서 받아와 적용하는 코드
+             * */
+            final int markerUrlId = number;
             //  안드로이드에서 네트워크 관련 작업을 할 때는
             //  반드시 메인 스레드가 아닌 별도의 작업 스레드에서 작업해야 한다.
             Thread mThread = new Thread() {
@@ -955,16 +967,25 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 public void run() {
                     try {
                         URL url = new URL("http://52.79.234.182:3000/gps/marker/image?markerId="+markerUrlId); // URL 주소를 이용해서 URL 객체 생성
-
                         //  아래 코드는 웹에서 이미지를 가져온 뒤
                         //  이미지 뷰에 지정할 Bitmap을 생성하는 과정
-
                         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
                         conn.setDoInput(true);
                         conn.connect();
 
                         InputStream is = conn.getInputStream();
                         bitmapSample1 = BitmapFactory.decodeStream(is);
+
+                        //비트맵의 이미지가 너무 커서 리사이즈 한다.
+                        int height = bitmapSample1.getHeight();
+                        int width = bitmapSample1.getWidth();
+                        // Toast.makeText(this, width + " , " + height, Toast.LENGTH_SHORT).show();
+
+                        while (height > 50) {
+                            resizedImage = Bitmap.createScaledBitmap(bitmapSample1, (width * 50) / height, 50, true);
+                            height = resizedImage.getHeight();
+                            width = resizedImage.getWidth();
+                        }
                     } catch(IOException ex) {
 
                     }
@@ -979,120 +1000,28 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 //  이제 작업 스레드에서 이미지를 불러오는 작업을 완료했기에
                 //  UI 작업을 할 수 있는 메인스레드에서 이미지뷰에 이미지를 지정합니다.
 
-
                 /**
                  * void setCalloutLeftImage(Bitmap bitmap)
                  * 풍선뷰의 왼쪽에 사용될 이미지를 설정한다.
                  * */
-                markerItem.setCalloutLeftImage(bitmapSample1);
+                markerItem.setCalloutLeftImage(resizedImage);
             } catch (InterruptedException e) {
+
             }
-//            Bitmap retBitmap = getBitmap("http://52.79.234.182:3000/gps/marker/image?markerId="+i);
             //지도에 마커 추가
-            tMapView.addMarkerItem(strID, markerItem);
-        }
-/*
-        ArrayList<Bitmap> markerList = null;
-        for(int i = 0; i < 20; i++) {
-
-            //마커 객체 생성
-            MarkerOverlay marker1 = new MarkerOverlay(DogwalkerGpsActivity.this, tMapView);
-            String strID = String.format("%02d", i);
-
-            //	String MarkerID = marker1.getID();  마커 아이디 반환
-            // 	marker1.setID("id"); //마커 아이디 설정
-            //   마커의 애니메이션 이미지 설정
-            //   ArrayList list = null;
-            //   list.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.map_pin_red));
-            //   list.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
-            //   tMapMarkerItem2.setAnimationIcons(list);
-
-            //마커의 애니메이션 실행
-            //tMapMarkerItem2.startAnimation();
-
-            //마커의 중심좌표 설정
-            marker1.getTMapPoint();
-            marker1.setID(strID);
-            //마커이미지 설정
-            marker1.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
-            //마커위치 설정
-            marker1.setTMapPoint(markerPoint);
-
-            if (markerList == null) {
-                markerList = new ArrayList<Bitmap>();
-            }
-            markerList.add(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.map_pin_red));
-            markerList.add(BitmapFactory.decodeResource(mContext.getResources(),R.drawable.end));
-
-            //지도에 마커 추가
-            tMapView.addMarkerItem2(strID, marker1);
-
-            markerId = Integer.parseInt(strID); //마커아이디 저장
-            //마커생성위치가 곧 사진찍은 위치가 된다.
-            photoLatitude = dogwalkerLatitude;
-            photoLongitude = dogwalkerLongitude;
-        }*/
-
-
-
-        //markTime += 1;
-//
-//        tMapView.setOnMarkerClickEvent(new TMapView.OnCalloutMarker2ClickCallback() {
-//            @Override
-//            public void onCalloutMarker2ClickEvent(String id, TMapMarkerItem2 markerItem2) {
-//                LogManager.printLog("ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude);
-//                String strMessage = "ClickEvent " + " id " + id + " \n" + markerItem2.latitude + " " +  markerItem2.longitude;
-//                Common.showAlertDialog(DogwalkerGpsActivity.this, "사진 상세정보", strMessage);
-//            }
-//        });
+            addMarkerItem(number,markerItem);
     }
 
-
-    /*** image url을 받아서 bitmap을 생성하고 리턴한다.
-     * @param url 얻고자 하는 image url
-     * @return 생성된 bitmap */
-    private Bitmap getBitmap(String url) {
-        URL imgUrl = null;
-        HttpURLConnection connection = null;
-        InputStream is = null;
-        Bitmap retBitmap = null;
-        try {
-            imgUrl = new URL(url);
-            connection = (HttpURLConnection) imgUrl.openConnection();
-            connection.setDoInput(true); //url로 input받는 flag 허용
-            connection.connect(); //연결
-            is = connection.getInputStream(); // getinputstream
-            retBitmap = BitmapFactory.decodeStream(is);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (connection != null) {
-                connection.disconnect();
-            }
-            return retBitmap;
-        }
+    /**
+     * 지도에 마커를 추가하는 메소드
+     *
+     * @param mId 마커 아이디
+     * @param markerItem 마커 객체
+     * */
+    public void addMarkerItem(int mId, TMapMarkerItem markerItem){
+        String markerStringId = String.valueOf(mId);
+        tMapView.addMarkerItem(markerStringId, markerItem);
     }
-
-
-/*    Thread justImage = new Thread(new Runnable() {
-        public void run() {
-            imgSample1 = (ImageView) findViewById(R.id.compassIcon);
-            try {
-                bitmapSample1 = getBitmap("http://52.79.234.182:3000/gps/marker/image?markerId="+i);
-            } catch (Exception e) {
-            } finally {
-                if (bitmapSample1 != null) {
-                    runOnUiThread(new Runnable() {
-                        @SuppressLint("NewApi")
-                        public void run() {
-                            imgSample1.setImageBitmap(bitmapSample1);
-                        }
-                    });
-                }
-            }
-        }
-    }).start();*/
 
 
 
@@ -1116,29 +1045,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         }
         tMapView.addTMapPolyLine("Line1", tMapPolyLine);
 
-
-
-        /**Retrofit Method*/
-        postLocationData();
-
-
-//        double startWalkLatitude = startDogwalkerLatitude;
-//        double startWalkLongitude = startDogwalkerLongitude;
-//
-//        TMapPoint startPoint = new TMapPoint(startWalkLatitude,startWalkLongitude);
-//        TMapPoint currentPoint = new TMapPoint(dogwalkerLatitude,dogwalkerLongitude);
-//
-//        TMapData tmapdata = new TMapData();
-//
-//        tmapdata.findPathDataWithType(TMapData.TMapPathType.PEDESTRIAN_PATH, startPoint, currentPoint, new TMapData.FindPathDataListenerCallback() {
-//            @Override
-//            public void onFindPathData(TMapPolyLine polyLine) {
-//                polyLine.setLineColor(Color.GREEN);
-//                tMapView.addTMapPath(polyLine);
-//            }
-//        });
-
-    }
+    } //drawPedestrianPath();
 
 
     /**
@@ -1148,7 +1055,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     public void addPedestrianPoint(){
         alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) );
     }
-
 
 
     /**
@@ -1391,7 +1297,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId)));
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //gpsId = 33
         params.put("dogwalkerLatitude", dogwalkerLatitude);
         params.put("dogwalkerLongitude", dogwalkerLongitude);
 
@@ -1429,7 +1335,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      */
     private void imageUploadSample() {
         GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
-        ImageView imageView = findViewById(R.id.compassIcon);
+        ImageView imageView = findViewById(R.id.imageUploadTestView);
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -1442,8 +1348,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         Map<String, RequestBody> params = new HashMap<>();
         params.put("fileUpload\"; filename=\"photo.png", fileBody); //photoData   //성공
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //문제없음
-
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //문제없음  //gpsId = 33
 
         params.put("markerId", RequestBody.create(MediaType.parse("text"),String.valueOf(markerId)));
         params.put("photoLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLatitude))));
@@ -1483,6 +1388,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         Log.d("TEST", "" + gpsVo.getStart_time());
                         Log.d("TEST", "" + gpsVo.getEnd_time());
                         Log.d("TEST", "" + gpsVo.getWalkTime());*/
+
+
+
+
                     }
                 }
             }

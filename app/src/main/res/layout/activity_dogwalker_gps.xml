@@ -125,6 +125,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/walkendimage" />
 
+        <ImageView
+            android:id="@+id/imageUploadTestView"
+            android:layout_width="93dp"
+            android:layout_height="76dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:srcCompat="@tools:sample/avatars[0]" />
+
         <LinearLayout
             android:id="@+id/linearLayoutTmap"
             android:layout_width="match_parent"
