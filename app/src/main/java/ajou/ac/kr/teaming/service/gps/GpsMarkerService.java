@@ -9,12 +9,17 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.PartMap;
 
 public interface GpsMarkerService {
 
     @GET("/gps") //gps?
     Call<GpsMarkerVo> doGetMarkerInfo();
+
+/*    @Multipart
+    @POST("/gps/marker") //gps/marker?id
+    Call<GpsMarkerVo> postImageUploadData(@PartMap Map<String, RequestBody> params);*/
 
     @Multipart
     @POST("/gps/marker") //gps/marker?id

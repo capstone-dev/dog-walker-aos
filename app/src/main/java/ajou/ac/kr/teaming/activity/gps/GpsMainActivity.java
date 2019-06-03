@@ -818,7 +818,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
                             + "사진 경도" + gpsGetMarkerVo.getPhotoLongitude(), Toast.LENGTH_SHORT).show();
 
                     Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getMarkerId());
-                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoURL());
+                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoData());
                     Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLatitude());
                     Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLongitude());
 //                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getDogwalkerLatitude());

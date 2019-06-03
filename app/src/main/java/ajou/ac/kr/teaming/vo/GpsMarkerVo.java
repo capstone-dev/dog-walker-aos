@@ -2,11 +2,21 @@ package ajou.ac.kr.teaming.vo;
 
 public class GpsMarkerVo {
 
+
+    private int gpsId;
     private int markerId;
-    private String photoURL;
     private double photoLatitude;
     private double photoLongitude;
+    private byte[] photoData;
 
+
+    public int getGpsId() {
+        return gpsId;
+    }
+
+    public void setGpsId(int gpsId) {
+        this.gpsId = gpsId;
+    }
 
     public int getMarkerId() {
         return markerId;
@@ -16,12 +26,13 @@ public class GpsMarkerVo {
         this.markerId = markerId;
     }
 
-    public String getPhotoURL() {
-        return photoURL;
+
+    public byte[] getPhotoData() {
+        return photoData;
     }
 
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
+    public void setPhotoData(byte[] photoData) {
+        this.photoData = photoData;
     }
 
     public double getPhotoLatitude() {
