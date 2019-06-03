@@ -11,6 +11,9 @@ import retrofit2.http.POST;
 
 public interface GpsDogwalkerLocationService {
 
+    @GET("/gps") //gps?
+    Call<GpsLocationVo> doGetLocationInfo();
+
     @FormUrlEncoded
     @POST("/gps/dogwalkerPosition") //gps/dogwalkerPosition?id
     Call<GpsLocationVo> postLocationData(@FieldMap HashMap<String, Object> parameters);

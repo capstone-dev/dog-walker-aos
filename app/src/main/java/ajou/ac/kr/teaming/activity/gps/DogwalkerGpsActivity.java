@@ -143,7 +143,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     /**텍스트뷰 **/
     private TextView txtLat;
     private TextView txtLon;
-    private TextView txtShowWalkDistance;
     private TextView txtWalkTime;
     private TextView txtCurrentTime;
     private TextView txtStartTime;
@@ -327,7 +326,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         txtLat = (TextView) findViewById(R.id.txtLat);
         txtLon = (TextView) findViewById(R.id.txtLon);
-        txtgongback = (TextView) findViewById(R.id.txtgongback2);
+        txtgongback = (TextView) findViewById(R.id.txtgongback);
+        txtgongback2 = (TextView) findViewById(R.id.txtgongback2);
+
 
         iconCompass = (ImageView) findViewById(R.id.compassIcon);
         iconCompass.bringToFront() ;
