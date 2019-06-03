@@ -117,7 +117,6 @@ import retrofit2.Response;
  * photoLatitude
  * photoLongitude 설정해야함
  *
- *
  * */
 
 
@@ -220,14 +219,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private ImageView iconPhoto;
    private ImageView iconWalkEnd;
    private boolean isSetGps = false;
-   private ImageView bubblePicture;
    private Bitmap bitmapSample1;
-   private ImageView imgSample1;
-    private double currentDogwalkerLatitude;
-    private double currentDogwalkerLongitude;
-    private ImageView imageUploadTest;
-    private Bitmap resizedImage;
-    private int cameraTimes = -1;
+   private double currentDogwalkerLatitude;
+   private double currentDogwalkerLongitude;
+   private ImageView imageUploadTest;
+   private Bitmap resizedImage;
 
 
 /*****************************************************************************/
@@ -376,15 +372,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         //ImageUpload 테스트 이미지뷰
         imageUploadTest = (ImageView) findViewById(R.id.imageUploadTestView);
         imageUploadTest.bringToFront() ;
-
-
-
-
+        
         LinearLayout linearLayoutDogwalkerTmap = (LinearLayout)findViewById(R.id.linearLayoutTmap);
         tMapView = new TMapView(this);
         apiKeyMapView(); //T MAP API 서버키 인증
         linearLayoutDogwalkerTmap.addView(tMapView);
-
 
         initView(); //리스너 실행
         tMapView.setTrackingMode(true);
@@ -875,11 +867,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     photoLatitude = dogwalkerLatitude;
                     photoLongitude = dogwalkerLongitude;
 
-                    cameraTimes += 1;
 
                     savePhotoLocationPoint(); //사진찍은 현재위치를 ArrayList에 추가
                     imageUploadSample(); //사진찍은 현재위치의 ArrayList를 기준으로 이미지를 서버에 POST
-                    showMarkerPoint(cameraTimes); //사진찍은 위치에 마커생성
+                    showMarkerPoint(); //사진찍은 위치에 마커생성
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -939,37 +930,37 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
 
-    public void showMarkerPoint(int number) {
-
-            Log.d("TEST","마커생성"+number);
+    public void showMarkerPoint() {
+        for(int i = 0; i < dogwalkerPhotoPoint.size(); i++) {
+            Log.d("TEST", "마커생성" + i);
             //도그워커의 현재위치에 마커 생성
             TMapMarkerItem markerItem = new TMapMarkerItem();
-            String strID = String.format("%02d", number); //두자릿수로 나오도록 설정
-            markerId = number; //마커 아이디 변수 지정
+            String strID = String.format("%02d", i); //두자릿수로 나오도록 설정
+            markerId = i; //마커 아이디 변수 지정
             // 마커 아이콘 지정
             markerItem.getTMapPoint();
             markerItem.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
             // 마커의 좌표 지정
-            markerItem.setTMapPoint(dogwalkerPhotoPoint.get(number));
+            markerItem.setTMapPoint(dogwalkerPhotoPoint.get(i));
             markerItem.setCanShowCallout(true);
-            markerItem.setCalloutTitle("테스트"+strID);
-            markerItem.setCalloutSubTitle("안녕하세요"+strID);
+            markerItem.setCalloutTitle("테스트" + strID);
+            markerItem.setCalloutSubTitle("안녕하세요" + strID);
 
 
             /**
              * 이미지뷰를 URL에서 받아와 적용하는 코드
              * */
-            final int markerUrlId = number;
+            final int markerUrlId = i;
             //  안드로이드에서 네트워크 관련 작업을 할 때는
             //  반드시 메인 스레드가 아닌 별도의 작업 스레드에서 작업해야 한다.
             Thread mThread = new Thread() {
                 @Override
                 public void run() {
                     try {
-                        URL url = new URL("http://52.79.234.182:3000/gps/marker/image?markerId="+markerUrlId); // URL 주소를 이용해서 URL 객체 생성
+                        URL url = new URL("http://52.79.234.182:3000/gps/marker/image?markerId=" + markerUrlId); // URL 주소를 이용해서 URL 객체 생성
                         //  아래 코드는 웹에서 이미지를 가져온 뒤
                         //  이미지 뷰에 지정할 Bitmap을 생성하는 과정
-                        HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setDoInput(true);
                         conn.connect();
 
@@ -981,12 +972,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         int width = bitmapSample1.getWidth();
                         // Toast.makeText(this, width + " , " + height, Toast.LENGTH_SHORT).show();
 
-                        while (height > 50) {
-                            resizedImage = Bitmap.createScaledBitmap(bitmapSample1, (width * 50) / height, 50, true);
+                        while (height > 110) {
+                            resizedImage = Bitmap.createScaledBitmap(bitmapSample1, (width * 110) / height, 110, true);
                             height = resizedImage.getHeight();
                             width = resizedImage.getWidth();
                         }
-                    } catch(IOException ex) {
+                    } catch (IOException ex) {
 
                     }
                 }
@@ -1009,7 +1000,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
             }
             //지도에 마커 추가
-            addMarkerItem(number,markerItem);
+            addMarkerItem(i, markerItem);
+        }
     }
 
     /**
