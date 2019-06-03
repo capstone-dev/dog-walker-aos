@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 public interface MypetThreadService {
 
 
-    @GET("/login")//가입
+    @GET("/myPet")//가입
     Call<List<MyPetVO>> petThread (@Query("UserID") String UserID,@Query("UserPassword")String UserPassword);
 
 

@@ -10,6 +10,9 @@ import android.widget.TextView;
 public class DogwalkerVO {
 
 
+    private String UserYear;
+    private String UserMonth;
+    private String Userdate;
     public String UserID;
     private String UserBigcity;
     private byte[] fileUpload;
@@ -17,6 +20,30 @@ public class DogwalkerVO {
     private String UserverySmallcity;
     private String UserTime;
     private String UserInfo;
+
+    public String getUserYear() {
+        return UserYear;
+    }
+
+    public void setUserYear(String userYear) {
+        UserYear = userYear;
+    }
+
+    public String getUserMonth() {
+        return UserMonth;
+    }
+
+    public void setUserMonth(String userMonth) {
+        UserMonth = userMonth;
+    }
+
+    public String getUserdate() {
+        return Userdate;
+    }
+
+    public void setUserdate(String userdate) {
+        Userdate = userdate;
+    }
 
     public byte[] getFileUpload() {
         return fileUpload;

@@ -21,6 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.login.MyPetActivity"></activity>
         <activity android:name=".activity.login.MyPetResultViewActivity" />
         <activity android:name=".activity.login.DoigwalkerSerchResultViewActivity" />
         <activity android:name=".activity.login.MyPageModifyActivity" />
@@ -33,7 +34,6 @@
             android:name=".activity.messageChatting.ServiceSubmitActivity"
             android:screenOrientation="portrait"
             android:theme="@style/popupTheme" />
-        <activity android:name=".activity.reservation.SearchResultActivity" />
         <activity
             android:name=".activity.myService.MyServiceMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

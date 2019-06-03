@@ -9,5 +9,10 @@ public interface SearchService {
 
 
     @GET("/dogwalkerInfo")//가입
-    Call<DogwalkerVO> dogwalkerThread (@Query("UserID") String UserID);
+    Call<DogwalkerVO> dogwalkersearch (@Query("UserYear") String UserYear,
+                                       @Query("UserMonth") String UserMonth,
+                                       @Query("Userdate") String Userdate,
+                                       @Query("UserSmallcity") String UserSmallcity,
+                                       @Query("UserverySmallcity") String UserverySmallcity,
+                                       @Query("UserTime") String UserTime);
 }

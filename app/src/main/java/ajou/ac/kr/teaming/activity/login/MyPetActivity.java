@@ -22,7 +22,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyPet2Activity extends AppCompatActivity {
+public class MyPetActivity extends AppCompatActivity {
 
     Button MyPetRegisterButton;
     RegisterVO registerVO;
@@ -32,10 +32,12 @@ public class MyPet2Activity extends AppCompatActivity {
     private MypetThreadAdapter mypetThreadAdapter;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_pet2);
+        setContentView(R.layout.activity_my_pet3);
+
 
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
@@ -66,9 +68,9 @@ public class MyPet2Activity extends AppCompatActivity {
             @Override
 
             public void onClick(View v) {
-                Intent mypetregisterIntent = new Intent(MyPet2Activity.this, PetRegisterActivity.class);
+                Intent mypetregisterIntent = new Intent(MyPetActivity.this, PetRegisterActivity.class);
                 mypetregisterIntent.putExtra("RegisterVO", registerVO);
-                MyPet2Activity.this.startActivity(mypetregisterIntent);
+                MyPetActivity.this.startActivity(mypetregisterIntent);
 
             }
         });
@@ -76,7 +78,7 @@ public class MyPet2Activity extends AppCompatActivity {
 
     }
 
-   public void setmypetthreadList() {
+    public void setmypetthreadList() {
 
         Call<List<MyPetVO>> request = mypetThreadService.petThread(registerVO.getUserID(),registerVO.getUserPassword());
 
@@ -98,8 +100,7 @@ public class MyPet2Activity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<MyPetVO>> call, Throwable t) {
                 Log.d("TEST", "통신 실패");
-                Log.d("Test",registerVO.getUserID());
-                Log.d("Test",registerVO.getUserPassword());
+
 
             }
 
@@ -110,10 +111,13 @@ public class MyPet2Activity extends AppCompatActivity {
 
     public void showThreadContentEvent(View view, MyPetVO myPetVO){
 
-        Intent intent = new Intent(MyPet2Activity.this, MyPetResultViewActivity.class);
+        Intent intent = new Intent(MyPetActivity.this, MyPetResultViewActivity.class);
         intent.putExtra("MyPetVO", (Serializable) myPetVO);
         intent.putExtra("RegisterVO",registerVO);
         startActivity(intent);
 
     }
-}
+
+
+
+    }

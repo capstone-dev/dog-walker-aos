@@ -127,7 +127,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                         Log.d("TEST", "통신 성공");
 
 
-                        Intent intent = new Intent(PetRegisterActivity.this, MyPet2Activity.class);
+                        Intent intent = new Intent(PetRegisterActivity.this, MyPetActivity.class);
                         intent.putExtra("MyPetVO", (Serializable) myPetVO);
                         intent.putExtra("image",dataArray);
                         startActivity(intent);

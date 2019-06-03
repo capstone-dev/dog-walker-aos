@@ -70,6 +70,8 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
 
 
+
+
         ReservationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

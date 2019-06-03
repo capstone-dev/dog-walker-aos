@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".activity.login.MyPetActivity">
 
+
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/MyPet_Function"
         android:layout_width="match_parent"
@@ -99,7 +101,7 @@
 
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
 
 
     <android.support.constraint.ConstraintLayout
@@ -128,8 +130,5 @@
 
 
     </android.support.constraint.ConstraintLayout>
-
-
-
 
 </android.support.constraint.ConstraintLayout>

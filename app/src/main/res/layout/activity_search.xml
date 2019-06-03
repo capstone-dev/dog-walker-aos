@@ -33,15 +33,52 @@
         app:layout_constraintTop_toBottomOf="@id/Dogwalker_Search_Function">
 
 
+            <Spinner
+                android:id="@+id/YearSpinner"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toRightOf="@+id/Time"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
 
-        <DatePicker
-            android:id="@+id/datePicker"
-            android:layout_gravity="center_horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints">
 
-        </DatePicker>
+            <Spinner
+                android:id="@+id/MonthSpinner"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toRightOf="@+id/YearSpinner"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
+
+
+            <Spinner
+                android:id="@+id/DaySpinner"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toRightOf="@+id/MonthSpinner"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
+
+
+            <TextView
+                android:id="@+id/Time"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:text="날짜 : "
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/Dogwalker_Register_F"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -122,6 +159,34 @@
     </android.support.constraint.ConstraintLayout>
 
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Dogwalker_Search_Func"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="@+id/Dogwalker_Search_Funct"
+        app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Search_Funct">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingConstraints">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/Dogwalker_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/layout_border"
+                android:orientation="vertical"
+                android:visibility="visible"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:ignore="MissingConstraints"
+                android:nestedScrollingEnabled="false">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+        </ScrollView>
 
 
 
@@ -130,4 +195,6 @@
 
 
 
+
+</android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
