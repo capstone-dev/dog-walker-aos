@@ -80,8 +80,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View header = navigationView.getHeaderView(0);
 
         // header에 있는 리소스 가져오기
-        TextView text = (TextView) header.findViewById(R.id.idView);
-        text.setText("xxxxx");
+        TextView idview = (TextView) header.findViewById(R.id.idView);
+        idview.setText(registerVO.getUserID());
+        TextView emailview=(TextView)header.findViewById(R.id.emailView);
+        emailview.setText(registerVO.getUserEmail());
+
     }
 
     @Override
