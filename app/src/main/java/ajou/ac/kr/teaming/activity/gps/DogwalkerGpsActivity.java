@@ -59,7 +59,11 @@ import java.util.Map;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.service.gps.GpsDogwalkerLocationService;
+import ajou.ac.kr.teaming.service.gps.GpsMarkerService;
 import ajou.ac.kr.teaming.service.gps.GpsService;
+import ajou.ac.kr.teaming.vo.GpsLocationVo;
+import ajou.ac.kr.teaming.vo.GpsMarkerVo;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -1284,41 +1288,33 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 도그워커의 현재 위치를 서버로 전송한다.
      * */
     private void postLocationData() {
-        GpsService gpsService = ServiceBuilder.create(GpsService.class);
-
-        /**
-         * 통신 테스트를 위해 임의의 값을 넣어봄.
-         * **/
+        GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("dogwalkerLatitude", dogwalkerLatitude);
         params.put("dogwalkerLongitude", dogwalkerLongitude);
 
-        Call<GpsVo> call = gpsService.postLocationData(params);
-        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
+        Call<GpsLocationVo> call = gpsDogwalkerLocationService.postLocationData(params);
+        call.enqueue(new Callback<GpsLocationVo>() { //비동기적 호출
             @Override
-            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
-                GpsVo gpsVo = response.body();
+            public void onResponse(Call<GpsLocationVo> call, Response<GpsLocationVo> response) {
+                GpsLocationVo gpsLocationVo = response.body();
                 Log.d("TEST", "onResponseBODY: " + response.body());
-                Log.d("TEST", "" + gpsVo.getDogwalkerLatitude());
-                Log.d("TEST", "" + gpsVo.getDogwalkerLongitude());
+                Log.d("TEST", "" + gpsLocationVo.getDogwalkerLatitude());
+                Log.d("TEST", "" + gpsLocationVo.getDogwalkerLongitude());
 
-                if(gpsVo != null){
+                if(gpsLocationVo != null){
                 }
                 Log.d("TEST", "onResponse:END ");
             }
             @Override
-            public void onFailure(Call<GpsVo> call, Throwable t) {
+            public void onFailure(Call<GpsLocationVo> call, Throwable t) {
                 Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n도그워커의 현재위치 정보를 전송할 수 없습니다..",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패, 도그워커의 현재위치 정보를 전송할 수 없습니다.");
             }
         });
 
     }
-
-
-
-
 
 
 
@@ -1331,6 +1327,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      *
      */
     private void imageUploadSample() {
+        GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
         ImageView imageView = findViewById(R.id.compassIcon);
 
         Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -1358,20 +1355,20 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 //        params.put("end_time", RequestBody.create(MediaType.parse("text"), (String.valueOf(end_time))));
 //        params.put("walkTime", RequestBody.create(MediaType.parse("text"), (String.valueOf(walkTime))));
 
-        Call<GpsVo> call = gpsService.postImageUploadData(params);
-        call.enqueue(new Callback<GpsVo>() {
+        Call<GpsMarkerVo> call = gpsMarkerService.postImageUploadData(params);
+        call.enqueue(new Callback<GpsMarkerVo>() {
             @Override
-            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
+            public void onResponse(Call<GpsMarkerVo> call, Response<GpsMarkerVo> response) {
                 if (response.isSuccessful()) {
-                    GpsVo gpsVo = response.body();
-                    if (gpsVo!= null) {
-                        Log.d("TEST", "통신 성공");
+                    GpsMarkerVo gpsMarkerVo = response.body();
+                    if (gpsMarkerVo!= null) {
+                        Log.d("TEST", "이미지 포스트 통신 성공");
                        /* Log.d("TEST", "" + gpsVo.getId());
                         Log.d("TEST", "" + gpsVo.getGpsId());*/
-                        Log.d("TEST", "" + gpsVo.getMarkerId());
-                        Log.d("TEST", "" + gpsVo.getPhotoURL());
-                        Log.d("TEST", "" + gpsVo.getPhotoLatitude());
-                        Log.d("TEST", "" + gpsVo.getPhotoLongitude());
+                        Log.d("TEST", "" + gpsMarkerVo.getMarkerId());
+                        Log.d("TEST", "" + gpsMarkerVo.getPhotoURL());
+                        Log.d("TEST", "" + gpsMarkerVo.getPhotoLatitude());
+                        Log.d("TEST", "" + gpsMarkerVo.getPhotoLongitude());
                        /* Log.d("TEST", "" + gpsVo.getDogwalkerLatitude());
                         Log.d("TEST", "" + gpsVo.getDogwalkerLongitude());
                         Log.d("TEST", "" + gpsVo.getStartDogwalkerLatitude());
@@ -1386,7 +1383,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 }
             }
             @Override
-            public void onFailure(Call<GpsVo> call, Throwable t) {
+            public void onFailure(Call<GpsMarkerVo> call, Throwable t) {
                 Log.d("TEST", "통신 실패, 마커 정보를 전송할 수 없습니다.");
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }

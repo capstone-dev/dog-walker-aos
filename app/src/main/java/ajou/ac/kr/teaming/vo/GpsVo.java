@@ -4,10 +4,10 @@ public class GpsVo {
 
 
     private int id;
-    private int markerId;
-    private String photoURL;
-    private double photoLatitude;
-    private double photoLongitude;
+//    private int markerId;
+//    private String photoURL;
+//    private double photoLatitude;
+//    private double photoLongitude;
     private double dogwalkerLatitude;
     private double dogwalkerLongitude;
     private double startDogwalkerLatitude;
@@ -27,37 +27,37 @@ public class GpsVo {
         this.id = id;
     }
 
-    public int getMarkerId() {
-        return markerId;
-    }
-
-    public void setMarkerId(int markerId) {
-        this.markerId = markerId;
-    }
-
-    public String getPhotoURL() {
-        return photoURL;
-    }
-
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
-    }
-
-    public double getPhotoLatitude() {
-        return photoLatitude;
-    }
-
-    public void setPhotoLatitude(double photoLatitude) {
-        this.photoLatitude = photoLatitude;
-    }
-
-    public double getPhotoLongitude() {
-        return photoLongitude;
-    }
-
-    public void setPhotoLongitude(double photoLongitude) {
-        this.photoLongitude = photoLongitude;
-    }
+//    public int getMarkerId() {
+//        return markerId;
+//    }
+//
+//    public void setMarkerId(int markerId) {
+//        this.markerId = markerId;
+//    }
+//
+//    public String getPhotoURL() {
+//        return photoURL;
+//    }
+//
+//    public void setPhotoURL(String photoURL) {
+//        this.photoURL = photoURL;
+//    }
+//
+//    public double getPhotoLatitude() {
+//        return photoLatitude;
+//    }
+//
+//    public void setPhotoLatitude(double photoLatitude) {
+//        this.photoLatitude = photoLatitude;
+//    }
+//
+//    public double getPhotoLongitude() {
+//        return photoLongitude;
+//    }
+//
+//    public void setPhotoLongitude(double photoLongitude) {
+//        this.photoLongitude = photoLongitude;
+//    }
 
     public double getDogwalkerLatitude() {
         return dogwalkerLatitude;

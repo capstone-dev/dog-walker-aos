@@ -33,13 +33,5 @@ public interface GpsService {
     @POST("/gps") //gps/?id
     Call<GpsVo> postGpsData(@FieldMap HashMap<String, Object> parameters);
 
-    @Multipart
-    @POST("/gps/marker") //gps/marker?id
-    Call<GpsVo> postImageUploadData(@PartMap Map<String, RequestBody> params);
-
-
-    @POST("/gps/dogwalkerPosition") //gps/dogwalkerPosition?id
-    Call<GpsVo> postLocationData(@FieldMap HashMap<String, Object> parameters);
-
 
 } //GpsService
