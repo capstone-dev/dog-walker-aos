@@ -14,4 +14,6 @@ public interface MypetThreadService {
     @GET("/login")//가입
     Call<List<MyPetVO>> petThread (@Query("UserID") String UserID,@Query("UserPassword")String UserPassword);
 
+
+
 }

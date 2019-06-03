@@ -208,11 +208,11 @@ public class DogwalkerRegister extends AppCompatActivity {
 
         Time1Spinner = (Spinner) findViewById(R.id.Time1Spinner);
         adapter1 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
-        Time1Spinner.setAdapter(adapter3);
+        Time1Spinner.setAdapter(adapter1);
 
         Time2Spinner = (Spinner) findViewById(R.id.Time2Spinner);
         adapter2 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
-        Time2Spinner.setAdapter(adapter3);
+        Time2Spinner.setAdapter(adapter2);
 
         Time3Spinner = (Spinner) findViewById(R.id.Time3Spinner);
         adapter3 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);

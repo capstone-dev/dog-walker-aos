@@ -365,7 +365,7 @@
             <EditText
                 android:id="@+id/InfoText"
                 android:layout_width="200dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:textColor="#000000"
                 android:textSize="20sp"
