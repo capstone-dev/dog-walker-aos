@@ -4,7 +4,6 @@ public class GpsVo {
 
 
     private int id;
-    private int gpsId;
     private int markerId;
     private String photoURL;
     private double photoLatitude;
@@ -26,14 +25,6 @@ public class GpsVo {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getGpsId() {
-        return gpsId;
-    }
-
-    public void setGpsId(int gpsId) {
-        this.gpsId = gpsId;
     }
 
     public int getMarkerId() {

@@ -1,7 +1,6 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +21,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +38,6 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.skt.Tmap.TMapGpsManager;
 import com.skt.Tmap.TMapMarkerItem;
-import com.skt.Tmap.TMapMarkerItem2;
 import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapPolyLine;
@@ -51,7 +48,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -70,11 +66,6 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-/*import static android.Manifest.permission.CAMERA;
-import static android.Manifest.permission.INTERNET;
-import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;*/
 
 /**  <도그워커 메인 액티비티>
  *
@@ -226,6 +217,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private ImageView bubblePicture;
    private Bitmap bitmapSample1;
    private ImageView imgSample1;
+    private double currentDogwalkerLatitude;
+    private double currentDogwalkerLongitude;
 
 
 /*****************************************************************************/
@@ -253,7 +246,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
     //갱신을 위한 스레드
-    Thread walkingThread = new Thread() {
+    Thread walkTimeThread = new Thread() {
         @Override
         public void run() {
             start_time = System.currentTimeMillis();
@@ -515,8 +508,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 drawPedestrianPath();
             }
 
-
-
             if (location != null) {
                 double latitude = location.getLatitude();
                 double longitude = location.getLongitude();
@@ -681,13 +672,13 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      */
     public void onClick(View v) {
         switch(v.getId()) {
-//            case R.id.btnWalkStart                       :     walkStart();                     break;
-//            case R.id.btnCallToUser		                  : 	callToUser(); 			        break;
-//            case R.id.btnChatToUser		                  : 	chatToUser(); 			        break;
-//            case R.id.btnPhotoAndMarker	               	  : 	alertPhotoAndMarker(); 			break;
+//            case R.id.btnWalkStart                     :     walkStart();                     break;
+//            case R.id.btnCallToUser		              : 	callToUser(); 			        break;
+//            case R.id.btnChatToUser		              : 	chatToUser(); 			        break;
+//            case R.id.btnPhotoAndMarker	              : 	alertPhotoAndMarker(); 			break;
 //            case R.id.btnWalkEnd		                  : 	walkEnd(); 			            break;
-//            case R.id.btnPostDogwalkerLocation           :    postDogwalkerLocation();          break;
-            case R.id.btnImageUploadSample               : 	imageUploadSample(); 			    break;
+//            case R.id.btnPostDogwalkerLocation              postDogwalkerLocation();          break;
+            case R.id.btnImageUploadSample               : 	imageUploadSample(); postGpsData();  			    break;
         }
     }
 
@@ -710,13 +701,18 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         // 'YES'
                         if(isWalkStatus == false) {
                             isWalkStatus = true;
-                            walkingThread.start();
+                            walkTimeThread.start(); //시간을 재는 스레드 시작
+
+                            //현재 위치가 곧 산책 시작 위치가 됨.
                             startDogwalkerLatitude = dogwalkerLatitude;
                             startDogwalkerLongitude = dogwalkerLongitude;
 
+                            currentDogwalkerLatitude = dogwalkerLatitude;
+                            currentDogwalkerLongitude = dogwalkerLongitude;
+
+                            //이동경로를 표시하기 위해, 현재 위치를 ArrayList alTmapPoint에 추가
                             alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
                             alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) ); // 도그워커 끝지점
-
 
                         } else {
                             Log.e(TAG,"WalkStatus Error");
@@ -925,7 +921,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
     public void showMarkerPoint() {
-
         for(int i = 0; i < dogwalkerPhotoPoint.size(); i++){
 
             Log.d("TEST","마커생성"+i);
@@ -941,7 +936,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             markerItem1.setCanShowCallout(true);
             markerItem1.setCalloutTitle("테스트"+strID);
             markerItem1.setCalloutSubTitle("안녕하세요"+strID);
-
 
             Bitmap retBitmap = getBitmap("http://52.79.234.182:3000/gps/marker/image?markerId="+i);
             markerItem1.setCalloutLeftImage(retBitmap);
@@ -1075,6 +1069,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapView.addTMapPolyLine("Line1", tMapPolyLine);
 
 
+
+        /**Retrofit Method*/
+        postLocationData();
+
+
 //        double startWalkLatitude = startDogwalkerLatitude;
 //        double startWalkLongitude = startDogwalkerLongitude;
 //
@@ -1111,13 +1110,16 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         //도그워커의 시작위치는 고정, 도그워커의 현재 위치는 계속 바뀜.
         // 킬로미터(Kilo Meter) 단위
 
-        double distanceMeter = distance(startDogwalkerLatitude, startDogwalkerLongitude, dogwalkerLatitude, dogwalkerLongitude, "meter");
+
+        double distanceMeter = distance(currentDogwalkerLatitude, currentDogwalkerLongitude, dogwalkerLatitude, dogwalkerLongitude, "meter");
         recentWalkDistance = recentWalkDistance + distanceMeter;
         txtWalkDistance = (TextView) findViewById(R.id.txtWalkDistance);
         String WalkContext = String.format("%.2f",recentWalkDistance);
         txtWalkDistance.setText( WalkContext + "m" );
 
-}
+        currentDogwalkerLatitude = dogwalkerLatitude;
+        currentDogwalkerLongitude = dogwalkerLongitude;
+    }
 
 
     /**
@@ -1142,7 +1144,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         if (unit == "kilometer") {
             dist = dist * 1.609344;
         } else if(unit == "meter"){
-            dist = dist * 100.0; //1000.0
+            dist = dist * 1609.34; //1000.0
         }
 
         return (dist);
@@ -1172,7 +1174,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     // 'YES'
-                    walkingThread.interrupt(); //스레드 종료
+                    walkTimeThread.interrupt(); //스레드 종료
                     isWalkStatus = false;
 
                     //산책이 끝난 현위치를 마지막 위치로 설정
@@ -1214,6 +1216,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     }//walkEnd();
 
+
+
     /**
      * Retrofit Method
      * 아래부터는 Retrofit이 들어가는 메소드만을 모아두었다.
@@ -1221,63 +1225,106 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * ************/
     /**
      *
-     * POST DOGWALKER LOCATION
-     * 도그워커의 현재 위치를 서버로 전송한다.
+     * POST Dogwalker GPS INFO
+     * 도그워커의 산책 시작위치, 종료 위치, 이동거리 및 시간을 전송한다.
      * */
-/*
-    private void postDogwalkerLocation() {
+    private void postGpsData() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        */
-/**
+
+        /**
          * 통신 테스트를 위해 임의의 값을 넣어봄.
-         * **//*
+         * **/
 
-        HashMap<String, Object> inputObjectData = new HashMap<>();
-        inputObjectData.put("gpsId", 1);
-        inputObjectData.put("markerId", 1);
-        inputObjectData.put("photoData", "사진");
-        inputObjectData.put("photoLatitude", 37.2744762);
-        inputObjectData.put("photoLongitude", 127.0342091);
-        inputObjectData.put("dogwalkerLatitude", 37.2844762);
-        inputObjectData.put("dogwalkerLongitude", 127.0442091);
-        inputObjectData.put("startDogwalkerLatitude", 37.2844762);
-        inputObjectData.put("startDogwalkerLongitude", 127.0442091);
-        inputObjectData.put("endDogwalkerLatitude", 38.2844762);
-        inputObjectData.put("endDogwalkerLongitude", 126.0442091);
-      inputObjectData.put("calculateWalkDistance", null);
-        inputObjectData.put("start_time", null);
-        inputObjectData.put("end_time", null);
-        inputObjectData.put("walkTime", null);
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("startDogwalkerLatitude", startDogwalkerLatitude);
+        params.put("startDogwalkerLongitude", startDogwalkerLongitude);
+        params.put("endDogwalkerLatitude", endDogwalkerLatitude);
+        params.put("endDogwalkerLongitude", endDogwalkerLongitude);
+        params.put("walkDistance", walkDistance);
+        params.put("start_time", start_time);
+        params.put("end_time", end_time);
+        params.put("walkTime", walkTime);
 
 
-
-        Call<GpsVo> call = gpsService.postObjectData(inputObjectData);
+        Call<GpsVo> call = gpsService.postGpsData(params);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
-            public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
-                GpsVo GpsVos = response.body();
+            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
+                GpsVo gpsVo = response.body();
                 Log.d("TEST", "onResponseBODY: " + response.body());
-                if(GpsVos != null){
+                Log.d("TEST", "" + gpsVo.getStartDogwalkerLatitude());
+                Log.d("TEST", "" + gpsVo.getStartDogwalkerLongitude());
+                Log.d("TEST", "" + gpsVo.getEndDogwalkerLatitude());
+                Log.d("TEST", "" + gpsVo.getEndDogwalkerLongitude());
+                Log.d("TEST", "" + gpsVo.getWalkDistance());
+                Log.d("TEST", "" + gpsVo.getStart_time());
+                Log.d("TEST", "" + gpsVo.getEnd_time());
+                Log.d("TEST", "" + gpsVo.getWalkTime());
+
+
+                if(gpsVo != null){
                 }
                 Log.d("TEST", "onResponse:END ");
             }
             @Override
-            public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달할 수 없습니다.",Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<GpsVo> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n마커 정보를 전송할 수 없습니다.",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패");
             }
         });
 
     }
-*/
+
+
+
+    /**
+     * Retrofit Method
+     *
+     * POST DOGWALKER LOCATION
+     * 도그워커의 현재 위치를 서버로 전송한다.
+     * */
+    private void postLocationData() {
+        GpsService gpsService = ServiceBuilder.create(GpsService.class);
+
+        /**
+         * 통신 테스트를 위해 임의의 값을 넣어봄.
+         * **/
+
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("dogwalkerLatitude", dogwalkerLatitude);
+        params.put("dogwalkerLongitude", dogwalkerLongitude);
+
+        Call<GpsVo> call = gpsService.postLocationData(params);
+        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
+                GpsVo gpsVo = response.body();
+                Log.d("TEST", "onResponseBODY: " + response.body());
+                Log.d("TEST", "" + gpsVo.getDogwalkerLatitude());
+                Log.d("TEST", "" + gpsVo.getDogwalkerLongitude());
+
+                if(gpsVo != null){
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(Call<GpsVo> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n도그워커의 현재위치 정보를 전송할 수 없습니다..",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패, 도그워커의 현재위치 정보를 전송할 수 없습니다.");
+            }
+        });
+
+    }
+
+
+
+
 
 
 
     /**
      * Retrofit Method
      * 안드로이드 파일 업로드 샘플
-     *
-     * 일단 POST는 잘 되는거 같음. 굿
      *
      * 사진 찍기 이후 사진을 일단 서버에 업로드
      * 마커ID, 사진파일, 사진찍은 위치를 서버에 POST
@@ -1311,7 +1358,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 //        params.put("end_time", RequestBody.create(MediaType.parse("text"), (String.valueOf(end_time))));
 //        params.put("walkTime", RequestBody.create(MediaType.parse("text"), (String.valueOf(walkTime))));
 
-        Call<GpsVo> call = gpsService.postObjectData(params);
+        Call<GpsVo> call = gpsService.postImageUploadData(params);
         call.enqueue(new Callback<GpsVo>() {
             @Override
             public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
@@ -1335,13 +1382,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         Log.d("TEST", "" + gpsVo.getStart_time());
                         Log.d("TEST", "" + gpsVo.getEnd_time());
                         Log.d("TEST", "" + gpsVo.getWalkTime());*/
-
                     }
                 }
             }
             @Override
             public void onFailure(Call<GpsVo> call, Throwable t) {
-                Log.d("TEST", "통신 실패");
+                Log.d("TEST", "통신 실패, 마커 정보를 전송할 수 없습니다.");
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
