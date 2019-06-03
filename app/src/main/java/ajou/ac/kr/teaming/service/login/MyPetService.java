@@ -1,5 +1,6 @@
 package ajou.ac.kr.teaming.service.login;
 
+import java.util.List;
 import java.util.Map;
 
 import ajou.ac.kr.teaming.vo.GpsVo;

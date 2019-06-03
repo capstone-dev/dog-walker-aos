@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.reservation.SearchActivity">
-
+    tools:context=".activity.login.SearchActivity">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/Dogwalker_Search_Function"
@@ -32,9 +31,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/Dogwalker_Search_Function"
         app:layout_constraintTop_toBottomOf="@id/Dogwalker_Search_Function">
-        
-        
-        
+
+
+
         <DatePicker
             android:id="@+id/datePicker"
             android:layout_gravity="center_horizontal"
@@ -46,9 +45,9 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    
-    
-    
+
+
+
     <android.support.constraint.ConstraintLayout
         android:layout_marginTop="10dp"
         android:id="@+id/Dogwalker_Search_Functi"
@@ -56,8 +55,8 @@
         android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="@id/Dogwalker_Search_Functio"
         app:layout_constraintTop_toBottomOf="@id/Dogwalker_Search_Functio">
-        
-        
+
+
 
         <EditText
             android:id="@+id/BigcityText"
@@ -84,6 +83,7 @@
         <Spinner
             android:layout_width="120dp"
             android:layout_height="40dp"
+            android:id="@+id/TimeSpinner"
             tools:ignore="MissingConstraints"
             app:layout_constraintRight_toRightOf="@+id/Dogwalker_Search_Functi">
 
@@ -102,7 +102,7 @@
         android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="@id/Dogwalker_Search_Functi"
         app:layout_constraintTop_toBottomOf="@id/Dogwalker_Search_Functi">
-        
+
 
         <Button
             android:id="@+id/SearchButton"
@@ -118,11 +118,9 @@
 
 
 
-        
+
     </android.support.constraint.ConstraintLayout>
 
-
-    
 
 
 

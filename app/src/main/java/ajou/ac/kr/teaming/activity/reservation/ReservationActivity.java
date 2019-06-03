@@ -8,11 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
-import ajou.ac.kr.teaming.activity.MainActivity;
-import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.gps.RealTimeGpsActivity;
-import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
-import ajou.ac.kr.teaming.activity.login.RegisterActivity;
+import ajou.ac.kr.teaming.activity.login.SearchActivity;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class ReservationActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package ajou.ac.kr.teaming.activity.reservation;
+package ajou.ac.kr.teaming.activity.login;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import ajou.ac.kr.teaming.R;
-import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.reservation.SearchResultActivity;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -17,11 +17,18 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         Button RealTimeButton = findViewById(R.id.SearchButton);
+
+
         RealTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent searchresultIntent=new Intent(SearchActivity.this, SearchResultActivity.class);
                 SearchActivity.this.startActivity(searchresultIntent);
+
+
+
+
+
             }
         });
 

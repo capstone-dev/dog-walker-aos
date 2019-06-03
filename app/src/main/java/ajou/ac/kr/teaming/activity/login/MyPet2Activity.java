@@ -52,6 +52,11 @@ public class MyPet2Activity extends AppCompatActivity {
 
 
 
+        Intent vintent = getIntent();
+        myPetVO = (MyPetVO) vintent.getSerializableExtra("MyPetVO");
+
+
+
 
 
 
@@ -84,6 +89,7 @@ public class MyPet2Activity extends AppCompatActivity {
                         Log.d("TEST", "onResponse: " + myPetVO.getDog_name());
                     }
                     mypetThreadAdapter.addThread(MypetList);
+
                 }
             }
 
@@ -92,6 +98,7 @@ public class MyPet2Activity extends AppCompatActivity {
                 Log.d("TEST", "통신 실패");
                 Log.d("Test",registerVO.getUserID());
                 Log.d("Test",registerVO.getUserPassword());
+
             }
 
         });

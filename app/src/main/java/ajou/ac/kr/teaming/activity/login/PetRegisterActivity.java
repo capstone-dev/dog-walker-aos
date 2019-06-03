@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Environment;
@@ -26,6 +27,7 @@ import com.gun0912.tedpermission.TedPermission;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,9 +127,10 @@ public class PetRegisterActivity extends AppCompatActivity {
                         Log.d("TEST", "통신 성공");
 
 
-                        Intent intent = new Intent(PetRegisterActivity.this, MainActivity.class);
+                        Intent intent = new Intent(PetRegisterActivity.this, MyPet2Activity.class);
+                        intent.putExtra("MyPetVO", (Serializable) myPetVO);
+                        intent.putExtra("image",dataArray);
                         startActivity(intent);
-
 
 
 

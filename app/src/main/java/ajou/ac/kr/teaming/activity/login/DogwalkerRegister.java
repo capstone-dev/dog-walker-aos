@@ -32,6 +32,7 @@ import com.gun0912.tedpermission.TedPermission;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -153,6 +154,8 @@ public class DogwalkerRegister extends AppCompatActivity {
                         DogwalkerVO dogwalkerVO=response.body();
 
                         Intent intent = new Intent(DogwalkerRegister.this, MainActivity.class);
+                        intent.putExtra("image",dataArray);
+                        intent.putExtra("DogwalkerVO", (Serializable) dogwalkerVO);
                         startActivity(intent);
 
 

@@ -12,6 +12,7 @@ public class MyPetVO {
     public byte[] dog_imagefile;
 
 
+
     public String getUserID() {
         return UserID;
     }
