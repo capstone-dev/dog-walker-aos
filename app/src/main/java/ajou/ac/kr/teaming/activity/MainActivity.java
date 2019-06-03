@@ -1,9 +1,11 @@
 package ajou.ac.kr.teaming.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
@@ -69,6 +72,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          */
         Intent intent = getIntent();
         registerVO = (RegisterVO) intent.getSerializableExtra("registerVO");
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // xml 파일에서 넣어놨던 header 선언
+        View header = navigationView.getHeaderView(0);
+
+        // header에 있는 리소스 가져오기
+        TextView text = (TextView) header.findViewById(R.id.idView);
+        text.setText("xxxxx");
     }
 
     @Override

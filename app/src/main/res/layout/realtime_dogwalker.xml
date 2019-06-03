@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/dog_walker_name"
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="40dp"
         android:text="이름"
         android:textSize="12sp"
@@ -17,7 +17,7 @@
 
     <TextView
         android:layout_height="40dp"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:id="@+id/big_city"
         android:text="큰 도시"
         android:textSize="12sp"
@@ -36,7 +36,7 @@
 
     <TextView
         android:id="@+id/dogwalker_gender"
-        android:layout_width="110dp"
+        android:layout_width="90dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
         android:text="성별"

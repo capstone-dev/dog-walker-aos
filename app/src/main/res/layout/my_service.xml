@@ -9,42 +9,44 @@
 
     <TextView
         android:id="@+id/dog_walker_id"
-        android:layout_width="40dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="IDlist"
+        android:textStyle="bold"
         android:background="@drawable/layout_border"
-        android:textSize="12sp"
+        android:textSize="15dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_height="wrap_content"
-        android:layout_width="180dp"
+        android:layout_width="100dp"
         android:id="@+id/service_location"
         android:text="장소 list"
+        android:textStyle="bold"
         android:background="@drawable/layout_border"
-        android:textSize="12sp"
+        android:textSize="15dp"
         app:layout_constraintLeft_toRightOf="@id/dog_walker_id"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_height="wrap_content"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:id="@+id/service_walking_time"
         android:background="@drawable/layout_border"
         android:text="시간 list"
-        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textSize="15dp"
         app:layout_constraintLeft_toRightOf="@id/service_location"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:id="@+id/delete_service_button"
-        android:text="삭제"
         android:textStyle="bold"
         android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="@id/service"
-        app:layout_constraintTop_toBottomOf="@id/dog_walker_id" />
+        app:layout_constraintLeft_toRightOf="@id/service_walking_time"
+        android:background="@drawable/datebg"/>
 
     <Button
         android:id="@+id/message_service_button"
