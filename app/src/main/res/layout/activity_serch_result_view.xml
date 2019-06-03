@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.login.SerchResultView">
+    tools:context=".activity.login.DoigwalkerSerchResultViewActivity">
 
 
 
@@ -23,23 +23,53 @@ app:layout_constraintStart_toStartOf="parent">
     android:layout_height="wrap_content">
 
 
-
     <android.support.constraint.ConstraintLayout
-        android:layout_marginTop="10dp"
         android:id="@+id/Search_reservation_result_Funtion"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="-3dp"
+        tools:layout_editor_absoluteY="0dp">
+
+        <ImageView
+            android:id="@+id/DogwalkerImageText"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:maxWidth="100dp"
+            android:maxHeight="100dp"
+            android:onClick="onClick"
+            android:src="@drawable/pro"
+            tools:ignore="MissingConstraints,OnClick"
+            tools:layout_editor_absoluteX="54dp"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/Search_reservation_result_Funtio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_Funtion"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_Funtion"
         tools:ignore="MissingConstraints">
 
 
         <TextView
-            android:id="@+id/idText"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="TextView"
+            android:id="@+id/nameText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:text="Textview"
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintRight_toRightOf="@+id/Search_reservation_result_Funtion"
             app:layout_constraintLeft_toRightOf="@+id/name"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
@@ -51,7 +81,7 @@ app:layout_constraintStart_toStartOf="parent">
             android:text="이름 : "
             android:textColor="#000000"
             android:textSize="20sp"
-            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Funtion"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Funtio"
             app:layout_constraintLeft_toRightOf="@+id/nameText"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteY="0dp" />
@@ -61,11 +91,228 @@ app:layout_constraintStart_toStartOf="parent">
 </android.support.constraint.ConstraintLayout>
 
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_reservation_result_Funti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_Funtio"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_Funtio">
 
+
+        <TextView
+            android:id="@+id/BigcityText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:text="Textview"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/Bigcity"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/Bigcity"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="도 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Funti"
+            app:layout_constraintLeft_toRightOf="@+id/BigcityText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_reservation_result_Funt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_Funti"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_Funti">
+
+
+        <TextView
+            android:id="@+id/siText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:text="Textview"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/si"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/si"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="시/군 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Funt"
+            app:layout_constraintLeft_toRightOf="@+id/siText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_reservation_result_Fun"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_Funt"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_Funt">
+
+
+        <TextView
+            android:id="@+id/DongText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:text="Textview"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/Dong"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/Dong"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="동 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Fun"
+            app:layout_constraintLeft_toRightOf="@+id/DongText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_reservation_result_Fu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_Fun"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_Fun">
+
+
+        <TextView
+            android:id="@+id/TimeText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:text="Textview"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/Time"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/Time"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="시간 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_Fu"
+            app:layout_constraintLeft_toRightOf="@+id/TimeText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_reservation_result_F"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_Fu"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_Fu">
+
+
+        <TextView
+            android:id="@+id/InfoText"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:text="Textview"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toRightOf="@+id/Info"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+        <TextView
+            android:id="@+id/Info"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="자기소개 : "
+            android:textColor="#000000"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result_F"
+            app:layout_constraintLeft_toRightOf="@+id/InfoText"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Search_reservation_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_F"
+        app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_F">
+
+        <Button
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:id="@+id/ReservationButton"
+            android:text="메시지"
+            android:textColor="#000000"
+            app:layout_constraintLeft_toRightOf="@+id/MainButton"
+            tools:ignore="MissingConstraints"
+            android:layout_marginLeft="30dp"
+            android:background="#FFEABD3E"
+            android:textStyle="bold"/>
+
+            <Button
+                android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:id="@+id/MainButton"
+            app:layout_constraintLeft_toLeftOf="@+id/Search_reservation_result"
+            app:layout_constraintLeft_toRightOf="@+id/RealTimeButton"
+            android:textColor="#000000"
+                android:text="홈으로"
+            tools:ignore="MissingConstraints"
+                android:background="#FFEABD3E"
+                android:layout_marginLeft="60dp"
+                android:textStyle="bold"/>
 
 
 
     </android.support.constraint.ConstraintLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
 </ScrollView>
 
 
