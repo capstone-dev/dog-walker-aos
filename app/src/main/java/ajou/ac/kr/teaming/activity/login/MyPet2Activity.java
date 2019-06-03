@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +101,8 @@ public class MyPet2Activity extends AppCompatActivity {
 
     public void showThreadContentEvent(View view, MyPetVO myPetVO){
 
-        Intent intent = new Intent(MyPet2Activity.this, MypetShowActivity.class);
+        Intent intent = new Intent(MyPet2Activity.this, MyPetResultViewActivity.class);
+        intent.putExtra("MyPetVO", (Serializable) myPetVO);
         intent.putExtra("RegisterVO",registerVO);
         startActivity(intent);
 

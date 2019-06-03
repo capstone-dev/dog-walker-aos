@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import ajou.ac.kr.teaming.R;
 
-public class MypetShowActivity extends AppCompatActivity {
+public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mypet_show);
+        setContentView(R.layout.activity_serch_result_view);
     }
 }

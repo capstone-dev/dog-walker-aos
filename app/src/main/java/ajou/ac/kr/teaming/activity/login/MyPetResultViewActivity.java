@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import ajou.ac.kr.teaming.R;
 
-public class SerchResultView extends AppCompatActivity {
+public class MyPetResultViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serch_result_view);
+        setContentView(R.layout.activity_my_pet_result_view);
     }
 }
