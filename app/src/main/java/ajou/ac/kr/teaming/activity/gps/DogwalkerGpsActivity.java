@@ -400,8 +400,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapGps.setMinDistance(5);
         tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
         tMapGps.OpenGps();
-/*        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-        tMapGps.OpenGps();*/
+        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+        tMapGps.OpenGps();
 
         if(isSetGps =! false){
             walkStart();
@@ -544,10 +544,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 5, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
 
-/*        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
                 1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
                 10, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);*/
+                mLocationListener);
     }
 
 
@@ -868,8 +868,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     photoLongitude = dogwalkerLongitude;
 
 
-                    savePhotoLocationPoint(); //사진찍은 현재위치를 ArrayList에 추가
                     imageUploadSample(); //사진찍은 현재위치의 ArrayList를 기준으로 이미지를 서버에 POST
+                    savePhotoLocationPoint(); //사진찍은 현재위치를 ArrayList에 추가
                     showMarkerPoint(); //사진찍은 위치에 마커생성
                 }
             } catch (IOException e) {
@@ -925,13 +925,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      *
      * */
     public void savePhotoLocationPoint(){
-        dogwalkerPhotoPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
+        Log.d("TEST", "마커 위치 포인트 추가");
+        dogwalkerPhotoPoint.add( new TMapPoint(photoLatitude, photoLatitude));
+//        showMarkerPoint();
     }
 
 
-
     public void showMarkerPoint() {
-        for(int i = 0; i < dogwalkerPhotoPoint.size(); i++) {
+        for(int i = 0; i < dogwalkerPhotoPoint.size(); i++) { //i == markerid
             Log.d("TEST", "마커생성" + i);
             //도그워커의 현재위치에 마커 생성
             TMapMarkerItem markerItem = new TMapMarkerItem();
@@ -957,6 +958,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 @Override
                 public void run() {
                     try {
+                        //짜증나게 URL이 final이어야함
                         URL url = new URL("http://52.79.234.182:3000/gps/marker/image?markerId=" + markerUrlId); // URL 주소를 이용해서 URL 객체 생성
                         //  아래 코드는 웹에서 이미지를 가져온 뒤
                         //  이미지 뷰에 지정할 Bitmap을 생성하는 과정
@@ -996,23 +998,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                  * 풍선뷰의 왼쪽에 사용될 이미지를 설정한다.
                  * */
                 markerItem.setCalloutLeftImage(resizedImage);
+
             } catch (InterruptedException e) {
 
             }
+            Log.d("TEST", "지도에 " + strID + "번째 마커 추가");
             //지도에 마커 추가
-            addMarkerItem(i, markerItem);
+            tMapView.addMarkerItem(strID, markerItem);
         }
-    }
-
-    /**
-     * 지도에 마커를 추가하는 메소드
-     *
-     * @param mId 마커 아이디
-     * @param markerItem 마커 객체
-     * */
-    public void addMarkerItem(int mId, TMapMarkerItem markerItem){
-        String markerStringId = String.valueOf(mId);
-        tMapView.addMarkerItem(markerStringId, markerItem);
     }
 
 
@@ -1381,9 +1374,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         Log.d("TEST", "" + gpsVo.getEnd_time());
                         Log.d("TEST", "" + gpsVo.getWalkTime());*/
 
-
-
-
+//                        savePhotoLocationPoint(); //사진찍은 현재위치를 ArrayList에 추가
+                    //    showMarkerPoint(); //사진찍은 위치에 마커생성
                     }
                 }
             }
