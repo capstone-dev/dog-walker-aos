@@ -64,15 +64,19 @@
                     app:layout_constraintLeft_toLeftOf="@id/dogwalker_register_form"
                     tools:ignore="MissingConstraints" />
 
-                <Button
-                    android:layout_width="50dp"
+                <Switch
+                    android:id="@+id/registerSwtich"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onClickDogwalkerRegister"
-                    android:text="등록"
-                    android:textSize="10sp"
+                    android:text="신청"
+                    android:textSize="15sp"
                     android:textStyle="bold"
+                    android:switchMinWidth="50dp"
+                    android:switchPadding="10dp"
                     app:layout_constraintRight_toRightOf="@id/dogwalker_register_form"
-                    tools:ignore="MissingConstraints" />
+
+                    />
+
 
             </android.support.constraint.ConstraintLayout>
 

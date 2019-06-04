@@ -24,6 +24,7 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
 
     private ArrayList<DogwalkerListVO> dogwalkerVoArrayList = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
+    private String loginId;
 
     /**
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
@@ -49,21 +50,23 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
     public void onBindViewHolder(@NonNull RealTimeDogWalkerViewHolder realTimeDogWalkerViewHolder, int i) {
 
         DogwalkerListVO dogwalkerListVo = dogwalkerVoArrayList.get(i);
-        /**
-         * 데이터 바인딩
-         */
+        //데이터 바인딩
         realTimeDogWalkerViewHolder.dogwalkerName.setText(dogwalkerListVo.getDogwalkerID());
         realTimeDogWalkerViewHolder.bigCity.setText(dogwalkerListVo.getDogwalkerBigcity());
         realTimeDogWalkerViewHolder.smallCity.setText(dogwalkerListVo.getDogwalkerSmallcity());
-        realTimeDogWalkerViewHolder.gender.setText(dogwalkerListVo.getDogWalkerGender());
-        //해당 게시글 constraintLayout 클릭시 발생 event handle
-        if(!dogwalkerListVo.getSelect().equals("0")){
+        realTimeDogWalkerViewHolder.gender.setText(dogwalkerListVo.getDogwalkerGender());
+
+        if(!dogwalkerListVo.getSelected().equals("0")){
             realTimeDogWalkerViewHolder.constraintLayout.setBackgroundColor(Color.rgb(139,137,137));
+            if(loginId.equals(dogwalkerListVo.getDogwalkerID())){
+                realTimeDogWalkerViewHolder.constraintLayout.setBackgroundColor(Color.rgb(238,203,173));
+            }
         }
 
+        //해당 게시글 constraintLayout 클릭시 발생 event handle
         realTimeDogWalkerViewHolder.constraintLayout.setOnClickListener(v ->{
                 onItemClickListener.chooseDogWalkerEvent(v, dogwalkerVoArrayList.get(i));
-                realTimeDogWalkerViewHolder.constraintLayout.setBackgroundColor(Color.rgb(139,137,137));
+                if(!loginId.equals(dogwalkerListVo.getDogwalkerID())) realTimeDogWalkerViewHolder.constraintLayout.setBackgroundColor(Color.rgb(139,137,137));
         });
     }
 
@@ -79,12 +82,23 @@ public class RealTimeDogwalkerListAdapter extends RecyclerView.Adapter<RealTimeD
         notifyDataSetChanged();
     }
 
+    //리스트 모두 삭제 하는 서비스
+    public void deleteList(){
+        dogwalkerVoArrayList.clear();
+        notifyDataSetChanged();
+    }
+
     //게시글 중복 체크해 주는 서비스
     public int check(String userID) {
         for(DogwalkerListVO dogwalkerListVO: dogwalkerVoArrayList){
             if(dogwalkerListVO.getDogwalkerID().equals(userID)) {return 1;}
         }
         return 0;
+    }
+
+
+    public void setUser(String userID) {
+        loginId=userID;
     }
 }
 

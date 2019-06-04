@@ -7,23 +7,24 @@ public class DogwalkerListVO implements Serializable {
     private String DogwalkerID;
     private String DogwalkerBigcity;
     private String DogwalkerSmallcity;
-    private String DogWalkerGender;
+    private String DogwalkerGender;
     private String selected;
 
-    public String getSelect() {
+    public String getSelected() {
         return selected;
     }
 
-    public String getDogWalkerGender() {
-        return DogWalkerGender;
-    }
-
-    public void setDogWalkerGender(String dogWalkerGender) {
-        DogWalkerGender = dogWalkerGender;
-    }
-
-    public void setSelect(String selected) {
+    public void setSelected(String selected) {
         this.selected = selected;
+    }
+
+
+    public String getDogwalkerGender() {
+        return DogwalkerGender;
+    }
+
+    public void setDogwalkerGender(String dogwalkerGender) {
+        DogwalkerGender = dogwalkerGender;
     }
 
     public String getDogwalkerID() {

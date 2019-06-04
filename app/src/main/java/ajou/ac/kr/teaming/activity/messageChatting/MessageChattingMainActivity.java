@@ -84,8 +84,8 @@ public class MessageChattingMainActivity extends Activity {
 
             submitService.setVisibility(View.VISIBLE);
             if (registerVO.getUserID().equals(dogwalkerListVO.getDogwalkerID())) {
-                userIdTextView.setText(dogwalkerListVO.getSelect() + "님과의 채팅");
-            } else if (registerVO.getUserID().equals(dogwalkerListVO.getSelect())) {
+                userIdTextView.setText(dogwalkerListVO.getSelected() + "님과의 채팅");
+            } else /*if (registerVO.getUserID().equals(dogwalkerListVO.getSelected()))*/ {
                 userIdTextView.setText(dogwalkerListVO.getDogwalkerID() + "님과의 채팅");
             }
         }
@@ -99,7 +99,6 @@ public class MessageChattingMainActivity extends Activity {
         if (activityName.equals("사용자커뮤니티")) {
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
             firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), userCommunityContentCommentVO.getCommentId());
-
             /*
              * <p > 메시지 전송 표시</p >
              */
@@ -108,7 +107,6 @@ public class MessageChattingMainActivity extends Activity {
                         inputValue = editText.getText().toString();
                         editText.setText("");
                         //메시지 추가
-
                         if (registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) {
                             oppenentId = userCommunityContentCommentVO.getUser_UserID();
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
@@ -125,18 +123,16 @@ public class MessageChattingMainActivity extends Activity {
         } else if (activityName.equals("실시간도그워커")) {
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
             firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerListVO.getDogwalkerID());
-
             //메시지 전송 표시
-
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
                         String inputValue = editText.getText().toString();
                         editText.setText("");
                         //메시지 추가
                         if (registerVO.getUserID().equals(dogwalkerListVO.getDogwalkerID())) {
-                            oppenentId = dogwalkerListVO.getSelect();
+                            oppenentId = dogwalkerListVO.getSelected();
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
-                                    dogwalkerListVO.getSelect(), dogwalkerListVO.getSelect());
+                                    dogwalkerListVO.getSelected(), dogwalkerListVO.getSelected());
                         } else {
                             oppenentId = dogwalkerListVO.getDogwalkerID();
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),

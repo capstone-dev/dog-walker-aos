@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -18,13 +20,17 @@ import retrofit2.http.Query;
  */
 public interface GpsRealTimeDogwalkerService {
 
-    @GET("/dogwalkerRealTimeService")   ///dogwalkerRealTimeService?users=summy
+    @GET("/dogwalkerRealTimeService")   ///dogwalkerRealTimeService
     Call<List<DogwalkerListVO>> getThread();
 
     @FormUrlEncoded
     @POST("/dogwalkerRealTimeService")            //dogwalkerRealTimeService
     Call<DogwalkerListVO> postThread(@FieldMap HashMap<String, Object> param);
 
+    @FormUrlEncoded
     @PUT("/dogwalkerRealTimeService")   //dogwalkerRealTimeService
-    Call<DogwalkerListVO> putSelected(String DogwalkerID, String selected);
+    Call<DogwalkerListVO> putSelected(@FieldMap HashMap<String, Object> param);
+
+    @DELETE("/dogwalkerRealTimeService")   //dogwalkerRealTimeService?DogwalkerID=hong
+    Call<ResponseBody> deleteData(@Query("DogwalkerID") String DogwalkerID);
 }

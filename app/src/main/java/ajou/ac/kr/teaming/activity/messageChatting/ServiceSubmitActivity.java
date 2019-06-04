@@ -142,6 +142,7 @@ public class ServiceSubmitActivity extends Activity {
             }
         });
         Intent intent = new Intent(ServiceSubmitActivity.this, MainActivity.class);
+        intent.putExtra("registerVO", registerVO);
         startActivity(intent);
         Toast.makeText(this, "산책 서비스 신청이 완료되었습니다!", Toast.LENGTH_SHORT).show();
     }
