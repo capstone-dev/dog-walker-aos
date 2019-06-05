@@ -1,6 +1,8 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -49,6 +51,12 @@ public class DogwalkerGpsResult extends AppCompatActivity {
 
 
         Intent intent = getIntent();
+
+
+        byte[] captureMapImage = intent.getExtras().getByteArray("captureMapimage");
+        //byte배열을 비트맵으로 변환
+        Bitmap mapBitmap = BitmapFactory.decodeByteArray( captureMapImage, 0, captureMapImage.length ) ;
+        imgWalkScreenshot.setImageBitmap(mapBitmap);
 
         Double walkDistance = intent.getExtras().getDouble("totalWalkDistance");
         String walkDistanceContext = String.format("%.2f",walkDistance);

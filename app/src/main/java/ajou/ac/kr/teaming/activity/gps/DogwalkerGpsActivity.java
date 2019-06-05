@@ -224,6 +224,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private double currentDogwalkerLongitude;
    private ImageView imageUploadTest;
    private Bitmap resizedImage;
+    private Bitmap captureMapImage;
 
 
 /*****************************************************************************/
@@ -1018,9 +1019,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     //  double startWalkLatitude = startDogwalkerLatitude;
     //  double startWalkLongitude = startDogwalkerLongitude;
-
-//        alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
-//        alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) ); // 도그워커 끝지점
+//      alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
+//      alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) ); // 도그워커 끝지점
 
         TMapPolyLine tMapPolyLine = new TMapPolyLine();
         tMapPolyLine.setLineColor(Color.YELLOW);
@@ -1048,7 +1048,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private void calculateWalkDistance() {
         //도그워커의 시작위치는 고정, 도그워커의 현재 위치는 계속 바뀜.
         // 킬로미터(Kilo Meter) 단위
-
 
         double distanceMeter = distance(currentDogwalkerLatitude, currentDogwalkerLongitude, dogwalkerLatitude, dogwalkerLongitude, "meter");
         recentWalkDistance = recentWalkDistance + distanceMeter;
@@ -1085,7 +1084,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         } else if(unit == "meter"){
             dist = dist * 1609.34; //1000.0
         }
-
         return (dist);
     }
     // This function converts decimal degrees to radians
@@ -1097,7 +1095,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private static double rad2deg(double rad) {
         return (rad * 180 / Math.PI);
     }
-
 
 
 
@@ -1129,9 +1126,21 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Long totalWalkTime = walkTime;
                     markTime = dogwalkerPhotoPoint.size();
 
+                    captureMapImage = tMapView.getCaptureImage(); //Bitmap
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    captureMapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] captureMapDataArray = baos.toByteArray();
 
+
+                    /**
+                     * 결과화면으로 데이터를 보내는 것들
+                     * @params captureMapimage  //맵 이미지만 캡처
+                     * @params totalWalkDistance //총 걸은 거리
+                     * @params totalWalkTime //총 산책 시간
+                     * @params PhotoTImes //총 사진찍은 횟수
+                     * */
                     Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsResult.class);
-
+                    intent.putExtra("captureMapimage",captureMapDataArray);
                     intent.putExtra("totalWalkDistance",walkDistance); /*송신*/
                     intent.putExtra("totalWalkTime",totalWalkTime);
                     intent.putExtra("PhotoTImes",markTime);
@@ -1151,15 +1160,18 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             Toast.makeText(getApplicationContext(),"산책 중이 아닙니다..",Toast.LENGTH_LONG).show();
         }
 
-
-
     }//walkEnd();
 
 
 
     public void captureImage() {
+        /**
+         * void getCaptureImage(int nTimeOut, final MapCaptureImageListenerCallback MapCaptureListener)
+         * TMapView의 화면을 캡쳐한다.
+         * @params nTimeOut - 캡쳐를 완료할때 사용되는 시간제한
+         * @params MapCaptureListener - 캡쳐가 완료되면 호출될 Interface
+         * */
         tMapView.getCaptureImage(20, new TMapView.MapCaptureImageListenerCallback() {
-
             @Override
             public void onMapCaptureImage(final Bitmap bitmap) {
                 String state = Environment.getExternalStorageState();
@@ -1224,11 +1236,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * */
     private void postGpsData() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-
         /**
          * 통신 테스트를 위해 임의의 값을 넣어봄.
          * **/
-
         HashMap<String, Object> params = new HashMap<>();
         params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId)));
         params.put("startDogwalkerLatitude", startDogwalkerLatitude);
@@ -1255,7 +1265,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Log.d("TEST", "" + gpsVo.getStart_time());
                 Log.d("TEST", "" + gpsVo.getEnd_time());
                 Log.d("TEST", "" + gpsVo.getWalkTime());
-
 
                 if(gpsVo != null){
                 }
@@ -1334,8 +1343,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         Map<String, RequestBody> params = new HashMap<>();
         params.put("fileUpload\"; filename=\"photo.png", fileBody); //photoData   //성공
         params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //문제없음  //gpsId = 33
-
-        params.put("markerId", RequestBody.create(MediaType.parse("text"),String.valueOf(markerId)));
+        // params.put("markerId", RequestBody.create(MediaType.parse("text"),String.valueOf(markerId)));
         params.put("photoLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLatitude))));
         params.put("photoLongitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLongitude))));
 //        params.put("dogwalkerLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(dogwalkerLatitude))));

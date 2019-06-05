@@ -745,7 +745,7 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
     /**
      * GET GPS INFO
-     * 도그워커의 좌표의 위도, 경도를 서버로부터 받아온다.
+     * 도그워커의 산책정보(시작위치, 끝위치, 이동거리, 시작시간, 끝시간 등)을 서버로부터 받아온다.
      */
     public void getGpsInfo() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
@@ -857,8 +857,8 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 
 
     /**
-     * GET MARKER INFO
-     * 도그워커가 촬영한 사진 및 마커 데이터를 서버로부터 받아온다.
+     * GET LOCATION INFO
+     * 도그워커의 현재 위치를 서버로부터 받아온다.
      */
     public void getLocationInfo() {
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
@@ -885,8 +885,6 @@ public class GpsMainActivity extends AppCompatActivity implements TMapGpsManager
 //                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStart_time());
 //                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEnd_time());
 //                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getWalkTime());
-
-
 
                     /**서버로부터 받은 데이터를 저장*/
                     addPedestrianPoint(gpsGetLocationVo.getDogwalkerLatitude(), gpsGetLocationVo.getDogwalkerLongitude());
