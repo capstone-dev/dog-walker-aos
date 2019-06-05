@@ -4,6 +4,7 @@ import java.util.Map;
 
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import ajou.ac.kr.teaming.vo.GpsMarkerVo;
+import ajou.ac.kr.teaming.vo.PhotoVO;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -17,12 +18,8 @@ public interface GpsMarkerService {
     @GET("/gps") //gps?
     Call<GpsMarkerVo> doGetMarkerInfo();
 
-/*    @Multipart
-    @POST("/gps/marker") //gps/marker?id
-    Call<GpsMarkerVo> postImageUploadData(@PartMap Map<String, RequestBody> params);*/
-
     @Multipart
     @POST("/gps/marker") //gps/marker?id
-    Call<GpsMarkerVo> postImageUploadData(@PartMap Map<String, RequestBody> params);
+    Call<PhotoVO> postImageUploadData(@PartMap Map<String, RequestBody> params);
 
 }
