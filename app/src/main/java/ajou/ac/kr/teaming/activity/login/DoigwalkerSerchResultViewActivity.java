@@ -79,6 +79,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
 
                 Intent message = new Intent(DoigwalkerSerchResultViewActivity.this, MessageChattingMainActivity.class);
+                message.putExtra("activityName","도그워커예약");
                 message.putExtra("DogwalkerVO", (Serializable) dogwalkerVO);
                 message.putExtra("RegisterVO", registerVO);
 

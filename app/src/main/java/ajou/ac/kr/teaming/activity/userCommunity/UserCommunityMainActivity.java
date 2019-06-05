@@ -10,18 +10,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.RegisterVO;
+import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityService;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,7 +29,8 @@ import retrofit2.Response;
 /**
  * <p> 사용자 커뮤니티 intent Mainactivity </p>
  */
-public class UserCommunityMainActivity extends AppCompatActivity implements UserCommunityThreadAdapter.OnItemClickListener {
+public class UserCommunityMainActivity extends AppCompatActivity implements
+        UserCommunityThreadAdapter.OnItemClickListener, UserCommunityThreadAdapter.OnModifyThreadClickListener {
 
     private UserCommunityService userCommunityService = ServiceBuilder.create(UserCommunityService.class);
     private RecyclerView userthreadView;
@@ -48,7 +49,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
         userthreadView = findViewById(R.id.user_community_thread_list);
         userthreadView.setLayoutManager(new LinearLayoutManager(this));
 
-        userCommunityThreadAdapter = new UserCommunityThreadAdapter(this::showThreadContentEvent);
+        userCommunityThreadAdapter = new UserCommunityThreadAdapter(this::showThreadContentEvent,this::modifiyThreadEvent);
         userthreadView.setAdapter(userCommunityThreadAdapter);
         setUserthreadList();
 
@@ -161,5 +162,38 @@ public class UserCommunityMainActivity extends AppCompatActivity implements User
                 Log.d("TEST", "게시글 통신 실패");
             }
         });
+    }
+
+    /**
+     * 게시글 수정 버튼을 누르면 수정 이벤트 handle
+     * @param view
+     * @param userCommunityThreadVO 수정을 하겠다고 선택한 게시글
+     */
+    @Override
+    public void modifiyThreadEvent(View view, UserCommunityThreadVO userCommunityThreadVO) {
+        Call<UserCommunityThreadVO> request = userCommunityService.selectThread(userCommunityThreadVO.getThreadId());
+        request.enqueue(new Callback<UserCommunityThreadVO>() {
+            @Override
+            public void onResponse(Call<UserCommunityThreadVO> call, Response<UserCommunityThreadVO> response) {
+                // 성공시
+                if (response.isSuccessful()) {
+                    UserCommunityThreadVO userCommunityThreadVO1 = response.body();
+                    //테스트 확인 log값
+                    if (userCommunityThreadVO1 != null) {
+                        Log.d("TEST", userCommunityThreadVO1.getContent());
+                    }
+                }
+                Log.d("TEST", "수정 성공 ");
+            }
+            @Override
+            public void onFailure(Call<UserCommunityThreadVO> call, Throwable t) {
+                //실패시
+                Log.d("TEST", "수정 실패"+t.toString());
+            }
+        });
+        Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityThreadRegisterActivity.class);
+        intent.putExtra("UserCommunityThreadVO",userCommunityThreadVO);
+        intent.putExtra("registerVO", registerVO);
+        startActivity(intent);
     }
 }

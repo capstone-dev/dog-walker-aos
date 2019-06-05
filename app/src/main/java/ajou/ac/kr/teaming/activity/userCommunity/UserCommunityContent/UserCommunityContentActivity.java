@@ -23,6 +23,7 @@ import ajou.ac.kr.teaming.service.userCommunity.UserCommunityContentCommentServi
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,10 +32,10 @@ import retrofit2.Response;
  * 사용자가 커뮤니티 게시글 리스트에서 특정 게시글을 선택하였을 때
  * 게시글에 대한 정보를 보여주는 Activity
  */
-public class UserCommunityContentActivity extends Activity implements UserCommunityContentCommentAdapter.OnItemClickListener {
+public class UserCommunityContentActivity extends Activity implements
+        UserCommunityContentCommentAdapter.OnItemClickListener,UserCommunityContentCommentAdapter.OnDeleteItemClickListener {
 
-    private UserCommunityContentCommentService userCommunityContentCommentService =
-            ServiceBuilder.create(UserCommunityContentCommentService.class);
+    private UserCommunityContentCommentService userCommunityContentCommentService = ServiceBuilder.create(UserCommunityContentCommentService.class);
 
     private RecyclerView userCommunityCommentView;
     private UserCommunityContentCommentAdapter userCommunityContentCommentAdapter;
@@ -71,7 +72,7 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
         userCommunityCommentView=findViewById(R.id.comment_list);
         userCommunityCommentView.setLayoutManager(new LinearLayoutManager(this));
 
-        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter(this::matchMessageUserEvent);
+        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter(this::matchMessageUserEvent,this::deleteMessageEvent);
         userCommunityCommentView.setAdapter(userCommunityContentCommentAdapter);
         setCommentList();
     }
@@ -80,6 +81,7 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
      * <p> 서버로부터 커뮤니티 게시글 댓글 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
      */
     public void setCommentList(){
+        userCommunityContentCommentAdapter.deleteCommentList();
         //게시글의 속성 threadId에 맞는 댓글리스트 불러드림
         Call<List<UserCommunityContentCommentVO>> request = userCommunityContentCommentService.
                 getComment(userCommunityThreadVO.getThreadId());
@@ -174,5 +176,35 @@ public class UserCommunityContentActivity extends Activity implements UserCommun
         intent.putExtra("UserCommunityContentCommentVO", userCommunityContentCommentVO);
         intent.putExtra("UserCommunityThreadVO",this.userCommunityThreadVO);
         startActivity(intent);
+    }
+
+    /**
+     * 삭제 버튼을 누르면 commentId에 따라서 해당 댓글 삭제 이벤트 handle
+     * @param view
+     * @param userCommunityContentCommentVO 해ㅐ당 댓글 어댑터
+     */
+    @Override
+    public void deleteMessageEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO) {
+        Call<ResponseBody> request = userCommunityContentCommentService.deleteComment(userCommunityContentCommentVO.getCommentId());
+        request.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // 성공시
+                if (response.isSuccessful()) {
+                    ResponseBody body = response.body();
+                    //테스트 확인 log값
+                    if (body != null) {
+                        Log.d("TEST", body.toString());
+                    }
+                }
+                Log.d("TEST", "삭제 성공 ");
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //실패시
+                Log.d("TEST", "삭제 실패"+t.toString());
+            }
+        });
+        setCommentList();
     }
 }

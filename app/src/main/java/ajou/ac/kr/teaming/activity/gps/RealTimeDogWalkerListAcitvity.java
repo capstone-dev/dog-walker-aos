@@ -33,13 +33,14 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
     private RecyclerView dogwalkerview;
     private RealTimeDogwalkerListAdapter realTimeDogwalkerListAdapter;
     private Switch registerSwitch;
+    private String switchInitialValue = "turnoff";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_real_time_dog_walker_acitvity);
 
-        registerSwitch=findViewById(R.id.registerSwtich);
+        registerSwitch = findViewById(R.id.registerSwtich);
         dogwalkerview = findViewById(R.id.realtime_dogwalker_list);
         dogwalkerview.setLayoutManager(new LinearLayoutManager(this));
 
@@ -50,17 +51,19 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
         dogwalkerview.setAdapter(realTimeDogwalkerListAdapter);
         setRealTimeDogwalkerList();
 
+
         registerSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if(isChecked==true){
+            if (isChecked == true&&switchInitialValue.equals("turnoff")) {
+                Log.d("TEST", "onCreate: hello");
                 Toast.makeText(this, "실시간 신청 ON", Toast.LENGTH_SHORT).show();
                 onClickDogwalkerRegister();
-            }
-            else{
+            } else if(isChecked==false&&switchInitialValue.equals("turnon")){
+                Log.d("TEST", "onCreate: hello");
                 Toast.makeText(this, "실시간 신청 OFF", Toast.LENGTH_SHORT).show();
                 onClickDogwalkerUnRegister();
             }
         });
-    }
+}
 
 
     /**
@@ -80,6 +83,10 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
                 if (dogwalkerListVos != null) {
                     for (DogwalkerListVO dogwalkerListVO : dogwalkerListVos) {
                         //서버로 부터 읽어드린 게시글 리스트를 전부 adapter 에 저장
+                        if (dogwalkerListVO.getDogwalkerID().equals(registerVO.getUserID())) {
+                            switchInitialValue = "turnon";
+                            registerSwitch.setChecked(true);
+                        }
                         realTimeDogwalkerList.add(dogwalkerListVO);
                         Log.d("TEST", "onResponse: " + dogwalkerListVO.getDogwalkerID());
                     }
@@ -105,7 +112,7 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
     private void chooseDogWalkerEvent(View view, DogwalkerListVO dogwalkerListVO) {
         Log.d("TEST", "onClickMessageActivity: ");
 
-        if(checkAvailableService(dogwalkerListVO)) {
+        if (checkAvailableService(dogwalkerListVO)) {
             HashMap<String, Object> updateThread = new HashMap<>();
 
             updateThread.put("DogwalkerID", dogwalkerListVO.getDogwalkerID());
@@ -129,7 +136,6 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
                     }
                     Log.d("TEST", "수정 성공 ");
                 }
-
                 @Override
                 public void onFailure(Call<DogwalkerListVO> call, Throwable t) {
                     //실패시
@@ -141,8 +147,9 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
             intent.putExtra("DogwalkerListVO", dogwalkerListVO);
             intent.putExtra("activityName", "실시간도그워커");
             startActivity(intent);
+        } else {
+            Toast.makeText(this, "해당 서비스는 사용할 수 없습니다.", Toast.LENGTH_SHORT).show();
         }
-        else { Toast.makeText(this, "해당 서비스는 사용할 수 없습니다.", Toast.LENGTH_SHORT).show(); }
     }
 
     /**
@@ -150,17 +157,16 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
      */
     public void onClickDogwalkerRegister() {
         //만약 중복 있다면
-        if(!checkRegisterForm()) { Toast.makeText(this, "이미 신청한 서비스가 있습니다", Toast.LENGTH_SHORT).show(); }
+        if (!checkRegisterForm()) {
+            Toast.makeText(this, "이미 신청한 서비스가 있습니다", Toast.LENGTH_SHORT).show();
+        } else {
+            HashMap<String, Object> inputThread = new HashMap<>();
 
-        else{
-            HashMap<String, Object> inputThread=new HashMap<>();
-
-            inputThread.put("DogwalkerID",registerVO.getUserID());
-            inputThread.put("DogwalkerBigcity",registerVO.getUserBigcity());
-            inputThread.put("DogwalkerSmallcity","test");
-            Log.d("TEST", "onClickDogwalkerRegister: "+registerVO.getUserGender());
-            inputThread.put("DogwalkerGender",registerVO.getUserGender());
-            inputThread.put("selected","0");
+            inputThread.put("DogwalkerID", registerVO.getUserID());
+            inputThread.put("DogwalkerBigcity", registerVO.getUserBigcity());
+            inputThread.put("DogwalkerSmallcity", "test");
+            inputThread.put("DogwalkerGender", registerVO.getUserGender());
+            inputThread.put("selected", "0");
 
             Call<DogwalkerListVO> request = gpsRealTimeDogwalkerService.postThread(inputThread);
             request.enqueue(new Callback<DogwalkerListVO>() {
@@ -176,14 +182,15 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
                     }
                     Log.d("TEST", "등록 성공 ");
                 }
+
                 @Override
                 public void onFailure(Call<DogwalkerListVO> call, Throwable t) {
                     //실패시
-                    Log.d("TEST", "등록 실패"+t.toString());
+                    Log.d("TEST", "등록 실패" + t.toString());
                 }
             });
+            setRealTimeDogwalkerList();
         }
-        setRealTimeDogwalkerList();
     }
 
     public void onClickDogwalkerUnRegister() {
@@ -194,6 +201,7 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 // 성공시
                 if (response.isSuccessful()) {
+                    switchInitialValue = "turnoff";
                     ResponseBody body = response.body();
                     //테스트 확인 log값
                     if (body != null) {
@@ -202,10 +210,11 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
                 }
                 Log.d("TEST", "삭제 성공 ");
             }
+
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 //실패시
-                Log.d("TEST", "삭제 실패"+t.toString());
+                Log.d("TEST", "삭제 실패" + t.toString());
             }
         });
         setRealTimeDogwalkerList();
@@ -213,21 +222,25 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
 
     /**
      * 실시간 도그워커 서비스이기 때문에 만일 도그워커가 등록했는데 다시 등록할 수는 없다.
+     *
      * @return
      */
     private Boolean checkRegisterForm() {
-        int checkValue=realTimeDogwalkerListAdapter.check(registerVO.getUserID());
+        int checkValue = realTimeDogwalkerListAdapter.check(registerVO.getUserID());
         //중복있을때 false 값 반환
-        if(checkValue==1) {return false;}
+        if (checkValue == 1) {
+            return false;
+        }
         return true;
     }
 
     /**
      * 이미 누군가가 사용중인 서비스일 경우 사용할 수 없다.
+     *
      * @return
      */
-    private Boolean checkAvailableService(DogwalkerListVO dogwalkerListVO){
-        if(!dogwalkerListVO.getSelected().equals("0")){
+    private Boolean checkAvailableService(DogwalkerListVO dogwalkerListVO) {
+        if (!dogwalkerListVO.getSelected().equals("0")) {
             return false;
         }
         return true;

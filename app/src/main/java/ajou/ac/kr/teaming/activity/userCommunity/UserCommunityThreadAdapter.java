@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
 
     private ArrayList<UserCommunityThreadVO> userCommunityThreadVOArrayList = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
-
+    private OnModifyThreadClickListener onModifyThreadClickListener;
 
     /**
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
@@ -33,8 +34,15 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
     }
 
 
-    public UserCommunityThreadAdapter(OnItemClickListener onItemClickListener) {
+    public interface OnModifyThreadClickListener {
+        void modifiyThreadEvent(View view, UserCommunityThreadVO userCommunityThreadVO);
+
+    }
+
+
+    public UserCommunityThreadAdapter(OnItemClickListener onItemClickListener,OnModifyThreadClickListener onModifyThreadClickListener) {
         this.onItemClickListener = onItemClickListener;
+        this.onModifyThreadClickListener=onModifyThreadClickListener;
     }
 
     @NonNull
@@ -58,6 +66,9 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         //해당 게시글 constraintLayout 클릭시 발생 event handle
         userCommunityThreadViewHolder.constraintLayout.setOnClickListener(v ->
                 onItemClickListener.showThreadContentEvent(v, userCommunityThreadVOArrayList.get(i)));
+        //해당 게시글 수정 버튼 클릭시 발생 event handle
+        userCommunityThreadViewHolder.modifyButton.setOnClickListener(v ->
+                onModifyThreadClickListener.modifiyThreadEvent(v, userCommunityThreadVOArrayList.get(i)));
     }
 
     @Override
@@ -87,6 +98,7 @@ class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder {
     TextView userLocation;
     TextView threadDate;
     ConstraintLayout constraintLayout;
+    Button modifyButton;
 
     public UserCommunityThreadViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -95,6 +107,7 @@ class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder {
         chatRoomUserName = itemView.findViewById(R.id.user_name);
         userLocation = itemView.findViewById(R.id.user_location);
         threadDate = itemView.findViewById(R.id.user_thread_date);
+        modifyButton=itemView.findViewById(R.id.modify_thread_button);
     }
 
 }

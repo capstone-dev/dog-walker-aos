@@ -17,7 +17,7 @@
 
     <TextView
         android:layout_height="40dp"
-        android:layout_width="150dp"
+        android:layout_width="130dp"
         android:id="@+id/user_thread_title"
         android:text="제목list"
         android:textSize="12sp"
@@ -26,7 +26,7 @@
 
     <TextView
         android:layout_height="40dp"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:id="@+id/user_location"
         android:text="위치list"
         android:textSize="12sp"
@@ -36,11 +36,20 @@
 
     <TextView
         android:layout_height="40dp"
-        android:layout_width="75dp"
+        android:layout_width="70dp"
         android:id="@+id/user_thread_date"
         android:text="날짜list"
         android:textSize="12sp"
         app:layout_constraintLeft_toRightOf="@id/user_location"
+        tools:ignore="MissingConstraints" />
+
+    <Button
+        android:id="@+id/modify_thread_button"
+        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:text="수정"
+        android:textSize="8sp"
+        app:layout_constraintLeft_toRightOf="parent"
         tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>

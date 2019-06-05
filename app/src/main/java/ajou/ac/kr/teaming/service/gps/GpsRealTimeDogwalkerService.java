@@ -31,6 +31,6 @@ public interface GpsRealTimeDogwalkerService {
     @PUT("/dogwalkerRealTimeService")   //dogwalkerRealTimeService
     Call<DogwalkerListVO> putSelected(@FieldMap HashMap<String, Object> param);
 
-    @DELETE("/dogwalkerRealTimeService")   //dogwalkerRealTimeService?DogwalkerID=hong
+    @DELETE("/dogwalkerRealTimeService")   //dogwalkerRealTimeService?DogwalkerID=
     Call<ResponseBody> deleteData(@Query("DogwalkerID") String DogwalkerID);
 }

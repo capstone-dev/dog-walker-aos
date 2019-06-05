@@ -25,6 +25,7 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
     private RegisterVO registerVO;
     private UserCommunityThreadVO userCommunityThreadVO;
     private OnItemClickListener onItemClickListener;
+    private OnDeleteItemClickListener onDeleteItemClickListener;
     private ArrayList<UserCommunityContentCommentVO> userCommunityContentCommentVOArrayList = new ArrayList<>();
     int buttonTurn;
 
@@ -33,13 +34,17 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
      */
     public interface OnItemClickListener {
         void matchMessageUserEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO);
-
     }
 
-    public UserCommunityContentCommentAdapter(OnItemClickListener onItemClickListener) {
+
+    public interface OnDeleteItemClickListener {
+        void deleteMessageEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO);
+    }
+
+    public UserCommunityContentCommentAdapter(OnItemClickListener onItemClickListener,OnDeleteItemClickListener onDeleteItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+        this.onDeleteItemClickListener=onDeleteItemClickListener;
     }
-
 
     @NonNull
     @Override
@@ -67,19 +72,12 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
         else {
             userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.INVISIBLE);
         }   //다를 때
-
-
-        //테스트
-        /* userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.VISIBLE);*/
-       /* if (userCommunityContentCommentViewHolder.type == 1) {
-            userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.VISIBLE);
-        } else if (buttonTurn == 0) {
-            userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.INVISIBLE);
-        }*/
-
         //해당 댓글 연결 버튼 클릭시 발생 event handle
         userCommunityContentCommentViewHolder.connectMessage.setOnClickListener(v ->
                 onItemClickListener.matchMessageUserEvent(v, userCommunityContentCommentVOArrayList.get(i)));
+        //해당 댓글 삭제 버튼 클릭시 발생 event handle
+        userCommunityContentCommentViewHolder.deleteMessage.setOnClickListener(v ->
+                onDeleteItemClickListener.deleteMessageEvent(v, userCommunityContentCommentVOArrayList.get(i)));
     }
 
     @Override
@@ -97,6 +95,11 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
         userCommunityContentCommentVOArrayList.addAll(userCommunityContentCommentVOList);
         notifyDataSetChanged();
     }
+    //댓글리스트 삭제
+    public void deleteCommentList(){
+        userCommunityContentCommentVOArrayList.clear();
+        notifyDataSetChanged();
+    }
 }
 
 /**
@@ -108,6 +111,7 @@ class UserCommunityContentCommentViewHolder extends RecyclerView.ViewHolder {
     TextView commentContent;
     TextView commentDate;
     Button connectMessage;
+    Button deleteMessage;
     int type;
 
     public UserCommunityContentCommentViewHolder(@NonNull View itemView) {
@@ -116,5 +120,6 @@ class UserCommunityContentCommentViewHolder extends RecyclerView.ViewHolder {
         commentContent = itemView.findViewById(R.id.user_comment_content);
         commentDate = itemView.findViewById(R.id.user_comment_date);
         connectMessage = itemView.findViewById(R.id.message_button);
+        deleteMessage=itemView.findViewById(R.id.delete_message_button);
     }
 }

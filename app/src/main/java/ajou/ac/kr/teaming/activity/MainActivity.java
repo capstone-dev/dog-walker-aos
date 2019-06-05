@@ -26,6 +26,7 @@ import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.login.MyPet2Activity;
 import ajou.ac.kr.teaming.activity.login.MyPetActivity;
+import ajou.ac.kr.teaming.activity.messageChatting.messageList.MessageListMainActivity;
 import ajou.ac.kr.teaming.activity.myService.MyServiceMainActivity;
 import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityMainActivity;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HistoryService historyService = ServiceBuilder.create(HistoryService.class);
     private GpsService gpsService = ServiceBuilder.create(GpsService.class);
     private RegisterVO registerVO;
+    private FloatingActionButton messageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView emailview=(TextView)header.findViewById(R.id.emailView);
         emailview.setText(registerVO.getUserEmail());
 
+        messageButton=(FloatingActionButton)findViewById(R.id.fab);
     }
 
     @Override
@@ -197,4 +200,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    public void onClickMessageButton(View view) {
+        Intent service=new Intent(MainActivity.this, MessageListMainActivity.class);
+        service.putExtra("RegisterVO",registerVO);
+        startActivity(service);
+    }
 }

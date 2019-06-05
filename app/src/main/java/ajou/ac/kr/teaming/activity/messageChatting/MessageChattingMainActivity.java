@@ -22,6 +22,7 @@ import ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging.Notificatio
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.fcmToken.FcmService;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
+import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.FcmVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
@@ -42,6 +43,7 @@ public class MessageChattingMainActivity extends Activity {
     MessageAdapter messageAdapter;
     private RegisterVO registerVO;
     private DogwalkerListVO dogwalkerListVO;
+    private DogwalkerVO dogwalkerVO;
     private UserCommunityContentCommentVO userCommunityContentCommentVO;
     private UserCommunityThreadVO userCommunityThreadVO;
     private TextView userIdTextView;
@@ -81,12 +83,21 @@ public class MessageChattingMainActivity extends Activity {
             dogwalkerListVO = (DogwalkerListVO) intent.getSerializableExtra("DogwalkerListVO");
             userIdTextView = (TextView) findViewById(R.id.user_id);
 
-
             submitService.setVisibility(View.VISIBLE);
             if (registerVO.getUserID().equals(dogwalkerListVO.getDogwalkerID())) {
                 userIdTextView.setText(dogwalkerListVO.getSelected() + "님과의 채팅");
             } else /*if (registerVO.getUserID().equals(dogwalkerListVO.getSelected()))*/ {
                 userIdTextView.setText(dogwalkerListVO.getDogwalkerID() + "님과의 채팅");
+            }
+        } else if(activityName.equals("도그워커예약")){
+            dogwalkerVO = (DogwalkerVO) intent.getSerializableExtra("DogwalkerVO");
+            userIdTextView = (TextView) findViewById(R.id.user_id);
+
+            submitService.setVisibility(View.VISIBLE);
+            if (registerVO.getUserID().equals(dogwalkerVO.getUserID())) {
+                userIdTextView.setText( "님과의 채팅");
+            } else /*if (registerVO.getUserID().equals(dogwalkerListVO.getSelected()))*/ {
+                userIdTextView.setText(registerVO.getUserID() + "님과의 채팅");
             }
         }
 
@@ -222,14 +233,8 @@ public class MessageChattingMainActivity extends Activity {
         });
     }
 
-    /**
-     * 뒤로가기 버튼
-     * 현재 있던 메시지 전부 서버로 저장
-     *
-     * @param view
-     */
+    //뒤로가기 버튼
     public void onClickBackButton(View view) {
         finish();
     }
-
 }

@@ -3,8 +3,12 @@ package ajou.ac.kr.teaming.service.userCommunity;
 import java.util.List;
 
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.DELETE;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 /**
@@ -26,4 +30,9 @@ public interface UserCommunityService {
     @GET("/thread")  //thread?userLocation=dd
     Call<List<UserCommunityThreadVO>> getUserLocationThread(@Query("userLocation") String user_UserID);
 
+    @GET("/thread")   //thread?threadId=1
+    Call<UserCommunityThreadVO> selectThread(@Query("threadId") String threadId);
+/*
+    @DELETE("/thread")   //thread?threadId=1
+    Call<UserCommunityThreadVO> deleteThread(@Query("threadId") String threadId);*/
 }
