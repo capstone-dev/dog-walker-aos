@@ -415,49 +415,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * 퍼미션이 허용되거나 거부되었을 때 하는 액션 메소드
          * */
 
-
-
-
-        /**
-         * 클릭 이벤트 설정 구간
-         * Toast시. MapEvent.this가 아닌 getApplicationContext()를 사용할 것.
-         * **/
-        // 클릭 이벤트 설정
-        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
-            @Override
-            public boolean onPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                //    Toast.makeText(getApplicationContext(), "onPress~!", Toast.LENGTH_SHORT).show();
-
-                return false;
-            }
-            @Override
-            public boolean onPressUpEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-                //   Toast.makeText(getApplicationContext(), "onPressUp~!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-        // 롱 클릭 이벤트 설정
-        tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
-            @Override
-            public void onLongPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint) {
-                //    Toast.makeText(getApplicationContext(), "onLongPress~!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // 지도 스크롤 종료시, 확대 레벨 및 경도 위도 출력
-        tMapView.setOnDisableScrollWithZoomLevelListener(new TMapView.OnDisableScrollWithZoomLevelCallback() {
-            @Override
-            public void onDisableScrollWithZoomLevelEvent(float zoom, TMapPoint centerPoint) {
-                //       Toast.makeText(getApplicationContext(), "zoomLevel=" + zoom +
-                //                                       "\n경도 =" + centerPoint.getLongitude() +
-                //                                      "\n위도 =" + centerPoint.getLatitude(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-
-
         isWalkStatus = false;
 
     }//onCreate
@@ -586,12 +543,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
             @Override
             public boolean onPressEvent(ArrayList<TMapMarkerItem> markerlist,ArrayList<TMapPOIItem> poilist, TMapPoint point, PointF pointf) {
-                LogManager.printLog("MainActivity onPressEvent " + markerlist.size());
-
-                for (int i = 0; i < markerlist.size(); i++) {
-                    TMapMarkerItem item = markerlist.get(i);
-                    LogManager.printLog("MainActivity onPressEvent " + item.getName() + " " + item.getTMapPoint().getLatitude() + " " + item.getTMapPoint().getLongitude());
-                }
                 return false;
             }
         });
