@@ -64,7 +64,7 @@
         <Button
             android:id="@+id/btnIntentWalkerPage"
             android:layout_width="0dp"
-            android:onClick="onClcikShowListButton"
+            android:onClick="onClickShowListButton"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="목록으로 넘어가기" />

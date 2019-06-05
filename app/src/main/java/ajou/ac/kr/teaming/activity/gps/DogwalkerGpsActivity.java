@@ -45,6 +45,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -225,6 +226,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private ImageView imageUploadTest;
    private Bitmap resizedImage;
     private Bitmap captureMapImage;
+    private BitmapFactory.Options options;
 
 
 /*****************************************************************************/
@@ -834,7 +836,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         dogwalkerPhotoPoint.add( new TMapPoint(photoLatitude, photoLatitude));
 //        showMarkerPoint();
     }
-
 
     public void showMarkerPoint(int photoId) {
         TMapMarkerItem markerItem = new TMapMarkerItem();

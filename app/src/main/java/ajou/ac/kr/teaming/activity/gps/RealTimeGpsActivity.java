@@ -5,12 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Environment;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.skt.Tmap.TMapCircle;
@@ -31,14 +31,17 @@ import com.skt.Tmap.TMapPOIItem;
 import com.skt.Tmap.TMapPoint;
 import com.skt.Tmap.TMapView;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
+import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.service.gps.GpsDogwalkerLocationService;
+import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import ajou.ac.kr.teaming.vo.RegisterVO;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RealTimeGpsActivity extends AppCompatActivity {
 
@@ -49,6 +52,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     private Context mContext;
     private TMapView tMapView = null;
     private FloatingActionButton btnTrackDogWalkerFAB = null;
+    private TMapGpsManager gps;
 
 
     TMapGpsManager tMapGps = null;
@@ -71,8 +75,8 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     ArrayList<String> mArrayMarkerID;
     Intent intent = null;
 
-    private double circleRadius;
-    private double betweenWalkerDistance;
+    private double betweenUserDistance;
+    ArrayList<TMapPoint> dogwalkerRealtimeLocationPoint = new ArrayList<TMapPoint>();
 
     /***
      * 버튼 아이디 정리
@@ -82,6 +86,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
             R.id.btnNarrowCircle,
             R.id.btnIntentWalkerPage,
     };
+    private int markerId;
 
 
     /**
@@ -91,13 +96,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         tMapView.setSKTMapApiKey(TMAP_API_KEY);
     }
 
-    /**
-     * 권한 요청 관리자
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        permissionManager.setResponse(requestCode, grantResults); // 권한요청 관리자에게 결과 전달
-    }
 
 
     @Override
@@ -120,34 +118,50 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         apiKeyMapView(); //T MAP API 서버키 인증
         linearLayoutTmap.addView(tMapView);
 
+
+        gps = new TMapGpsManager(RealTimeGpsActivity.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1); //위치권한 탐색 허용 관련 내용
+            }
+            return;
+        }
+
         initView(); //리스너 실행
-        circleRadius = 300;
+
+
+
+        tMapView.setTrackingMode(true);
+        tMapView.setZoomLevel(15);
+        tMapView.setIconVisibility(true);
+        setGps();
+        Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.", Toast.LENGTH_LONG).show();
+        tMapGps = new TMapGpsManager(RealTimeGpsActivity.this);
+        tMapGps.setMinTime(1000);
+        tMapGps.setMinDistance(5);
+        tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
+        tMapGps.OpenGps();
+        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+        tMapGps.OpenGps();
+
 
 
         /***
          * FAB버튼
-         *강아지 주인의 현재 위치를 추적하는 아이콘으로 만들 생각
+         * 사용자의 현재 위치를 찾아줌.
          */
-
         btnTrackDogWalkerFAB = (FloatingActionButton) findViewById(R.id.btnFloatingActionButton);
         btnTrackDogWalkerFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                tMapCircle = new TMapCircle();
                 tMapView.setTrackingMode(true);
                 tMapView.setZoomLevel(15);
                 tMapView.setIconVisibility(true);
-                tMapCircle.setCenterPoint(tMapView.getCenterPoint());
-                tMapCircle.setRadius(circleRadius);
-                tMapCircle.setCircleWidth(2);
-                tMapCircle.setLineColor(Color.BLUE);
-                tMapCircle.setAreaColor(Color.GRAY);
-                tMapCircle.setAreaAlpha(100);
-                tMapView.addTMapCircle("circle1", tMapCircle);
 
                 setGps();
-                Toast.makeText(getApplicationContext(), "위치 찾기를 실행합니다.\n검색 반경을 생성합니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.", Toast.LENGTH_LONG).show();
                 tMapGps = new TMapGpsManager(RealTimeGpsActivity.this);
                 tMapGps.setMinTime(1000);
                 tMapGps.setMinDistance(5);
@@ -198,25 +212,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                 //                                      "\n위도 =" + centerPoint.getLatitude(), Toast.LENGTH_SHORT).show();
             }
         });
-
-        /**
-         * PermissionManager 클래스에서 상속
-         * 위치정보 허용기능
-         * */
-/*
-        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-            @Override
-            public void granted() {
-
-            }
-
-            @Override
-            public void denied() {
-                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
-            }
-        });
-*/
-
     }//initView
 
 
@@ -226,6 +221,10 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      */
     private final LocationListener mLocationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
+
+            userLatitude = location.getLatitude();
+            userLongitude = location.getLongitude();
+
 
             if (location != null) {
                 double latitude = location.getLatitude();
@@ -252,9 +251,13 @@ public class RealTimeGpsActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
                     android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
+                10, // 통지사이의 최소 변경거리 (m)
+                mLocationListener);
         lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
+                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
+                10, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
     }
 
@@ -378,16 +381,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      */
     public void onClick(View v) {
         switch (v.getId()) {
-            /*            case R.id.btnConvertToAddress              :   convertToAddress(); 	break;*/
-            case R.id.btnCapture:
-                captureImage();
-                break;
-            case R.id.btnEnlargeCircle:
-                EnlargeCircle();
-                break;
-            case R.id.btnNarrowCircle:
-                NarrowCircle();
-                break;
             case R.id.btnIntentWalkerPage:
                 intentWalkerListPage();
                 break;
@@ -400,16 +393,29 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void NarrowCircle() {
-        circleRadius -= 100;
-        tMapCircle.setRadius(circleRadius);
+    //도그워커의 현재 위치를 전부 표시
+    public void showDogwalkerLocationMarker() {
+        for(int i = 0; i < dogwalkerRealtimeLocationPoint.size(); i++) { //i == markerid
+            Log.d("TEST", "도그워커 위치 마커 생성" + i);
+            //도그워커의 현재위치에 마커 생성
+            TMapMarkerItem markerItem = new TMapMarkerItem();
+            String strID = String.format("%02d", i); //두자릿수로 나오도록 설정
+            markerId = i; //마커 아이디 변수 지정
+            // 마커 아이콘 지정
+            markerItem.getTMapPoint();
+            markerItem.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
+            // 마커의 좌표 지정
+            markerItem.setTMapPoint(dogwalkerRealtimeLocationPoint.get(i));
+            markerItem.setCanShowCallout(true);
+            markerItem.setCalloutTitle("테스트" + strID); //도그워커 이름으로
+            markerItem.setCalloutSubTitle("안녕하세요" + strID); //도그워커와의 거리로
+
+            tMapView.addMarkerItem(strID, markerItem);
+        }
     }
 
 
-    private void EnlargeCircle() {
-        circleRadius += 100;
-        tMapCircle.setRadius(circleRadius);
-    }
+
 
 
     /**
@@ -428,7 +434,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                     LogManager.printLog("선택한 위치의 주소는 " + strAddress);
                 }
             });
-
 //		    tmapdata.geoCodingWithAddressType("F02", "서울시", "구로구", "새말로", "6", "", new GeoCodingWithAddressTypeListenerCallback() {
 //
 //				@Override
@@ -452,65 +457,12 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         }
     }
 
-
-    public void captureImage() {
-        tMapView.getCaptureImage(20, new TMapView.MapCaptureImageListenerCallback() {
-
-            @Override
-            public void onMapCaptureImage(final Bitmap bitmap) {
-                String state = Environment.getExternalStorageState();
-                if (Environment.MEDIA_MOUNTED.equals(state) && !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-                    // 외부 저장공간이 사용가능하다면
-                    permissionManager.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, new PermissionManager.PermissionListener() {
-                        @Override
-                        public void granted() {
-                            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "TMAPOpenAPI");
-                            if (!file.exists()) {
-                                file.mkdirs();
-                            }
-
-                            if (file.exists()) {
-                                OutputStream out = null;
-                                String fileName = System.currentTimeMillis() + ".png";
-                                File fileCacheItem = new File(file.toString() + File.separator + fileName);
-                                try {
-                                    fileCacheItem.createNewFile();
-                                    out = new FileOutputStream(fileCacheItem);
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-                                    out.flush();
-                                    Toast.makeText(RealTimeGpsActivity.this, "Saved :" + fileCacheItem.getAbsolutePath(), Toast.LENGTH_LONG).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(RealTimeGpsActivity.this, "캡처 이미지 저장에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                                    e.printStackTrace();
-                                } finally {
-                                    if (out != null) {
-                                        try {
-                                            out.close();
-                                        } catch (Exception e1) {
-                                        }
-                                    }
-                                }
-                            } else {
-                                Toast.makeText(RealTimeGpsActivity.this, "캡쳐 디렉터리 생성에 실패했습니다.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void denied() {
-
-                        }
-                    });
-                }
-            }
-        });
-    }
-
     /**
      * 도그워커 실시간으로 가능한 리스트 보여주는 이벤트 handle
      *
      * @param view
      */
-    public void onClcikShowListButton(View view) {
+    public void onClickShowListButton(View view) {
         Intent intent = new Intent(RealTimeGpsActivity.this, RealTimeDogWalkerListAcitvity.class);
         startActivity(intent);
     }
@@ -520,12 +472,10 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      * 도그워커와의 거리 계산
      */
 
-    private void distanceToDogwalker() {
-        //도그워커의 시작위치는 고정, 도그워커의 현재 위치는 계속 바뀜.
-        // 킬로미터(Kilo Meter) 단위
+    private void distanceBetweenUser() {
 
-
-        betweenWalkerDistance = distance(userLatitude, userLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
+        //사용자 자신의 위치와 도그워커간의 거리를 구한다.
+        betweenUserDistance = distance(userLatitude, userLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
     }
 
     /**
@@ -539,9 +489,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      * @param unit 거리 표출단위
      * @return dist*/
 
-
     private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
-
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
 
@@ -554,7 +502,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         } else if (unit == "meter") {
             dist = dist * 1609.344;
         }
-
         return (dist);
     }
 
@@ -568,4 +515,65 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         return (rad * 180 / Math.PI);
     }
 
-}
+
+
+
+
+
+    /**
+     * GET RealTime Dogwalker Location
+     * 도그워커의 실시간 현재 위치를 서버로부터 받아온다.
+     *
+     *
+     * Service객체와 Vo부분 수정 요망
+     *
+     *
+     */
+    public void getRealTimeDogwalkerLocationInfo() {
+        GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
+        Call<GpsLocationVo> call = gpsDogwalkerLocationService.doGetLocationInfo();
+        call.enqueue(new Callback<GpsLocationVo>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<GpsLocationVo> call, @NonNull Response<GpsLocationVo> response) {
+                GpsLocationVo gpsGetLocationVo = response.body();
+                if(gpsGetLocationVo != null){
+                    Toast.makeText(getApplicationContext(), "도그워커 현재 위도" + gpsGetLocationVo.getDogwalkerLatitude()
+                            + "도그워커 현재 경도" + gpsGetLocationVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
+
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getMarkerId());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoURL());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLatitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLongitude());
+                    Log.d("TEST", "onResponse: " + gpsGetLocationVo.getDogwalkerLatitude());
+                    Log.d("TEST", "onResponse: " + gpsGetLocationVo.getDogwalkerLongitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStartDogwalkerLatitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStartDogwalkerLongitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEndDogwalkerLatitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEndDogwalkerLongitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getWalkDistance());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStart_time());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEnd_time());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getWalkTime());
+
+                    /**서버로부터 받은 데이터를 저장*/
+                    dogwalkerLatitude = gpsGetLocationVo.getDogwalkerLatitude();
+                    dogwalkerLongitude = gpsGetLocationVo.getDogwalkerLongitude();
+
+                    dogwalkerRealtimeLocationPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
+                }
+                Log.d("TEST", "onResponse:END ");
+            }
+            @Override
+            public void onFailure(@NonNull Call<GpsLocationVo> call, @NonNull Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n도그워커의 현재 위치를 전달받을 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패");
+            }
+        });
+    }
+
+}// RealTimeGpsActivity
+
+
+
+
+
