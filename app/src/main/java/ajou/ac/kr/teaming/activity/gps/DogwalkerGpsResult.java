@@ -53,10 +53,10 @@ public class DogwalkerGpsResult extends AppCompatActivity {
         Intent intent = getIntent();
 
 
-        byte[] captureMapImage = intent.getExtras().getByteArray("captureMapimage");
-        //byte배열을 비트맵으로 변환
-        Bitmap mapBitmap = BitmapFactory.decodeByteArray( captureMapImage, 0, captureMapImage.length ) ;
-        imgWalkScreenshot.setImageBitmap(mapBitmap);
+//        byte[] captureMapImage = intent.getExtras().getByteArray("captureMapimage");
+//        //byte배열을 비트맵으로 변환
+//        Bitmap mapBitmap = BitmapFactory.decodeByteArray( captureMapImage, 0, captureMapImage.length ) ;
+//        imgWalkScreenshot.setImageBitmap(mapBitmap);
 
         Double walkDistance = intent.getExtras().getDouble("totalWalkDistance");
         String walkDistanceContext = String.format("%.2f",walkDistance);

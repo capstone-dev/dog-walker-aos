@@ -227,6 +227,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private Bitmap resizedImage;
     private Bitmap captureMapImage;
     private BitmapFactory.Options options;
+    private byte[] captureMapDataArray;
 
 
 /*****************************************************************************/
@@ -531,8 +532,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             public boolean onPressUpEvent(ArrayList<TMapMarkerItem> markerlist, ArrayList<TMapPOIItem> poilist, TMapPoint point, PointF pointf) {
                 if (!markerlist.isEmpty()) {
                     TMapMarkerItem item = markerlist.get(markerlist.size() - 1);
-
                     ImageView photoFromCameraImageView = findViewById(R.id.photoFromCamera);
+                    photoFromCameraImageView.bringToFront();
                     Picasso.get().load("http://52.79.234.182:3000/gps/marker/image?markerId=" + item.getID()).into(photoFromCameraImageView);
                     photoFromCameraImageView.setVisibility(View.VISIBLE);
                 }
@@ -745,8 +746,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Bitmap rotatedBitmap = rotate(bitmap, degree);
 
 //                    ((ImageView)findViewById(R.id.imageUploadTestView)).setImageBitmap(rotatedBitmap);
-//                    photoLatitude = dogwalkerLatitude;
-//                    photoLongitude = dogwalkerLongitude;
+                    photoLatitude = dogwalkerLatitude;
+                    photoLongitude = dogwalkerLongitude;
 
 
                     imageUploadSample(rotatedBitmap); //사진찍은 현재위치의 ArrayList를 기준으로 이미지를 서버에 POST
@@ -909,10 +910,17 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Long totalWalkTime = walkTime;
                     markTime = dogwalkerPhotoPoint.size();
 
-                    captureMapImage = tMapView.getCaptureImage(); //Bitmap
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    captureMapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                    byte[] captureMapDataArray = baos.toByteArray();
+//                    tMapView.getCaptureImage(20, new TMapView.MapCaptureImageListenerCallback() {
+//                        @Override
+//                        public void onMapCaptureImage(Bitmap bitmap) {
+//
+//                        }
+//                    });
+//                    captureMapImage = tMapView.getCaptureImage(); //Bitmap
+//                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                    captureMapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                    captureMapDataArray = baos.toByteArray();
+
 
 
                     /**
@@ -923,7 +931,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                      * @params PhotoTImes //총 사진찍은 횟수
                      * */
                     Intent intent = new Intent(DogwalkerGpsActivity.this, DogwalkerGpsResult.class);
-                    intent.putExtra("captureMapimage",captureMapDataArray);
+                  //  intent.putExtra("captureMapimage",captureMapDataArray);
                     intent.putExtra("totalWalkDistance",walkDistance); /*송신*/
                     intent.putExtra("totalWalkTime",totalWalkTime);
                     intent.putExtra("PhotoTImes",markTime);
@@ -1131,12 +1139,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     PhotoVO photoIdVO = response.body();
                     if (photoIdVO != null) {
                         Log.d("TEST", "" + photoIdVO.getId());
-                        showMarkerPoint(photoIdVO.getId());
+                        Log.d("TEST", "" + photoIdVO.getPhotoLatitude());
+                        Log.d("TEST", "" + photoIdVO.getPhotoLongitude());
+                        showMarkerPoint(photoIdVO.getId()); //사진Id를 이용해 마커 생성
                     }
                 }
             }
             @Override
             public void onFailure(Call<PhotoVO> call, Throwable t) {
+                Log.d("TEST", "이미지 통신 에러");
                 Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
