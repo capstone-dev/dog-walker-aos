@@ -45,6 +45,7 @@ import com.skt.Tmap.TMapView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -225,6 +226,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
    private ImageView imageUploadTest;
    private Bitmap resizedImage;
     private Bitmap captureMapImage;
+    private BitmapFactory.Options options;
 
 
 /*****************************************************************************/
@@ -287,27 +289,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         txtWalkTime = (TextView) findViewById(R.id.txtWalkTime);
         txtWalkTime.setText(formatDate.substring(0,8));    // TextView 에 현재 시간 문자열 할당
-
-/*
-
-        Date date = new Date(currentTime);
-        // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
-        SimpleDateFormat sdfNow1 = new SimpleDateFormat("HH:mm:ss");
-        // nowDate 변수에 값을 저장한다.
-        String formatDate1 = sdfNow1.format(date);
-
-        txtCurrentTime = (TextView) findViewById(R.id.txtCurrentTime);
-        txtCurrentTime.setText(formatDate1.substring(0,8));    // TextView 에 현재 시간 문자열 할당
-
-        Date startDate = new Date(start_time);
-        // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
-        SimpleDateFormat sdfNow2 = new SimpleDateFormat("HH:mm:ss");
-        // nowDate 변수에 값을 저장한다.
-        String formatDate2 = sdfNow2.format(startDate);
-
-        txtStartTime = (TextView) findViewById(R.id.txtStartTime);
-        txtStartTime.setText(formatDate2.substring(0,8));    // TextView 에 현재 시간 문자열 할당
-*/
 
     }
 
@@ -966,20 +947,11 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                         conn.setDoInput(true);
                         conn.connect();
-
                         InputStream is = conn.getInputStream();
-                        bitmapSample1 = BitmapFactory.decodeStream(is);
+                        bitmapSample1 =  BitmapFactory.decodeStream(is);
 
-                        //비트맵의 이미지가 너무 커서 리사이즈 한다.
-                        int height = bitmapSample1.getHeight();
-                        int width = bitmapSample1.getWidth();
-                        // Toast.makeText(this, width + " , " + height, Toast.LENGTH_SHORT).show();
 
-                        while (height > 110) {
-                            resizedImage = Bitmap.createScaledBitmap(bitmapSample1, (width * 110) / height, 110, true);
-                            height = resizedImage.getHeight();
-                            width = resizedImage.getWidth();
-                        }
+
                     } catch (IOException ex) {
 
                     }
@@ -994,20 +966,23 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 //  이제 작업 스레드에서 이미지를 불러오는 작업을 완료했기에
                 //  UI 작업을 할 수 있는 메인스레드에서 이미지뷰에 이미지를 지정합니다.
 
-                /**
-                 * void setCalloutLeftImage(Bitmap bitmap)
-                 * 풍선뷰의 왼쪽에 사용될 이미지를 설정한다.
-                 * */
-                markerItem.setCalloutLeftImage(resizedImage);
-
             } catch (InterruptedException e) {
 
             }
+
+   //         resizedImage = Bitmap.createScaledBitmap(bitmapSample1, 110, 62, true);
+            /**
+             * void setCalloutLeftImage(Bitmap bitmap)
+             * 풍선뷰의 왼쪽에 사용될 이미지를 설정한다.
+             * */
+            markerItem.setCalloutLeftImage(resizedImage);
+
             Log.d("TEST", "지도에 " + strID + "번째 마커 추가");
             //지도에 마커 추가
             tMapView.addMarkerItem(strID, markerItem);
         }
     }
+
 
 
 
