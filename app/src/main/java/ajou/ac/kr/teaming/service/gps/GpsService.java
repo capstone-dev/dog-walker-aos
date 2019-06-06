@@ -20,15 +20,6 @@ public interface GpsService {
     @GET("/gps") //gps?
     Call<GpsVo> doGetGpsInfo();
 
-
-    @GET("/gps/marker") //gps?
-    Call<GpsVo> doGetMarkerInfo();
-
-
-    @GET("/gps/dogwalkerPosition") //gps?
-    Call<GpsVo> doGetLocationInfo();
-
-
     @FormUrlEncoded
     @POST("/gps") //gps/?id
     Call<GpsVo> postGpsData(@FieldMap HashMap<String, Object> parameters);

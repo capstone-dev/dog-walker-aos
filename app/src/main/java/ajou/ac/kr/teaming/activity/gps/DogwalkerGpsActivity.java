@@ -239,20 +239,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapView.setSKTMapApiKey(TMAP_API_KEY);
     }
 
-/*    *//**
-     * 권한 요청 관리자*//*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        final int SUCCESS = 200;
-        if (requestCode != SUCCESS) {
-            Log.e(TAG, "fail");
-        }
-
-        if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
-            Log.e(TAG, "denied");
-        }
-    }*/
-
 
     //갱신을 위한 스레드
     Thread walkTimeThread = new Thread() {
@@ -438,11 +424,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             txtLon.setText(String.valueOf(dogwalkerLongitude));
 
 
-            //위치정보 모니터링 제거
-            //locationManager.removeUpdates(DogwalkerGpsActivity.this);
+            postLocationData();
+            postGpsData();
 
-            //도그워커 이동경로 그리기
-            //위치가 바뀔 때마다 현재 위치에 새로운 포인트를 추가
 
             if( isWalkStatus == true){
                 //위치가 바뀔때마다 다음 역할을 수행
@@ -779,15 +763,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     }
 
 
-    /**
-     * 도그워커가 사진을 찍은 위치를 저장하게 하는 메소드
-     *
-     * */
-    public void savePhotoLocationPoint(){
-        Log.d("TEST", "마커 위치 포인트 추가");
-        dogwalkerPhotoPoint.add( new TMapPoint(photoLatitude, photoLatitude));
-//        showMarkerPoint();
-    }
+
 
     public void showMarkerPoint(int photoId) {
         TMapMarkerItem markerItem = new TMapMarkerItem();
@@ -1002,17 +978,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                                 Toast.makeText(DogwalkerGpsActivity.this, "캡쳐 디렉터리 생성에 실패했습니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
-
                         @Override
                         public void denied() {
-
                         }
                     });
                 }
             }
         });
     }
-
 
 
     /**
@@ -1031,15 +1004,16 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * 통신 테스트를 위해 임의의 값을 넣어봄.
          * **/
         HashMap<String, Object> params = new HashMap<>();
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId)));
-        params.put("startDogwalkerLatitude", startDogwalkerLatitude);
-        params.put("startDogwalkerLongitude", startDogwalkerLongitude);
-        params.put("endDogwalkerLatitude", endDogwalkerLatitude);
-        params.put("endDogwalkerLongitude", endDogwalkerLongitude);
-        params.put("walkDistance", walkDistance);
-        params.put("start_time", start_time);
-        params.put("end_time", end_time);
-        params.put("walkTime", walkTime);
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //gpsId = 33 TODO: 동적으로 할당하기
+        params.put("startDogwalkerLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(startDogwalkerLatitude))));
+        params.put("startDogwalkerLongitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(startDogwalkerLatitude))));
+        params.put("endDogwalkerLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(dogwalkerLatitude))));
+        params.put("endDogwalkerLongitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(dogwalkerLongitude))));
+        params.put("walkDistance", RequestBody.create(MediaType.parse("text"), (String.valueOf(walkDistance))));
+        params.put("start_time", RequestBody.create(MediaType.parse("text"), (String.valueOf(start_time))));
+        params.put("end_time",RequestBody.create(MediaType.parse("text"), (String.valueOf(end_time))));
+        params.put("walkTime",RequestBody.create(MediaType.parse("text"), (String.valueOf(walkTime))));
+
 
 
         Call<GpsVo> call = gpsService.postGpsData(params);
@@ -1047,7 +1021,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             @Override
             public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
                 GpsVo gpsVo = response.body();
-                Log.d("TEST", "onResponseBODY: " + response.body());
+                Log.d("TEST 서버전송", "GPS INFO 통신 성공");
                 Log.d("TEST", "" + gpsVo.getStartDogwalkerLatitude());
                 Log.d("TEST", "" + gpsVo.getStartDogwalkerLongitude());
                 Log.d("TEST", "" + gpsVo.getEndDogwalkerLatitude());
@@ -1063,8 +1037,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(Call<GpsVo> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n마커 정보를 전송할 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n산책 정보를 전송할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "Retrofit 통신 실패\n산책 정보를 전송할 수 없습니다.");
             }
         });
 
@@ -1072,7 +1046,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     /**
      * Retrofit Method
-     *
      * POST DOGWALKER LOCATION
      * 도그워커의 현재 위치를 서버로 전송한다.
      * */
@@ -1080,16 +1053,19 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //gpsId = 33
-        params.put("dogwalkerLatitude", dogwalkerLatitude);
-        params.put("dogwalkerLongitude", dogwalkerLongitude);
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(33))); //gpsId = 33 TODO: 동적으로 할당하기
+        params.put("dogwalkerLatitude",RequestBody.create(MediaType.parse("text"), (String.valueOf(dogwalkerLatitude))));
+        params.put("dogwalkerLongitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(dogwalkerLongitude))));
+
 
         Call<GpsLocationVo> call = gpsDogwalkerLocationService.postLocationData(params);
         call.enqueue(new Callback<GpsLocationVo>() { //비동기적 호출
             @Override
             public void onResponse(Call<GpsLocationVo> call, Response<GpsLocationVo> response) {
                 GpsLocationVo gpsLocationVo = response.body();
+                Log.d("TEST 서버전송", "도그워커 현재위치 전송");
                 Log.d("TEST", "onResponseBODY: " + response.body());
+                Log.d("TEST", "" + gpsLocationVo.getGpsId());
                 Log.d("TEST", "" + gpsLocationVo.getDogwalkerLatitude());
                 Log.d("TEST", "" + gpsLocationVo.getDogwalkerLongitude());
 
@@ -1103,9 +1079,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Log.d("TEST", "통신 실패, 도그워커의 현재위치 정보를 전송할 수 없습니다.");
             }
         });
-
     }
-
 
 
     /**

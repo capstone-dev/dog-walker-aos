@@ -394,7 +394,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     }
 
     //도그워커의 현재 위치를 전부 표시
-    public void showDogwalkerLocationMarker() {
+    public void showDogwalkerLocationMarker() { //TODO : 실시간 도그워커를 등록하면 현재 위치를 전달해 마커를 생성
         for(int i = 0; i < dogwalkerRealtimeLocationPoint.size(); i++) { //i == markerid
             Log.d("TEST", "도그워커 위치 마커 생성" + i);
             //도그워커의 현재위치에 마커 생성
@@ -414,48 +414,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         }
     }
 
-
-
-
-
-    /**
-     * convertToAddress
-     * 지도에서 선택한 지점을 주소를 변경요청한다.
-     */
-    public void convertToAddress() {
-        TMapPoint point = tMapView.getCenterPoint();
-
-        TMapData tmapdata = new TMapData();
-
-        if (tMapView.isValidTMapPoint(point)) {
-            tmapdata.convertGpsToAddress(point.getLatitude(), point.getLongitude(), new TMapData.ConvertGPSToAddressListenerCallback() {
-                @Override
-                public void onConvertToGPSToAddress(String strAddress) {
-                    LogManager.printLog("선택한 위치의 주소는 " + strAddress);
-                }
-            });
-//		    tmapdata.geoCodingWithAddressType("F02", "서울시", "구로구", "새말로", "6", "", new GeoCodingWithAddressTypeListenerCallback() {
-//
-//				@Override
-//				public void onGeoCodingWithAddressType(TMapGeocodingInfo geocodingInfo) {
-//					LogManager.printLog(">>> strMatchFlag : " + geocodingInfo.strMatchFlag);
-//					LogManager.printLog(">>> strLatitude : " + geocodingInfo.strLatitude);
-//					LogManager.printLog(">>> strLongitude : " + geocodingInfo.strLongitude);
-//					LogManager.printLog(">>> strCity_do : " + geocodingInfo.strCity_do);
-//					LogManager.printLog(">>> strGu_gun : " + geocodingInfo.strGu_gun);
-//					LogManager.printLog(">>> strLegalDong : " + geocodingInfo.strLegalDong);
-//					LogManager.printLog(">>> strAdminDong : " + geocodingInfo.strAdminDong);
-//					LogManager.printLog(">>> strBunji : " + geocodingInfo.strBunji);
-//					LogManager.printLog(">>> strNewMatchFlag : " + geocodingInfo.strNewMatchFlag);
-//					LogManager.printLog(">>> strNewLatitude : " + geocodingInfo.strNewLatitude);
-//					LogManager.printLog(">>> strNewLongitude : " + geocodingInfo.strNewLongitude);
-//					LogManager.printLog(">>> strNewRoadName : " + geocodingInfo.strNewRoadName);
-//					LogManager.printLog(">>> strNewBuildingIndex : " + geocodingInfo.strNewBuildingIndex);
-//					LogManager.printLog(">>> strNewBuildingName : " + geocodingInfo.strNewBuildingName);
-//				}
-//			});
-        }
-    }
 
     /**
      * 도그워커 실시간으로 가능한 리스트 보여주는 이벤트 handle

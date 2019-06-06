@@ -1,6 +1,7 @@
 package ajou.ac.kr.teaming.service.gps;
 
 import java.util.HashMap;
+import java.util.List;
 
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import retrofit2.Call;
@@ -11,7 +12,7 @@ import retrofit2.http.POST;
 
 public interface GpsDogwalkerLocationService {
 
-    @GET("/gps") //gps?
+    @GET("/gps/dogwalkerPosition") //gps?
     Call<GpsLocationVo> doGetLocationInfo();
 
     @FormUrlEncoded
