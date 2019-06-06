@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityThreadRegisterService;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -23,15 +25,30 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
     private UserCommunityThreadRegisterService userCommunityThreadRegister = ServiceBuilder.create(UserCommunityThreadRegisterService.class);
     private RegisterVO registerVO;
+    private UserCommunityThreadVO userCommunityThreadVO;
+    private Button threadRegisterButton;
+    private String work;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_community_thread_register);
 
-
         Intent intent = getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
+        work= intent.getExtras().getString("work");
+
+        threadRegisterButton=findViewById(R.id.thread_register_button);
+
+        if(work.equals("수정")){
+            threadRegisterButton.setText("수정");
+            userCommunityThreadVO=(UserCommunityThreadVO) intent.getSerializableExtra("UserCommunityThreadVO");
+            ((EditText)findViewById(R.id.thread_title_edit_text)).setText(userCommunityThreadVO.getThreadTitle());
+            ((EditText)findViewById(R.id.thread_location_edit_text)).setText(userCommunityThreadVO.getUserLocation());
+            ((EditText)findViewById(R.id.thread_number_edit_text)).setText(Integer.toString(userCommunityThreadVO.getThreadNumber()));
+            ((EditText)findViewById(R.id.thread_date_edit_text)).setText(userCommunityThreadVO.getThreadDate());
+            ((EditText)findViewById(R.id.thread_content_edit_text)).setText(userCommunityThreadVO.getThreadContent());
+        }
     }
 
     /**
@@ -69,7 +86,15 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
             inputThread.put("threadContent", threadContent);
             inputThread.put("chatroomUserName", "테스트");
 
-            Call<UserCommunityThreadVO> request = userCommunityThreadRegister.postThread(inputThread);
+            Call<UserCommunityThreadVO> request;
+
+            if(work.equals("수정")){
+                inputThread.put("threadId",userCommunityThreadVO.getThreadId());
+                request = userCommunityThreadRegister.updateThread(inputThread);
+            }
+            else {
+                request = userCommunityThreadRegister.postThread(inputThread);
+            }
             request.enqueue(new Callback<UserCommunityThreadVO>() {
                 @Override
                 public void onResponse(Call<UserCommunityThreadVO> call, Response<UserCommunityThreadVO> response) {
@@ -125,5 +150,34 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
             return false;
         }
         return true;
+    }
+
+    //해당 게시글 삭제 요청 이벤트 handle
+    public void onClickDeleteButton(View view) {
+
+        Call<ResponseBody> request = userCommunityThreadRegister.deleteThread(userCommunityThreadVO.getThreadId());
+        request.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                // 성공시
+                if (response.isSuccessful()) {
+                    ResponseBody body = response.body();
+                    //테스트 확인 log값
+                    if (body != null) {
+                        Log.d("TEST", body.toString());
+                    }
+                }
+                Log.d("TEST", "삭제 성공 ");
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                //실패시
+                Log.d("TEST", "삭제 실패"+t.toString());
+            }
+        });
+        //현재 페이지에서 메인 usercommunitymain으로 새로고침 하면서 이동
+        Intent intent = new Intent(UserCommunityThreadRegisterActivity.this, UserCommunityMainActivity.class);
+        intent.putExtra("RegisterVO",registerVO);
+        startActivity(intent);
     }
 }

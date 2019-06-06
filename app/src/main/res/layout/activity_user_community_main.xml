@@ -80,9 +80,10 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/user_community_form"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="2dp"
+                android:padding="6dp"
                 android:background="@drawable/layout_border"
                 android:textAlignment="textStart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +96,7 @@
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="ID"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/user_community_form"
                     tools:ignore="MissingConstraints" />
@@ -106,31 +107,19 @@
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="제목"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@id/user_name_form"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
-                    android:id="@+id/user_location_form"
+                    android:id="@+id/user_thread_date_form"
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
-                    android:text="위치"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@id/user_thread_title_form"
-                    tools:ignore="MissingConstraints" />
-
-                <TextView
-                    android:id="@+id/user_thread_date_form"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
-                    android:padding="6dp"
                     android:text="게시글 날짜"
-                    android:textSize="10sp"
+                    android:textSize="13sp"
                     android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@id/user_location_form"
                     app:layout_constraintRight_toRightOf="parent"
                     tools:ignore="MissingConstraints" />
 

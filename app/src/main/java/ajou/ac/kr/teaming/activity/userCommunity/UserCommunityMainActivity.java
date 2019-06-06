@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -81,7 +82,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
                         userCommunityThreadList.add(userCommunityThreadVO);
                         Log.d("TEST", "onResponse: " + userCommunityThreadVO.getThreadTitle());
                     }
-                    userCommunityThreadAdapter.addThread(userCommunityThreadList);
+                    userCommunityThreadAdapter.addThread(userCommunityThreadList,registerVO.getUserID());
                 }
                 Log.d("TEST", "게시글 통신 성공");
             }
@@ -98,7 +99,6 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
      * <p>
      * 특정 커뮤니티 게시글을 클릭하게 되면
      * 해당 게시글에 내한 내용을 확인할 수 있게 되는 eventhandler </p>
-     *
      * @param view 현재 사용자 커뮤니티 MainActivity
      * @Param userCommunityThreadVO 해당 게시글에 대한 정보를 포함하고 있는 객체
      * 팝업 창으로 게시글 아이디 넘겨준다.
@@ -114,11 +114,11 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
 
     /**
      * 등록하게 되면 넘어가는 팝업 창 생성
-     *
      * @param view 현재 사용자 커뮤니티 MainActivity
      */
     public void onClickThreadRegister(View view) {
         Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityThreadRegisterActivity.class);
+        intent.putExtra("work","등록");
         intent.putExtra("registerVO", registerVO);
         startActivity(intent);
     }
@@ -132,7 +132,6 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
         searchForm = ((EditText) findViewById(R.id.thread_search_edit_text)).getText().toString();
         String condition = communitySelect.getSelectedItem().toString();
         Call<List<UserCommunityThreadVO>> request = null;
-
 
         if (condition.equals("아이디")) { request = userCommunityService.getUser_UserIDThread(searchForm);
             Log.e("TEST", "onClickSearch: "+searchForm );}
@@ -152,7 +151,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
                         userCommunityThreadList.add(userCommunityThreadVO);
                         Log.d("TEST", "onResponse: " + userCommunityThreadVO.getThreadTitle());
                     }
-                    userCommunityThreadAdapter.addThread(userCommunityThreadList);
+                    userCommunityThreadAdapter.addThread(userCommunityThreadList,registerVO.getUserID());
                 }
                 Log.d("TEST", "게시글 통신 성공");
             }
@@ -194,6 +193,7 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
         Intent intent = new Intent(UserCommunityMainActivity.this, UserCommunityThreadRegisterActivity.class);
         intent.putExtra("UserCommunityThreadVO",userCommunityThreadVO);
         intent.putExtra("registerVO", registerVO);
+        intent.putExtra("work","수정");
         startActivity(intent);
     }
 }

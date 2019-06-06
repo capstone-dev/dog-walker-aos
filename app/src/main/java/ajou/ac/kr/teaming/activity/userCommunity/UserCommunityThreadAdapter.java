@@ -24,6 +24,7 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
     private ArrayList<UserCommunityThreadVO> userCommunityThreadVOArrayList = new ArrayList<>();
     private OnItemClickListener onItemClickListener;
     private OnModifyThreadClickListener onModifyThreadClickListener;
+    private String loginId;
 
     /**
      * 커뮤니티 내 게시판 하나 리스트 클릭시 발생 이벤트 처리 handle
@@ -61,8 +62,14 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
          */
         userCommunityThreadViewHolder.chatRoomUserName.setText(userCommunityThreadVO.getUser_UserID());
         userCommunityThreadViewHolder.threadTitle.setText(userCommunityThreadVO.getThreadTitle());
-        userCommunityThreadViewHolder.userLocation.setText(userCommunityThreadVO.getUserLocation());
+        //userCommunityThreadViewHolder.userLocation.setText(userCommunityThreadVO.getUserLocation());
         userCommunityThreadViewHolder.threadDate.setText(userCommunityThreadVO.getThreadDate().substring(0, 10));
+
+        if(userCommunityThreadVO.getUser_UserID().equals(loginId)){
+            userCommunityThreadViewHolder.modifyButton.setVisibility(View.VISIBLE);
+        }else{
+            userCommunityThreadViewHolder.modifyButton.setVisibility(View.INVISIBLE);
+        }
         //해당 게시글 constraintLayout 클릭시 발생 event handle
         userCommunityThreadViewHolder.constraintLayout.setOnClickListener(v ->
                 onItemClickListener.showThreadContentEvent(v, userCommunityThreadVOArrayList.get(i)));
@@ -76,7 +83,8 @@ public class UserCommunityThreadAdapter extends RecyclerView.Adapter<UserCommuni
         return userCommunityThreadVOArrayList.size();
     }
 
-    public void addThread(ArrayList<UserCommunityThreadVO> userCommunityThreadVOList) {
+    public void addThread(ArrayList<UserCommunityThreadVO> userCommunityThreadVOList,String loginId) {
+        this.loginId=loginId;
         userCommunityThreadVOArrayList.addAll(userCommunityThreadVOList);
         notifyDataSetChanged();
     }
@@ -95,7 +103,7 @@ class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder {
 
     TextView chatRoomUserName;
     TextView threadTitle;
-    TextView userLocation;
+    //TextView userLocation;
     TextView threadDate;
     ConstraintLayout constraintLayout;
     Button modifyButton;
@@ -105,7 +113,7 @@ class UserCommunityThreadViewHolder extends RecyclerView.ViewHolder {
         constraintLayout = itemView.findViewById(R.id.user_thread);
         threadTitle = itemView.findViewById(R.id.user_thread_title);
         chatRoomUserName = itemView.findViewById(R.id.user_name);
-        userLocation = itemView.findViewById(R.id.user_location);
+        //userLocation = itemView.findViewById(R.id.user_location);
         threadDate = itemView.findViewById(R.id.user_thread_date);
         modifyButton=itemView.findViewById(R.id.modify_thread_button);
     }
