@@ -65,11 +65,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/user_community_form"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginBottom="2dp"
         android:background="@drawable/layout_border"
         android:textAlignment="textStart"
@@ -96,6 +94,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="380dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/user_community_form">
 
         <ScrollView
@@ -105,20 +105,16 @@
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/user_community_register_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+
                 <android.support.constraint.ConstraintLayout
-                    android:id="@+id/user_community_register_form"
+                    android:id="@+id/layout_1"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="2dp"
-                    android:background="@drawable/layout_border"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="MissingConstraints">
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_border">
 
                     <TextView
                         android:id="@+id/thread_title_form"
@@ -199,6 +195,17 @@
                         app:layout_constraintTop_toBottomOf="@+id/thread_location_edit_text"
                         tools:ignore="MissingConstraints" />
 
+                </android.support.constraint.ConstraintLayout>
+
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layout_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/layout_border"
+                    app:layout_constraintTop_toBottomOf="@+id/layout_1">
+
                     <TextView
                         android:id="@+id/thread_date_form"
                         android:layout_width="wrap_content"
@@ -206,24 +213,20 @@
                         android:layout_marginStart="3dp"
                         android:layout_marginTop="5dp"
                         android:padding="6dp"
-                        android:text="산책 일시"
+                        android:text="산책 날짜를 선택해 주세요"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/thread_number_form" />
+                        app:layout_constraintStart_toStartOf="parent" />
 
-                    <EditText
-                        android:id="@+id/thread_date_edit_text"
-                        android:layout_width="280dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="3dp"
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:id="@+id/calendarView"
+                        android:layout_width="350dp"
+                        android:layout_height="350dp"
                         android:layout_marginTop="5dp"
-                        android:hint="산책 일시를 입력해 주세요"
-                        android:inputType="numberSigned"
-                        android:padding="6dp"
-                        android:textSize="13sp"
-                        app:layout_constraintLeft_toRightOf="@id/thread_date_form"
-                        app:layout_constraintTop_toBottomOf="@id/thread_number_edit_text"
+                        app:layout_constraintTop_toBottomOf="@id/thread_date_form"
+                        app:mcv_selectionColor="#a9dbf0cb"
+                        app:mcv_showOtherDates="defaults"
                         tools:ignore="MissingConstraints" />
 
                     <TextView
@@ -236,8 +239,7 @@
                         android:text="게시글 내용"
                         android:textSize="12sp"
                         android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/thread_date_form" />
+                        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
                     <EditText
                         android:id="@+id/thread_content_edit_text"
@@ -248,10 +250,8 @@
                         android:hint="게시글 내용을 입력해 주세요"
                         android:padding="6dp"
                         android:textSize="13sp"
-                        app:layout_constraintLeft_toRightOf="@+id/thread_content_form"
-                        app:layout_constraintTop_toBottomOf="@+id/thread_date_edit_text"
+                        app:layout_constraintTop_toBottomOf="@+id/thread_content_form"
                         tools:ignore="MissingConstraints" />
-
                 </android.support.constraint.ConstraintLayout>
 
 
@@ -263,7 +263,7 @@
                     android:layout_marginBottom="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/user_community_register_form">
+                    app:layout_constraintTop_toBottomOf="@+id/layout_2">
 
                     <Button
                         android:id="@+id/thread_register_button"

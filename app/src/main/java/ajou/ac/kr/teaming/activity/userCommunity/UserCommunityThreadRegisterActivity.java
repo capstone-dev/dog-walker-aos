@@ -1,17 +1,28 @@
 package ajou.ac.kr.teaming.activity.userCommunity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.util.Calendar;
 import java.util.HashMap;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.decorator.OneDayDecorator;
+import ajou.ac.kr.teaming.activity.decorator.SaturdayDecorator;
+import ajou.ac.kr.teaming.activity.decorator.SundayDecorator;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityThreadRegisterService;
 import ajou.ac.kr.teaming.vo.RegisterVO;
@@ -28,6 +39,9 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
     private UserCommunityThreadVO userCommunityThreadVO;
     private Button threadRegisterButton;
     private String work;
+    private MaterialCalendarView materialCalendarView;
+    private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
+    private String walkingDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +53,28 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
         work= intent.getExtras().getString("work");
 
         threadRegisterButton=findViewById(R.id.thread_register_button);
+        materialCalendarView=findViewById(R.id.calendarView);
+
+        materialCalendarView.state().edit()
+                .setFirstDayOfWeek(Calendar.SUNDAY)
+                .setMinimumDate(CalendarDay.from(2018,6,1))
+                .setMaximumDate(CalendarDay.from(2022,12,31))
+                .setCalendarDisplayMode(CalendarMode.MONTHS)
+                .commit();
+
+        materialCalendarView.addDecorators(
+                new SundayDecorator(),
+                new SaturdayDecorator(),
+                oneDayDecorator);
+
+        materialCalendarView.setOnDateChangedListener((widget, date, selected) -> {
+            int year=date.getYear();
+            int month=date.getMonth()+1;
+            int day=date.getDay();
+            walkingDate=year+"/"+month+"/"+day;
+            Log.d("TEST", "날짜: "+walkingDate);
+        });
+
 
         if(work.equals("수정")){
             threadRegisterButton.setText("수정");
@@ -46,7 +82,6 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
             ((EditText)findViewById(R.id.thread_title_edit_text)).setText(userCommunityThreadVO.getThreadTitle());
             ((EditText)findViewById(R.id.thread_location_edit_text)).setText(userCommunityThreadVO.getUserLocation());
             ((EditText)findViewById(R.id.thread_number_edit_text)).setText(Integer.toString(userCommunityThreadVO.getThreadNumber()));
-            ((EditText)findViewById(R.id.thread_date_edit_text)).setText(userCommunityThreadVO.getThreadDate());
             ((EditText)findViewById(R.id.thread_content_edit_text)).setText(userCommunityThreadVO.getThreadContent());
         }
     }
@@ -56,8 +91,7 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
      * @param view
      */
     public void onClicBackButton(View view) {
-        Intent intent = new Intent(UserCommunityThreadRegisterActivity.this, UserCommunityMainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     /**
@@ -71,7 +105,6 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
         String threadTitle=((EditText)findViewById(R.id.thread_title_edit_text)).getText().toString();
         String userLocation=((EditText)findViewById(R.id.thread_location_edit_text)).getText().toString();
         int threadNumber=Integer.parseInt(((EditText)findViewById(R.id.thread_number_edit_text)).getText().toString());
-        String threadWalkDate=((EditText)findViewById(R.id.thread_date_edit_text)).getText().toString();
         String threadContent=((EditText)findViewById(R.id.thread_content_edit_text)).getText().toString();
 
         //등록 폼 검증 후 모든 값이 검증이 된다면 게시글 post
@@ -82,7 +115,7 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
             inputThread.put("threadTitle", threadTitle);
             inputThread.put("userLocation", userLocation);
             inputThread.put("threadNumber", threadNumber);
-            inputThread.put("threadWalkDate",threadWalkDate);
+            inputThread.put("threadWalkDate",walkingDate);
             inputThread.put("threadContent", threadContent);
             inputThread.put("chatroomUserName", "테스트");
 

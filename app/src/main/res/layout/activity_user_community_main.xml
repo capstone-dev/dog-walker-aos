@@ -51,7 +51,6 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:padding="4dp"
                 app:layout_constraintBottom_toTopOf="@+id/user_community_form"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -59,20 +58,27 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginTop="8dp"
                     android:text="게시글 작성"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/user_community_function"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
-                <Button
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
+                <ImageButton
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="13dp"
+                    android:background="@android:color/transparent"
                     android:onClick="onClickThreadRegister"
-                    android:text="등록"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
+                    android:padding="0sp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/pencil_icon"
                     app:layout_constraintRight_toRightOf="@id/user_community_function"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
             </android.support.constraint.ConstraintLayout>
