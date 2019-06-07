@@ -71,19 +71,17 @@ public class ServiceSubmitActivity extends Activity {
 
             dogwalkerId.setText(userCommunityThreadVO.getUser_UserID());
             serviceLocation.setText(userCommunityThreadVO.getUserLocation());
-        }
-
-        else if(activityName.equals("실시간도그워커")){
+        } else if(activityName.equals("실시간도그워커")){
             dogwalkerListVO=(DogwalkerListVO) intent.getSerializableExtra("DogwalkerListVO");
+
             dogwalkerId.setText(dogwalkerListVO.getDogwalkerID());
             serviceLocation.setText("현재 사용자 위치");
+        } else if(activityName.equals("도그워커예약")){
+
         }
     }
 
-
-    /**
-     * 안드로이드 백버튼 막기
-     */
+    //안드로이드 백버튼 막기
     @Override
     public void onBackPressed() {
         return;
@@ -92,7 +90,6 @@ public class ServiceSubmitActivity extends Activity {
     /**
      * 서비스 구매 결정시 이벤트 handle
      * 현재 구매결정한 서비스를 서버로 post
-     *
      * @param view
      */
     public void onClickPaySetButton(View view) {
@@ -106,16 +103,14 @@ public class ServiceSubmitActivity extends Activity {
             inputService.put("user_UserID", userCommunityContentCommentVO.getUser_UserID());
             inputService.put("user_DogwalkerID", userCommunityThreadVO.getUser_UserID());
             inputService.put("serviceLocation", userCommunityThreadVO.getUserLocation());
-/*
-        userCommunityThreadVO.setThreadNumber(userCommunityThreadVO.getThreadNumber()-1);*/
             inputService.put("peopleNumber", userCommunityThreadVO.getThreadNumber());
-        }
-
-        else if(activityName.equals("실시간도그워커")){
+        } else if(activityName.equals("실시간도그워커")){
             inputService.put("user_UserID",registerVO.getUserID());
             inputService.put("user_DogwalkerID",dogwalkerListVO.getDogwalkerID());
             inputService.put("serviceLocation",((TextView)serviceLocation).getText().toString());
             inputService.put("peopleNumber","1");
+        } else if(activityName.equals("도그워커예약")){
+
         }
         Call<ServiceVO> request = servicePayService.postService(inputService);
         request.enqueue(new Callback<ServiceVO>() {

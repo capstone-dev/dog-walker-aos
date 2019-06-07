@@ -25,6 +25,7 @@ import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.FcmVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
+import ajou.ac.kr.teaming.vo.ServiceVO;
 import ajou.ac.kr.teaming.vo.UserCommunityContentCommentVO;
 import ajou.ac.kr.teaming.vo.UserCommunityThreadVO;
 import okhttp3.MediaType;
@@ -43,6 +44,7 @@ public class MessageChattingMainActivity extends Activity {
     MessageAdapter messageAdapter;
     private RegisterVO registerVO;
     private DogwalkerListVO dogwalkerListVO;
+    private ServiceVO serviceVO;
     private DogwalkerVO dogwalkerVO;
     private UserCommunityContentCommentVO userCommunityContentCommentVO;
     private UserCommunityThreadVO userCommunityThreadVO;
@@ -65,14 +67,14 @@ public class MessageChattingMainActivity extends Activity {
 
         submitService = findViewById(R.id.submit_service);
 
+        //커뮤니티에서 메시지 연결시 해당 커뮤니티 게시글 댓글 사용자 ID 받아옴
+        userIdTextView = (TextView) findViewById(R.id.user_id);
+
         if (activityName.equals("사용자커뮤니티")) {
             userCommunityContentCommentVO = (UserCommunityContentCommentVO) intent.getSerializableExtra("UserCommunityContentCommentVO");
             userCommunityThreadVO = (UserCommunityThreadVO) intent.getSerializableExtra("UserCommunityThreadVO");
 
-            //커뮤니티에서 메시지 연결시 해당 커뮤니티 게시글 댓글 사용자 ID 받아옴
-            userIdTextView = (TextView) findViewById(R.id.user_id);
             submitService.setVisibility(View.GONE);
-
             if (registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID())) {
                 userIdTextView.setText(userCommunityContentCommentVO.getUser_UserID() + "님과의 채팅");
             } else {
@@ -81,7 +83,6 @@ public class MessageChattingMainActivity extends Activity {
 
         } else if (activityName.equals("실시간도그워커")) {
             dogwalkerListVO = (DogwalkerListVO) intent.getSerializableExtra("DogwalkerListVO");
-            userIdTextView = (TextView) findViewById(R.id.user_id);
 
             submitService.setVisibility(View.VISIBLE);
             if (registerVO.getUserID().equals(dogwalkerListVO.getDogwalkerID())) {
@@ -91,13 +92,21 @@ public class MessageChattingMainActivity extends Activity {
             }
         } else if(activityName.equals("도그워커예약")){
             dogwalkerVO = (DogwalkerVO) intent.getSerializableExtra("DogwalkerVO");
-            userIdTextView = (TextView) findViewById(R.id.user_id);
 
             submitService.setVisibility(View.VISIBLE);
             if (registerVO.getUserID().equals(dogwalkerVO.getUserID())) {
                 userIdTextView.setText( "님과의 채팅");
             } else /*if (registerVO.getUserID().equals(dogwalkerListVO.getSelected()))*/ {
                 userIdTextView.setText(registerVO.getUserID() + "님과의 채팅");
+            }
+        } else if(activityName.equals("나의서비스")){
+            serviceVO = (ServiceVO) intent.getSerializableExtra("ServiceVO");
+
+            submitService.setVisibility(View.GONE);
+            if (registerVO.getUserID().equals(serviceVO.getUser_UserID())) {
+                userIdTextView.setText(serviceVO.getUser_DogwalkerID() + "님과의 채팅");
+            } else /*if (registerVO.getUserID().equals(dogwalkerListVO.getSelected()))*/ {
+                userIdTextView.setText(serviceVO.getUser_UserID() + "님과의 채팅");
             }
         }
 
@@ -110,9 +119,7 @@ public class MessageChattingMainActivity extends Activity {
         if (activityName.equals("사용자커뮤니티")) {
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
             firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), userCommunityContentCommentVO.getCommentId());
-            /*
-             * <p > 메시지 전송 표시</p >
-             */
+            // <p > 메시지 전송 표시</p >
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
                         inputValue = editText.getText().toString();
@@ -124,7 +131,6 @@ public class MessageChattingMainActivity extends Activity {
                                     userCommunityContentCommentVO.getUser_UserID(), userCommunityContentCommentVO.getCommentId());
                         } else {
                             oppenentId = userCommunityThreadVO.getUser_UserID();
-                            Log.d("TEST", "OPPENTID: " + oppenentId);
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
                                     userCommunityThreadVO.getUser_UserID(), userCommunityContentCommentVO.getCommentId());
                         }
@@ -148,6 +154,46 @@ public class MessageChattingMainActivity extends Activity {
                             oppenentId = dogwalkerListVO.getDogwalkerID();
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
                                     dogwalkerListVO.getDogwalkerID(), dogwalkerListVO.getDogwalkerID());
+                        }
+                        sendFcm(oppenentId);
+                    }
+            );
+        }else if(activityName.equals("도그워커예약")){
+            FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerVO.getUserID());//메시지 전송 표시
+            findViewById(R.id.send_message).setOnClickListener(v -> {
+                        EditText editText = (EditText) findViewById(R.id.message);
+                        String inputValue = editText.getText().toString();
+                        editText.setText("");
+                        //메시지 추가
+                        if (registerVO.getUserID().equals(dogwalkerVO.getUserID())) {
+                            oppenentId = serviceVO.getUser_UserID();
+                            firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
+                                    serviceVO.getUser_UserID(), serviceVO.getUser_UserID());
+                        } else {
+                            oppenentId = serviceVO.getUser_DogwalkerID();
+                            firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
+                                    serviceVO.getUser_DogwalkerID(), serviceVO.getUser_DogwalkerID());
+                        }
+                        sendFcm(oppenentId);
+                    }
+            );
+        } else if(activityName.equals("나의서비스")){
+            FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), serviceVO.getUser_DogwalkerID());//메시지 전송 표시
+            findViewById(R.id.send_message).setOnClickListener(v -> {
+                        EditText editText = (EditText) findViewById(R.id.message);
+                        String inputValue = editText.getText().toString();
+                        editText.setText("");
+                        //메시지 추가
+                        if (registerVO.getUserID().equals(serviceVO.getUser_DogwalkerID())) {
+                            oppenentId = serviceVO.getUser_UserID();
+                            firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
+                                    serviceVO.getUser_UserID(), serviceVO.getUser_UserID());
+                        } else {
+                            oppenentId = serviceVO.getUser_DogwalkerID();
+                            firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
+                                    serviceVO.getUser_DogwalkerID(), serviceVO.getUser_DogwalkerID());
                         }
                         sendFcm(oppenentId);
                     }

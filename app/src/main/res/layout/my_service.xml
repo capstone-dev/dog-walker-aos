@@ -12,53 +12,45 @@
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:text="IDlist"
-        android:textStyle="bold"
-        android:background="@drawable/layout_border"
-        android:textSize="15dp"
+        android:textSize="12dp"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_height="wrap_content"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:id="@+id/service_location"
         android:text="장소 list"
-        android:textStyle="bold"
-        android:background="@drawable/layout_border"
-        android:textSize="15dp"
+        android:textSize="12dp"
         app:layout_constraintLeft_toRightOf="@id/dog_walker_id"
         tools:ignore="MissingConstraints" />
 
     <TextView
         android:layout_height="wrap_content"
-        android:layout_width="130dp"
+        android:layout_width="100dp"
         android:id="@+id/service_walking_time"
-        android:background="@drawable/layout_border"
         android:text="시간 list"
-        android:textStyle="bold"
-        android:textSize="15dp"
-        app:layout_constraintLeft_toRightOf="@id/service_location"
+        android:textSize="12dp"
+        app:layout_constraintRight_toLeftOf="@id/delete_service_button"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:id="@+id/delete_service_button"
         android:textStyle="bold"
+        android:text="삭제"
         android:textSize="10sp"
-        app:layout_constraintLeft_toRightOf="@id/service_walking_time"
+        app:layout_constraintRight_toLeftOf="@id/message_service_button"
         android:background="@drawable/datebg"/>
 
     <Button
         android:id="@+id/message_service_button"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginLeft="30dp"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:text="채팅"
         android:textSize="10sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/service"
-        app:layout_constraintLeft_toRightOf="@id/delete_service_button" />
-
-
+        app:layout_constraintRight_toRightOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

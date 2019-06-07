@@ -24,5 +24,9 @@ public interface ServicePayService {
     Call<ServiceVO> postService(@FieldMap HashMap<String, Object> param);
 
     @GET("/walkingService") //walkingService 서비스 리스트 가져오는 요청  /walkingService?user_UserID=12
-    Call<List<ServiceVO>> getComment(@Query("user_UserID") String user_UserID);
+    Call<List<ServiceVO>> getUserService(@Query("user_UserID") String user_UserID);
+
+
+    @GET("/walkingService") //walkingService 서비스 리스트 가져오는 요청  /walkingService?user_DogwalkerID=12
+    Call<List<ServiceVO>> getDogwalkerService(@Query("user_DogwalkerID") String user_DogwalkerID);
 }

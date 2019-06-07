@@ -71,6 +71,11 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
         serviceVOArrayList.addAll(serviceVOS);
         notifyDataSetChanged();
     }
+
+    public void updateService(){
+        serviceVOArrayList.clear();
+        notifyDataSetChanged();
+    }
 }
 
 /**
