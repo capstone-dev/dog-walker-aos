@@ -138,7 +138,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 //            R.id.btnWalkEnd, //산책 종료
 /*            R.id.btnShowLocation,*/
 //            R.id.btnPostDogwalkerLocation,
-            R.id.btnImageUploadSample, // 파일 업로드 샘플
+//            R.id.btnImageUploadSample, // 파일 업로드 샘플
     };
 
 
@@ -172,9 +172,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private ArrayList<Bitmap> mOverlayList;
 
 
-
-    private static int 	mMarkerID;
-
     ArrayList<TMapPoint> alTMapPoint = new ArrayList<TMapPoint>();
     ArrayList<TMapPoint> dogwalkerPhotoPoint = new ArrayList<TMapPoint>();
 
@@ -184,12 +181,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private long currentTime;
     private long nine = 32400000;
 
-
-
-    public static final int MY_PERMISSION_CAMERA = 1111;
-    private static final int REQUEST_TAKE_PHOTO = 2222;
-    private static final int REQUEST_TAKE_ALBUM = 3333;
-    private static final int REQUEST_IMAGE_CROP = 4444;
 
    private static final int REQUEST_IMAGE_CAPTURE = 672;
    private String imageFilePath;
@@ -347,15 +338,15 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         tMapView.setIconVisibility(true);
         Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
 
-        gps = new TMapGpsManager(DogwalkerGpsActivity.this);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1); //위치권한 탐색 허용 관련 내용
-            }
-            return;
-        }
+//        gps = new TMapGpsManager(DogwalkerGpsActivity.this);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1); //위치권한 탐색 허용 관련 내용
+//            }
+//            return;
+//        }
         setGps();
 
         tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
@@ -393,7 +384,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 .setPermissionListener(permissionListener)
                 .setDeniedMessage("산책 서비스를 이용하기 위해 위치, 저장공간, 카메라 접근 권한을 허용해주세요.")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA,
-                                Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                Manifest.permission.INTERNET, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION)
                 .check();
 
         /**
@@ -423,7 +415,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
             if( isWalkStatus == true){
                 //위치가 바뀔때마다 다음 역할을 수행
-                postLocationData();
+              //  postLocationData();
                 calculateWalkDistance();
                 addPedestrianPoint();
                 drawPedestrianPath();
@@ -612,7 +604,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
                         if(isWalkStatus == false) {
-                            isWalkStatus = true;
                             walkTimeThread.start(); //시간을 재는 스레드 시작
 
                             //현재 위치가 곧 산책 시작 위치가 됨.
@@ -629,6 +620,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                             postGpsData();
                             postLocationData();
 
+                            isWalkStatus = true;
                         } else {
                             Log.e(TAG,"WalkStatus Error");
                         }
@@ -881,7 +873,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
 
                     Long totalWalkTime = walkTime;
-                    markTime = dogwalkerPhotoPoint.size();
 
 //                    tMapView.getCaptureImage(20, new TMapView.MapCaptureImageListenerCallback() {
 //                        @Override
@@ -1004,7 +995,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         //TODO: 동적으로 할당하기
         //아이디는 서버에서 자동으로 생성
         params.put("startDogwalkerLatitude", startDogwalkerLatitude);
-        params.put("startDogwalkerLongitude",startDogwalkerLatitude);
+        params.put("startDogwalkerLongitude",startDogwalkerLongitude);
         params.put("endDogwalkerLatitude", dogwalkerLatitude);
         params.put("endDogwalkerLongitude",dogwalkerLongitude);
         params.put("walkDistance", walkDistance);
@@ -1122,6 +1113,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                         Log.d("TEST", "" + photoIdVO.getPhotoLongitude());
                         showMarkerPoint(photoIdVO.getId()); //사진Id를 이용해 마커 생성
                     }
+                    markTime += 1;
                 }
             }
             @Override
