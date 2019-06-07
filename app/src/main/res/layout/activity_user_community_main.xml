@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="8dp"
-                    android:text="게시글 작성"
+                    android:text="User Community"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/user_community_function"
@@ -70,13 +70,13 @@
                 <ImageButton
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="9dp"
                     android:layout_marginRight="13dp"
-                    android:background="@android:color/transparent"
                     android:onClick="onClickThreadRegister"
+                    android:background="@android:color/transparent"
                     android:padding="0sp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/pencil_icon"
+                    android:src="@drawable/register_icon"
                     app:layout_constraintRight_toRightOf="@id/user_community_function"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
@@ -101,7 +101,7 @@
                     android:layout_width="80dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
-                    android:text="ID"
+                    android:text="아이디"
                     android:textSize="13sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="@id/user_community_form"
@@ -187,23 +187,23 @@
                         app:layout_constraintLeft_toRightOf="@id/search_text"
                         tools:ignore="MissingConstraints" />
 
-                    <Button
+                    <ImageButton
                         android:id="@+id/search_start_button"
-                        android:layout_width="50dp"
-                        android:layout_height="40dp"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@android:color/transparent"
                         android:onClick="onClickSearch"
-                        android:text="검색"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
+                        android:padding="0sp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/search_icon"
                         app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="MissingConstraints" />
 
-
                 </android.support.constraint.ConstraintLayout>
-
-
             </android.support.constraint.ConstraintLayout>
-
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

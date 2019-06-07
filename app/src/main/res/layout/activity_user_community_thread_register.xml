@@ -29,11 +29,9 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/user_community_function"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginStart="30dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toTopOf="@+id/user_community_form"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,19 +42,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:text="User Community"
+            android:text="게시글 작성"
             android:textSize="20sp"
             android:textStyle="bold"
             tools:ignore="MissingConstraints" />
 
-        <Button
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginRight="13dp"
             android:onClick="onClicBackButton"
-            android:padding="6dp"
-            android:text="BACK"
-            android:textSize="13sp"
-            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/back_icon"
             app:layout_constraintRight_toRightOf="@id/user_community_function"
             tools:ignore="MissingConstraints" />
 
@@ -214,8 +213,8 @@
                         android:layout_marginTop="5dp"
                         android:padding="6dp"
                         android:text="산책 날짜를 선택해 주세요"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
+                        android:textSize="15sp"
+                        android:textStyle="italic"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -269,9 +268,9 @@
                         android:id="@+id/thread_register_button"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="#333333"
                         android:onClick="onClickSubmitButton"
                         android:padding="6dp"
+                        android:background="#333333"
                         android:text="등록"
                         android:textColor="#FFFFFF"
                         android:textSize="20sp"
@@ -285,6 +284,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
                         android:background="#FF6666"
                         android:onClick="onClickDeleteButton"
                         android:padding="6dp"
@@ -292,6 +292,7 @@
                         android:textColor="#ffffff"
                         android:textSize="20sp"
                         android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/thread_register_button"
                         tools:ignore="MissingConstraints" />
