@@ -1057,6 +1057,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * **/
         HashMap<String, Object> params = new HashMap<>();
         //TODO: 동적으로 할당하기
+        params.put("id", gpsId);
         params.put("endDogwalkerLatitude", dogwalkerLatitude);
         params.put("endDogwalkerLongitude",dogwalkerLongitude);
         params.put("walkDistance", walkDistance);
@@ -1070,7 +1071,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 if (response.isSuccessful()) {
                     GpsVo gpsVo = response.body();
 
-                    Log.d("TEST 서버전송", "GPS INFO 통신 수정 성공");
+                    Log.d("TEST 서버전송", "GPS INFO 통신 PUT 성공");
                     Log.d("TEST", "" + gpsVo.getId());
                     Log.d("TEST", "" + gpsVo.getEndDogwalkerLatitude());
                     Log.d("TEST", "" + gpsVo.getEndDogwalkerLongitude());
