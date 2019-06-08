@@ -217,6 +217,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private Bitmap captureMapImage;
     private BitmapFactory.Options options;
     private byte[] captureMapDataArray;
+    private long dataWalkTime;
 
 
 /*****************************************************************************/
@@ -413,9 +414,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             txtLat.setText(String.valueOf(dogwalkerLatitude));
             txtLon.setText(String.valueOf(dogwalkerLongitude));
 
+            walkDistance = recentWalkDistance;
+            dataWalkTime = walkTime;
+
             if( isWalkStatus == true){
                 //위치가 바뀔때마다 다음 역할을 수행
-                postLocationData();
+                putGpsData();
                 calculateWalkDistance();
                 addPedestrianPoint();
                 drawPedestrianPath();
@@ -982,7 +986,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * ************/
     /**
      *
-     * POST Dogwalker GPS INFO
+     * @POST Dogwalker GPS INFO
      * 도그워커의 산책 시작위치, 종료 위치, 이동거리 및 시간을 전송한다.
      * */
     private void postGpsData() {
@@ -1039,6 +1043,56 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         });
 
     }
+
+
+    /**
+     *
+     * @PUT Dogwalker GPS INFO
+     * 도그워커의 산책 시작위치, 종료 위치, 이동거리 및 시간을 수정한다.
+     * */
+    private void putGpsData() {
+        GpsService gpsService = ServiceBuilder.create(GpsService.class);
+        /**
+         * 통신 테스트를 위해 임의의 값을 넣어봄.
+         * **/
+        HashMap<String, Object> params = new HashMap<>();
+        //TODO: 동적으로 할당하기
+        params.put("endDogwalkerLatitude", dogwalkerLatitude);
+        params.put("endDogwalkerLongitude",dogwalkerLongitude);
+        params.put("walkDistance", walkDistance);
+        params.put("walkTime",dataWalkTime);
+
+
+        Call<GpsVo> call = gpsService.putGpsData(gpsId,params);
+        call.enqueue(new Callback<GpsVo>() { //비동기적 호출
+            @Override
+            public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
+                if (response.isSuccessful()) {
+                    GpsVo gpsVo = response.body();
+
+                    Log.d("TEST 서버전송", "GPS INFO 통신 수정 성공");
+                    Log.d("TEST", "" + gpsVo.getId());
+                    Log.d("TEST", "" + gpsVo.getEndDogwalkerLatitude());
+                    Log.d("TEST", "" + gpsVo.getEndDogwalkerLongitude());
+                    Log.d("TEST", "" + gpsVo.getWalkDistance());
+                    Log.d("TEST", "" + gpsVo.getWalkTime());
+
+                    postLocationData();
+                    if (gpsVo != null) {
+                    }
+                    Log.d("TEST", "onResponse:END ");
+                }
+            }
+            @Override
+            public void onFailure(Call<GpsVo> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n산책 정보를 전송할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "Retrofit 통신 실패\n산책 정보를 수정할 수 없습니다.");
+            }
+        });
+
+    }
+
+
 
     /**
      * Retrofit Method

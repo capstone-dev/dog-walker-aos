@@ -1,7 +1,6 @@
 package ajou.ac.kr.teaming.activity.gps;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
@@ -18,6 +17,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -170,6 +170,7 @@ public class GpsMainActivity extends AppCompatActivity{
     private TextView txtusergongback;
     private TextView txtShowWalkDistance;
     private TextView txtShowWalkTime;
+    private int gpsId;
 
     /**
      * setSKTMapApiKey()에 ApiKey를 입력 한다.
@@ -177,8 +178,6 @@ public class GpsMainActivity extends AppCompatActivity{
     private void apiKeyMapView() {
         tMapView.setSKTMapApiKey(TMAP_API_KEY);
     }
-
-
 
 
     /**
@@ -209,11 +208,8 @@ public class GpsMainActivity extends AppCompatActivity{
 
 
         //이동경로를 그리기 전 도그워커의 GPS INFO를 받아와야함.
-        getGpsInfo();
-        getLocationInfo();
-        getMarkerInfo();
-
-        drawPedestrianPath(); //도그워커 이동경로 그리기
+        traceStart();
+        //도그워커 이동경로 그리기
      //   showDistanceAndTime(); //도그워커의 이동거리 및 시간 보여주기
 
 
@@ -552,7 +548,7 @@ public class GpsMainActivity extends AppCompatActivity{
      * 도그워커의 산책시간 및 이동거리를 표시해주는 메소드
      * */
     public void showDistanceAndTime(){
-        String WalkContext = String.format("%.2f",walkDistance);
+        String WalkContext = String.format(walkDistance);
         txtShowWalkDistance.setText( WalkContext + "m" );
 
         Long showWalkTime = Long.parseLong(walkTime);
@@ -585,6 +581,46 @@ public class GpsMainActivity extends AppCompatActivity{
     }
 
 
+
+    private void traceStart() {
+
+        /**산책 시작 시 동작해야할 것
+         * 1. 산책시간 측정
+         * 2. 자신의 위치 정보 반환
+         * 3. 위치 이동을 통해 보행자 길 표시
+         * 4. 서버 전송
+         * 5. 사진찍기 및 마커생성 동작 가능
+         * */
+
+        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(GpsMainActivity.this);
+        alert_confirm.setMessage("확인 버튼을 눌러 도그워커 추적을 시작합니다.")
+                .setCancelable(false)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'YES'
+
+                        getGpsInfo();
+                        getLocationInfo();
+                        getMarkerInfo();
+                        drawPedestrianPath();
+                    }
+
+                }).setNegativeButton("뒤로 가기",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // 'No'
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+        AlertDialog alert = alert_confirm.create();
+        alert.show();
+    }
+
+
+
     /**
      * Retrofit Method
      * */
@@ -595,7 +631,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getGpsInfo() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetGpsInfo();
+        Call<GpsVo> call = gpsService.doGetGpsInfo(gpsId);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
@@ -604,15 +640,15 @@ public class GpsMainActivity extends AppCompatActivity{
                     Toast.makeText(getApplicationContext(), "도그워커 위도" + gpsGetVo.getDogwalkerLatitude()
                             + "도그워커 경도" + gpsGetVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
 
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getId());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getStartDogwalkerLatitude());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getStartDogwalkerLongitude());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getEndDogwalkerLatitude());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getEndDogwalkerLongitude());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getWalkDistance());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getStart_time());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getEnd_time());
-                    Log.d("TEST", "onResponse: " + gpsGetVo.getWalkTime());
+                    Log.d("TEST", "onResponse getId: " + gpsGetVo.getId());
+                    Log.d("TEST", "onResponse getStartDogwalkerLatitude: " + gpsGetVo.getStartDogwalkerLatitude());
+                    Log.d("TEST", "onResponse getStartDogwalkerLongitude: " + gpsGetVo.getStartDogwalkerLongitude());
+                    Log.d("TEST", "onResponse getEndDogwalkerLatitude: " + gpsGetVo.getEndDogwalkerLatitude());
+                    Log.d("TEST", "onResponse getEndDogwalkerLongitude: " + gpsGetVo.getEndDogwalkerLongitude());
+                    Log.d("TEST", "onResponse getWalkDistance: " + gpsGetVo.getWalkDistance());
+                    Log.d("TEST", "onResponse getStart_time: " + gpsGetVo.getStart_time());
+                    Log.d("TEST", "onResponse getEnd_time: " + gpsGetVo.getEnd_time());
+                    Log.d("TEST", "onResponse getWalkTime: " + gpsGetVo.getWalkTime());
 
 
                     /**서버로부터 받은 데이터를 저장*/
@@ -632,8 +668,8 @@ public class GpsMainActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달받을 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 산책 정보",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패 : 도그워커 산책 정보");
             }
         });
     }
@@ -663,8 +699,8 @@ public class GpsMainActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(@NonNull Call<PhotoVO> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달받을 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 사진 및 마커 정보",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패 : 사진 및 마커 정보");
             }
         });
     }
@@ -694,8 +730,8 @@ public class GpsMainActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(@NonNull Call<GpsLocationVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n위치를 전달받을 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 현재위치 정보",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패 : 도그워커 현재위치 정보");
             }
         });
     }
