@@ -21,15 +21,16 @@
 
             <LinearLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnImageUploadSample"
+                <TextView
+                    android:id="@+id/txtDogwalkerWalkTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="사진업로드샘플" />
-
+                    android:text="산책 화면"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
@@ -97,6 +98,7 @@
             android:layout_marginTop="176dp"
             android:layout_marginEnd="8dp"
             android:visibility="invisible"
+            android:onClick="clickMethod"
             app:layout_constraintEnd_toStartOf="@+id/photoIcon"
             app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"

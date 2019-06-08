@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.gps.RealTimeDogWalkerListAcitvity;
 import ajou.ac.kr.teaming.activity.gps.RealTimeGpsActivity;
 import ajou.ac.kr.teaming.activity.login.SearchActivity;
 import ajou.ac.kr.teaming.vo.RegisterVO;
@@ -27,7 +28,7 @@ public class ReservationActivity extends AppCompatActivity {
         RealTimeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeGpsActivity.class);
+                Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeDogWalkerListAcitvity.class);
                 realtimeIntent.putExtra("RegisterVO", registerVO);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
@@ -37,7 +38,7 @@ public class ReservationActivity extends AppCompatActivity {
         RealTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeGpsActivity.class);
+                Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeDogWalkerListAcitvity.class);
                 realtimeIntent.putExtra("RegisterVO", registerVO);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }

@@ -415,7 +415,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
             if( isWalkStatus == true){
                 //위치가 바뀔때마다 다음 역할을 수행
-              //  postLocationData();
+                postLocationData();
                 calculateWalkDistance();
                 addPedestrianPoint();
                 drawPedestrianPath();
@@ -618,7 +618,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                             alTMapPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude) ); // 도그워커 끝지점
 
                             postGpsData();
-                            postLocationData();
 
                             isWalkStatus = true;
                         } else {
@@ -1011,6 +1010,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
             public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
                 if (response.isSuccessful()) {
                     GpsVo gpsVo = response.body();
+
+                    gpsId = gpsVo.getId();
                     Log.d("TEST 서버전송", "GPS INFO 통신 성공");
                     Log.d("TEST", "" + gpsVo.getId());
                     Log.d("TEST", "" + gpsVo.getStartDogwalkerLatitude());
@@ -1022,11 +1023,12 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Log.d("TEST", "" + gpsVo.getEnd_time());
                     Log.d("TEST", "" + gpsVo.getWalkTime());
 
+                    postLocationData();
+                    isWalkStatus = true;
+
                     if (gpsVo != null) {
                     }
                     Log.d("TEST", "onResponse:END ");
-
-                    gpsId = gpsVo.getId();
                 }
             }
             @Override
@@ -1047,7 +1049,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId))); //gpsId = ?? TODO: 동적으로 할당하기
+        params.put("gpsId", gpsId); //gpsId = ?? TODO: 동적으로 할당하기
+        //params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId))); //gpsId = ?? TODO: 동적으로 할당하기
         params.put("dogwalkerLatitude", dogwalkerLatitude); //double
         params.put("dogwalkerLongitude", dogwalkerLongitude);//double
 
