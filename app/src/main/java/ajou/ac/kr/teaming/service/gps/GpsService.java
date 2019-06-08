@@ -22,7 +22,7 @@ import retrofit2.http.Query;
 public interface GpsService {
 
     @GET("/gps") //gps?
-    Call<GpsVo> doGetGpsInfo(@Query("Id") int gpsId);
+    Call<GpsVo> doGetGpsInfo(@Query("id") int gpsId);
 
     @FormUrlEncoded
     @POST("/gps") //gps/?id
@@ -30,7 +30,7 @@ public interface GpsService {
 
     @FormUrlEncoded
     @PUT("/gps")
-    Call<GpsVo> putGpsData(@Query("Id") int gpsId, @FieldMap HashMap<String, Object> parameters);
+    Call<GpsVo> putGpsData(@Query("id") int gpsId, @FieldMap HashMap<String, Object> parameters);
     //Query
 
 

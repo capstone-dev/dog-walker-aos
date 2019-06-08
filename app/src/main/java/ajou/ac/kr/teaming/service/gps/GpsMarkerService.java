@@ -1,5 +1,6 @@
 package ajou.ac.kr.teaming.service.gps;
 
+import java.util.List;
 import java.util.Map;
 
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
@@ -12,11 +13,12 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 
 public interface GpsMarkerService {
 
     @GET("/gps/marker") //gps?
-    Call<PhotoVO> doGetMarkerInfo();
+    Call<List<PhotoVO>> doGetMarkerInfo(@Query("id") int gpsId);
 
     @Multipart
     @POST("/gps/marker") //gps/marker?id

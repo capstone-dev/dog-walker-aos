@@ -9,11 +9,12 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface GpsDogwalkerLocationService {
 
     @GET("/gps/dogwalkerPosition") //gps?
-    Call<GpsLocationVo> doGetLocationInfo();
+    Call<List<GpsLocationVo>> doGetLocationInfo(@Query("id") int gpsId);
 
     @FormUrlEncoded
     @POST("/gps/dogwalkerPosition") //gps/dogwalkerPosition?id

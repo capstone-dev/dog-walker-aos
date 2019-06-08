@@ -631,7 +631,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getGpsInfo() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetGpsInfo(gpsId);
+        Call<GpsVo> call = gpsService.doGetGpsInfo(65); // TODO : 동적 할당이 되도록 만들기
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
@@ -664,7 +664,7 @@ public class GpsMainActivity extends AppCompatActivity{
                     showDistanceAndTime();
 
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "도그워커 산책정보 받기 성공");
             }
             @Override
             public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
@@ -681,24 +681,31 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getMarkerInfo() {
         GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
-        Call<PhotoVO> call = gpsMarkerService.doGetMarkerInfo();
-        call.enqueue(new Callback<PhotoVO>() { //비동기적 호출
+        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(65); //TODO : 동적 할당이 되도록 만들기
+        call.enqueue(new Callback <List<PhotoVO>>() { //비동기적 호출
             @Override
-            public void onResponse(@NonNull Call<PhotoVO> call, @NonNull Response<PhotoVO> response) {
-                PhotoVO gpsGetMarkerVo = response.body();
-                if(gpsGetMarkerVo != null){
-                    Toast.makeText(getApplicationContext(), "사진 위도" + gpsGetMarkerVo.getPhotoLatitude()
-                            + "사진 경도" + gpsGetMarkerVo.getPhotoLongitude(), Toast.LENGTH_SHORT).show();
-                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getId());
-                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLatitude());
-                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLongitude());
+            public void onResponse(@NonNull Call<List<PhotoVO>> call, @NonNull Response<List<PhotoVO>> response) {
+                List<PhotoVO> gpsPhotoVo = response.body();
+                if(gpsPhotoVo != null){
+                    //배열로 받아와야한다.
+                    for(int i = 0; i < gpsPhotoVo.size(); i++){
+                        int photoId = gpsPhotoVo.get(i).getId();
+                        double photoLatitude = gpsPhotoVo.get(i).getPhotoLatitude();
+                        double photoLongitude = gpsPhotoVo.get(i).getPhotoLongitude();
 
-                    showMarkerPoint(gpsGetMarkerVo.getId(),gpsGetMarkerVo.getPhotoLatitude(), gpsGetMarkerVo.getPhotoLongitude()); //사진Id를 이용해 마커 생성
+                        showMarkerPoint(photoId, photoLatitude, photoLongitude); //사진Id를 이용해 마커 생성
+                    }
+//                    Toast.makeText(getApplicationContext(), "사진 위도" + gpsGetMarkerVo.getPhotoLatitude()
+//                            + "사진 경도" + gpsGetMarkerVo.getPhotoLongitude(), Toast.LENGTH_SHORT).show();
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getId());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLatitude());
+//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLongitude());
+
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "도그워커 사진정보 받기 성공");
             }
             @Override
-            public void onFailure(@NonNull Call<PhotoVO> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<PhotoVO>> call, @NonNull Throwable t) {
                 Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 사진 및 마커 정보",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패 : 사진 및 마커 정보");
             }
@@ -712,24 +719,28 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getLocationInfo() {
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
-        Call<GpsLocationVo> call = gpsDogwalkerLocationService.doGetLocationInfo();
-        call.enqueue(new Callback<GpsLocationVo>() { //비동기적 호출
+        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(65); //TODO : 동적 할당이 되도록 만들기
+        call.enqueue(new Callback<List<GpsLocationVo>>() { //비동기적 호출
             @Override
-            public void onResponse(@NonNull Call<GpsLocationVo> call, @NonNull Response<GpsLocationVo> response) {
-                GpsLocationVo gpsGetLocationVo = response.body();
+            public void onResponse(@NonNull Call<List<GpsLocationVo>> call, @NonNull Response<List<GpsLocationVo>> response) {
+                List<GpsLocationVo> gpsGetLocationVo = response.body();
                 if(gpsGetLocationVo != null){
-                    Toast.makeText(getApplicationContext(), "도그워커 현재 위도" + gpsGetLocationVo.getDogwalkerLatitude()
-                            + "도그워커 현재 경도" + gpsGetLocationVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
 
-                    Log.d("TEST", "onResponse: " + gpsGetLocationVo.getDogwalkerLatitude());
-                    Log.d("TEST", "onResponse: " + gpsGetLocationVo.getDogwalkerLongitude());
-                    /**서버로부터 받은 데이터를 저장*/
-                    alTMapPoint.add(new TMapPoint(gpsGetLocationVo.getDogwalkerLatitude(), gpsGetLocationVo.getDogwalkerLongitude()));
+                    //배열로 받아와야한다.
+                    for (int i = 0 ; i < gpsGetLocationVo.size() ; i++){
+
+                        double dogwalkerLatitude = gpsGetLocationVo.get(i).getDogwalkerLatitude();
+                        double dogwalkerLongitude = gpsGetLocationVo.get(i).getDogwalkerLongitude();
+
+                        /**서버로부터 받은 데이터를 저장*/
+                        alTMapPoint.add(new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
+                    }
+
                 }
-                Log.d("TEST", "onResponse:END ");
+                Log.d("TEST", "도그워커 현재위치 받기 성공");
             }
             @Override
-            public void onFailure(@NonNull Call<GpsLocationVo> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<GpsLocationVo>> call, @NonNull Throwable t) {
                 Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 현재위치 정보",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패 : 도그워커 현재위치 정보");
             }

@@ -487,7 +487,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
      *
      *
      */
-    public void getRealTimeDogwalkerLocationInfo() {
+   /* public void getRealTimeDogwalkerLocationInfo() {
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
         Call<GpsLocationVo> call = gpsDogwalkerLocationService.doGetLocationInfo();
         call.enqueue(new Callback<GpsLocationVo>() { //비동기적 호출
@@ -513,7 +513,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 //                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEnd_time());
 //                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getWalkTime());
 
-                    /**서버로부터 받은 데이터를 저장*/
+                    *//**서버로부터 받은 데이터를 저장*//*
                     dogwalkerLatitude = gpsGetLocationVo.getDogwalkerLatitude();
                     dogwalkerLongitude = gpsGetLocationVo.getDogwalkerLongitude();
 
@@ -527,7 +527,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
                 Log.d("TEST", "통신 실패");
             }
         });
-    }
+    }*/
 
 }// RealTimeGpsActivity
 
