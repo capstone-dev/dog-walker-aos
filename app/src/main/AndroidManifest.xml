@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.messageChatting.messageList.MessageListMainActivity"></activity>
+        <activity android:name=".activity.messageChatting.messageList.MessageListMainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name=".activity.login.MyPetActivity" />
         <activity android:name=".activity.login.MyPetResultViewActivity" />
         <activity android:name=".activity.login.DoigwalkerSerchResultViewActivity" />

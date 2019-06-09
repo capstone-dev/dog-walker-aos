@@ -37,7 +37,7 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:padding="6dp"
-            android:text="시간 list"
+            android:text="2019/06/01             10:50 ~ 11:50"
             android:textSize="10sp"
             app:layout_constraintLeft_toRightOf="@id/service_location"
             tools:ignore="MissingConstraints" />

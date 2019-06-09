@@ -123,7 +123,7 @@ public class ServiceSubmitActivity extends Activity implements TimePicker.OnTime
 
         String cost=(serviceCost).getText().toString();
         String time=(serviceTime).getText().toString();
-        walkingDate=walkingDate+" "+hourOfDay+":"+minute+" ~ "+finishHour+":"+finishMinute;
+        walkingDate=walkingDate+"              "+hourOfDay+":"+minute+"~"+finishHour+":"+finishMinute;
 
         if(checkServiceRegisterForm(cost,time,walkingDate,check)) {
             HashMap<String, Object> inputService = new HashMap<>();

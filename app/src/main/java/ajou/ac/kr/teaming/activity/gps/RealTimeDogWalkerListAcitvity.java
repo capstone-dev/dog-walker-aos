@@ -53,22 +53,19 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
 
 
         registerSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked == true&&switchInitialValue.equals("turnoff")) {
+            if (isChecked == true && switchInitialValue.equals("turnoff")) {
                 Log.d("TEST", "onCreate: hello");
                 Toast.makeText(this, "실시간 신청 ON", Toast.LENGTH_SHORT).show();
                 onClickDogwalkerRegister();
-            } else if(isChecked==false&&switchInitialValue.equals("turnon")){
+            } else if (isChecked == false && switchInitialValue.equals("turnon")) {
                 Log.d("TEST", "onCreate: hello");
                 Toast.makeText(this, "실시간 신청 OFF", Toast.LENGTH_SHORT).show();
                 onClickDogwalkerUnRegister();
             }
         });
-}
+    }
 
-
-    /**
-     * <p> 서버로부터 커뮤니티 게시글 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
-     */
+    //<p> 서버로부터 실시간 도그워커 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
     public void setRealTimeDogwalkerList() {
 
         realTimeDogwalkerListAdapter.deleteList();
@@ -105,7 +102,6 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
 
     /**
      * 실시간 dogwalker리스트에서 선택하였을때 일어나는 이벤트 handle
-     *
      * @param view
      * @param dogwalkerListVO -> 선택한 도그원커
      */
@@ -118,7 +114,6 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
             updateThread.put("DogwalkerID", dogwalkerListVO.getDogwalkerID());
             updateThread.put("DogwalkerBigcity", dogwalkerListVO.getDogwalkerBigcity());
             updateThread.put("DogwalkerSmallcity", dogwalkerListVO.getDogwalkerSmallcity());
-            Log.d("TEST", "onClickDogwalkerRegister: " + dogwalkerListVO.getDogwalkerGender());
             updateThread.put("DogwalkerGender", dogwalkerListVO.getDogwalkerGender());
             updateThread.put("selected", registerVO.getUserID());
 
@@ -136,6 +131,7 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
                     }
                     Log.d("TEST", "수정 성공 ");
                 }
+
                 @Override
                 public void onFailure(Call<DogwalkerListVO> call, Throwable t) {
                     //실패시
@@ -193,6 +189,7 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
         }
     }
 
+    //실시간 신청 종료 이벤트
     public void onClickDogwalkerUnRegister() {
 
         Call<ResponseBody> request = gpsRealTimeDogwalkerService.deleteData(registerVO.getUserID());

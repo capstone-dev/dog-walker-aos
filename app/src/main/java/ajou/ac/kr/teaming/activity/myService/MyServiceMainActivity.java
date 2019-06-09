@@ -65,6 +65,7 @@ public class MyServiceMainActivity extends AppCompatActivity
      * <p> 서버로부터 도그워커 서비스 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
      */
     private void setDogwalkerServiceList() {
+        dogwalkerServiceAdapter.checkService("dogwalker");
         dogwalkerServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getDogwalkerService(registerVO.getUserID());
         request.enqueue(new Callback<List<ServiceVO>>() {
@@ -97,6 +98,7 @@ public class MyServiceMainActivity extends AppCompatActivity
      * <p> 서버로부터 사용자 서비스 목록을 읽어들여 리스트에 저장 후 adapter에 적용 </p>
      */
     private void setMyServiceList() {
+        myServiceAdapter.checkService("my");
         myServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getUserService(registerVO.getUserID());
         request.enqueue(new Callback<List<ServiceVO>>() {

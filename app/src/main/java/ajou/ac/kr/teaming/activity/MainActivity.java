@@ -1,11 +1,9 @@
 package ajou.ac.kr.teaming.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,14 +15,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
-import ajou.ac.kr.teaming.activity.login.MyActivity;
-import ajou.ac.kr.teaming.activity.login.MyPet2Activity;
 import ajou.ac.kr.teaming.activity.login.MyPetActivity;
 import ajou.ac.kr.teaming.activity.messageChatting.messageList.MessageListMainActivity;
 import ajou.ac.kr.teaming.activity.myService.MyServiceMainActivity;
@@ -37,7 +34,7 @@ import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private static final String TAG = "MainActivity";
     private SampleService sampleService = ServiceBuilder.create(SampleService.class);
@@ -88,7 +85,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView emailview=(TextView)header.findViewById(R.id.emailView);
         emailview.setText(registerVO.getUserEmail());
 
-        messageButton=(FloatingActionButton)findViewById(R.id.fab);
+        View textView=(View)findViewById(R.id.main_layout_1);
+        messageButton=(FloatingActionButton)textView.findViewById(R.id.fab);
+        messageButton.setOnClickListener(this);
+
     }
 
     @Override
@@ -200,9 +200,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void onClickMessageButton(View view) {
-        Intent service=new Intent(MainActivity.this, MessageListMainActivity.class);
-        service.putExtra("RegisterVO",registerVO);
-        startActivity(service);
+    @Override
+    public void onClick(View v) {
+        switch(v.getId())
+        {
+            case R.id.fab:
+                Intent service=new Intent(MainActivity.this, MessageListMainActivity.class);
+                service.putExtra("RegisterVO",registerVO);
+                startActivity(service);
+        }
     }
 }

@@ -20,6 +20,7 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
     private OnDeleteItemClickListener onDeleteItemClickListener;
     private OnMessageItemClickListener onMessageItemClickListener;
     private OnMyServiceClickListener onMyServiceClickListener;
+    private String check;
 
     /**
      * 사용자 서비스 하나 리스트 클릭시 발생 이벤트 처리 handle
@@ -56,7 +57,8 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
         /**
          * 데이터 바인딩
          */
-        myServiceViewHolder.dogWalkerId.setText(serviceVO.getUser_DogwalkerID());
+        if(check.equals("dogwalker")) { myServiceViewHolder.dogWalkerId.setText(serviceVO.getUser_UserID()); }
+        else if(check.equals("my")) { myServiceViewHolder.dogWalkerId.setText(serviceVO.getUser_DogwalkerID()); }
         myServiceViewHolder.serviceLocation.setText(serviceVO.getServiceLocation());
         myServiceViewHolder.serviceWalkingTime.setText(serviceVO.getWalkingTime());
 
@@ -84,6 +86,10 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
     public void updateService(){
         serviceVOArrayList.clear();
         notifyDataSetChanged();
+    }
+
+    public void checkService(String check){
+        this.check=check;
     }
 }
 
