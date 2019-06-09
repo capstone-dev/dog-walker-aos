@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,7 +33,7 @@ import retrofit2.Response;
  * 게시글에 대한 정보를 보여주는 Activity
  */
 public class UserCommunityContentActivity extends Activity implements
-        UserCommunityContentCommentAdapter.OnItemClickListener,UserCommunityContentCommentAdapter.OnDeleteItemClickListener {
+        UserCommunityContentCommentAdapter.OnItemClickListener,UserCommunityContentCommentAdapter.OnDeleteItemClickListener,UserCommunityContentCommentAdapter.OnCommentClickListener {
 
     private UserCommunityContentCommentService userCommunityContentCommentService = ServiceBuilder.create(UserCommunityContentCommentService.class);
 
@@ -45,7 +45,9 @@ public class UserCommunityContentActivity extends Activity implements
     private TextView threadTitle;
     private TextView userId;
     private TextView threadContent;
-    private int type;
+    private TextView threadLocation;
+    private TextView threadNumber;
+    private TextView threadDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,9 @@ public class UserCommunityContentActivity extends Activity implements
         threadTitle=(TextView)findViewById(R.id.thread_title);
         userId=(TextView)findViewById(R.id.user_id);
         threadContent=(TextView)findViewById(R.id.thread_content);
+        threadLocation=(TextView)findViewById(R.id.thread_location_edit_text);
+        threadNumber=(TextView)findViewById(R.id.thread_number_edit_text);
+        threadDate=(TextView)findViewById(R.id.thread_date_edit_text);
 
         //userCommunityMainActivity로 부터 가져온 객체 setting
         Intent intent = getIntent();
@@ -67,12 +72,15 @@ public class UserCommunityContentActivity extends Activity implements
         userId.setText(userCommunityThreadVO.getUser_UserID());
         threadTitle.setText(userCommunityThreadVO.getThreadTitle());
         threadContent.setText(userCommunityThreadVO.getContent());
+        threadLocation.setText(Html.fromHtml("<u>" + userCommunityThreadVO.getUserLocation() + "</u>"));
+        threadNumber.setText(Html.fromHtml("<u>" + userCommunityThreadVO.getThreadNumber() + "</u>"));
+        threadDate.setText(Html.fromHtml("<u>" + userCommunityThreadVO.getThreadWalkDate() + "</u>"));
 
         //userCommunityContentCommentAdapter에서 가져온 댓글리스트 생성
         userCommunityCommentView=findViewById(R.id.comment_list);
         userCommunityCommentView.setLayoutManager(new LinearLayoutManager(this));
 
-        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter(this::matchMessageUserEvent,this::deleteMessageEvent);
+        userCommunityContentCommentAdapter=new UserCommunityContentCommentAdapter(this::matchMessageUserEvent,this::deleteMessageEvent,this::clickCommentEvent);
         userCommunityCommentView.setAdapter(userCommunityContentCommentAdapter);
         setCommentList();
     }
@@ -206,5 +214,10 @@ public class UserCommunityContentActivity extends Activity implements
             }
         });
         setCommentList();
+    }
+
+    @Override
+    public void clickCommentEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO) {
+
     }
 }

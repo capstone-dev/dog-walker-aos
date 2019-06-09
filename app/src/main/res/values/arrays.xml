@@ -8,22 +8,25 @@
         <item>제목</item>
         <item>위치</item>
     </string-array>
+
+    <string-array name="number_select">
+        <item>1명</item>
+        <item>2명</item>
+        <item>3명</item>
+        <item>4명</item>
+        <item>5명</item>
+    </string-array>
     
     <string-array name="bigcity">
         <item> 경기도</item>
         <item>서울특별시</item>
         <item>세종특별시</item>
-
-
     </string-array>
-
 
      <string-array name="Year">
         <item>2019</item>
         <item>2020</item>
         <item>2021</item>
-
-
     </string-array>
 
     <string-array name="Month">
@@ -39,11 +42,7 @@
         <item>10</item>
         <item>11</item>
         <item>12</item>
-
-
     </string-array>
-
-
 
     <string-array name="Date">
         <item>1</item>
@@ -77,17 +76,11 @@
         <item>29</item>
         <item>30</item>
         <item>31</item>
-
     </string-array>
-
-
-
-
 
     <string-array name="gender">
         <item> 남자</item>
         <item>여자</item>
-
     </string-array>
 
 
@@ -117,12 +110,7 @@
         <item>22:00</item>
         <item>23:00</item>
         <item>24:00</item>
-
     </string-array>
-
-
-
-
 
     <string-array name="a_zoomlevel">
         <item>0</item>

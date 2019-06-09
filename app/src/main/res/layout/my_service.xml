@@ -1,56 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/service"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/layout_border"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="35dp"
+    android:background="@drawable/layout_border">
 
-    <TextView
-        android:id="@+id/dog_walker_id"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="IDlist"
-        android:textSize="12dp"
-        tools:ignore="MissingConstraints" />
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/selectableItemBackground">
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:id="@+id/service_location"
-        android:text="장소 list"
-        android:textSize="12dp"
-        app:layout_constraintLeft_toRightOf="@id/dog_walker_id"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/dog_walker_id"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="IDlist"
+            android:textStyle="bold"
+            android:textSize="12dp"
+            tools:ignore="MissingConstraints" />
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="100dp"
-        android:id="@+id/service_walking_time"
-        android:text="시간 list"
-        android:textSize="12dp"
-        app:layout_constraintRight_toLeftOf="@id/delete_service_button"
-        tools:ignore="MissingConstraints" />
+        <TextView
+            android:id="@+id/service_location"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="장소 list"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toRightOf="@id/dog_walker_id"
+            tools:ignore="MissingConstraints" />
 
-    <Button
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/delete_service_button"
-        android:textStyle="bold"
-        android:text="삭제"
-        android:textSize="10sp"
-        app:layout_constraintRight_toLeftOf="@id/message_service_button"
-        android:background="@drawable/datebg"/>
+        <TextView
+            android:id="@+id/service_walking_time"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="시간 list"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toRightOf="@id/service_location"
+            tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/message_service_button"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:text="채팅"
-        android:textSize="10sp"
-        android:textStyle="bold"
-        app:layout_constraintRight_toRightOf="parent" />
+        <ImageButton
+            android:id="@+id/delete_service_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:layout_marginRight="3dp"
+            android:src="@drawable/delete_icon"
+            app:layout_constraintRight_toLeftOf="@id/message_service_button"
+            tools:ignore="MissingConstraints" />
+
+        <ImageButton
+            android:id="@+id/message_service_button"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginRight="3dp"
+            android:background="@android:color/transparent"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/chat_icon"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

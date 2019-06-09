@@ -2,8 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="340dp"
+    android:layout_width="330dp"
     android:layout_height="500dp"
+    android:background="#C1ECEAEA"
     tools:context=".activity.messageChatting.ServiceSubmitActivity">
 
 
@@ -11,7 +12,6 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,7 +19,6 @@
         tools:ignore="MissingConstraints">
 
         <android.support.constraint.ConstraintLayout
-            android:background="@drawable/layout_border"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -27,8 +26,8 @@
                 android:id="@+id/main_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="#FFEABD3E"
+                android:orientation="vertical"
                 tools:ignore="MissingConstraints">
 
                 <TextView
@@ -37,7 +36,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:text="서비스 예약"
+                    android:text="최종 예약"
                     android:textColor="#ffffff"
                     android:textSize="30sp"
                     android:textStyle="bold" />
@@ -48,40 +47,11 @@
                 android:id="@+id/service_value_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/layout_border"
                 android:padding="4dp"
                 app:layout_constraintBottom_toTopOf="@id/dog_image_form"
                 app:layout_constraintTop_toBottomOf="@+id/main_bar">
-
-                <TextView
-                    android:id="@+id/service_cost_form"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="6dp"
-                    android:text="시간별 금액"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/service_cost"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/layout_border"
-                    android:padding="6dp"
-                    android:hint="금액 입력하세요"
-                    android:inputType="numberSigned"
-                    android:textSize="13sp"
-                    app:layout_constraintLeft_toRightOf="@id/service_cost_form"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="MissingConstraints" />
-
 
                 <TextView
                     android:id="@+id/dogwalker_id_form"
@@ -90,24 +60,22 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginTop="5dp"
                     android:padding="6dp"
-                    android:text="도그워커 ID"
+                    android:text="도그워커 ID:"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/service_cost_form" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/dogwalker_id"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/layout_border"
                     android:padding="6dp"
-                    android:text="도그워커 id 삽입"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@id/dogwalker_id_form"
-                    app:layout_constraintTop_toBottomOf="@id/service_cost"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
                 <TextView
@@ -129,12 +97,50 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:layout_marginTop="5dp"
-                    android:background="@drawable/layout_border"
                     android:padding="6dp"
                     android:text="산책 장소 삽입"
-                    android:textSize="13sp"
+                    android:textSize="12sp"
                     app:layout_constraintLeft_toRightOf="@id/service_location_form"
                     app:layout_constraintTop_toBottomOf="@id/dogwalker_id"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/service_cost_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="6dp"
+                    android:text="시간별 금액:"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/service_location_form" />
+
+                <EditText
+                    android:id="@+id/service_cost"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:layout_marginTop="5dp"
+                    android:hint="금액 입력하세요"
+                    android:inputType="numberSigned"
+                    android:padding="6dp"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/service_cost_form"
+                    app:layout_constraintTop_toBottomOf="@+id/service_location"
+                    tools:ignore="MissingConstraints" />
+
+                <TextView
+                    android:id="@+id/service_cost1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:padding="6dp"
+                    android:text="(원)"
+                    android:textSize="12sp"
+                    app:layout_constraintLeft_toRightOf="@id/service_cost"
+                    app:layout_constraintTop_toBottomOf="@+id/service_location"
                     tools:ignore="MissingConstraints" />
 
             </android.support.constraint.ConstraintLayout>
@@ -142,9 +148,9 @@
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/dog_image_form"
                 android:layout_width="match_parent"
-                android:background="@drawable/layout_border"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/layout_border"
                 app:layout_constraintTop_toBottomOf="@id/service_value_form">
 
                 <ImageView
@@ -163,49 +169,82 @@
                 android:id="@+id/service_time_platform"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/layout_border"
                 app:layout_constraintTop_toBottomOf="@id/dog_image_form">
 
                 <TextView
-                    android:id="@+id/service_time_form"
+                    android:id="@+id/service_time_range_form"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="3dp"
-                    android:layout_marginTop="30dp"
                     android:padding="6dp"
-                    android:text="서비스 시간"
+                    android:text="이용 시간"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:ignore="MissingConstraints" />
 
-                <EditText
-                    android:id="@+id/service_time"
-                    android:layout_width="200dp"
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/layout_1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginTop="30dp"
                     android:background="@drawable/layout_border"
-                    android:inputType="numberSigned"
-                    android:hint="서비스 시간을 입력하세요."
-                    android:padding="6dp"
-                    android:textSize="13sp"
-                    app:layout_constraintLeft_toRightOf="@id/service_time_form"
-                    tools:ignore="MissingConstraints" />
+                    app:layout_constraintTop_toBottomOf="@+id/service_time_range_form">
 
-                <TextView
-                    android:id="@+id/service_time_explain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="6dp"
-                    android:textColor="#333333"
-                    android:text="해당 서비스 시간은 기존 도그워커의 금액에 비례하여 추가되며, 최종승인 완료 후, 등록된 결제카드로 자동 결제됩니다."
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/service_time_form" />
+                    <TextView
+                        android:id="@+id/service_time_form"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="6dp"
+                        android:text="서비스 시간:"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="MissingConstraints" />
+
+                    <EditText
+                        android:id="@+id/service_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="10dp"
+                        android:hint="서비스 시간을 입력해주세요"
+                        android:inputType="numberSigned"
+                        android:padding="6dp"
+                        android:textSize="13sp"
+                        app:layout_constraintLeft_toRightOf="@id/service_time_form"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/service_time_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:layout_marginTop="10dp"
+                        android:padding="6dp"
+                        android:text="(시간)"
+                        android:textSize="12sp"
+                        app:layout_constraintLeft_toRightOf="@id/service_time"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/service_time_explain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginTop="5dp"
+                        android:padding="6dp"
+                        android:text="해당 서비스 시간은 기존 도그워커의 금액에 비례하여 추가되며, 최종승인 완료 후, 등록된 결제카드로 자동 결제됩니다."
+                        android:textColor="#FF6666"
+                        android:textSize="12sp"
+                        android:textStyle="italic|bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/service_time_form" />
+
+
+                </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>
 
@@ -213,51 +252,41 @@
                 android:id="@+id/service_time_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/layout_border"
                 app:layout_constraintTop_toBottomOf="@id/service_time_platform">
 
-                <TextView
-                    android:id="@+id/service_time_range_form"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginStart="120dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="142dp"
-                    android:padding="6dp"
-                    android:text="이용 시간"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
+                <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/calendarView"
+                    android:layout_width="320dp"
+                    android:layout_height="300dp"
+                    app:mcv_selectionColor="#a9dbf0cb"
+                    app:mcv_showOtherDates="defaults"
                     tools:ignore="MissingConstraints" />
 
-                <EditText
-                    android:id="@+id/service_time_range"
-                    android:layout_width="280dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/layout_border"
-                    android:hint="이용 시간을 입력하세요."
-                    android:padding="6dp"
-                    android:paddingLeft="6dp"
-                    android:textSize="13sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/service_time_range_form"
-                    tools:ignore="MissingConstraints" />
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="330dp"
+                    android:layout_height="180dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:timePickerMode="spinner"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
                 <Button
                     android:id="@+id/get_total_cost"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginStart="120dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="10dp"
                     android:background="#FFEABD3E"
                     android:onClick="onClickgetTotalButton"
                     android:text="조회"
                     android:textColor="#ffffff"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/service_time_range" />
+                    app:layout_constraintTop_toBottomOf="@id/timePicker" />
 
                 <TextView
                     android:id="@+id/total_cost"
@@ -287,19 +316,21 @@
 
                 <Button
                     android:id="@+id/close_button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="142dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="#FF6666"
                     android:onClick="onClickBackToButton"
-                    android:background="#FFEABD3E"
+                    android:padding="6dp"
                     android:text="닫기"
-                    android:textStyle="bold"
                     android:textColor="#ffffff"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/pay_button" />
+                    app:layout_constraintTop_toBottomOf="@id/pay_button"
+                    tools:ignore="MissingConstraints" />
 
             </android.support.constraint.ConstraintLayout>
 

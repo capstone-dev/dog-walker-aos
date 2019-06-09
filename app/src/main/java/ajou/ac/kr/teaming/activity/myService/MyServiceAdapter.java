@@ -1,11 +1,12 @@
 package ajou.ac.kr.teaming.activity.myService;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
     private ArrayList<ServiceVO> serviceVOArrayList=new ArrayList<>();
     private OnDeleteItemClickListener onDeleteItemClickListener;
     private OnMessageItemClickListener onMessageItemClickListener;
+    private OnMyServiceClickListener onMyServiceClickListener;
 
     /**
      * 사용자 서비스 하나 리스트 클릭시 발생 이벤트 처리 handle
@@ -31,9 +33,14 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
         void contactMessageEvent(View view, ServiceVO serviceVO);
     }
 
-    public MyServiceAdapter(OnDeleteItemClickListener onDeleteItemClickListener,OnMessageItemClickListener onMessageItemClickListener){
+    public interface OnMyServiceClickListener{
+        void clickMyServiceEvent(View view, ServiceVO serviceVO);
+    }
+
+    public MyServiceAdapter(OnDeleteItemClickListener onDeleteItemClickListener,OnMessageItemClickListener onMessageItemClickListener,OnMyServiceClickListener onMyServiceClickListener){
         this.onDeleteItemClickListener=onDeleteItemClickListener;
         this.onMessageItemClickListener=onMessageItemClickListener;
+        this.onMyServiceClickListener=onMyServiceClickListener;
     }
 
     @NonNull
@@ -53,6 +60,8 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
         myServiceViewHolder.serviceLocation.setText(serviceVO.getServiceLocation());
         myServiceViewHolder.serviceWalkingTime.setText(serviceVO.getWalkingTime());
 
+        myServiceViewHolder.constraintLayout.setOnClickListener(v ->
+                onMyServiceClickListener.clickMyServiceEvent(v, serviceVOArrayList.get(i)));
         //해당 서비스  삭제 버튼 클릭시 발생 event handle
         myServiceViewHolder.deleteService.setOnClickListener(v ->
                 onDeleteItemClickListener.deleteMyServiceEvent(v, serviceVOArrayList.get(i)));
@@ -83,14 +92,16 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
  */
 class MyServiceViewHolder extends RecyclerView.ViewHolder{
 
+    ConstraintLayout constraintLayout;
     TextView dogWalkerId;
     TextView serviceLocation;
     TextView serviceWalkingTime;
-    Button deleteService;
-    Button contactMessage;
+    ImageButton deleteService;
+    ImageButton contactMessage;
 
     public MyServiceViewHolder(@NonNull View itemView) {
         super(itemView);
+        constraintLayout=itemView.findViewById(R.id.service);
         dogWalkerId=itemView.findViewById(R.id.dog_walker_id);
         serviceLocation=itemView.findViewById(R.id.service_location);
         serviceWalkingTime=itemView.findViewById(R.id.service_walking_time);

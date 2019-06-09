@@ -1,16 +1,15 @@
 package ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent;
 
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.vo.RegisterVO;
@@ -26,6 +25,7 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
     private UserCommunityThreadVO userCommunityThreadVO;
     private OnItemClickListener onItemClickListener;
     private OnDeleteItemClickListener onDeleteItemClickListener;
+    private OnCommentClickListener onCommentClickListener;
     private ArrayList<UserCommunityContentCommentVO> userCommunityContentCommentVOArrayList = new ArrayList<>();
     int buttonTurn;
 
@@ -36,14 +36,19 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
         void matchMessageUserEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO);
     }
 
+    public interface OnCommentClickListener {
+        void clickCommentEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO);
+    }
+
 
     public interface OnDeleteItemClickListener {
         void deleteMessageEvent(View view, UserCommunityContentCommentVO userCommunityContentCommentVO);
     }
 
-    public UserCommunityContentCommentAdapter(OnItemClickListener onItemClickListener,OnDeleteItemClickListener onDeleteItemClickListener) {
+    public UserCommunityContentCommentAdapter(OnItemClickListener onItemClickListener,OnDeleteItemClickListener onDeleteItemClickListener,OnCommentClickListener onCommentClickListener) {
         this.onItemClickListener = onItemClickListener;
         this.onDeleteItemClickListener=onDeleteItemClickListener;
+        this.onCommentClickListener=onCommentClickListener;
     }
 
     @NonNull
@@ -57,21 +62,23 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
     public void onBindViewHolder(@NonNull UserCommunityContentCommentViewHolder userCommunityContentCommentViewHolder, int i) {
         UserCommunityContentCommentVO userCommunityContentCommentVO = userCommunityContentCommentVOArrayList.get(i);
 
-        userCommunityContentCommentViewHolder.userId.setText(userCommunityContentCommentVO.getUser_UserID());
+        userCommunityContentCommentViewHolder.userId.setText(userCommunityContentCommentVO.getUser_UserID()+":");
         userCommunityContentCommentViewHolder.commentContent.setText(userCommunityContentCommentVO.getCommentContent());
-        userCommunityContentCommentViewHolder.commentDate.setText(userCommunityContentCommentVO.getCommentDate().substring(0, 10) + " " +
-                userCommunityContentCommentVO.getCommentDate().substring(11, 16));
-
+        userCommunityContentCommentViewHolder.commentDate.setText(userCommunityContentCommentVO.getCommentDate().substring(0, 10));
         userCommunityContentCommentViewHolder.type = buttonTurn;
 
         //로그인한 사용자 정보와 해당 클릭한 게시글 작성자 정보가 동알할 시 댓글 사용자와 메시지 할 수 있는 버튼 visible
         if (registerVO.getUserID().equals(userCommunityThreadVO.getUser_UserID()) || registerVO.getUserID().equals(
                 userCommunityContentCommentVO.getUser_UserID())) {
             userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.VISIBLE);
+            userCommunityContentCommentViewHolder.deleteMessage.setVisibility(View.VISIBLE);
         }  //동일
         else {
             userCommunityContentCommentViewHolder.connectMessage.setVisibility(View.INVISIBLE);
+            userCommunityContentCommentViewHolder.deleteMessage.setVisibility(View.INVISIBLE);
         }   //다를 때
+        userCommunityContentCommentViewHolder.constraintLayout.setOnClickListener(v ->
+                onCommentClickListener.clickCommentEvent(v, userCommunityContentCommentVOArrayList.get(i)));
         //해당 댓글 연결 버튼 클릭시 발생 event handle
         userCommunityContentCommentViewHolder.connectMessage.setOnClickListener(v ->
                 onItemClickListener.matchMessageUserEvent(v, userCommunityContentCommentVOArrayList.get(i)));
@@ -107,15 +114,17 @@ public class UserCommunityContentCommentAdapter extends RecyclerView.Adapter<Use
  */
 class UserCommunityContentCommentViewHolder extends RecyclerView.ViewHolder {
 
+    ConstraintLayout constraintLayout;
     TextView userId;
     TextView commentContent;
     TextView commentDate;
-    Button connectMessage;
-    Button deleteMessage;
+    ImageButton connectMessage;
+    ImageButton deleteMessage;
     int type;
 
     public UserCommunityContentCommentViewHolder(@NonNull View itemView) {
         super(itemView);
+        constraintLayout=itemView.findViewById(R.id.user_comment);
         userId = itemView.findViewById(R.id.user_id);
         commentContent = itemView.findViewById(R.id.user_comment_content);
         commentDate = itemView.findViewById(R.id.user_comment_date);

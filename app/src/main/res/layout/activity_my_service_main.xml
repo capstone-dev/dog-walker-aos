@@ -95,7 +95,7 @@
 
                 <TextView
                     android:id="@+id/dog_walker_id_form"
-                    android:layout_width="80dp"
+                    android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="삳대방 ID"
@@ -117,7 +117,7 @@
 
                 <TextView
                     android:id="@+id/service_walking_time_form"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="30dp"
                     android:padding="6dp"
                     android:text="서비스 시간"

@@ -28,7 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MyServiceMainActivity extends AppCompatActivity implements MyServiceAdapter.OnMessageItemClickListener, MyServiceAdapter.OnDeleteItemClickListener {
+public class MyServiceMainActivity extends AppCompatActivity
+        implements MyServiceAdapter.OnMessageItemClickListener, MyServiceAdapter.OnDeleteItemClickListener,MyServiceAdapter.OnMyServiceClickListener {
 
     private ServicePayService servicePayService = ServiceBuilder.create(ServicePayService.class);
     private MyServiceService myServiceService = ServiceBuilder.create(MyServiceService.class);
@@ -52,8 +53,8 @@ public class MyServiceMainActivity extends AppCompatActivity implements MyServic
         myServiceView.setLayoutManager(new LinearLayoutManager(this));
         dogwalkerServiceView.setLayoutManager(new LinearLayoutManager(this));
 
-        myServiceAdapter = new MyServiceAdapter(this::deleteMyServiceEvent, this::contactMessageEvent);
-        dogwalkerServiceAdapter = new MyServiceAdapter(this::deleteMyServiceEvent, this::contactMessageEvent);
+        myServiceAdapter = new MyServiceAdapter(this::deleteMyServiceEvent, this::contactMessageEvent,this::clickMyServiceEvent);
+        dogwalkerServiceAdapter = new MyServiceAdapter(this::deleteMyServiceEvent, this::contactMessageEvent,this::clickMyServiceEvent);
         myServiceView.setAdapter(myServiceAdapter);
         dogwalkerServiceView.setAdapter(dogwalkerServiceAdapter);
         setMyServiceList();
@@ -205,5 +206,10 @@ public class MyServiceMainActivity extends AppCompatActivity implements MyServic
             }
         });
         setMyServiceList();
+    }
+
+    @Override
+    public void clickMyServiceEvent(View view, ServiceVO serviceVO) {
+
     }
 }

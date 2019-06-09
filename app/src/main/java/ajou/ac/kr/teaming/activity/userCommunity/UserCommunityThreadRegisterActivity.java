@@ -1,20 +1,19 @@
 package ajou.ac.kr.teaming.activity.userCommunity;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -37,8 +36,11 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
     private UserCommunityThreadRegisterService userCommunityThreadRegister = ServiceBuilder.create(UserCommunityThreadRegisterService.class);
     private RegisterVO registerVO;
     private UserCommunityThreadVO userCommunityThreadVO;
+
+    private ArrayAdapter<CharSequence> registerNumberSelectAdapter;
     private Button threadRegisterButton;
     private String work;
+    private Spinner numberSelect;
     private MaterialCalendarView materialCalendarView;
     private final OneDayDecorator oneDayDecorator = new OneDayDecorator();
     private String walkingDate;
@@ -54,6 +56,11 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
         threadRegisterButton=findViewById(R.id.thread_register_button);
         materialCalendarView=findViewById(R.id.calendarView);
+        registerNumberSelectAdapter = ArrayAdapter.createFromResource(this, R.array.number_select, R.layout.spinner_item);
+        registerNumberSelectAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        numberSelect = (Spinner) findViewById(R.id.thread_number_edit_text);
+        numberSelect.setAdapter(registerNumberSelectAdapter);
+        numberSelect.setSelection(0);
 
         materialCalendarView.state().edit()
                 .setFirstDayOfWeek(Calendar.SUNDAY)
@@ -81,7 +88,7 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
             userCommunityThreadVO=(UserCommunityThreadVO) intent.getSerializableExtra("UserCommunityThreadVO");
             ((EditText)findViewById(R.id.thread_title_edit_text)).setText(userCommunityThreadVO.getThreadTitle());
             ((EditText)findViewById(R.id.thread_location_edit_text)).setText(userCommunityThreadVO.getUserLocation());
-            ((EditText)findViewById(R.id.thread_number_edit_text)).setText(Integer.toString(userCommunityThreadVO.getThreadNumber()));
+            numberSelect.setSelection(userCommunityThreadVO.getThreadNumber()-1);
             ((EditText)findViewById(R.id.thread_content_edit_text)).setText(userCommunityThreadVO.getThreadContent());
         }
     }
@@ -104,7 +111,7 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
         String threadTitle=((EditText)findViewById(R.id.thread_title_edit_text)).getText().toString();
         String userLocation=((EditText)findViewById(R.id.thread_location_edit_text)).getText().toString();
-        int threadNumber=Integer.parseInt(((EditText)findViewById(R.id.thread_number_edit_text)).getText().toString());
+        int threadNumber=Integer.parseInt(numberSelect.getSelectedItem().toString());
         String threadContent=((EditText)findViewById(R.id.thread_content_edit_text)).getText().toString();
 
         //등록 폼 검증 후 모든 값이 검증이 된다면 게시글 post
@@ -173,7 +180,7 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        if(number==0||number>5){
+        if(number>5){
             Toast.makeText(this, "인원은 1~5 사이로 입력해주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
