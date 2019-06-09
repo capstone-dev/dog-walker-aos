@@ -19,6 +19,7 @@ import ajou.ac.kr.teaming.R;
 
 import ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging.FirebaseMessagingService;
 import ajou.ac.kr.teaming.activity.messageChatting.firebaseMessaging.NotificationModel;
+import ajou.ac.kr.teaming.activity.messageChatting.messageList.MessageListAdapter;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.fcmToken.FcmService;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
@@ -42,6 +43,7 @@ public class MessageChattingMainActivity extends Activity {
 
     ListView messageListView;
     MessageAdapter messageAdapter;
+    MessageListAdapter messageListAdapter;
     private RegisterVO registerVO;
     private DogwalkerListVO dogwalkerListVO;
     private ServiceVO serviceVO;
@@ -118,7 +120,7 @@ public class MessageChattingMainActivity extends Activity {
         //파이어 베이스 메시징 서비스 이벤트 처리
         if (activityName.equals("사용자커뮤니티")) {
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
-            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), userCommunityContentCommentVO.getCommentId());
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), userCommunityContentCommentVO.getCommentId(),messageListAdapter);
             // <p > 메시지 전송 표시</p >
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
@@ -139,7 +141,7 @@ public class MessageChattingMainActivity extends Activity {
             );
         } else if (activityName.equals("실시간도그워커")) {
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
-            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerListVO.getDogwalkerID());
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerListVO.getDogwalkerID(),messageListAdapter);
             //메시지 전송 표시
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
@@ -160,7 +162,7 @@ public class MessageChattingMainActivity extends Activity {
             );
         }else if(activityName.equals("도그워커예약")){
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
-            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerVO.getUserID());//메시지 전송 표시
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerVO.getUserID(),messageListAdapter);//메시지 전송 표시
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
                         String inputValue = editText.getText().toString();
@@ -180,7 +182,7 @@ public class MessageChattingMainActivity extends Activity {
             );
         } else if(activityName.equals("나의서비스")){
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
-            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), serviceVO.getUser_DogwalkerID());//메시지 전송 표시
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), serviceVO.getUser_DogwalkerID(),messageListAdapter);//메시지 전송 표시
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
                         String inputValue = editText.getText().toString();

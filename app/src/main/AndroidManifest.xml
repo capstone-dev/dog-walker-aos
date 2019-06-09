@@ -44,7 +44,8 @@
             android:name=".activity.gps.DogwalkerGpsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.reservation.ReservationActivity" />
+        <activity android:name=".activity.reservation.ReservationActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".activity.login.MyPageActivity" />
         <activity android:name=".activity.login.MyActivity" />
         <activity android:name=".activity.login.SearchActivity" />

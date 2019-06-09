@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,36 +132,43 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
 
         searchForm = ((EditText) findViewById(R.id.thread_search_edit_text)).getText().toString();
         String condition = communitySelect.getSelectedItem().toString();
-        Call<List<UserCommunityThreadVO>> request = null;
+        if(checkSearchForm(condition,searchForm)) {
+            Call<List<UserCommunityThreadVO>> request = null;
 
-        if (condition.equals("아이디")) { request = userCommunityService.getUser_UserIDThread(searchForm);
-            Log.e("TEST", "onClickSearch: "+searchForm );}
-        else if (condition.equals("제목")) { request = userCommunityService.getThreadTitleThread(searchForm); }
-        else if (condition.equals("위치")) { request = userCommunityService.getUserLocationThread(searchForm); }
+            if (condition.equals("아이디")) {
+                request = userCommunityService.getUser_UserIDThread(searchForm);
+                Log.e("TEST", "onClickSearch: " + searchForm);
+            } else if (condition.equals("제목")) {
+                request = userCommunityService.getThreadTitleThread(searchForm);
+            } else if (condition.equals("위치")) {
+                request = userCommunityService.getUserLocationThread(searchForm);
+            }
 
-        request.enqueue(new Callback<List<UserCommunityThreadVO>>() {
-            @Override
-            public void onResponse(Call<List<UserCommunityThreadVO>> call, Response<List<UserCommunityThreadVO>> response) {
-                List<UserCommunityThreadVO> userCommunityThreadVOs = response.body();
-                // 성공시
-                ArrayList<UserCommunityThreadVO> userCommunityThreadList = new ArrayList<>();
-                if (userCommunityThreadVOs != null) {
-                    userCommunityThreadAdapter.deleteThread();
-                    for (UserCommunityThreadVO userCommunityThreadVO : userCommunityThreadVOs) {
-                        //서버로 부터 읽어드린 게시글 리스트를 전부 adapter 에 저장
-                        userCommunityThreadList.add(userCommunityThreadVO);
-                        Log.d("TEST", "onResponse: " + userCommunityThreadVO.getThreadTitle());
+            request.enqueue(new Callback<List<UserCommunityThreadVO>>() {
+                @Override
+                public void onResponse(Call<List<UserCommunityThreadVO>> call, Response<List<UserCommunityThreadVO>> response) {
+                    List<UserCommunityThreadVO> userCommunityThreadVOs = response.body();
+                    // 성공시
+                    ArrayList<UserCommunityThreadVO> userCommunityThreadList = new ArrayList<>();
+                    if (userCommunityThreadVOs != null) {
+                        userCommunityThreadAdapter.deleteThread();
+                        for (UserCommunityThreadVO userCommunityThreadVO : userCommunityThreadVOs) {
+                            //서버로 부터 읽어드린 게시글 리스트를 전부 adapter 에 저장
+                            userCommunityThreadList.add(userCommunityThreadVO);
+                            Log.d("TEST", "onResponse: " + userCommunityThreadVO.getThreadTitle());
+                        }
+                        userCommunityThreadAdapter.addThread(userCommunityThreadList, registerVO.getUserID());
                     }
-                    userCommunityThreadAdapter.addThread(userCommunityThreadList,registerVO.getUserID());
+                    Log.d("TEST", "게시글 통신 성공");
                 }
-                Log.d("TEST", "게시글 통신 성공");
-            }
-            @Override
-            public void onFailure(Call<List<UserCommunityThreadVO>> call, Throwable t) {
-                //실패시
-                Log.d("TEST", "게시글 통신 실패");
-            }
-        });
+
+                @Override
+                public void onFailure(Call<List<UserCommunityThreadVO>> call, Throwable t) {
+                    //실패시
+                    Log.d("TEST", "게시글 통신 실패");
+                }
+            });
+        }
     }
 
     /**
@@ -195,5 +203,25 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
         intent.putExtra("registerVO", registerVO);
         intent.putExtra("work","수정");
         startActivity(intent);
+    }
+
+    /**
+     * 등록 폼이 형식에 맞는지 검증하는 작업
+     * 형식에 맞다면 1반환
+     * 틀리다면 0 반환
+     * @return
+     */
+    private Boolean checkSearchForm(String condition,String searchForm){
+
+        if(condition.equals("검색어")){
+            Toast.makeText(this, "조건을 선택하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(searchForm.length()==0){
+            Toast.makeText(this, "검색어에 1자 이상 입력하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

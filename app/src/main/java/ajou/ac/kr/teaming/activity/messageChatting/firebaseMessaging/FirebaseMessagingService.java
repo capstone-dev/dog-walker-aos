@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import ajou.ac.kr.teaming.activity.messageChatting.MessageAdapter;
+import ajou.ac.kr.teaming.activity.messageChatting.messageList.MessageListAdapter;
 import ajou.ac.kr.teaming.vo.ChatDataVO;
 
 public class FirebaseMessagingService {
@@ -24,7 +25,7 @@ public class FirebaseMessagingService {
     private DatabaseReference databaseReference =firebaseDatabase.getReference("message");
     private ChildEventListener childEventListener;
 
-    public void initFirebaseDatabase(MessageAdapter messageAdapter,String systemId,String commentId) {
+    public void initFirebaseDatabase(MessageAdapter messageAdapter, String systemId, String commentId, MessageListAdapter messageListAdapter) {
 
         childEventListener = new ChildEventListener() {
             @Override
@@ -33,9 +34,16 @@ public class FirebaseMessagingService {
                 ChatDataVO chatDataVO=dataSnapshot.getValue(ChatDataVO.class);
                 chatDataVO.firebaseKey=dataSnapshot.getKey();
 
-                if((chatDataVO.commentId).equals(commentId)) {
-                    messageAdapter.add(chatDataVO, systemId);
-                    messageAdapter.notifyDataSetChanged();
+                if(messageListAdapter==null) {
+                    if ((chatDataVO.commentId).equals(commentId)) {
+                        messageAdapter.add(chatDataVO, systemId);
+                        messageAdapter.notifyDataSetChanged();
+                    }
+                }else if(messageAdapter==null){
+                    if((chatDataVO.opponenetId.equals(systemId))){
+                        messageListAdapter.add(chatDataVO);
+                        messageListAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
