@@ -358,6 +358,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setDogwalkerServiceList() {
+
         dogwalkerServiceAdapter.checkService("dogwalker");
         dogwalkerServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getDogwalkerService(registerVO.getUserID());
