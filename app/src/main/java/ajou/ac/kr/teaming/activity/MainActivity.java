@@ -207,14 +207,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(fintent);
 
 
-        } else if (id == R.id.nav_gps) {
-
-            intent = new Intent(MainActivity.this, GpsMainActivity.class);
-
-
-        } else if (id == R.id.nav_dogwalker_gps) {
-
-            intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
+//        } else if (id == R.id.nav_gps) {
+//
+//            intent = new Intent(MainActivity.this, GpsMainActivity.class);
+//
+//
+//        } else if (id == R.id.nav_dogwalker_gps) {
+//
+//            intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
 
 
         }else if(id==R.id.nav_puppy){
@@ -301,6 +301,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void clickMyServiceEvent(View view, ServiceVO serviceVO) {
+
+        if (registerVO.getUserID().equals(serviceVO.getUser_UserID())) { //사용자일때
+            Intent intent = new Intent(MainActivity.this, GpsMainActivity.class); //사용자 전용 gps 액티비티로 이동
+            intent.putExtra("ServiceVo", serviceVO);
+            startActivity(intent);
+
+        } else if (registerVO.getUserID().equals(serviceVO.getUser_DogwalkerID())){ //로그인한 사람이 도그워커일때
+            Intent intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class); //도그워커 전용 gps 액티비티로 이동
+            intent.putExtra("ServiceVo",serviceVO);
+            startActivity(intent);
+        }
 
     }
 

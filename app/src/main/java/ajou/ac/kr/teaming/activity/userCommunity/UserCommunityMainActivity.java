@@ -274,10 +274,10 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
             Intent fintent = new Intent(UserCommunityMainActivity.this, UserCommunityMainActivity.class);
             fintent.putExtra("RegisterVO", registerVO);
             startActivity(fintent);
-        } else if (id == R.id.nav_gps) {
-            intent = new Intent(UserCommunityMainActivity.this, GpsMainActivity.class);
-        } else if (id == R.id.nav_dogwalker_gps) {
-            intent = new Intent(UserCommunityMainActivity.this, DogwalkerGpsActivity.class);
+//        } else if (id == R.id.nav_gps) {
+//            intent = new Intent(UserCommunityMainActivity.this, GpsMainActivity.class);
+//        } else if (id == R.id.nav_dogwalker_gps) {
+//            intent = new Intent(UserCommunityMainActivity.this, DogwalkerGpsActivity.class);
 
         }else if(id==R.id.nav_puppy){
             Intent puppy = new Intent(UserCommunityMainActivity.this, MyPetActivity.class);
