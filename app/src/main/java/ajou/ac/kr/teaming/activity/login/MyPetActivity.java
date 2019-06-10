@@ -87,6 +87,8 @@ public class MyPetActivity extends AppCompatActivity {
 
         Call<List<MyPetVO>> request = mypetThreadService.petThread(registerVO.getUserID(),registerVO.getUserPassword());
 
+
+
         request.enqueue(new Callback<List<MyPetVO>>() {
             @Override
             public void onResponse(Call<List<MyPetVO>> call, Response<List<MyPetVO>> response) {
