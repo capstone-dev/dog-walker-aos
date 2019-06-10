@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fintent.putExtra("RegisterVO", registerVO);
             startActivity(fintent);
 
+
         } else if (id == R.id.nav_my) {
 
             Intent my = new Intent(MainActivity.this, DogwalkerRegister.class);
