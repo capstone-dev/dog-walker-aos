@@ -27,7 +27,7 @@ public class MyPageModifyActivity extends AppCompatActivity {
 
 
     RegisterVO registerVO;
-    EditText idText;
+    TextView idText;
     EditText nameText;
     EditText EmailText;
     EditText PhoneNumberText;
@@ -46,8 +46,28 @@ public class MyPageModifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_page_modify);
 
 
+        MyPageModifySevice myPageModifySevice= ServiceBuilder.create(MyPageModifySevice.class);
+
+        GenderText = (Spinner) findViewById(R.id.GenderText);
+        adapter3 = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_dropdown_item);
+        GenderText.setAdapter(adapter3);
+
+
+        BigcityText = (Spinner) findViewById(R.id.BigcityText);
+        adapter1 = ArrayAdapter.createFromResource(this, R.array.bigcity, android.R.layout.simple_spinner_dropdown_item);
+        BigcityText.setAdapter(adapter1);
+
+        idText = (TextView) findViewById(R.id.idText);
+        nameText = (EditText) findViewById(R.id.nameText);
+        EmailText = (EditText) findViewById(R.id.EmailText);
+        PhoneNumberText = (EditText) findViewById(R.id.PhoneNumberText);
+        ModifyconformButton = (Button) findViewById(R.id.ModifyconformButton);
+
+
+
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+
         idText.setText(registerVO.getUserID());
         nameText.setText(registerVO.getUserName());
         EmailText.setText(registerVO.getUserEmail());
@@ -55,22 +75,6 @@ public class MyPageModifyActivity extends AppCompatActivity {
         GenderText.setPrompt(registerVO.getUserGender());
         BigcityText.setPrompt(registerVO.getUserBigcity());
 
-        MyPageModifySevice myPageModifySevice= ServiceBuilder.create(MyPageModifySevice.class);
-
-
-        UserGender = (Spinner) findViewById(R.id.UserGender);
-        adapter3 = ArrayAdapter.createFromResource(this, R.array.gender, android.R.layout.simple_spinner_dropdown_item);
-        UserGender.setAdapter(adapter3);
-        UserBigcity = (Spinner) findViewById(R.id.UserBigcity);
-        adapter1 = ArrayAdapter.createFromResource(this, R.array.bigcity, android.R.layout.simple_spinner_dropdown_item);
-        UserBigcity.setAdapter(adapter1);
-        idText = (EditText) findViewById(R.id.idText);
-        nameText = (EditText) findViewById(R.id.nameText);
-        EmailText = (EditText) findViewById(R.id.EmailText);
-        PhoneNumberText = (EditText) findViewById(R.id.PhoneNumberText);
-        UserGender = (Spinner) findViewById(R.id.GenderText);
-        UserBigcity = (Spinner) findViewById(R.id.BigcityText);
-        ModifyconformButton = (Button) findViewById(R.id.ModifyconformButton);
 
 
 
@@ -81,22 +85,17 @@ public class MyPageModifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String userid = idText.getText().toString();
-                String username = nameText.getText().toString();
-                String useremail = EmailText.getText().toString();
-                String usernumber = PhoneNumberText.getText().toString();
-                String usergender = UserGender.getSelectedItem().toString();
-                String userbigcity = UserBigcity.getSelectedItem().toString();
-
 
                 HashMap<String, Object> inputregister = new HashMap<>();
-                inputregister.put("UserID", ((EditText) findViewById(R.id.idText)).getText().toString());
-                inputregister.put("UserPassword", ((EditText) findViewById(R.id.passwordText)).getText().toString());
+                inputregister.put("UserID", registerVO.getUserID());
+                inputregister.put("token",registerVO.getToken());
+                inputregister.put("UserPassword",registerVO.getUserPassword());
                 inputregister.put("UserName", ((EditText) findViewById(R.id.nameText)).getText().toString());
-                inputregister.put("UserEmail", ((EditText) findViewById(R.id.emailText)).getText().toString());
-                inputregister.put("UserGender", ((Spinner) findViewById(R.id.UserGender)).getSelectedItem().toString());
-                inputregister.put("UserBigcity", ((Spinner) findViewById(R.id.UserBigcity)).getSelectedItem().toString());
-                inputregister.put("UserPhoneNumber", ((EditText) findViewById(R.id.numberText)).getText().toString());
+                inputregister.put("UserEmail", ((EditText) findViewById(R.id.EmailText)).getText().toString());
+                inputregister.put("UserGender", ((Spinner) findViewById(R.id.GenderText)).getSelectedItem().toString());
+                inputregister.put("UserBigcity", ((Spinner) findViewById(R.id.BigcityText)).getSelectedItem().toString());
+                inputregister.put("UserPhoneNumber", ((EditText) findViewById(R.id.PhoneNumberText)).getText().toString());
+
 
 
                Call<RegisterVO> registerVOCall = myPageModifySevice.postModify(inputregister);
@@ -105,16 +104,9 @@ public class MyPageModifyActivity extends AppCompatActivity {
                     public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
 
                         RegisterVO RegisterVO2=response.body();
-                        Log.d("TEST", RegisterVO2.getUserID());
-                        Log.d("TEST", RegisterVO2.getUserPassword());
-                        Log.d("TEST", RegisterVO2.getUserName());
-                        Log.d("TEST", RegisterVO2.getUserEmail());
-                        Log.d("TEST", RegisterVO2.getUserPhoneNumber());
-                        Log.d("TEST", RegisterVO2.getUserGender());
-                        Log.d("TEST", RegisterVO2.getUserBigcity());
 
                         Toast.makeText(MyPageModifyActivity.this, "성공적으로 수정되었습니다.", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MyPageModifyActivity.this, MyPageActivity.class);
+                        Intent intent = new Intent(MyPageModifyActivity.this, MainActivity.class);
                         startActivity(intent);
 
                     }
@@ -123,7 +115,9 @@ public class MyPageModifyActivity extends AppCompatActivity {
                     public void onFailure(Call<RegisterVO> call, Throwable t) {
 
                         Log.d("TEST", "통신 실패");
-
+                        Intent intent = new Intent(MyPageModifyActivity.this, MainActivity.class);
+                        intent.putExtra("registerVO",registerVO);
+                        startActivity(intent);
                     }
                 });
 

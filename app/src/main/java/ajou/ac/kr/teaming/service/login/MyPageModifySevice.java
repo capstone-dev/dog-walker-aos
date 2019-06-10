@@ -14,11 +14,6 @@ import retrofit2.http.Query;
 public interface MyPageModifySevice {
 
 
-    @GET("/login")//가입
-    Call<RegisterVO> DoMypage(@Query("UserID") String UserID);
-
-
-
     @FormUrlEncoded
     @PUT("/signUp")
     Call<RegisterVO> postModify(@FieldMap HashMap<String, Object> param);

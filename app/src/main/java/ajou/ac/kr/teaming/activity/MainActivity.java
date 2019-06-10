@@ -29,6 +29,7 @@ import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
+import ajou.ac.kr.teaming.activity.login.MyPageModifyActivity;
 import ajou.ac.kr.teaming.activity.login.MyPetActivity;
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.activity.messageChatting.messageList.MessageListMainActivity;
@@ -194,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_my) {
 
-            Intent my = new Intent(MainActivity.this, DogwalkerRegister.class);
+            Intent my = new Intent(MainActivity.this, MyPageModifyActivity.class);
             my.putExtra("RegisterVO", registerVO);
             startActivity(my);
 

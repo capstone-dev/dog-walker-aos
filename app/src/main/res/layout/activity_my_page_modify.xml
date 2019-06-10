@@ -35,11 +35,11 @@
         app:layout_constraintTop_toBottomOf="@id/Search_Function">
 
 
-        <EditText
+        <TextView
             android:id="@+id/idText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="id"
             android:textColor="#000000"
             android:textSize="20sp"
             app:layout_constraintRight_toRightOf="@+id/Search_Functio"
