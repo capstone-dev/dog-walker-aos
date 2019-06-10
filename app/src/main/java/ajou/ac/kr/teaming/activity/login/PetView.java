@@ -1,10 +1,13 @@
 package ajou.ac.kr.teaming.activity.login;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
@@ -17,7 +20,8 @@ public class PetView extends AppCompatActivity {
     TextView typeText;
     TextView ageText;
     Button MainButton;
-
+    ImageView PetImageText;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class PetView extends AppCompatActivity {
         typeText=(TextView)findViewById(R.id.typeText);
         ageText=(TextView)findViewById(R.id.ageText);
         MainButton=(Button)findViewById(R.id.MainButton);
+        PetImageText=(ImageView)findViewById(R.id.PetImageText);
 
 
 
@@ -35,6 +40,10 @@ public class PetView extends AppCompatActivity {
         String dogName=intent.getStringExtra("DogName");
         String dogtype=intent.getStringExtra("DogType");
         String dogage=intent.getStringExtra("DogAge");
+        byte[] arr = getIntent().getByteArrayExtra("image");
+        bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+        PetImageText.setImageBitmap(bitmap);
+
 
         nameText.setText(dogName);
         typeText.setText(dogtype);

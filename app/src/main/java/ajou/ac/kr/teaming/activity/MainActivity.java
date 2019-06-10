@@ -140,10 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setDogwalkerServiceList();
 
 
-        String userBigcity=intent.getStringExtra("UserBigcity");
-        String userSmallcity=intent.getStringExtra("UserSmallcity");
-        String userverySmallcity=intent.getStringExtra("UserverySmallcity");
-
     }
 
     @Override

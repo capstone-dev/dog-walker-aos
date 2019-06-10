@@ -11,7 +11,16 @@ public class RegisterVO implements Serializable {
     private String UserGender;
     private String UserPhoneNumber;
     private String UserBigcity;
+    private String UserSmallcity;
     private String token;
+
+    public String getUserSmallcity() {
+        return UserSmallcity;
+    }
+
+    public void setUserSmallcity(String userSmallcity) {
+        UserSmallcity = userSmallcity;
+    }
 
     public String getToken() {
         return token;
