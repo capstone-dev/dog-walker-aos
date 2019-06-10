@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ajou.ac.kr.teaming.R;
@@ -104,6 +105,29 @@ public class SearchActivity extends AppCompatActivity {
                 String userbigcity = BigcityText.getText().toString();
                 String usersmallcity = SmallcityText.getText().toString();
                 String usertime = TimeSpinner.getSelectedItem().toString();
+
+                Call<List<DogwalkerVO>> request= DogwalkerThreadService.dogwalkerThread(year,month,day);
+                request.enqueue(new Callback<List<DogwalkerVO>>() {
+                    @Override
+                    public void onResponse(Call<List<DogwalkerVO>> call, Response<List<DogwalkerVO>> response) {
+
+                        List<DogwalkerVO> dogwalkerVOS=new ArrayList<>();
+                        ArrayList<DogwalkerVO> dogwalkerlist=new ArrayList<>();
+                        if (dogwalkerVOS !=null){
+                            for (DogwalkerVO dogwalkerVO:dogwalkerVOS){
+
+
+                            }
+
+                        }
+                    }
+
+
+                    @Override
+                    public void onFailure(Call<List<DogwalkerVO>> call, Throwable t) {
+
+                    }
+                });
 
 
 
