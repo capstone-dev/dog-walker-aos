@@ -201,7 +201,6 @@ public class GpsMainActivity extends AppCompatActivity{
         txtShowWalkTime = (TextView) findViewById(R.id.txtShowWalkTime);
 
 
-        setGps();
         traceStart();
 
         mArrayMarkerID = new ArrayList<String>();;
@@ -275,40 +274,40 @@ public class GpsMainActivity extends AppCompatActivity{
 
     /*
 
-      /**
-       * 현재 위치정보 받기
-       * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
-       * */
-    private final LocationListener mLocationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-        }
-        public void onProviderDisabled(String provider) {
-        }
-        public void onProviderEnabled(String provider) {
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
-
-    public void setGps(){
-        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-
-        Log.e(TAG,"setGps Activated");
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
-                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
-                10, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);
-
-//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+//      /**
+//       * 현재 위치정보 받기
+//       * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
+//       * */
+//    private final LocationListener mLocationListener = new LocationListener() {
+//        public void onLocationChanged(Location location) {
+//        }
+//        public void onProviderDisabled(String provider) {
+//        }
+//        public void onProviderEnabled(String provider) {
+//        }
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//        }
+//    };
+//
+//    public void setGps(){
+//        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//        }
+//
+//        Log.e(TAG,"setGps Activated");
+//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
 //                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
 //                10, // 통지사이의 최소 변경거리 (m)
 //                mLocationListener);
-    }
+//
+////        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+////                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
+////                10, // 통지사이의 최소 변경거리 (m)
+////                mLocationListener);
+//    }
 
 
     /**
@@ -575,8 +574,8 @@ public class GpsMainActivity extends AppCompatActivity{
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
                         getGpsInfo();
-                        getLocationInfo();
-                        getMarkerInfo();
+                      //  getLocationInfo();
+                      //  getMarkerInfo();
                     }
                 }).setNegativeButton("뒤로 가기",
                 new DialogInterface.OnClickListener() {

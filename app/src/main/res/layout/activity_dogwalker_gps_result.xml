@@ -92,29 +92,15 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar2" />
 
     <TextView
-        android:id="@+id/txtDogName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:text="강아지 이름"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/inputDogName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/inputDogName"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
         android:id="@+id/txtTotalWalkDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="31dp"
         android:text="걸은 거리"
         android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDogName" />
+        tools:layout_editor_absoluteY="459dp" />
 
     <TextView
         android:id="@+id/txtTotalWalkTIme"

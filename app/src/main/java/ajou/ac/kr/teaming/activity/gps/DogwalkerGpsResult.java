@@ -39,7 +39,7 @@ public class DogwalkerGpsResult extends AppCompatActivity {
 
         txtResultTitle = (TextView) findViewById(R.id.txtResultTitle);
         txtResultPlain = (TextView) findViewById(R.id.txtResultPlain);
-        txtDogName = (TextView) findViewById(R.id.txtDogName);
+      //  txtDogName = (TextView) findViewById(R.id.txtDogName);
         txtTotalWalkDistance = (TextView) findViewById(R.id.txtTotalWalkDistance);
         txtTotalWalkTIme = (TextView) findViewById(R.id.txtTotalWalkTIme);
         inputDogName = (TextView) findViewById(R.id.inputDogName);
