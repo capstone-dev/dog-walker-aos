@@ -288,10 +288,10 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
             Intent logout = new Intent(UserCommunityMainActivity.this, LoginMainActivity.class);
             logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(logout);
-        }else if(id==R.id.my_service){
-            Intent service=new Intent(UserCommunityMainActivity.this, MyServiceMainActivity.class);
-            service.putExtra("RegisterVO",registerVO);
-            startActivity(service);
+        }else if(id==R.id.nav_hone){
+            Intent home = new Intent(UserCommunityMainActivity.this, MainActivity.class);
+            home.putExtra("registerVO",registerVO);
+            startActivity(home);
         }
         if (intent != null) {
             startActivity(intent);

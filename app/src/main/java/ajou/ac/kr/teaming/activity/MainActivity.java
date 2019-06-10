@@ -142,10 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dogwalkerServiceView.setAdapter(dogwalkerServiceAdapter);
         setMyServiceList();
         setDogwalkerServiceList();
-
-        Log.d(TAG, "onCreate: smallcity"+registerVO.getUserSmallcity());
-
-
     }
 
     @Override
@@ -229,12 +225,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(logout);
 
 
-        }else if(id==R.id.my_service){
-            Intent service=new Intent(MainActivity.this, MyServiceMainActivity.class);
-            service.putExtra("RegisterVO",registerVO);
-            startActivity(service);
+        }else if(id==R.id.nav_hone){
+            Intent home = new Intent(MainActivity.this, MainActivity.class);
+            home.putExtra("registerVO",registerVO);
+            startActivity(home);
         }
-
 
         if (intent != null) {
             startActivity(intent);
@@ -283,7 +278,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         updateDogwalkerRealTime(serviceVO);
         //현재 페이지에서 메인 usercommunitymain으로 새로고침 하면서 이동
         setMyServiceList();
-        setDogwalkerServiceList();
     }
 
     @Override
@@ -328,8 +322,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setMyServiceList() {/*
-        myServiceAdapter.checkService("my");*/
+    private void setMyServiceList() {
+        myServiceAdapter.checkService("my");
         myServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getUserService(registerVO.getUserID());
         request.enqueue(new Callback<List<ServiceVO>>() {
@@ -359,8 +353,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setDogwalkerServiceList() {
-/*
-        dogwalkerServiceAdapter.checkService("dogwalker");*/
+        dogwalkerServiceAdapter.checkService("dogwalker");
         dogwalkerServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getDogwalkerService(registerVO.getUserID());
         request.enqueue(new Callback<List<ServiceVO>>() {
@@ -418,6 +411,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d("TEST", "수정 실패" + t.getMessage());
             }
         });
-        setMyServiceList();
     }
 }
