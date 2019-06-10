@@ -299,35 +299,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void clickMyServiceEvent(View view, ServiceVO serviceVO) {
-        //실시간 도그워커 사용자가 신청중으로 다시 바꿈
 
-        HashMap<String, Object> inputThread=new HashMap<>();
-
-        inputThread.put("DogwalkerID",serviceVO.getUser_DogwalkerID());
-        inputThread.put("selected","0");
-
-        Call<DogwalkerListVO> request = gpsRealTimeDogwalkerService.deleteMyService(inputThread);
-        request.enqueue(new Callback<DogwalkerListVO>() {
-            @Override
-            public void onResponse(Call<DogwalkerListVO> call, Response<DogwalkerListVO> response) {
-                // 성공시
-                if (response.isSuccessful()) {
-                    DogwalkerListVO dogwalkerListVOs = response.body();
-                    //테스트 확인 log값
-                    if (dogwalkerListVOs != null) {
-                        Log.d("TEST", dogwalkerListVOs.getDogwalkerID());
-                    }
-                }
-                Log.d("TEST", "수정 성공 ");
-            }
-
-            @Override
-            public void onFailure(Call<DogwalkerListVO> call, Throwable t) {
-                //실패시
-                Log.d("TEST", "수정 실패" + t.getMessage());
-            }
-        });
-        setMyServiceList();
     }
 
     private void setMyServiceList() {
