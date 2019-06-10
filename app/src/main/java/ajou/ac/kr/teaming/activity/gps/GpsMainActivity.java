@@ -233,67 +233,6 @@ public class GpsMainActivity extends AppCompatActivity{
             }
         });
 
-
-        /**
-         * 클릭 이벤트 설정 구간
-         * Toast시. MapEvent.this가 아닌 getApplicationContext()를 사용할 것.
-         * **/
-        // 클릭 이벤트 설정
-        tMapView.setOnClickListenerCallBack(new TMapView.OnClickListenerCallback() {
-            @Override
-            public boolean onPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-            //    Toast.makeText(getApplicationContext(), "onPress~!", Toast.LENGTH_SHORT).show();
-
-                return false;
-            }
-            @Override
-            public boolean onPressUpEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint, PointF pointF) {
-             //   Toast.makeText(getApplicationContext(), "onPressUp~!", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
-
-
-
-        // 롱 클릭 이벤트 설정
-        tMapView.setOnLongClickListenerCallback(new TMapView.OnLongClickListenerCallback() {
-            @Override
-            public void onLongPressEvent(ArrayList arrayList, ArrayList arrayList1, TMapPoint tMapPoint) {
-            //    Toast.makeText(getApplicationContext(), "onLongPress~!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // 지도 스크롤 종료시, 확대 레벨 및 경도 위도 출력
-        tMapView.setOnDisableScrollWithZoomLevelListener(new TMapView.OnDisableScrollWithZoomLevelCallback() {
-            @Override
-            public void onDisableScrollWithZoomLevelEvent(float zoom, TMapPoint centerPoint) {
-         //       Toast.makeText(getApplicationContext(), "zoomLevel=" + zoom +
-         //                                       "\n경도 =" + centerPoint.getLongitude() +
-         //                                      "\n위도 =" + centerPoint.getLatitude(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        /**
-//         * PermissionManager 클래스에서 상속
-//         * 위치정보 허용기능
-//         * */
-//        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-//            @Override
-//            public void granted() {
-//                tMapGps = new TMapGpsManager(GpsMainActivity.this);
-//                tMapGps.setMinTime(1000);
-//                tMapGps.setMinDistance(5);
-//                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
-//                tMapGps.OpenGps();
-//                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-//                tMapGps.OpenGps();
-//            }
-//            @Override
-//            public void denied() {
-//                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
-//            }
-//        });
-
         PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
@@ -638,7 +577,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getMarkerInfo() {
         GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
-        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(78); //TODO : 동적 할당이 되도록 만들기
+        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(77); //TODO : 동적 할당이 되도록 만들기
         call.enqueue(new Callback <List<PhotoVO>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<PhotoVO>> call, @NonNull Response<List<PhotoVO>> response) {
@@ -646,7 +585,7 @@ public class GpsMainActivity extends AppCompatActivity{
                 if(gpsPhotoVo != null){
                     //배열로 받아와야한다.
                     for(int i = 0; i < gpsPhotoVo.size(); i++){
-                        int photoId = gpsPhotoVo.get(i).getId();
+                        int photoId = gpsPhotoVo.get(i).getMarkerId();
                         double photoLatitude = gpsPhotoVo.get(i).getPhotoLatitude();
                         double photoLongitude = gpsPhotoVo.get(i).getPhotoLongitude();
 

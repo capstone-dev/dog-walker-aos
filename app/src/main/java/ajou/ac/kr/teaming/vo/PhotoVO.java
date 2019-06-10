@@ -5,6 +5,7 @@ public class PhotoVO {
     private int id;
     private double photoLatitude;
     private double photoLongitude;
+    private int markerId;
 
     public int getId() {
         return id;
@@ -29,5 +30,13 @@ public class PhotoVO {
 
     public void setPhotoLongitude(double photoLongitude) {
         this.photoLongitude = photoLongitude;
+    }
+
+    public int getMarkerId() {
+        return markerId;
+    }
+
+    public void setMarkerId(int markerId) {
+        this.markerId = markerId;
     }
 }
