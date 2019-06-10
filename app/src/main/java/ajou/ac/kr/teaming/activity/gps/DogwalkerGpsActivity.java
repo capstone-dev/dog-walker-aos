@@ -351,8 +351,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         setGps();
 
         tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
-        tMapGps.setMinTime(1000);
-        tMapGps.setMinDistance(5);
+        tMapGps.setMinDistance(10);
         tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
         tMapGps.OpenGps();
         tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
@@ -450,14 +449,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         Log.e(TAG,"setGps Activated");
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
-                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-                5, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);
-
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
+                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
                 10, // 통지사이의 최소 변경거리 (m)
                 mLocationListener);
+
+//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+//                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
+//                10, // 통지사이의 최소 변경거리 (m)
+//                mLocationListener);
     }
 
 
@@ -1105,7 +1104,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         HashMap<String, Object> params = new HashMap<>();
         params.put("gpsId", gpsId); //gpsId = ?? TODO: 동적으로 할당하기
-        //params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId))); //gpsId = ?? TODO: 동적으로 할당하기
         params.put("dogwalkerLatitude", dogwalkerLatitude); //double
         params.put("dogwalkerLongitude", dogwalkerLongitude);//double
 
