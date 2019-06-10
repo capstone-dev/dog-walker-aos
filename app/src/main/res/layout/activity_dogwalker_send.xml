@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.login.DogwalkerSendActivity">
+
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Dogwalker_Register_Funtion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFEABD3E"
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:text="Dogwalker인증서"
+            android:gravity="center"/>
+    </android.support.constraint.ConstraintLayout>
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Dogwalker_Register_Funti"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="150dp"
+        app:layout_constraintStart_toStartOf="@+id/Dogwalker_Register_Funtion"
+        app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Register_Funtion">
+
+
+        <TextView
+            android:id="@+id/idText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="#000000"
+            android:textSize="35sp"
+            android:text="도그워커로 인증 받기 위해서는 kyj6118@naver.com 으로 인증서를 보내주세요."
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="0dp" />
+
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</android.support.constraint.ConstraintLayout>

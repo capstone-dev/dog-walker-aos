@@ -43,50 +43,13 @@
 
 
 
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/Dogwalker_Register_Funtio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:layout_constraintStart_toStartOf="@+id/Dogwalker_Register_Funtion"
-            app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Register_Funtion">
-
-            <ImageView
-                android:id="@+id/DogwalkerImage"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="30dp"
-                android:adjustViewBounds="true"
-                android:maxWidth="100dp"
-                android:maxHeight="100dp"
-                android:onClick="onClick"
-                android:src="@drawable/pro"
-                app:layout_constraintLeft_toRightOf="@id/DogwalkerImageText"
-                tools:ignore="MissingConstraints,OnClick" />
-
-
-            <TextView
-                android:id="@+id/DogwalkerImageText"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:text="사진등록 : "
-                android:textColor="#000000"
-                android:textSize="20sp"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="0dp" />
-
-        </android.support.constraint.ConstraintLayout>
-
-
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Dogwalker_Register_Funti"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="@+id/Dogwalker_Register_Funtio"
-            app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Register_Funtio">
+            app:layout_constraintStart_toStartOf="@+id/Dogwalker_Register_Funtion"
+            app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Register_Funtion">
 
 
             <TextView
@@ -203,7 +166,7 @@
                 android:layout_height="30dp"
                 android:background="#FFEABD3E"
                 android:gravity="center"
-                android:text="활동가능한 동을 3개 등록해 주세요"
+                android:text="활동가능한 동을 등록해 주세요"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 tools:ignore="MissingConstraints"
@@ -325,7 +288,7 @@
                 android:layout_height="30dp"
                 android:background="#FFEABD3E"
                 android:gravity="center"
-                android:text="활동가능한 시간을 3개 등록해 주세요"
+                android:text="활동가능한 시간을 등록해 주세요"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 tools:ignore="MissingConstraints"
@@ -421,11 +384,27 @@
                 android:layout_height="30dp"
                 android:background="#FFEABD3E"
                 android:text="Dogwalker 등록"
+                android:layout_marginLeft="20dp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                tools:ignore="MissingConstraints,OnClick"
+                app:layout_constraintLeft_toRightOf="@+id/DogwalkersendButton"
+                tools:layout_editor_absoluteX="124dp"
+                tools:layout_editor_absoluteY="0dp" />
+
+            <Button
+                android:id="@+id/DogwalkersendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:background="#FFEABD3E"
+                android:text="Dogwalker 인증서"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 tools:ignore="MissingConstraints,OnClick"
                 tools:layout_editor_absoluteX="124dp"
-                tools:layout_editor_absoluteY="0dp" />
+                tools:layout_editor_absoluteY="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/Dogwalker_R"
+                app:layout_constraintLeft_toRightOf="@+id/DogwalkerRegisterButton"/>
 
 
         </android.support.constraint.ConstraintLayout>
