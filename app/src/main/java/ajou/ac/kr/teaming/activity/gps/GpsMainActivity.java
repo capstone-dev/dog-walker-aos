@@ -225,9 +225,14 @@ public class GpsMainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 tMapView.setZoomLevel(15);
                 tMapView.setIconVisibility(true);
-                setGps();
                 Toast.makeText(getApplicationContext(), "도그워커의 현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
                 tMapView.setCenterPoint(dogwalkerLatitude, dogwalkerLongitude);
+
+
+                getGpsInfo();
+                getLocationInfo();
+                getMarkerInfo();
+                drawPedestrianPath();
             }
         });
 
@@ -271,26 +276,26 @@ public class GpsMainActivity extends AppCompatActivity{
             }
         });
 
-        /**
-         * PermissionManager 클래스에서 상속
-         * 위치정보 허용기능
-         * */
-        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
-            @Override
-            public void granted() {
-                tMapGps = new TMapGpsManager(GpsMainActivity.this);
-                tMapGps.setMinTime(1000);
-                tMapGps.setMinDistance(5);
-                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
-                tMapGps.OpenGps();
-                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-                tMapGps.OpenGps();
-            }
-            @Override
-            public void denied() {
-                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
-            }
-        });
+//        /**
+//         * PermissionManager 클래스에서 상속
+//         * 위치정보 허용기능
+//         * */
+//        permissionManager.request(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, new PermissionManager.PermissionListener() {
+//            @Override
+//            public void granted() {
+//                tMapGps = new TMapGpsManager(GpsMainActivity.this);
+//                tMapGps.setMinTime(1000);
+//                tMapGps.setMinDistance(5);
+//                tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
+//                tMapGps.OpenGps();
+//                tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+//                tMapGps.OpenGps();
+//            }
+//            @Override
+//            public void denied() {
+//                Log.w("LOG", "위치정보 접근 권한이 필요합니다.");
+//            }
+//        });
 
 
 
@@ -326,47 +331,47 @@ public class GpsMainActivity extends AppCompatActivity{
     }//onCreate
 
 
-
-    /**
-     * 현재 위치정보 받기
-     * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
-     * */
-    private final LocationListener mLocationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-
-
-            if (location != null) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                tMapView.setLocationPoint(longitude, latitude);
-                tMapView.setCenterPoint(longitude, latitude);
-            }
-        }
-        public void onProviderDisabled(String provider) {
-        }
-        public void onProviderEnabled(String provider) {
-        }
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-    };
-
-    public void setGps(){
-        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
-                5, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);
-
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-                1000, // 통지사이의 최소 시간간격 (miliSecond)
-                1, // 통지사이의 최소 변경거리 (m)
-                mLocationListener);
-    }
+//
+//    /**
+//     * 현재 위치정보 받기
+//     * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
+//     * */
+//    private final LocationListener mLocationListener = new LocationListener() {
+//        public void onLocationChanged(Location location) {
+//
+//
+//            if (location != null) {
+//                double latitude = location.getLatitude();
+//                double longitude = location.getLongitude();
+//                tMapView.setLocationPoint(longitude, latitude);
+//                tMapView.setCenterPoint(longitude, latitude);
+//            }
+//        }
+//        public void onProviderDisabled(String provider) {
+//        }
+//        public void onProviderEnabled(String provider) {
+//        }
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//        }
+//    };
+//
+//    public void setGps(){
+//        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+//                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//        }
+//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+//                1000 * 5, // 통지사이의 최소 시간간격 (miliSecond)
+//                5, // 통지사이의 최소 변경거리 (m)
+//                mLocationListener);
+//
+//        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
+//                1000, // 통지사이의 최소 시간간격 (miliSecond)
+//                1, // 통지사이의 최소 변경거리 (m)
+//                mLocationListener);
+//    }
 
 
 
@@ -506,6 +511,15 @@ public class GpsMainActivity extends AppCompatActivity{
 
 
 
+    /**
+     * 마커에 포함된 사진 hidden
+     * @param view
+     */
+    public void clickuserMethod(View view) {
+        view.setVisibility(View.GONE);
+    }
+
+
 
 
     /**
@@ -548,7 +562,7 @@ public class GpsMainActivity extends AppCompatActivity{
      * 도그워커의 산책시간 및 이동거리를 표시해주는 메소드
      * */
     public void showDistanceAndTime(){
-        String WalkContext = String.format(walkDistance);
+        String WalkContext = String.format("%.5s",walkDistance);
         txtShowWalkDistance.setText( WalkContext + "m" );
 
         Long showWalkTime = Long.parseLong(walkTime);
@@ -605,7 +619,6 @@ public class GpsMainActivity extends AppCompatActivity{
                         getMarkerInfo();
                         drawPedestrianPath();
                     }
-
                 }).setNegativeButton("뒤로 가기",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -631,15 +644,14 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getGpsInfo() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetGpsInfo(65); // TODO : 동적 할당이 되도록 만들기
+        Call<GpsVo> call = gpsService.doGetGpsInfo(73); // TODO : 동적 할당이 되도록 만들기
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
                 GpsVo gpsGetVo = response.body();
                 if(gpsGetVo != null){
-                    Toast.makeText(getApplicationContext(), "도그워커 위도" + gpsGetVo.getDogwalkerLatitude()
-                            + "도그워커 경도" + gpsGetVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
-
+//                    Toast.makeText(getApplicationContext(), "도그워커 위도" + gpsGetVo.getDogwalkerLatitude()
+//                            + "도그워커 경도" + gpsGetVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
                     Log.d("TEST", "onResponse getId: " + gpsGetVo.getId());
                     Log.d("TEST", "onResponse getStartDogwalkerLatitude: " + gpsGetVo.getStartDogwalkerLatitude());
                     Log.d("TEST", "onResponse getStartDogwalkerLongitude: " + gpsGetVo.getStartDogwalkerLongitude());
@@ -681,7 +693,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getMarkerInfo() {
         GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
-        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(65); //TODO : 동적 할당이 되도록 만들기
+        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(73); //TODO : 동적 할당이 되도록 만들기
         call.enqueue(new Callback <List<PhotoVO>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<PhotoVO>> call, @NonNull Response<List<PhotoVO>> response) {
@@ -719,7 +731,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getLocationInfo() {
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
-        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(65); //TODO : 동적 할당이 되도록 만들기
+        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(73); //TODO : 동적 할당이 되도록 만들기
         call.enqueue(new Callback<List<GpsLocationVo>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<GpsLocationVo>> call, @NonNull Response<List<GpsLocationVo>> response) {
