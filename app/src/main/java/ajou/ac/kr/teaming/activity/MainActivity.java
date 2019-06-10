@@ -140,6 +140,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setMyServiceList();
         setDogwalkerServiceList();
 
+        Log.d(TAG, "onCreate: smallcity"+registerVO.getUserSmallcity());
+
 
     }
 
