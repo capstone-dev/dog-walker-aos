@@ -221,9 +221,8 @@ public class GpsMainActivity extends AppCompatActivity{
         btnTrackDogWalkerFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tMapView.setZoomLevel(16);
-                tMapView.setLocationPoint(dogwalkerLatitude,dogwalkerLongitude);
-                tMapView.setCenterPoint(dogwalkerLatitude, dogwalkerLongitude,true);
+                tMapView.setZoomLevel(17);
+                tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
                 Toast.makeText(getApplicationContext(), "도그워커의 현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
 
                 getLocationInfo();
@@ -458,13 +457,6 @@ public class GpsMainActivity extends AppCompatActivity{
      * 도그워커의 이동경로를 그리는 메소드
      * */
     public void drawPedestrianPath() {
-
-        //  double startWalkLatitude = startDogwalkerLatitude;
-        //  double startWalkLongitude = startDogwalkerLongitude;
-
-//        alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
-//        alTMapPoint.add( new TMapPoint(endDogwalkerLatitude, endDogwalkerLongitude) ); // 도그워커 끝지점
-
         TMapPolyLine tMapPolyLine = new TMapPolyLine();
         tMapPolyLine.setLineColor(Color.YELLOW);
         tMapPolyLine.setLineWidth(2);
@@ -592,7 +584,6 @@ public class GpsMainActivity extends AppCompatActivity{
 
                     showDistanceAndTime();
                     alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
-                    tMapView.setCenterPoint(endDogwalkerLatitude,endDogwalkerLongitude,true);
                    // alTMapPoint.add( new TMapPoint(endDogwalkerLatitude,endDogwalkerLongitude)); //도그워커 마지막지점
                 }
                 Log.d("TEST", "도그워커 산책정보 받기 성공");
@@ -665,7 +656,7 @@ public class GpsMainActivity extends AppCompatActivity{
 
                         /**서버로부터 받은 데이터를 저장*/
                         alTMapPoint.add(new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
-                        drawPedestrianPath();
+
                     }
 
                 }

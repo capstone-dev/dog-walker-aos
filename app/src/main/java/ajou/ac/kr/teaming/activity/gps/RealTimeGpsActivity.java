@@ -133,8 +133,7 @@ public class RealTimeGpsActivity extends AppCompatActivity {
 
 
 
-        tMapView.setTrackingMode(true);
-        tMapView.setZoomLevel(15);
+        tMapView.setZoomLevel(17);
         tMapView.setIconVisibility(true);
         setGps();
         Toast.makeText(getApplicationContext(), "현재 위치를 찾는 중입니다.", Toast.LENGTH_LONG).show();
@@ -393,26 +392,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    //도그워커의 현재 위치를 전부 표시
-    public void showDogwalkerLocationMarker() { //TODO : 실시간 도그워커를 등록하면 현재 위치를 전달해 마커를 생성
-        for(int i = 0; i < dogwalkerRealtimeLocationPoint.size(); i++) { //i == markerid
-            Log.d("TEST", "도그워커 위치 마커 생성" + i);
-            //도그워커의 현재위치에 마커 생성
-            TMapMarkerItem markerItem = new TMapMarkerItem();
-            String strID = String.format("%02d", i); //두자릿수로 나오도록 설정
-            markerId = i; //마커 아이디 변수 지정
-            // 마커 아이콘 지정
-            markerItem.getTMapPoint();
-            markerItem.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
-            // 마커의 좌표 지정
-            markerItem.setTMapPoint(dogwalkerRealtimeLocationPoint.get(i));
-            markerItem.setCanShowCallout(true);
-            markerItem.setCalloutTitle("테스트" + strID); //도그워커 이름으로
-            markerItem.setCalloutSubTitle("안녕하세요" + strID); //도그워커와의 거리로
-
-            tMapView.addMarkerItem(strID, markerItem);
-        }
-    }
 
 
     /**
@@ -426,108 +405,6 @@ public class RealTimeGpsActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * 도그워커와의 거리 계산
-     */
-
-    private void distanceBetweenUser() {
-
-        //사용자 자신의 위치와 도그워커간의 거리를 구한다.
-        betweenUserDistance = distance(userLatitude, userLongitude, dogwalkerLatitude, dogwalkerLongitude, "kilometer");
-    }
-
-    /**
-     *
-     * 두 지점간의 거리 계산
-     *
-     * @param lat1 지점 1 위도
-     * @param lon1 지점 1 경도
-     * @param lat2 지점 2 위도
-     * @param lon2 지점 2 경도
-     * @param unit 거리 표출단위
-     * @return dist*/
-
-    private static double distance(double lat1, double lon1, double lat2, double lon2, String unit) {
-        double theta = lon1 - lon2;
-        double dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta));
-
-        dist = Math.acos(dist);
-        dist = rad2deg(dist);
-        dist = dist * 60 * 1.1515;
-
-        if (unit == "kilometer") {
-            dist = dist * 1.609344;
-        } else if (unit == "meter") {
-            dist = dist * 1609.344;
-        }
-        return (dist);
-    }
-
-    // This function converts decimal degrees to radians
-    private static double deg2rad(double deg) {
-        return (deg * Math.PI / 180.0);
-    }
-
-    // This function converts radians to decimal degrees
-    private static double rad2deg(double rad) {
-        return (rad * 180 / Math.PI);
-    }
-
-
-
-
-
-
-    /**
-     * GET RealTime Dogwalker Location
-     * 도그워커의 실시간 현재 위치를 서버로부터 받아온다.
-     *
-     *
-     * Service객체와 Vo부분 수정 요망
-     *
-     *
-     */
-   /* public void getRealTimeDogwalkerLocationInfo() {
-        GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
-        Call<GpsLocationVo> call = gpsDogwalkerLocationService.doGetLocationInfo();
-        call.enqueue(new Callback<GpsLocationVo>() { //비동기적 호출
-            @Override
-            public void onResponse(@NonNull Call<GpsLocationVo> call, @NonNull Response<GpsLocationVo> response) {
-                GpsLocationVo gpsGetLocationVo = response.body();
-                if(gpsGetLocationVo != null){
-                    Toast.makeText(getApplicationContext(), "도그워커 현재 위도" + gpsGetLocationVo.getDogwalkerLatitude()
-                            + "도그워커 현재 경도" + gpsGetLocationVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
-
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getMarkerId());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoURL());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLatitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLongitude());
-                    Log.d("TEST", "onResponse: " + gpsGetLocationVo.getDogwalkerLatitude());
-                    Log.d("TEST", "onResponse: " + gpsGetLocationVo.getDogwalkerLongitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStartDogwalkerLatitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStartDogwalkerLongitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEndDogwalkerLatitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEndDogwalkerLongitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getWalkDistance());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getStart_time());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getEnd_time());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getWalkTime());
-
-                    *//**서버로부터 받은 데이터를 저장*//*
-                    dogwalkerLatitude = gpsGetLocationVo.getDogwalkerLatitude();
-                    dogwalkerLongitude = gpsGetLocationVo.getDogwalkerLongitude();
-
-                    dogwalkerRealtimeLocationPoint.add( new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
-                }
-                Log.d("TEST", "onResponse:END ");
-            }
-            @Override
-            public void onFailure(@NonNull Call<GpsLocationVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\n도그워커의 현재 위치를 전달받을 수 없습니다.",Toast.LENGTH_SHORT).show();
-                Log.d("TEST", "통신 실패");
-            }
-        });
-    }*/
 
 }// RealTimeGpsActivity
 
