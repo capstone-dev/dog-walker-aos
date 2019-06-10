@@ -40,29 +40,23 @@ public class PetView extends AppCompatActivity {
         String dogName=intent.getStringExtra("DogName");
         String dogtype=intent.getStringExtra("DogType");
         String dogage=intent.getStringExtra("DogAge");
-        byte[] arr = getIntent().getByteArrayExtra("image");
-        bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-        PetImageText.setImageBitmap(bitmap);
-
 
         nameText.setText(dogName);
         typeText.setText(dogtype);
         ageText.setText(dogage);
 
 
-
-          MainButton.setOnClickListener(new View.OnClickListener() {
+        MainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent loginIntent = new Intent(PetView.this, MainActivity.class);
-                loginIntent.putExtra("DogName",dogName);
-                loginIntent.putExtra("DogType",dogtype);
-                loginIntent.putExtra("Dogage",dogage);
+
 
                 PetView.this.startActivity(loginIntent);
+
+
             }
         });
-
 
 
 
