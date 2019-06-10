@@ -274,24 +274,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="MissingConstraints" />
 
-                    <Button
-                        android:id="@+id/thread_delete_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:background="#FF6666"
-                        android:onClick="onClickDeleteButton"
-                        android:padding="6dp"
-                        android:text="삭제"
-                        android:textColor="#ffffff"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/thread_register_button"
-                        tools:ignore="MissingConstraints" />
-
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.constraint.ConstraintLayout>

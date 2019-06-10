@@ -55,7 +55,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.userCommunity.UserCommunityMainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity
             android:name=".activity.login.LoginMainActivity"
             android:label="dog.walker"

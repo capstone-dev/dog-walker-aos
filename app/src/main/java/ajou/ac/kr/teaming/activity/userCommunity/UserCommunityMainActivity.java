@@ -1,11 +1,18 @@
 package ajou.ac.kr.teaming.activity.userCommunity;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +23,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import ajou.ac.kr.teaming.activity.MainActivity;
+import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
+import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
+import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
+import ajou.ac.kr.teaming.activity.login.MyPetActivity;
+import ajou.ac.kr.teaming.activity.myService.MyServiceMainActivity;
+import ajou.ac.kr.teaming.activity.reservation.ReservationActivity;
 import ajou.ac.kr.teaming.activity.userCommunity.UserCommunityContent.UserCommunityContentActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.vo.RegisterVO;
@@ -32,7 +47,7 @@ import retrofit2.Response;
  * <p> 사용자 커뮤니티 intent Mainactivity </p>
  */
 public class UserCommunityMainActivity extends AppCompatActivity implements
-        UserCommunityThreadAdapter.OnItemClickListener, UserCommunityThreadAdapter.OnModifyThreadClickListener {
+        UserCommunityThreadAdapter.OnItemClickListener, UserCommunityThreadAdapter.OnModifyThreadClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private UserCommunityService userCommunityService = ServiceBuilder.create(UserCommunityService.class);
     private RecyclerView userthreadView;
@@ -47,7 +62,10 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_community_main);
-
+        //툴바 선언
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //
         userthreadView = findViewById(R.id.user_community_thread_list);
         userthreadView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,6 +80,17 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
 
         Intent intent = getIntent();
         registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
+
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     /**
@@ -221,6 +250,53 @@ public class UserCommunityMainActivity extends AppCompatActivity implements
         if(searchForm.length()==0){
             Toast.makeText(this, "검색어에 1자 이상 입력하세요", Toast.LENGTH_SHORT).show();
             return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        int id = item.getItemId();
+        Intent intent = null;
+
+        if (id == R.id.nav_search) {
+            //예약 페이지로 이동
+            Intent fintent = new Intent(UserCommunityMainActivity.this, ReservationActivity.class);
+            fintent.putExtra("RegisterVO", registerVO);
+            startActivity(fintent);
+        } else if (id == R.id.nav_my) {
+            Intent my = new Intent(UserCommunityMainActivity.this, DogwalkerRegister.class);
+            my.putExtra("RegisterVO", registerVO);
+            startActivity(my);
+        } else if (id == R.id.user_community) {
+            Intent fintent = new Intent(UserCommunityMainActivity.this, UserCommunityMainActivity.class);
+            fintent.putExtra("RegisterVO", registerVO);
+            startActivity(fintent);
+        } else if (id == R.id.nav_gps) {
+            intent = new Intent(UserCommunityMainActivity.this, GpsMainActivity.class);
+        } else if (id == R.id.nav_dogwalker_gps) {
+            intent = new Intent(UserCommunityMainActivity.this, DogwalkerGpsActivity.class);
+
+        }else if(id==R.id.nav_puppy){
+            Intent puppy = new Intent(UserCommunityMainActivity.this, MyPetActivity.class);
+            puppy.putExtra("RegisterVO", registerVO);
+            startActivity(puppy);
+
+        }else if (id == R.id.nav_logout) {
+            Intent logout = new Intent(UserCommunityMainActivity.this, LoginMainActivity.class);
+            logout.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(logout);
+        }else if(id==R.id.my_service){
+            Intent service=new Intent(UserCommunityMainActivity.this, MyServiceMainActivity.class);
+            service.putExtra("RegisterVO",registerVO);
+            startActivity(service);
+        }
+        if (intent != null) {
+            startActivity(intent);
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
         }
         return true;
     }
