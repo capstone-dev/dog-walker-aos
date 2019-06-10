@@ -872,7 +872,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     walkDistance = recentWalkDistance;
                     //산책이 끝난 시점의 시간을 end_time에 저장
                     end_time = currentTime;
-
+                    dataWalkTime = walkTime;
 
                     Long totalWalkTime = walkTime;
 
