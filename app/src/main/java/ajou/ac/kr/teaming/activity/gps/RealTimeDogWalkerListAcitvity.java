@@ -159,8 +159,8 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
             HashMap<String, Object> inputThread = new HashMap<>();
 
             inputThread.put("DogwalkerID", registerVO.getUserID());
-            inputThread.put("DogwalkerBigcity", registerVO.getUserBigcity());
-            inputThread.put("DogwalkerSmallcity", "test");
+            inputThread.put("DogwalkerBigcity", registerVO.getUserSmallcity());
+            inputThread.put("DogwalkerSmallcity", registerVO.getUserverySmallcity());
             inputThread.put("DogwalkerGender", registerVO.getUserGender());
             inputThread.put("selected", "0");
 

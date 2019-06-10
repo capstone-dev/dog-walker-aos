@@ -3,6 +3,7 @@ package ajou.ac.kr.teaming.activity.gps;
 import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -53,6 +54,7 @@ import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import ajou.ac.kr.teaming.vo.PhotoVO;
+import ajou.ac.kr.teaming.vo.ServiceVO;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -163,6 +165,8 @@ public class GpsMainActivity extends AppCompatActivity{
     private ArrayList<String> mArrayLineID;
     private static int mLineID;
     private int photoMarkerId;
+    private ServiceVO ServiceVO;
+    private int serviceId;
 
     /**
      * setSKTMapApiKey()에 ApiKey를 입력 한다.
@@ -201,14 +205,18 @@ public class GpsMainActivity extends AppCompatActivity{
         setGps();
         traceStart();
 
-
-
         mArrayMarkerID = new ArrayList<String>();;
         photoMarkerId = 0;
         mArrayLineID  = new ArrayList<String>();
         mLineID = 0;
 
 
+        Intent intent = getIntent();
+        ServiceVO = (ServiceVO) intent.getSerializableExtra("ServiceVo");
+        serviceId = ServiceVO.getId();
+
+
+        System.out.println(serviceId);
 
         /***
          * FAB버튼
@@ -596,7 +604,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getGpsInfo() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetGpsInfo(79); // TODO : 동적 할당이 되도록 만들기
+        Call<GpsVo> call = gpsService.doGetGpsInfo(serviceId); //TODO: 상품아이디 동적으로 변경하기
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
@@ -644,7 +652,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getMarkerInfo() {
         GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
-        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(79); //TODO : 동적 할당이 되도록 만들기
+        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(serviceId); //TODO: 상품아이디 동적으로 변경하기
         call.enqueue(new Callback <List<PhotoVO>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<PhotoVO>> call, @NonNull Response<List<PhotoVO>> response) {
@@ -682,7 +690,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getLocationInfo() {
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
-        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(79); //TODO : 동적 할당이 되도록 만들기
+        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(serviceId); //TODO: 상품아이디 동적으로 변경하기
         call.enqueue(new Callback<List<GpsLocationVo>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<GpsLocationVo>> call, @NonNull Response<List<GpsLocationVo>> response) {

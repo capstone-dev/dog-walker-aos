@@ -16,7 +16,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
@@ -45,13 +44,9 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,6 +63,7 @@ import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import ajou.ac.kr.teaming.vo.PhotoVO;
+import ajou.ac.kr.teaming.vo.ServiceVO;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -218,6 +214,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private BitmapFactory.Options options;
     private byte[] captureMapDataArray;
     private long dataWalkTime;
+    private ServiceVO ServiceVO;
+    private int serviceId;
 
 
 /*****************************************************************************/
@@ -349,6 +347,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 //            return;
 //        }
         setGps();
+
+
+        Intent intent = getIntent();
+        ServiceVO = (ServiceVO) intent.getSerializableExtra("ServiceVo");
+        serviceId = ServiceVO.getId();
+
+        System.out.println(serviceId);
+
 
         tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
         tMapGps.setMinDistance(10);
@@ -992,8 +998,9 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * 통신 테스트를 위해 임의의 값을 넣어봄.
          * **/
         HashMap<String, Object> params = new HashMap<>();
-        //TODO: 동적으로 할당하기
+        //TODO: 상품아이디 동적으로 변경하기
         //아이디는 서버에서 자동으로 생성
+        params.put("walkingServiceId", serviceId);
         params.put("startDogwalkerLatitude", startDogwalkerLatitude);
         params.put("startDogwalkerLongitude",startDogwalkerLongitude);
         params.put("endDogwalkerLatitude", dogwalkerLatitude);
@@ -1054,14 +1061,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * **/
         HashMap<String, Object> params = new HashMap<>();
         //TODO: 동적으로 할당하기
-        params.put("id", gpsId);
+        params.put("walkingServiceId", serviceId);
         params.put("endDogwalkerLatitude", dogwalkerLatitude);
         params.put("endDogwalkerLongitude",dogwalkerLongitude);
         params.put("walkDistance", walkDistance);
         params.put("walkTime",dataWalkTime);
 
 
-        Call<GpsVo> call = gpsService.putGpsData(gpsId,params);
+        Call<GpsVo> call = gpsService.putGpsData(serviceId,params);  //TODO: 상품아이디 동적으로 변경하기
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
@@ -1101,7 +1108,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("gpsId", gpsId); //gpsId = ?? TODO: 동적으로 할당하기
+        params.put("walkingServiceId", serviceId); //gpsId = ?? TODO: 상품아이디 동적으로 변경하기
         params.put("dogwalkerLatitude", dogwalkerLatitude); //double
         params.put("dogwalkerLongitude", dogwalkerLongitude);//double
 
@@ -1150,7 +1157,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         Map<String, RequestBody> params = new HashMap<>();
         params.put("fileUpload\"; filename=\"photo.png", fileBody); //photoData   //성공
-        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId))); //문제없음  //gpsId = 33 TODO: 상품아이디 동적으로 변경하기
+        params.put("walkingServiceId", RequestBody.create(MediaType.parse("text"),String.valueOf(serviceId))); //문제없음  //gpsId = 33 TODO: 상품아이디 동적으로 변경하기
         params.put("photoLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLatitude))));
         params.put("photoLongitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLongitude))));
 
