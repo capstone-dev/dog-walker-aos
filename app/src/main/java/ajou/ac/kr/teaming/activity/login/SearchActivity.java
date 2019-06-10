@@ -63,8 +63,6 @@ public class SearchActivity extends AppCompatActivity {
 
         dogwalkerThreadAdater = new DogwalkerThreadAdater(this::showThreadContentEvent);
         Dogwalker_list.setAdapter(dogwalkerThreadAdater);
-        setmypetthreadList();
-
 
 
 
@@ -158,19 +156,4 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-    public void setmypetthreadList() {
-
-
-        String year = YearSpinner.getSelectedItem().toString();
-        String month=MonthSpinner.getSelectedItem().toString();
-        String day =daySpinner.getSelectedItem().toString();
-        String userbigcity = BigcityText.getText().toString();
-        String usersmallcity = SmallcityText.getText().toString();
-        String usertime = TimeSpinner.getSelectedItem().toString();
-
-
-
-
-
-    }
     }
