@@ -33,6 +33,10 @@ public class LoginMainActivity extends AppCompatActivity {
     Button loginButton;
     TextView registerButton;
     LoginService loginService;
+RegisterVO registerVO;
+DogwalkerVO dogwalkerVO;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,9 @@ public class LoginMainActivity extends AppCompatActivity {
 
                     //dologin
                     doLogin(userid, userpassword);
+
+
+
                 }
 
 
@@ -100,18 +107,18 @@ public class LoginMainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
                     if (response.isSuccessful()) {
-                        RegisterVO registerVO = response.body();
+                        registerVO = response.body();
 
 
                         if (registerVO != null) {
                             Log.d("TEST", registerVO.getUserID());
                             Log.d("TEST", registerVO.getUserPassword());
 
-                        }
+                            Intent intent = new Intent(LoginMainActivity.this, MainActivity.class);
+                            intent.putExtra("registerVO", registerVO);
+                            startActivity(intent);
 
-                        Intent intent = new Intent(LoginMainActivity.this, MainActivity.class);
-                        intent.putExtra("registerVO", registerVO);
-                        startActivity(intent);
+                        }
                     }
 
                 }
@@ -125,17 +132,8 @@ public class LoginMainActivity extends AppCompatActivity {
                 }
             });
 
-            Call<DogwalkerVO> call1=loginService.Login(userid,userpassword);
-            call.enqueue(new Callback<RegisterVO>() {
-                @Override
-                public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
 
-                }
 
-                @Override
-                public void onFailure(Call<RegisterVO> call, Throwable t) {
 
-                }
-            });
         }
     }

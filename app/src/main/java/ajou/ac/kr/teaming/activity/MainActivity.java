@@ -45,6 +45,7 @@ import ajou.ac.kr.teaming.service.sample.SampleService;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.servicePay.ServicePayService;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
+import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.ServiceVO;
 import okhttp3.ResponseBody;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private HistoryService historyService = ServiceBuilder.create(HistoryService.class);
     private GpsService gpsService = ServiceBuilder.create(GpsService.class);
     private RegisterVO registerVO;
+    private DogwalkerVO dogwalkerVO;
     private FloatingActionButton messageButton;
 
 

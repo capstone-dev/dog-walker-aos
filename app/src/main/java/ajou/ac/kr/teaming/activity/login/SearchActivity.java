@@ -140,21 +140,6 @@ public class SearchActivity extends AppCompatActivity {
         String usertime = TimeSpinner.getSelectedItem().toString();
 
 
-Call<List<DogwalkerVO>> request = DogwalkerThreadService.dogwalkerThread(year,month,day,userbigcity,usersmallcity,usertime);
-request.enqueue(new Callback<List<DogwalkerVO>>() {
-    @Override
-    public void onResponse(Call<List<DogwalkerVO>> call, Response<List<DogwalkerVO>> response) {
-        List<DogwalkerVO> dogwalkerVOS=response.body();
-
-    }
-
-    @Override
-    public void onFailure(Call<List<DogwalkerVO>> call, Throwable t) {
-
-    }
-});
-
-
 
 
 

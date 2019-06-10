@@ -12,14 +12,6 @@ public interface DogwalkerRegisterService {
 
 
 
-
-
-    /*@Multipart
-    @POST("/dogwalkerInfo")
-    Void create_board(@Body DogwalkerVO dogwalkerVO, Callback<DogwalkerVO> bd);
-*/
-
-
     @FormUrlEncoded
     @POST("/dogwalkerInfo")
     Call<DogwalkerVO> post(@FieldMap HashMap<String, Object> param);
