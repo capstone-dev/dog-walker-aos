@@ -5,6 +5,7 @@ import java.util.Map;
 
 import ajou.ac.kr.teaming.vo.GpsVo;
 import ajou.ac.kr.teaming.vo.RegisterVO;
+import ajou.ac.kr.teaming.vo.ServiceVO;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -33,5 +34,10 @@ public interface GpsService {
     Call<GpsVo> putGpsData(@Query("id") int gpsId, @FieldMap HashMap<String, Object> parameters);
     //Query
 
+
+    @FormUrlEncoded
+    @PUT("/walkingService")
+    Call<ServiceVO> putGpsIdDataToWalkingService(@FieldMap HashMap<String, Object> parameters);
+    //Query
 
 } //GpsService

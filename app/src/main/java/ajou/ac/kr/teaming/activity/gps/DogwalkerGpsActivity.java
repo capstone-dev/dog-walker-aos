@@ -1038,6 +1038,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     }
                     Log.d("TEST", "onResponse:END ");
                 }
+                putGpsIdDataToWalkingService(); //gpsId값을 WalkingService 테이블에 전달
             }
             @Override
             public void onFailure(Call<GpsVo> call, Throwable t) {
@@ -1045,6 +1046,44 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 Log.d("TEST", "Retrofit 통신 실패\n산책 정보를 전송할 수 없습니다.");
             }
         });
+
+    }
+
+    private void putGpsIdDataToWalkingService() {//gpsId가 생성되면, WalkingService 테이블에 있는 gpsId에 put을 하여 데이터를 갱신해준다.
+        GpsService gpsService = ServiceBuilder.create(GpsService.class);
+        /**
+         * 통신 테스트를 위해 임의의 값을 넣어봄.
+         * **/
+        HashMap<String, Object> params = new HashMap<>();
+        //TODO: 동적으로 할당하기
+        params.put("id", serviceId);
+        params.put("gpsId", gpsId);
+
+        Call<ServiceVO> call = gpsService.putGpsIdDataToWalkingService(params);  //TODO: 상품아이디 동적으로 변경하기
+        call.enqueue(new Callback<ServiceVO>() { //비동기적 호출
+            @Override
+            public void onResponse(Call<ServiceVO> call, Response<ServiceVO> response) {
+                if (response.isSuccessful()) {
+                    ServiceVO serviceVO = response.body();
+                    Log.d("TEST", "" + serviceVO.getId());
+                    Log.d("TEST", "" + serviceVO.getGpsId());
+
+                    Log.d("TEST 서버전송", "WalkingService 테이블 통신 gpsId PUT 성공");
+
+                    if (serviceVO != null) {
+                    }
+
+                    Log.d("TEST", "onResponse:END ");
+                }
+            }
+            @Override
+            public void onFailure(Call<ServiceVO> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패\nWalkingService 테이블의 gpsId를 변경할 수 없습니다.",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "Retrofit 통신 실패\nWalkingService 테이블의 gpsId를 변경할 수 없습니다.");
+            }
+        });
+
+
 
     }
 
@@ -1083,6 +1122,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     Log.d("TEST", "" + gpsVo.getWalkTime());
 
                     postLocationData();
+
                     if (gpsVo != null) {
                     }
                     Log.d("TEST", "onResponse:END ");
