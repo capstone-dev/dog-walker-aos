@@ -1,6 +1,8 @@
 package ajou.ac.kr.teaming.vo;
 
-public class MessageVO {
+import java.io.Serializable;
+
+public class MessageVO implements Serializable {
 
     String user_name;
     String user_message;

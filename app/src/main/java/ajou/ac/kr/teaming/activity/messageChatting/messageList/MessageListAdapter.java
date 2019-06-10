@@ -3,6 +3,7 @@ package ajou.ac.kr.teaming.activity.messageChatting.messageList;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,12 @@ public class MessageListAdapter extends RecyclerView.Adapter<UserMessageViewHold
 
     //시스템 아이디와 chatDataVO.OPPONENT 아이디와 똑같을때 리스트에 추가
     public void add(ChatDataVO chatDataVO) {
+        MessageVO messageVO = new MessageVO();
+        messageVO.setUser_name(chatDataVO.userId);
+        messageVO.setUser_message(chatDataVO.message);
+        messageVO.setUser_message_date(chatDataVO.time);
+        messageVOArrayList.add(messageVO);
+        notifyDataSetChanged();
     }
 }
 

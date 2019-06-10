@@ -96,6 +96,14 @@
             android:name=".activity.gps.DogwalkerGpsResult"
             android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".activity.messageChatting.messageList.MessageListMainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+
+        <activity android:name=".activity.messageChatting.messageList.MessagePopUpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/popupTheme" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="ajou.ac.kr.teaming"
