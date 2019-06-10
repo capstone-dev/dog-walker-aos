@@ -876,6 +876,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
                     Long totalWalkTime = walkTime;
 
+                    putGpsData();
 //                    tMapView.getCaptureImage(20, new TMapView.MapCaptureImageListenerCallback() {
 //                        @Override
 //                        public void onMapCaptureImage(Bitmap bitmap) {
@@ -886,8 +887,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 //                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //                    captureMapImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 //                    captureMapDataArray = baos.toByteArray();
-
-
 
                     /**
                      * 결과화면으로 데이터를 보내는 것들
@@ -941,7 +940,6 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                             if (!file.exists()) {
                                 file.mkdirs();
                             }
-
                             if (file.exists()) {
                                 OutputStream out = null;
                                 String fileName = System.currentTimeMillis() + ".png";
