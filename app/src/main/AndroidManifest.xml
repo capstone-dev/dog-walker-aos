@@ -51,7 +51,8 @@
         <activity
             android:name=".activity.login.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.userCommunity.UserCommunityThreadRegisterActivity" />
+        <activity android:name=".activity.userCommunity.UserCommunityThreadRegisterActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.userCommunity.UserCommunityMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
