@@ -82,7 +82,7 @@ public class DogwalkerThreadAdater extends RecyclerView.Adapter<DogwalkerThreadV
 
             public DogwalkerThreadViewHolder(@NonNull View itemView) {
                 super(itemView);
-                constraintLayout = itemView.findViewById(R.id.search_thread);
+                constraintLayout = itemView.findViewById(R.id.Dogwalker_list);
                 user_name = itemView.findViewById(R.id.user_name);
                 user_info = itemView.findViewById(R.id.user_info);
             }

@@ -153,9 +153,7 @@ public class DogwalkerRegister extends AppCompatActivity {
 
 
                         Intent vintent = new Intent(DogwalkerRegister.this, MainActivity.class);
-                        vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
-                        vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
-                        vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
+                        vintent.putExtra("registerVO",registerVO);
                         startActivity(vintent);
                     }
                 });
