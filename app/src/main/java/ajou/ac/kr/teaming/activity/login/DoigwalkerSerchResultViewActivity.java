@@ -52,11 +52,11 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
-String username=intent.getStringExtra("UserName");
+        String username=intent.getStringExtra("UserName");
         String userbigcity=intent.getStringExtra("UserBigcity");
-        String usersmallcity=intent.getStringExtra("UserSamllcity");
+        String usersmallcity=intent.getStringExtra("UserSmallcity");
         String userinfo =intent.getStringExtra("UserInfo");
-        String userverysmallcity=intent.getStringExtra("UserverySmaallcity");
+        String userverysmallcity=intent.getStringExtra("UserverySmallcity");
         String usertime=intent.getStringExtra("UserTime");
 
 
@@ -94,8 +94,9 @@ String username=intent.getStringExtra("UserName");
             @Override
             public void onClick(View view) {
 
-                Intent message = new Intent(DoigwalkerSerchResultViewActivity.this, MainActivity.class);
-                DoigwalkerSerchResultViewActivity.this.startActivity(message);
+                Intent intent1 = new Intent(DoigwalkerSerchResultViewActivity.this, MainActivity.class);
+                intent1.putExtra("registerVO",registerVO);
+                DoigwalkerSerchResultViewActivity.this.startActivity(intent1);
 
             }
         });

@@ -73,9 +73,9 @@ public class DogwalkerRegister extends AppCompatActivity {
     TextView idText;
     TextView BigcityText;
     EditText siText,DayText;
-    EditText Dong1Text, Dong3Text, Dong2Text;
-    Spinner Time3Spinner, Time1Spinner, Time2Spinner;
-    ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
+    EditText Dong1Text;
+    Spinner Time3Spinner;
+    ArrayAdapter<CharSequence>adapter3;
     ImageView DogwalkerImage;
     EditText InfoText;
 

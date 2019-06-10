@@ -54,7 +54,13 @@ public class DogwalkerThreadAdater extends RecyclerView.Adapter<DogwalkerThreadV
         DogwalkerVO dogwalkerVO=DogwalkerVOArrayList.get(i);
         dogwalkerThreadViewHolder.username.setText(dogwalkerVO.getUserID());
         dogwalkerThreadViewHolder.userinfo.setText(dogwalkerVO.getUserInfo());
+        dogwalkerThreadViewHolder.userverysmallcity.setText(dogwalkerVO.getUserverySmallcity());
+        dogwalkerThreadViewHolder.usertime.setText(dogwalkerVO.getUserTime());
+        dogwalkerThreadViewHolder.usersmallcity.setText(dogwalkerVO.getUserSmallcity());
+        dogwalkerThreadViewHolder.userbigcity.setText(dogwalkerVO.getUserBigcity());
+
         dogwalkerThreadViewHolder.constraintLayout.setOnClickListener(view -> onItemClickListener.
+
                 showThreadContentEvent(view,DogwalkerVOArrayList.get(i)));
 
     }
@@ -79,6 +85,11 @@ public class DogwalkerThreadAdater extends RecyclerView.Adapter<DogwalkerThreadV
 
             TextView username;
             TextView userinfo;
+            TextView userbigcity;
+            TextView usersmallcity;
+            TextView usertime;
+            TextView userverysmallcity;
+
 
 
             ConstraintLayout constraintLayout;
@@ -88,6 +99,10 @@ public class DogwalkerThreadAdater extends RecyclerView.Adapter<DogwalkerThreadV
                 constraintLayout = itemView.findViewById(R.id.search_thread);
                 username = itemView.findViewById(R.id.username);
                 userinfo = itemView.findViewById(R.id.userinfo);
+                userbigcity=itemView.findViewById(R.id.userbigcity);
+                usersmallcity=itemView.findViewById(R.id.usersmallcity);
+                usertime=itemView.findViewById(R.id.usertime);
+                userverysmallcity=itemView.findViewById(R.id.userverysmallcity);
 
             }
         }

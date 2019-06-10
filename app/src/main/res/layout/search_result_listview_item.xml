@@ -26,6 +26,43 @@
         app:layout_constraintLeft_toRightOf="@id/username"
         tools:ignore="MissingConstraints" />
 
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:id="@+id/usersmallcity"
+        android:text="시"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/userinfo"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:id="@+id/userbigcity"
+        android:text="도"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/usersmallcity"
+        tools:ignore="MissingConstraints" />
+
+
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:id="@+id/userverysmallcity"
+        android:text="도시"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/userbigcity"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:layout_height="40dp"
+        android:layout_width="25dp"
+        android:id="@+id/usertime"
+        android:text="시간"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/userverysmallcity"
+        tools:ignore="MissingConstraints" />
 
 </android.support.constraint.ConstraintLayout>
 

@@ -161,7 +161,7 @@ public class SearchActivity extends AppCompatActivity {
         Intent vintent = new Intent(SearchActivity.this, DoigwalkerSerchResultViewActivity.class);
         vintent.putExtra("UserName",dogwalkerVO.getUserID());
         vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
-        vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
+        vintent.putExtra("UserSmallcity",dogwalkerVO.getUserSmallcity());
         vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
         vintent.putExtra("UserInfo",dogwalkerVO.getUserInfo());
         vintent.putExtra("UserTime",dogwalkerVO.getUserTime());
