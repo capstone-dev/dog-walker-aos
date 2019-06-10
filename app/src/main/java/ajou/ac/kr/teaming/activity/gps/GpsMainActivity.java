@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -13,7 +12,6 @@ import android.graphics.PointF;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -32,7 +30,6 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.skt.Tmap.TMapData;
 import com.skt.Tmap.TMapGpsManager;
-import com.skt.Tmap.TMapInfo;
 import com.skt.Tmap.TMapLabelInfo;
 import com.skt.Tmap.TMapMarkerItem;
 import com.skt.Tmap.TMapPOIItem;
@@ -42,12 +39,6 @@ import com.skt.Tmap.TMapView;
 import com.squareup.picasso.Picasso;
 
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,7 +51,6 @@ import ajou.ac.kr.teaming.service.gps.GpsDogwalkerLocationService;
 import ajou.ac.kr.teaming.service.gps.GpsMarkerService;
 import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
-import ajou.ac.kr.teaming.vo.GpsMarkerVo;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import ajou.ac.kr.teaming.vo.PhotoVO;
 import retrofit2.Call;
@@ -170,6 +160,9 @@ public class GpsMainActivity extends AppCompatActivity{
     private TextView txtShowWalkDistance;
     private TextView txtShowWalkTime;
     private int gpsId;
+    private ArrayList<String> mArrayLineID;
+    private static int mLineID;
+    private int photoMarkerId;
 
     /**
      * setSKTMapApiKey()에 ApiKey를 입력 한다.
@@ -206,10 +199,15 @@ public class GpsMainActivity extends AppCompatActivity{
 
 
         setGps();
-        //이동경로를 그리기 전 도그워커의 GPS INFO를 받아와야함.
         traceStart();
-        //도그워커 이동경로 그리기
-     //   showDistanceAndTime(); //도그워커의 이동거리 및 시간 보여주기
+
+
+
+        mArrayMarkerID = new ArrayList<String>();;
+        photoMarkerId = 0;
+        mArrayLineID  = new ArrayList<String>();
+        mLineID = 0;
+
 
 
         /***
@@ -221,13 +219,19 @@ public class GpsMainActivity extends AppCompatActivity{
         btnTrackDogWalkerFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tMapView.setZoomLevel(17);
+                tMapView.setZoomLevel(19);
                 tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
                 Toast.makeText(getApplicationContext(), "도그워커의 현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
 
-                getLocationInfo();
-                getMarkerInfo();
-                drawPedestrianPath();
+                alTMapPoint.clear();
+                mArrayLineID.clear();
+
+                if(alTMapPoint.size() == 0 && mArrayLineID.size() == 0) {
+                    getGpsInfo();
+                    getLocationInfo();
+                    getMarkerInfo();
+                    drawPedestrianPath();
+                }
             }
         });
 
@@ -428,6 +432,12 @@ public class GpsMainActivity extends AppCompatActivity{
     }
 
 
+
+
+
+
+
+
     /**
      * 마커에 포함된 사진 hidden
      * @param view
@@ -442,15 +452,33 @@ public class GpsMainActivity extends AppCompatActivity{
      * showMarkerPoint
      * 지도에 마커를 표출한다.
      *
-     */ //TODO : 도그워커가 찍은 사진 불러와 마커 생성
+     */
 
     public void showMarkerPoint(int photoId, double photoLatitude, double photoLongitude) {
         TMapMarkerItem markerItem = new TMapMarkerItem();
         markerItem.setTMapPoint(new TMapPoint(photoLatitude, photoLongitude));
         markerItem.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.map_pin_red));
         tMapView.addMarkerItem("" + photoId, markerItem);
+        String strID = String.format("%d", photoMarkerId++);
+        mArrayMarkerID.add(strID);
     }
+    /**
+     * showMarkerPoint
+     * 지도에 마커를 표출한다.
+     *
+     */
 
+    public void removeMarker() {
+        if(mArrayMarkerID.size() <= 0 )
+            return;
+
+        for(int i=0;i<mArrayMarkerID.size();i++) {
+            String strMarkerID = mArrayMarkerID.get(i);
+            tMapView.removeMarkerItem(strMarkerID);
+            mArrayMarkerID.remove(strMarkerID);
+        }
+        Log.e(TAG, "마커 삭제");
+    }
 
 
     /**
@@ -460,12 +488,29 @@ public class GpsMainActivity extends AppCompatActivity{
         TMapPolyLine tMapPolyLine = new TMapPolyLine();
         tMapPolyLine.setLineColor(Color.YELLOW);
         tMapPolyLine.setLineWidth(2);
-        for( int i=0; i<alTMapPoint.size(); i++ ) {
+        for( int i = 0; i < alTMapPoint.size(); i++ ) {
             tMapPolyLine.addLinePoint( alTMapPoint.get(i) );
         }
-        tMapView.addTMapPolyLine("Line1", tMapPolyLine);
+        String strID = String.format("%d", mLineID++);
+        tMapView.addTMapPolyLine(strID, tMapPolyLine);
+        mArrayLineID.add(strID);
     }
 
+
+    /**
+     * erasePedestrianPath
+     * 지도에 라인을 제거하는 메소드
+     */
+    public void erasePedestrianPath() {
+        if(mArrayLineID.size() <= 0)
+            return;
+        for(int i = 0; i < mArrayLineID.size();i++) {
+            String strLineID = mArrayLineID.get(i);
+            tMapView.removeTMapPolyLine(strLineID);
+            mArrayLineID.remove(strLineID);
+        }
+        Log.e(TAG, "길 표시 삭제");
+    }
 
     /**
      * 도그워커의 산책시간 및 이동거리를 표시해주는 메소드
@@ -516,17 +561,15 @@ public class GpsMainActivity extends AppCompatActivity{
          * */
 
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(GpsMainActivity.this);
-        alert_confirm.setMessage("확인 버튼을 눌러 도그워커 추적을 시작합니다.")
+        alert_confirm.setMessage("확인 버튼을 눌러 도그워커 추적을 시작합니다.\n노란색 추적 버튼을 이용해 도그워커의 현재 위치를 찾고 산책 정보를 갱신할 수 있습니다.")
                 .setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
-
                         getGpsInfo();
                         getLocationInfo();
                         getMarkerInfo();
-
                     }
                 }).setNegativeButton("뒤로 가기",
                 new DialogInterface.OnClickListener() {
@@ -583,8 +626,6 @@ public class GpsMainActivity extends AppCompatActivity{
                     walkTime = gpsGetVo.getWalkTime();
 
                     showDistanceAndTime();
-                    alTMapPoint.add( new TMapPoint(startDogwalkerLatitude, startDogwalkerLongitude) ); // 도그워커 출발지점
-                   // alTMapPoint.add( new TMapPoint(endDogwalkerLatitude,endDogwalkerLongitude)); //도그워커 마지막지점
                 }
                 Log.d("TEST", "도그워커 산책정보 받기 성공");
             }
@@ -656,7 +697,8 @@ public class GpsMainActivity extends AppCompatActivity{
 
                         /**서버로부터 받은 데이터를 저장*/
                         alTMapPoint.add(new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
-
+                        drawPedestrianPath();
+                        tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
                     }
 
                 }
