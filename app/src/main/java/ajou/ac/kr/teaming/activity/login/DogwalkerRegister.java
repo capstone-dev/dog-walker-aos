@@ -139,7 +139,7 @@ public class DogwalkerRegister extends AppCompatActivity {
                     public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
                         if (response.isSuccessful()) {
                             DogwalkerVO dogwalkerVO = response.body();
-                            Intent vintent = new Intent(DogwalkerRegister.this, PetView.class);
+                            Intent vintent = new Intent(DogwalkerRegister.this, MainActivity.class);
                             vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
                             vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
                             vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
@@ -152,7 +152,7 @@ public class DogwalkerRegister extends AppCompatActivity {
                     public void onFailure(Call<DogwalkerVO> call, Throwable t) {
 
 
-                        Intent vintent = new Intent(DogwalkerRegister.this, PetView.class);
+                        Intent vintent = new Intent(DogwalkerRegister.this, MainActivity.class);
                         vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
                         vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
                         vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
