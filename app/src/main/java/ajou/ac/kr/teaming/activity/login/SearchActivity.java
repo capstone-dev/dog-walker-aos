@@ -115,9 +115,12 @@ public class SearchActivity extends AppCompatActivity {
                         ArrayList<DogwalkerVO> dogwalkerlist=new ArrayList<>();
                         if (dogwalkerVOS !=null){
                             for (DogwalkerVO dogwalkerVO:dogwalkerVOS){
+                                dogwalkerlist.add(dogwalkerVO);
 
 
                             }
+                            dogwalkerThreadAdater.addThread(dogwalkerlist);
+
 
                         }
                     }

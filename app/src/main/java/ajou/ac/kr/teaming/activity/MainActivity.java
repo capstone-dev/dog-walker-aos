@@ -139,9 +139,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setMyServiceList();
         setDogwalkerServiceList();
 
-        String dogName=intent.getStringExtra("DogName");
-        String dogtype=intent.getStringExtra("DogType");
-        String dogage=intent.getStringExtra("DogAge");
+
+        String userBigcity=intent.getStringExtra("UserBigcity");
+        String userSmallcity=intent.getStringExtra("UserSmallcity");
+        String userverySmallcity=intent.getStringExtra("UserverySmallcity");
 
     }
 
