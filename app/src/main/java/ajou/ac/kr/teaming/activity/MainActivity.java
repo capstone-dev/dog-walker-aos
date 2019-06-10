@@ -1,9 +1,11 @@
 package ajou.ac.kr.teaming.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -306,9 +308,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void clickMyServiceEvent(View view, ServiceVO serviceVO) {
 
         if (registerVO.getUserID().equals(serviceVO.getUser_UserID())) { //사용자일때
+            if ((serviceVO.getGpsId() == 0)){//gpsId 가 null이라면 도그워커가 산책을 하지 않은 것.
+                AlertDialog.Builder innBuilder = new AlertDialog.Builder(MainActivity.this);
+                innBuilder.setTitle("도그워커가 산책을 시작하지 않았습니다.");
+                innBuilder.setPositiveButton(
+                                "확인",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(
+                                            DialogInterface dialog,
+                                            int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                innBuilder.show();
+
+            } else { //gpsId가 존재한다면
             Intent intent = new Intent(MainActivity.this, GpsMainActivity.class); //사용자 전용 gps 액티비티로 이동
             intent.putExtra("ServiceVo", serviceVO);
             startActivity(intent);
+            }
 
         } else if (registerVO.getUserID().equals(serviceVO.getUser_DogwalkerID())){ //로그인한 사람이 도그워커일때
             Intent intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class); //도그워커 전용 gps 액티비티로 이동

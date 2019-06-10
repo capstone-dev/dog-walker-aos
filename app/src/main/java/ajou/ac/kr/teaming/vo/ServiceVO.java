@@ -10,6 +10,7 @@ public class ServiceVO implements Serializable {
     private String user_DogwalkerID;
     private String serviceLocation;
     private String peopleNumber;
+    private int gpsId;
 
     public int getId() {
         return id;
@@ -65,5 +66,13 @@ public class ServiceVO implements Serializable {
 
     public void setPeopleNumber(String peopleNumber) {
         this.peopleNumber = peopleNumber;
+    }
+
+    public int getGpsId() {
+        return gpsId;
+    }
+
+    public void setGpsId(int gpsId) {
+        this.gpsId = gpsId;
     }
 }

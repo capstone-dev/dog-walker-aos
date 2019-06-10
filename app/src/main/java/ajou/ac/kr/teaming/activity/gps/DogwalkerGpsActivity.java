@@ -1061,14 +1061,14 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
          * **/
         HashMap<String, Object> params = new HashMap<>();
         //TODO: 동적으로 할당하기
-        params.put("walkingServiceId", serviceId);
+        params.put("id", gpsId);
         params.put("endDogwalkerLatitude", dogwalkerLatitude);
         params.put("endDogwalkerLongitude",dogwalkerLongitude);
         params.put("walkDistance", walkDistance);
         params.put("walkTime",dataWalkTime);
 
 
-        Call<GpsVo> call = gpsService.putGpsData(serviceId,params);  //TODO: 상품아이디 동적으로 변경하기
+        Call<GpsVo> call = gpsService.putGpsData(gpsId,params);  //TODO: 상품아이디 동적으로 변경하기
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(Call<GpsVo> call, Response<GpsVo> response) {
@@ -1108,7 +1108,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
 
         HashMap<String, Object> params = new HashMap<>();
-        params.put("walkingServiceId", serviceId); //gpsId = ?? TODO: 상품아이디 동적으로 변경하기
+        params.put("gpsId", gpsId); //gpsId = ?? TODO: 상품아이디 동적으로 변경하기
         params.put("dogwalkerLatitude", dogwalkerLatitude); //double
         params.put("dogwalkerLongitude", dogwalkerLongitude);//double
 
@@ -1157,7 +1157,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         Map<String, RequestBody> params = new HashMap<>();
         params.put("fileUpload\"; filename=\"photo.png", fileBody); //photoData   //성공
-        params.put("walkingServiceId", RequestBody.create(MediaType.parse("text"),String.valueOf(serviceId))); //문제없음  //gpsId = 33 TODO: 상품아이디 동적으로 변경하기
+        params.put("gpsId", RequestBody.create(MediaType.parse("text"),String.valueOf(gpsId))); //문제없음  //gpsId = 33 TODO: 상품아이디 동적으로 변경하기
         params.put("photoLatitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLatitude))));
         params.put("photoLongitude", RequestBody.create(MediaType.parse("text"), (String.valueOf(photoLongitude))));
 
