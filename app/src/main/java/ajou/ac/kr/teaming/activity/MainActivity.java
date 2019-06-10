@@ -31,6 +31,7 @@ import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
 import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
+import ajou.ac.kr.teaming.activity.login.MyActivity;
 import ajou.ac.kr.teaming.activity.login.MyPageModifyActivity;
 import ajou.ac.kr.teaming.activity.login.MyPetActivity;
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
@@ -194,13 +195,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_search) {
             //예약 페이지로 이동
             Intent fintent = new Intent(MainActivity.this, ReservationActivity.class);
-            fintent.putExtra("RegisterVO", registerVO);
+            fintent.putExtra("registerVO", registerVO);
             startActivity(fintent);
 
 
         } else if (id == R.id.nav_my) {
 
-            Intent my = new Intent(MainActivity.this, DogwalkerRegister.class);
+            Intent my = new Intent(MainActivity.this, MyActivity.class);
             my.putExtra("RegisterVO", registerVO);
             startActivity(my);
 
@@ -212,20 +213,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(fintent);
 
 
-//        } else if (id == R.id.nav_gps) {
-//
-//            intent = new Intent(MainActivity.this, GpsMainActivity.class);
-//
-//
-//        } else if (id == R.id.nav_dogwalker_gps) {
-//
-//            intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class);
-
 
         }else if(id==R.id.nav_puppy){
 
             Intent puppy = new Intent(MainActivity.this, MyPetActivity.class);
-            puppy.putExtra("RegisterVO", registerVO);
+            puppy.putExtra("registerVO", registerVO);
             startActivity(puppy);
 
 

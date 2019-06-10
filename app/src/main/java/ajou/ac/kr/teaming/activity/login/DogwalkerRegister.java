@@ -101,7 +101,7 @@ public class DogwalkerRegister extends AppCompatActivity {
 
 
         Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
         idText.setText(registerVO.getUserID());
         BigcityText.setText(registerVO.getUserBigcity());

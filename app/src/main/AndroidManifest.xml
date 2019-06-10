@@ -23,7 +23,6 @@
         android:theme="@style/AppTheme">
         <activity android:name=".activity.login.PetView"></activity>
         <activity android:name=".activity.login.MyPetActivity" />
-        <activity android:name=".activity.login.MyPetResultViewActivity" />
         <activity android:name=".activity.login.DoigwalkerSerchResultViewActivity" />
         <activity android:name=".activity.login.MyPageModifyActivity" />
         <activity android:name=".activity.login.PetRegisterActivity" />

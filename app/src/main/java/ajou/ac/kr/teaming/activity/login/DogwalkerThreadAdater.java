@@ -52,9 +52,10 @@ public class DogwalkerThreadAdater extends RecyclerView.Adapter<DogwalkerThreadV
     @Override
     public void onBindViewHolder(@NonNull DogwalkerThreadViewHolder dogwalkerThreadViewHolder, int i) {
         DogwalkerVO dogwalkerVO=DogwalkerVOArrayList.get(i);
-        dogwalkerThreadViewHolder.user_name.setText(dogwalkerVO.getUserID());
-        dogwalkerThreadViewHolder.user_info.setText(dogwalkerVO.getUserInfo());
-        dogwalkerThreadViewHolder.constraintLayout.setOnClickListener(view -> onItemClickListener.showThreadContentEvent(view,DogwalkerVOArrayList.get(i)));
+        dogwalkerThreadViewHolder.username.setText(dogwalkerVO.getUserID());
+        dogwalkerThreadViewHolder.userinfo.setText(dogwalkerVO.getUserInfo());
+        dogwalkerThreadViewHolder.constraintLayout.setOnClickListener(view -> onItemClickListener.
+                showThreadContentEvent(view,DogwalkerVOArrayList.get(i)));
 
     }
 
@@ -76,14 +77,17 @@ public class DogwalkerThreadAdater extends RecyclerView.Adapter<DogwalkerThreadV
 
         class DogwalkerThreadViewHolder extends RecyclerView.ViewHolder {
 
-            TextView user_name;
-            TextView user_info;
+            TextView username;
+            TextView userinfo;
+
+
             ConstraintLayout constraintLayout;
 
             public DogwalkerThreadViewHolder(@NonNull View itemView) {
                 super(itemView);
-                constraintLayout = itemView.findViewById(R.id.Dogwalker_list);
-                user_name = itemView.findViewById(R.id.user_name);
-                user_info = itemView.findViewById(R.id.user_info);
+                constraintLayout = itemView.findViewById(R.id.search_thread);
+                username = itemView.findViewById(R.id.username);
+                userinfo = itemView.findViewById(R.id.userinfo);
+
             }
         }

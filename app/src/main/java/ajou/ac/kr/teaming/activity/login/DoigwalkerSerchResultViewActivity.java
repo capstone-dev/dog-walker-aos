@@ -23,7 +23,6 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
     Button ReservationButton;
     Button MainButton;
-    ImageView DogwalkerImageText;
     TextView nameText;
     TextView BigcityText;
     TextView siText;
@@ -32,7 +31,6 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
     TextView InfoText;
     DogwalkerVO dogwalkerVO;
     RegisterVO registerVO;
-    Bitmap bitmap;
 
 
     @Override
@@ -43,7 +41,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
         ReservationButton=(Button) findViewById(R.id.ReservationButton);
         MainButton=(Button)findViewById(R.id.MainButton);
-        DogwalkerImageText=(ImageView)findViewById(R.id.DogwalkerImageText);
+        nameText=(TextView)findViewById(R.id.nameText);
         BigcityText=(TextView)findViewById(R.id.BigcityText);
         siText=(TextView)findViewById(R.id.siText);
         DongText=(TextView)findViewById(R.id.DongText);
@@ -52,20 +50,22 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
 
 
-        Intent vintent = getIntent();
-        byte[] arr = getIntent().getByteArrayExtra("image");
-        bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-        DogwalkerImageText.setImageBitmap(bitmap);
-        dogwalkerVO=(DogwalkerVO) vintent. getSerializableExtra("DogwalkerVO");
+        Intent intent = getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
+String username=intent.getStringExtra("UserName");
+        String userbigcity=intent.getStringExtra("UserBigcity");
+        String usersmallcity=intent.getStringExtra("UserSamllcity");
+        String userinfo =intent.getStringExtra("UserInfo");
+        String userverysmallcity=intent.getStringExtra("UserverySmaallcity");
+        String usertime=intent.getStringExtra("UserTime");
 
 
-
-        nameText.setText(dogwalkerVO.getUserID());
-        BigcityText.setText(dogwalkerVO.getUserBigcity());
-        siText.setText(dogwalkerVO.getUserSmallcity());
-        DongText.setText(dogwalkerVO.getUserverySmallcity());
-        TimeText.setText(dogwalkerVO.getUserTime());
-        InfoText.setText(dogwalkerVO.getUserInfo());
+        nameText.setText(username);
+        BigcityText.setText(userbigcity);
+        siText.setText(usersmallcity);
+        DongText.setText(userverysmallcity);
+        TimeText.setText(usertime);
+        InfoText.setText(userinfo);
 
 
 
@@ -80,9 +80,10 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
 
                 Intent message = new Intent(DoigwalkerSerchResultViewActivity.this, MessageChattingMainActivity.class);
+                message.putExtra("UserName",username);
                 message.putExtra("activityName","도그워커예약");
                 message.putExtra("DogwalkerVO", (Serializable) dogwalkerVO);
-                message.putExtra("RegisterVO", registerVO);
+                message.putExtra("registerVO", registerVO);
 
 
                 DoigwalkerSerchResultViewActivity.this.startActivity(message);

@@ -66,7 +66,7 @@ public class MyPageModifyActivity extends AppCompatActivity {
 
 
         Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
         idText.setText(registerVO.getUserID());
         nameText.setText(registerVO.getUserName());

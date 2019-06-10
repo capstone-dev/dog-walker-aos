@@ -22,6 +22,7 @@ public class PetView extends AppCompatActivity {
     Button MainButton;
     ImageView PetImageText;
     Bitmap bitmap;
+    RegisterVO registerVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,11 @@ public class PetView extends AppCompatActivity {
 
 
 
+
+
         Intent intent =getIntent();
+
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
         String dogName=intent.getStringExtra("DogName");
         String dogtype=intent.getStringExtra("DogType");
         String dogage=intent.getStringExtra("DogAge");
@@ -50,6 +55,7 @@ public class PetView extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent loginIntent = new Intent(PetView.this, MainActivity.class);
+                loginIntent.putExtra("registerVO",registerVO);
 
 
                 PetView.this.startActivity(loginIntent);

@@ -35,6 +35,9 @@ public class MyPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
 
+
+
+
        DogwalkerButton = (Button) findViewById(R.id.DogwalkerButton);
        ModifyButton=(Button)findViewById(R.id.ModifyButton);
        idText=(TextView)findViewById(R.id.idText);
@@ -69,7 +72,7 @@ public class MyPageActivity extends AppCompatActivity {
         ModifyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent bIntent=new Intent(MyPageActivity.this, MainActivity.class);
+                Intent bIntent=new Intent(MyPageActivity.this,MyPageModifyActivity.class);
                 bIntent.putExtra("registerVO", registerVO);
                 MyPageActivity.this.startActivity(bIntent);
             }

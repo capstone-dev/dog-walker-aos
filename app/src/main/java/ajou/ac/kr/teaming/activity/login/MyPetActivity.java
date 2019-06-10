@@ -39,8 +39,7 @@ public class MyPetActivity extends AppCompatActivity {
 
 
         Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
-
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
 
 
@@ -63,7 +62,7 @@ public class MyPetActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 Intent mypetregisterIntent = new Intent(MyPetActivity.this, PetRegisterActivity.class);
-                mypetregisterIntent.putExtra("RegisterVO", registerVO);
+                mypetregisterIntent.putExtra("registerVO", registerVO);
                 MyPetActivity.this.startActivity(mypetregisterIntent);
 
             }
@@ -79,11 +78,13 @@ public class MyPetActivity extends AppCompatActivity {
         vintent.putExtra("DogName",myPetVO.getDog_name());
         vintent.putExtra("DogType",myPetVO.getDog_species());
         vintent.putExtra("DogAge",myPetVO.getDog_age());
+        vintent.putExtra("registerVO",registerVO);
         startActivity(vintent);
 
     }
 
     public void setmypetthreadList() {
+
 
         Call<List<MyPetVO>> request = mypetThreadService.petThread(registerVO.getUserID(),registerVO.getUserPassword());
 
@@ -100,6 +101,7 @@ public class MyPetActivity extends AppCompatActivity {
                         Log.d("TEST", "onResponse: " + myPetVO.getDog_name());
                     }
                     mypetThreadAdapter.addThread(MypetList);
+
 
 
 

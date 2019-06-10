@@ -52,8 +52,6 @@ public class MyActivity extends AppCompatActivity {
             loginService =ServiceBuilder.create(LoginService.class);
           idText = (TextView)findViewById(R.id.idText);
 
-
-
          Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
         idText.setText(registerVO.getUserID());
@@ -129,7 +127,6 @@ public class MyActivity extends AppCompatActivity {
             }
         });
 
-        Intent intent=new Intent(MyActivity.this, MyPageActivity.class);
     }
 
 

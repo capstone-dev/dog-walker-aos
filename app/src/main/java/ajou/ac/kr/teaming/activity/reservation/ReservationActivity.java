@@ -22,14 +22,14 @@ public class ReservationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reservation);
 
         Intent intent = getIntent();
-        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
+        registerVO = (RegisterVO) intent.getSerializableExtra("registerVO");
 
         ImageView RealTimeImage = findViewById(R.id.RealTimeImage);
         RealTimeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeDogWalkerListAcitvity.class);
-                realtimeIntent.putExtra("RegisterVO", registerVO);
+                realtimeIntent.putExtra("registerVO", registerVO);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
         });
@@ -39,7 +39,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent realtimeIntent=new Intent(ReservationActivity.this, RealTimeDogWalkerListAcitvity.class);
-                realtimeIntent.putExtra("RegisterVO", registerVO);
+                realtimeIntent.putExtra("registerVO", registerVO);
                 ReservationActivity.this.startActivity(realtimeIntent);
             }
         });
@@ -49,6 +49,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent reserveIntent=new Intent(ReservationActivity.this, SearchActivity.class);
+                reserveIntent.putExtra("registerVO",registerVO);
                 ReservationActivity.this.startActivity(reserveIntent);
             }
         });
@@ -58,6 +59,7 @@ public class ReservationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent reserveIntent=new Intent(ReservationActivity.this, SearchActivity.class);
+                reserveIntent.putExtra("registerVO",registerVO);
                 ReservationActivity.this.startActivity(reserveIntent);
             }
         });

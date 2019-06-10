@@ -85,7 +85,7 @@ public class PetRegisterActivity extends AppCompatActivity {
 
 
         Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
         idText.setText(registerVO.getUserID());
 
 
@@ -132,6 +132,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                         vintent.putExtra("DogName",dogname);
                         vintent.putExtra("DogType",dog_species);
                         vintent.putExtra("DogAge",dog_age);
+                        vintent.putExtra("registerVO",registerVO);
                         startActivity(vintent);
 
                         Log.d("TEST", "통신 성공");
@@ -144,6 +145,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                         vintent.putExtra("DogName",dogname);
                         vintent.putExtra("DogType",dog_species);
                         vintent.putExtra("DogAge",dog_age);
+                        vintent.putExtra("registerVO",registerVO);
                         startActivity(vintent);
 
                         Log.d("TEST", "통신 실패");

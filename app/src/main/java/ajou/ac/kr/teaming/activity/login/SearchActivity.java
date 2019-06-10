@@ -38,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
     Spinner MonthSpinner;
     Spinner daySpinner;
     Spinner TimeSpinner;
-    private DogwalkerThreadService DogwalkerThreadService = ServiceBuilder.create(DogwalkerThreadService.class);
+
     ArrayAdapter<CharSequence> adapter1,adapter2,adapter3,adapter4 ;
     SearchService searchService;
     RegisterVO registerVO;
@@ -52,6 +52,11 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+
+        Intent intent =getIntent();
+
+        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
 
 
 
@@ -94,7 +99,6 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-
         SearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,15 +107,25 @@ public class SearchActivity extends AppCompatActivity {
                 String month=MonthSpinner.getSelectedItem().toString();
                 String day =daySpinner.getSelectedItem().toString();
 
-                Call<List<DogwalkerVO>> request= DogwalkerThreadService.dogwalkerThread(year,month,day);
+                Log.d("Test",year);
+                Log.d("Test",month);
+                Log.d("Test",day);
+
+                Call<List<DogwalkerVO>> request= dogwalkerThreadService.dogwalkerThread(year,month,day);
                 request.enqueue(new Callback<List<DogwalkerVO>>() {
                     @Override
                     public void onResponse(Call<List<DogwalkerVO>> call, Response<List<DogwalkerVO>> response) {
+                        Log.d("Test","테스트");
 
                         List<DogwalkerVO> dogwalkerVOS=new ArrayList<>();
                         ArrayList<DogwalkerVO> dogwalkerlist=new ArrayList<>();
+                        dogwalkerVOS=response.body();
+
+
+
                         if (dogwalkerVOS !=null){
                             for (DogwalkerVO dogwalkerVO:dogwalkerVOS){
+                                Log.d("Test",dogwalkerVO.getUserInfo());
                                 dogwalkerlist.add(dogwalkerVO);
 
 
@@ -144,13 +158,14 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-        Intent vintent = new Intent(SearchActivity.this, PetView.class);
-        vintent.putExtra("UserName",registerVO.getUserName());
+        Intent vintent = new Intent(SearchActivity.this, DoigwalkerSerchResultViewActivity.class);
+        vintent.putExtra("UserName",dogwalkerVO.getUserID());
         vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
         vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
         vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
         vintent.putExtra("UserInfo",dogwalkerVO.getUserInfo());
         vintent.putExtra("UserTime",dogwalkerVO.getUserTime());
+        vintent.putExtra("registerVO",registerVO);
         startActivity(vintent);
 
     }
