@@ -118,11 +118,13 @@ public class SearchActivity extends AppCompatActivity {
 
 
 
-        Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
-
-
         Intent vintent = new Intent(SearchActivity.this, PetView.class);
+        vintent.putExtra("UserName",registerVO.getUserName());
+        vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
+        vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
+        vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
+        vintent.putExtra("UserInfo",dogwalkerVO.getUserInfo());
+        vintent.putExtra("UserTime",dogwalkerVO.getUserTime());
         startActivity(vintent);
 
     }

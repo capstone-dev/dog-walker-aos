@@ -73,8 +73,8 @@ public class DogwalkerRegister extends AppCompatActivity {
     TextView idText;
     TextView BigcityText;
     EditText siText,DayText;
-    EditText Dong1Text;
-    Spinner Time3Spinner;
+    EditText Dong1Text, Dong3Text, Dong2Text;
+    Spinner Time3Spinner, Time1Spinner, Time2Spinner;
     ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
     ImageView DogwalkerImage;
     EditText InfoText;
@@ -139,16 +139,28 @@ public class DogwalkerRegister extends AppCompatActivity {
                     public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
                         if (response.isSuccessful()) {
                             DogwalkerVO dogwalkerVO = response.body();
+                            Intent vintent = new Intent(DogwalkerRegister.this, PetView.class);
+                            vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
+                            vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
+                            vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
+                            startActivity(vintent);
                         }
                         Log.d("TEST", "onResponse:END ");
                     }
 
                     @Override
                     public void onFailure(Call<DogwalkerVO> call, Throwable t) {
-                        Log.d("TEST",t.getMessage());
 
+
+                        Intent vintent = new Intent(DogwalkerRegister.this, PetView.class);
+                        vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
+                        vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
+                        vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
+                        startActivity(vintent);
                     }
                 });
+
+
 
 
 
@@ -182,7 +194,6 @@ public class DogwalkerRegister extends AppCompatActivity {
                 .setDeniedMessage("정상서비스를 받으시려면 권한을 승인해 주세요")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
                 .check();
-
 
 
         Time3Spinner = (Spinner) findViewById(R.id.Time3Spinner);

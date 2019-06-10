@@ -79,7 +79,6 @@ public class MyPetActivity extends AppCompatActivity {
         vintent.putExtra("DogName",myPetVO.getDog_name());
         vintent.putExtra("DogType",myPetVO.getDog_species());
         vintent.putExtra("DogAge",myPetVO.getDog_age());
-
         startActivity(vintent);
 
     }
