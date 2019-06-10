@@ -45,7 +45,7 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
         dogwalkerview.setLayoutManager(new LinearLayoutManager(this));
 
         Intent intent = getIntent();
-        registerVO = (RegisterVO) intent.getSerializableExtra("RegisterVO");
+        registerVO = (RegisterVO) intent.getSerializableExtra("registerVO");
 
         realTimeDogwalkerListAdapter = new RealTimeDogwalkerListAdapter(this::chooseDogWalkerEvent);
         dogwalkerview.setAdapter(realTimeDogwalkerListAdapter);
@@ -239,6 +239,9 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
     private Boolean checkAvailableService(DogwalkerListVO dogwalkerListVO) {
         if (!dogwalkerListVO.getSelected().equals("0")) {
             return false;
+        }
+        if(dogwalkerListVO.getDogwalkerID().equals(registerVO.getUserID())){
+            return true;
         }
         return true;
     }

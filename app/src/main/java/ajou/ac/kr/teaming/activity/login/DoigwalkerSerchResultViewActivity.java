@@ -32,6 +32,10 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
     DogwalkerVO dogwalkerVO;
     RegisterVO registerVO;
 
+    String username;
+    String userbigcity;
+    String usersmallcity;
+    String userverysmallcity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +56,11 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
-        String username=intent.getStringExtra("UserName");
-        String userbigcity=intent.getStringExtra("UserBigcity");
-        String usersmallcity=intent.getStringExtra("UserSmallcity");
+        username=intent.getStringExtra("UserName");
+        userbigcity=intent.getStringExtra("UserBigcity");
+        usersmallcity=intent.getStringExtra("UserSmallcity");
         String userinfo =intent.getStringExtra("UserInfo");
-        String userverysmallcity=intent.getStringExtra("UserverySmallcity");
+        userverysmallcity=intent.getStringExtra("UserverySmallcity");
         String usertime=intent.getStringExtra("UserTime");
 
 
@@ -81,9 +85,12 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
 
                 Intent message = new Intent(DoigwalkerSerchResultViewActivity.this, MessageChattingMainActivity.class);
                 message.putExtra("UserName",username);
+                message.putExtra("UserName",userbigcity);
+                message.putExtra("UserName",usersmallcity);
+                message.putExtra("UserName",userverysmallcity);
                 message.putExtra("activityName","도그워커예약");
                 message.putExtra("DogwalkerVO", (Serializable) dogwalkerVO);
-                message.putExtra("registerVO", registerVO);
+                message.putExtra("RegisterVO", registerVO);
 
 
                 DoigwalkerSerchResultViewActivity.this.startActivity(message);

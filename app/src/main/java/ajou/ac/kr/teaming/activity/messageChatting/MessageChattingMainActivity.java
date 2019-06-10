@@ -47,7 +47,6 @@ public class MessageChattingMainActivity extends Activity {
     private RegisterVO registerVO;
     private DogwalkerListVO dogwalkerListVO;
     private ServiceVO serviceVO;
-    private DogwalkerVO dogwalkerVO;
     private UserCommunityContentCommentVO userCommunityContentCommentVO;
     private UserCommunityThreadVO userCommunityThreadVO;
     private TextView userIdTextView;
@@ -56,6 +55,10 @@ public class MessageChattingMainActivity extends Activity {
     private String oppenentId;
     private String oppenentToken;
     private String inputValue;
+    private String dogwalkerReserveId;
+    private String dogwalkerReserveUserbigcity;
+    private String dogwalkerReserveUsersmallcity;
+    private String dogwalkerReserveUserverysmallcity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,13 +96,17 @@ public class MessageChattingMainActivity extends Activity {
                 userIdTextView.setText(dogwalkerListVO.getDogwalkerID() + "님과의 채팅");
             }
         } else if(activityName.equals("도그워커예약")){
-            dogwalkerVO = (DogwalkerVO) intent.getSerializableExtra("DogwalkerVO");
+            dogwalkerReserveId = intent.getExtras().getString("UserName");
+            dogwalkerReserveUserbigcity = intent.getExtras().getString("userbigcity");
+            dogwalkerReserveUsersmallcity = intent.getExtras().getString("usersmallcity");
+            dogwalkerReserveUserverysmallcity = intent.getExtras().getString("userverysmallcity");
+            Log.d("test", "onCreate: "+dogwalkerReserveId);
 
             submitService.setVisibility(View.VISIBLE);
-            if (registerVO.getUserID().equals(dogwalkerVO.getUserID())) {
+            if (registerVO.getUserID().equals(dogwalkerReserveId)) {
                 userIdTextView.setText( "님과의 채팅");
             } else /*if (registerVO.getUserID().equals(dogwalkerListVO.getSelected()))*/ {
-                userIdTextView.setText(registerVO.getUserID() + "님과의 채팅");
+                userIdTextView.setText(dogwalkerReserveId + "님과의 채팅");
             }
         } else if(activityName.equals("나의서비스")){
             serviceVO = (ServiceVO) intent.getSerializableExtra("ServiceVO");
@@ -162,20 +169,20 @@ public class MessageChattingMainActivity extends Activity {
             );
         }else if(activityName.equals("도그워커예약")){
             FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
-            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerVO.getUserID(),messageListAdapter);//메시지 전송 표시
+            firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(), dogwalkerReserveId,messageListAdapter);//메시지 전송 표시
             findViewById(R.id.send_message).setOnClickListener(v -> {
                         EditText editText = (EditText) findViewById(R.id.message);
                         String inputValue = editText.getText().toString();
                         editText.setText("");
                         //메시지 추가
-                        if (registerVO.getUserID().equals(dogwalkerVO.getUserID())) {
+                        if (!registerVO.getUserID().equals(dogwalkerReserveId)) {
                             oppenentId = serviceVO.getUser_UserID();
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
                                     serviceVO.getUser_UserID(), serviceVO.getUser_UserID());
                         } else {
-                            oppenentId = serviceVO.getUser_DogwalkerID();
+                            oppenentId = dogwalkerReserveId;
                             firebaseMessagingService.onClick(v, registerVO.getToken(), inputValue, registerVO.getUserID(),
-                                    serviceVO.getUser_DogwalkerID(), serviceVO.getUser_DogwalkerID());
+                                    oppenentId, oppenentId);
                         }
                         sendFcm(oppenentId);
                     }
@@ -218,6 +225,12 @@ public class MessageChattingMainActivity extends Activity {
         } else if (activityName.equals("실시간도그워커")) {
             intent.putExtra("DogwalkerListVO", dogwalkerListVO);
             intent.putExtra("activityName", "실시간도그워커");
+        } else if (activityName.equals("도그워커예약")) {
+            intent.putExtra("UserName", dogwalkerReserveId);
+            intent.putExtra("userbigcity", dogwalkerReserveUserbigcity);
+            intent.putExtra("usersmallcity", dogwalkerReserveUsersmallcity);
+            intent.putExtra("userverysmallcity", dogwalkerReserveUserverysmallcity);
+            intent.putExtra("activityName", "도그워커예약");
         }
         startActivity(intent);
     }

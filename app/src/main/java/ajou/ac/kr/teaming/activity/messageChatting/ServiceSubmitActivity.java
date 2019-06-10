@@ -54,6 +54,11 @@ public class ServiceSubmitActivity extends Activity implements TimePicker.OnTime
     private int check=0;
     private int hourOfDay, minute,finishHour,finishMinute;
 
+    private String dogwalkerReserveId;
+    private String dogwalkerReserveUserbigcity;
+    private String dogwalkerReserveUsersmallcity;
+    private String dogwalkerReserveUserverysmallcity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,9 +84,14 @@ public class ServiceSubmitActivity extends Activity implements TimePicker.OnTime
             dogwalkerListVO=(DogwalkerListVO) intent.getSerializableExtra("DogwalkerListVO");
 
             dogwalkerId.setText(dogwalkerListVO.getDogwalkerID());
-            serviceLocation.setText("현재 사용자 위치");
+            serviceLocation.setText(dogwalkerListVO.getDogwalkerBigcity()+" "+dogwalkerListVO.getDogwalkerSmallcity());
         } else if(activityName.equals("도그워커예약")){
-
+           dogwalkerReserveId = intent.getExtras().getString("UserName");
+           dogwalkerReserveUserbigcity = intent.getExtras().getString("userbigcity");
+           dogwalkerReserveUsersmallcity = intent.getExtras().getString("usersmallcity");
+           dogwalkerReserveUserverysmallcity = intent.getExtras().getString("userverysmallcity");
+           dogwalkerId.setText(dogwalkerReserveId);
+           serviceLocation.setText(dogwalkerReserveUserbigcity+" "+dogwalkerReserveUsersmallcity+" "+dogwalkerReserveUserverysmallcity);
         }
 
         materialCalendarView.state().edit()
@@ -137,7 +147,10 @@ public class ServiceSubmitActivity extends Activity implements TimePicker.OnTime
                 inputService.put("serviceLocation", ((TextView) serviceLocation).getText().toString());
                 inputService.put("peopleNumber", "1");
             } else if (activityName.equals("도그워커예약")) {
-
+                inputService.put("user_UserID", registerVO.getUserID());
+                inputService.put("user_DogwalkerID", dogwalkerReserveId);
+                inputService.put("serviceLocation", ((TextView) serviceLocation).getText().toString());
+                inputService.put("peopleNumber", "1");
             }
             Call<ServiceVO> request = servicePayService.postService(inputService);
             request.enqueue(new Callback<ServiceVO>() {

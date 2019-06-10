@@ -57,8 +57,7 @@ public class MyServiceAdapter extends RecyclerView.Adapter<MyServiceViewHolder> 
         /**
          * 데이터 바인딩
          */
-        if(check.equals("dogwalker")) { myServiceViewHolder.dogWalkerId.setText(serviceVO.getUser_UserID()); }
-        else if(check.equals("my")) { myServiceViewHolder.dogWalkerId.setText(serviceVO.getUser_DogwalkerID()); }
+        myServiceViewHolder.dogWalkerId.setText(serviceVO.getUser_DogwalkerID());
         myServiceViewHolder.serviceLocation.setText(serviceVO.getServiceLocation());
         myServiceViewHolder.serviceWalkingTime.setText(serviceVO.getWalkingTime());
 

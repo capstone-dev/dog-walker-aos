@@ -328,8 +328,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private void setMyServiceList() {
-        myServiceAdapter.checkService("my");
+    private void setMyServiceList() {/*
+        myServiceAdapter.checkService("my");*/
         myServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getUserService(registerVO.getUserID());
         request.enqueue(new Callback<List<ServiceVO>>() {
@@ -359,8 +359,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setDogwalkerServiceList() {
-
-        dogwalkerServiceAdapter.checkService("dogwalker");
+/*
+        dogwalkerServiceAdapter.checkService("dogwalker");*/
         dogwalkerServiceAdapter.updateService();
         Call<List<ServiceVO>> request = servicePayService.getDogwalkerService(registerVO.getUserID());
         request.enqueue(new Callback<List<ServiceVO>>() {

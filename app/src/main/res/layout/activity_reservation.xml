@@ -6,75 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".activity.reservation.ReservationActivity">
 
-
-    <LinearLayout
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#FFEABD3E">
+        android:layout_height="match_parent">
 
-
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFEABD3E"
+            android:orientation="vertical">
 
 
             <ImageView
+                android:id="@+id/RealTimeImage"
                 android:layout_width="140dp"
                 android:layout_height="140dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="100dp"
                 android:src="@drawable/ic_real_time_24dp"
-                android:id="@+id/RealTimeImage"
-                tools:ignore="ContentDescription"
-        />
+                tools:ignore="ContentDescription" />
 
 
-
-        <TextView
+            <TextView
+                android:id="@+id/RealTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginTop="20dp"
                 android:text="실시간 예약"
                 android:textColor="#000000"
                 android:textSize="35sp"
                 android:textStyle="bold"
-                android:layout_marginTop="20dp"
-                android:id="@+id/RealTimeButton"
                 tools:ignore="HardcodedText" />
 
 
-        <ImageView
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="130dp"
-            android:src="@drawable/ic_date_range_black_24dp"
-            android:id="@+id/ReserveImage"
-            tools:ignore="ContentDescription" />
+            <ImageView
+                android:id="@+id/ReserveImage"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="130dp"
+                android:src="@drawable/ic_date_range_black_24dp"
+                tools:ignore="ContentDescription" />
 
 
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="예약하기"
-            android:textColor="#000000"
-            android:textSize="35sp"
-            android:textStyle="bold"
-            tools:ignore="HardcodedText"
-            android:id="@+id/ReserveButton"/>
-
+            <TextView
+                android:id="@+id/ReserveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="예약하기"
+                android:textColor="#000000"
+                android:textSize="35sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
 
 
+        </LinearLayout>
 
-
-    </LinearLayout>
-
-
-
-
-
+    </android.support.v4.widget.NestedScrollView>
 
 
 </android.support.constraint.ConstraintLayout>
