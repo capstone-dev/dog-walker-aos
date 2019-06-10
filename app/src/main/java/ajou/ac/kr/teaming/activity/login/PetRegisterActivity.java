@@ -39,6 +39,7 @@ import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.login.LoginService;
 import ajou.ac.kr.teaming.service.login.MyPetService;
 import ajou.ac.kr.teaming.service.login.RegisterService;
+import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.MyPetVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import okhttp3.MediaType;
@@ -119,32 +120,36 @@ public class PetRegisterActivity extends AppCompatActivity {
                 mypet.put("dog_name", RequestBody.create(MediaType.parse("Text"), dogname));
 
                 Call<MyPetVO> call=myPetService.myPet(mypet);
+
                 call.enqueue(new Callback<MyPetVO>() {
                     @Override
                     public void onResponse(Call<MyPetVO> call, Response<MyPetVO> response) {
 
-                        MyPetVO myPetVO = response.body();
+
+                        MyPetVO myPetVO=response.body();
+
+                        Intent vintent = new Intent(PetRegisterActivity.this, MyPetActivity.class);
+                        vintent.putExtra("DogName",dogname);
+                        vintent.putExtra("DogType",dog_species);
+                        vintent.putExtra("DogAge",dog_age);
+                        startActivity(vintent);
+
                         Log.d("TEST", "통신 성공");
-
-
-                        Intent intent = new Intent(PetRegisterActivity.this, MyPetActivity.class);
-                        intent.putExtra("MyPetVO", (Serializable) myPetVO);
-                        intent.putExtra("image",dataArray);
-                        startActivity(intent);
-
-
-
                     }
 
                     @Override
                     public void onFailure(Call<MyPetVO> call, Throwable t) {
 
-                        Log.d("TEST", "통신 실패");
+                        Intent vintent = new Intent(PetRegisterActivity.this, MyPetActivity.class);
+                        vintent.putExtra("DogName",dogname);
+                        vintent.putExtra("DogType",dog_species);
+                        vintent.putExtra("DogAge",dog_age);
+                        startActivity(vintent);
 
+                        Log.d("TEST", "통신 실패");
 
                     }
                 });
-
 
 
             }

@@ -20,8 +20,24 @@ public class MypetThreadAdapter extends RecyclerView.Adapter<MypetThreadViewHold
 
 
 
+
     private ArrayList<MyPetVO> myPetVOArrayList = new ArrayList<>();
     private MypetThreadAdapter.OnItemClickListener onItemClickListener;
+
+
+
+
+    @Override
+    public void onBindViewHolder(@NonNull MypetThreadViewHolder MypetThreadViewHolder ,int i) {
+        MyPetVO myPetVO=myPetVOArrayList.get(i);
+        MypetThreadViewHolder.dog_name.setText(myPetVO.getDog_name());
+        MypetThreadViewHolder.dog_age.setText(myPetVO.getDog_age());
+        MypetThreadViewHolder.dog_type.setText(myPetVO.getDog_species());
+        MypetThreadViewHolder.constraintLayout.setOnClickListener(v->
+                onItemClickListener.showThreadContentEvent(v,myPetVOArrayList.get(i)));
+
+    }
+
 
 
     /**
@@ -51,15 +67,7 @@ public class MypetThreadAdapter extends RecyclerView.Adapter<MypetThreadViewHold
                 .inflate(R.layout.mypet_listview_item, viewGroup, false));
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MypetThreadViewHolder MypetThreadViewHolder ,int i) {
-      MyPetVO myPetVO=myPetVOArrayList.get(i);
-        MypetThreadViewHolder.dog_name.setText(myPetVO.getDog_name());
-        MypetThreadViewHolder.dog_age.setText(myPetVO.getDog_age());
-        MypetThreadViewHolder.dog_type.setText(myPetVO.getDog_species());
-        MypetThreadViewHolder.constraintLayout.setOnClickListener(view -> onItemClickListener.showThreadContentEvent(view,myPetVOArrayList.get(i)));
 
-    }
 
     @Override
     public int getItemCount() {

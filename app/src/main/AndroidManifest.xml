@@ -21,8 +21,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.messageChatting.messageList.MessageListMainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.login.PetView"></activity>
         <activity android:name=".activity.login.MyPetActivity" />
         <activity android:name=".activity.login.MyPetResultViewActivity" />
         <activity android:name=".activity.login.DoigwalkerSerchResultViewActivity" />
@@ -44,8 +43,7 @@
             android:name=".activity.gps.DogwalkerGpsActivity"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.reservation.ReservationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.reservation.ReservationActivity" />
         <activity android:name=".activity.login.MyPageActivity" />
         <activity android:name=".activity.login.MyActivity" />
         <activity android:name=".activity.login.SearchActivity" />
@@ -53,8 +51,7 @@
         <activity
             android:name=".activity.login.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.userCommunity.UserCommunityThreadRegisterActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activity.userCommunity.UserCommunityThreadRegisterActivity" />
         <activity
             android:name=".activity.userCommunity.UserCommunityMainActivity"
             android:theme="@style/AppTheme.NoActionBar" />

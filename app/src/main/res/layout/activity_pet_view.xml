@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.login.PetView">
+
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/Dogwalker_View_Funtion"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="-3dp"
+                tools:layout_editor_absoluteY="0dp">
+
+                <ImageView
+                    android:id="@+id/PetImageText"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="100dp"
+                    android:maxHeight="100dp"
+                    android:onClick="onClick"
+                    android:src="@drawable/pro"
+                    tools:ignore="MissingConstraints,OnClick"
+                    tools:layout_editor_absoluteX="54dp"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_marginTop="10dp"
+                android:id="@+id/Dogwalker_View_Funtio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@+id/Dogwalker_View_Funtion"
+                app:layout_constraintTop_toBottomOf="@+id/Dogwalker_View_Funtion"
+                tools:ignore="MissingConstraints">
+
+
+                <TextView
+                    android:id="@+id/nameText"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Textview"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@+id/name"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="이름 : "
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/Dogwalker_View_Funtio"
+                    app:layout_constraintLeft_toRightOf="@+id/nameText"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/Dogwalker_View_Funti"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/Dogwalker_View_Funtio"
+                app:layout_constraintTop_toBottomOf="@+id/Dogwalker_View_Funtio">
+
+
+                <TextView
+                    android:id="@+id/typeText"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Textview"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@+id/type"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <TextView
+                    android:id="@+id/type"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:text="견종 : "
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/Dogwalker_View_Funti"
+                    app:layout_constraintLeft_toRightOf="@+id/typeText"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/Dogwalker_View_Funt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/Dogwalker_View_Funti"
+                app:layout_constraintTop_toBottomOf="@+id/Dogwalker_View_Funti">
+
+
+                <TextView
+                    android:id="@+id/ageText"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="Textview"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@+id/age"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <TextView
+                    android:id="@+id/age"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:text="나이 : "
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/Dogwalker_View_Funt"
+                    app:layout_constraintLeft_toRightOf="@+id/ageText"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/Dogwalker_View_Fun"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/Dogwalker_View_Funt"
+                app:layout_constraintTop_toBottomOf="@+id/Dogwalker_View_Funt">
+
+
+
+                <Button
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/MainButton"
+                    app:layout_constraintLeft_toLeftOf="@+id/Dogwalker_View_Fun"
+                    app:layout_constraintLeft_toRightOf="@+id/RealTimeButton"
+                    android:textColor="#000000"
+                    android:text="홈으로"
+                    tools:ignore="MissingConstraints"
+                    android:background="#FFEABD3E"
+                    android:layout_marginLeft="120dp"
+                    android:textStyle="bold"/>
+
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+
+
+</android.support.constraint.ConstraintLayout>

@@ -32,7 +32,6 @@ public class MyPetActivity extends AppCompatActivity {
     private MypetThreadAdapter mypetThreadAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +40,7 @@ public class MyPetActivity extends AppCompatActivity {
 
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+
 
 
 
@@ -53,12 +53,6 @@ public class MyPetActivity extends AppCompatActivity {
         mypetThreadAdapter = new MypetThreadAdapter(this::showThreadContentEvent);
         mypetView.setAdapter(mypetThreadAdapter);
         setmypetthreadList();
-
-
-
-        Intent vintent = getIntent();
-        myPetVO = (MyPetVO) vintent.getSerializableExtra("MyPetVO");
-
 
 
 
@@ -78,6 +72,25 @@ public class MyPetActivity extends AppCompatActivity {
 
     }
 
+
+    public void showThreadContentEvent(View view, MyPetVO myPetVO){
+
+        Intent intent =getIntent();
+        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
+        String dogName=intent.getStringExtra("DogName");
+        String dogtype=intent.getStringExtra("DogType");
+        String dogage=intent.getStringExtra("DogAge");
+
+
+        Intent vintent = new Intent(MyPetActivity.this, PetView.class);
+        vintent.putExtra("DodName",dogName);
+        vintent.putExtra("DogType",dogtype);
+        vintent.putExtra("DogAge",dogage);
+
+        startActivity(vintent);
+
+    }
+
     public void setmypetthreadList() {
 
         Call<List<MyPetVO>> request = mypetThreadService.petThread(registerVO.getUserID(),registerVO.getUserPassword());
@@ -94,6 +107,7 @@ public class MyPetActivity extends AppCompatActivity {
                     }
                     mypetThreadAdapter.addThread(MypetList);
 
+
                 }
             }
 
@@ -106,15 +120,6 @@ public class MyPetActivity extends AppCompatActivity {
 
         });
 
-
-    }
-
-    public void showThreadContentEvent(View view, MyPetVO myPetVO){
-
-        Intent intent = new Intent(MyPetActivity.this, MyPetResultViewActivity.class);
-        intent.putExtra("MyPetVO", (Serializable) myPetVO);
-        intent.putExtra("RegisterVO",registerVO);
-        startActivity(intent);
 
     }
 

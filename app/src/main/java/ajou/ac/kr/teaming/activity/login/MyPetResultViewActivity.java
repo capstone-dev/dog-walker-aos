@@ -43,10 +43,6 @@ public class MyPetResultViewActivity extends AppCompatActivity {
         byte[] arr = getIntent().getByteArrayExtra("image");
         bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
         PetImageText.setImageBitmap(bitmap);
-        myPetVO = (MyPetVO) vintent.getSerializableExtra("MyPetVO");
-        nameText.setText(myPetVO.getDog_name());
-        typeText.setText(myPetVO.getDog_species());
-        ageText.setText(myPetVO.getDog_age());
 
 
 
@@ -56,6 +52,7 @@ MainButton.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         Intent loginIntent = new Intent(MyPetResultViewActivity.this, MainActivity.class);
+
         MyPetResultViewActivity.this.startActivity(loginIntent);
     }
 });

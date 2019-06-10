@@ -100,6 +100,7 @@ public class DogwalkerRegister extends AppCompatActivity {
 
 
 
+
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
 

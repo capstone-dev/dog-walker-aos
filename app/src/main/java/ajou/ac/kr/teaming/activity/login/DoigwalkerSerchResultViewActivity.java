@@ -13,6 +13,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.MyPetVO;
@@ -92,7 +93,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent message = new Intent(DoigwalkerSerchResultViewActivity.this, MyPet2Activity.class);
+                Intent message = new Intent(DoigwalkerSerchResultViewActivity.this, MainActivity.class);
                 DoigwalkerSerchResultViewActivity.this.startActivity(message);
 
             }
