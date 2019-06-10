@@ -34,7 +34,8 @@
         <activity
             android:name=".activity.gps.RealTimeDogWalkerListAcitvity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.login.DogwalkerRegister" />
+        <activity android:name=".activity.login.DogwalkerRegister"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".activity.messageChatting.ServiceSubmitActivity"
             android:screenOrientation="portrait"

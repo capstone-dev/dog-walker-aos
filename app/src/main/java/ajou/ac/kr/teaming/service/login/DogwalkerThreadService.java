@@ -12,7 +12,6 @@ public interface DogwalkerThreadService {
 
 
     @GET("/dogwalkerInfo")//가입
-    Call<List<DogwalkerVO>> dogwalkerThread (@Query("UserYear") String UserYear,
-                                             @Query("UserMonth") String UserMonth,
-                                             @Query("UserDay") String Userday);
+    Call<List<DogwalkerVO>> dogwalkerThread (@Query("UserSmallcity") String Usersmallcity,
+                                             @Query("UserverySmallcity") String UserverySmallcity);
 }

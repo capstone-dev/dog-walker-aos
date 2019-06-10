@@ -103,15 +103,11 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                String year = YearSpinner.getSelectedItem().toString();
-                String month=MonthSpinner.getSelectedItem().toString();
-                String day =daySpinner.getSelectedItem().toString();
+                String smallcity =BigcityText.getText().toString();
+                String verysmallcity=SmallcityText.getText().toString();
 
-                Log.d("Test",year);
-                Log.d("Test",month);
-                Log.d("Test",day);
 
-                Call<List<DogwalkerVO>> request= dogwalkerThreadService.dogwalkerThread(year,month,day);
+                Call<List<DogwalkerVO>> request= dogwalkerThreadService.dogwalkerThread(smallcity,verysmallcity);
                 request.enqueue(new Callback<List<DogwalkerVO>>() {
                     @Override
                     public void onResponse(Call<List<DogwalkerVO>> call, Response<List<DogwalkerVO>> response) {
