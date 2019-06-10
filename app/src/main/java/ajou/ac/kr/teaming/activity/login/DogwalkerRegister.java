@@ -72,9 +72,9 @@ public class DogwalkerRegister extends AppCompatActivity {
     Button DogwalkerRegisterButton;
     TextView idText;
     TextView BigcityText;
-    EditText siText;
-    EditText Dong1Text, Dong3Text, Dong2Text;
-    Spinner Time3Spinner, Time1Spinner, Time2Spinner;
+    EditText siText,DayText;
+    EditText Dong1Text;
+    Spinner Time3Spinner;
     ArrayAdapter<CharSequence> adapter1, adapter2, adapter3;
     ImageView DogwalkerImage;
     EditText InfoText;
@@ -91,11 +91,10 @@ public class DogwalkerRegister extends AppCompatActivity {
         DogwalkerRegisterButton = (Button) findViewById(R.id.DogwalkerRegisterButton);
         siText = (EditText) findViewById(R.id.siText);
         Dong1Text = (EditText) findViewById(R.id.Dong1Text);
-        Dong2Text = (EditText) findViewById(R.id.Dong2Text);
-        Dong3Text = (EditText) findViewById(R.id.Dong3Text);
         DogwalkerImage = (ImageView) findViewById(R.id.DogwalkerImage);
         DogwalkerRegisterService dogwalkerRegisterService= ServiceBuilder.create(DogwalkerRegisterService.class);
         InfoText=(EditText)findViewById(R.id.InfoText);
+        DayText=(EditText)findViewById(R.id.DayText);
 
 
 
@@ -118,60 +117,38 @@ public class DogwalkerRegister extends AppCompatActivity {
                 String userInfo=InfoText.getText().toString();
                 String userverysmallcity =Dong1Text.getText().toString();
                 String usertime =Time3Spinner.getSelectedItem().toString();
+                String userday= DayText.getText().toString();
+
+
+                HashMap<String, Object> inputregister = new HashMap<>();
+                inputregister.put("UserID",registerVO.getUserID());
+                inputregister.put("UserBigcity", userbigcity);
+                inputregister.put("UserSmallcity", userSmallcity);
+                inputregister.put("UserverySmallcity", userverysmallcity);
+                inputregister.put("UserTime", usertime);
+                inputregister.put("UserInfo", userInfo);
+                inputregister.put("UserDay", userday);
 
 
 
-                ImageView Mypet = findViewById(R.id.DogwalkerImage);
-
-                Bitmap bitmap = ((BitmapDrawable) DogwalkerImage.getDrawable()).getBitmap();
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-                byte[] dataArray = baos.toByteArray();
+                Call<DogwalkerVO> request =dogwalkerRegisterService.post(inputregister);
 
 
-                RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), dataArray);
-
-
-
-
-                    Map<String, RequestBody> Dogwalker = new HashMap<String, RequestBody>() ;
-
-                    Dogwalker.put("fileUpload\"; filename=\"fileUpload.png", fileBody);
-                    Dogwalker.put("UserID", RequestBody.create(MediaType.parse("Text"), userid));
-                    Dogwalker.put("UserBigcity", RequestBody.create(MediaType.parse("Text"), userbigcity));
-                    Dogwalker.put("UserSmallcity", RequestBody.create(MediaType.parse("Text"), userSmallcity));
-                    Dogwalker.put("UserverySmallcity", RequestBody.create(MediaType.parse("Text"), userverysmallcity));
-                    Dogwalker.put("UserTime", RequestBody.create(MediaType.parse("Text"), usertime));
-                Dogwalker.put("UserInfo", RequestBody.create(MediaType.parse("Text"), userInfo));
-
-
-
-
-                Call<DogwalkerVO> call = dogwalkerRegisterService.RegisterDogwalker(Dogwalker);
-
-                call.enqueue(new Callback<DogwalkerVO>() {
+                request.enqueue(new Callback<DogwalkerVO>() {
                     @Override
                     public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
-                        DogwalkerVO dogwalkerVO=response.body();
-
-                        Intent intent = new Intent(DogwalkerRegister.this, MainActivity.class);
-                        intent.putExtra("image",dataArray);
-                        intent.putExtra("DogwalkerVO", (Serializable) dogwalkerVO);
-                        startActivity(intent);
-
-
-                        Log.d("TEST", "통신 성공");
-
+                        if (response.isSuccessful()) {
+                            DogwalkerVO dogwalkerVO = response.body();
+                        }
+                        Log.d("TEST", "onResponse:END ");
                     }
 
                     @Override
                     public void onFailure(Call<DogwalkerVO> call, Throwable t) {
+                        Log.d("TEST",t.getMessage());
 
-                        Log.d("TEST", "통신 실패");
                     }
                 });
-
-
 
 
 
@@ -207,13 +184,6 @@ public class DogwalkerRegister extends AppCompatActivity {
                 .check();
 
 
-        Time1Spinner = (Spinner) findViewById(R.id.Time1Spinner);
-        adapter1 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
-        Time1Spinner.setAdapter(adapter1);
-
-        Time2Spinner = (Spinner) findViewById(R.id.Time2Spinner);
-        adapter2 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);
-        Time2Spinner.setAdapter(adapter2);
 
         Time3Spinner = (Spinner) findViewById(R.id.Time3Spinner);
         adapter3 = ArrayAdapter.createFromResource(this, R.array.a_linesize, android.R.layout.simple_spinner_dropdown_item);

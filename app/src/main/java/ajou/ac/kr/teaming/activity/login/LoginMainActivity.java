@@ -17,6 +17,7 @@ import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.login.LoginService;
 import ajou.ac.kr.teaming.service.userCommunity.UserCommunityThreadRegisterService;
+import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.LoginVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import retrofit2.Call;
@@ -120,6 +121,19 @@ public class LoginMainActivity extends AppCompatActivity {
                     Log.d("TEST", "통신 실패");
                     Toast.makeText(LoginMainActivity.this, "Error", Toast.LENGTH_SHORT).show();
 
+
+                }
+            });
+
+            Call<DogwalkerVO> call1=loginService.Login(userid,userpassword);
+            call.enqueue(new Callback<RegisterVO>() {
+                @Override
+                public void onResponse(Call<RegisterVO> call, Response<RegisterVO> response) {
+
+                }
+
+                @Override
+                public void onFailure(Call<RegisterVO> call, Throwable t) {
 
                 }
             });

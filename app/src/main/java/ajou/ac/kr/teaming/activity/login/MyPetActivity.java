@@ -75,17 +75,10 @@ public class MyPetActivity extends AppCompatActivity {
 
     public void showThreadContentEvent(View view, MyPetVO myPetVO){
 
-        Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("RegisterVO");
-        String dogName=intent.getStringExtra("DogName");
-        String dogtype=intent.getStringExtra("DogType");
-        String dogage=intent.getStringExtra("DogAge");
-
-
         Intent vintent = new Intent(MyPetActivity.this, PetView.class);
-        vintent.putExtra("DodName",dogName);
-        vintent.putExtra("DogType",dogtype);
-        vintent.putExtra("DogAge",dogage);
+        vintent.putExtra("DogName",myPetVO.getDog_name());
+        vintent.putExtra("DogType",myPetVO.getDog_species());
+        vintent.putExtra("DogAge",myPetVO.getDog_age());
 
         startActivity(vintent);
 
@@ -106,6 +99,7 @@ public class MyPetActivity extends AppCompatActivity {
                         Log.d("TEST", "onResponse: " + myPetVO.getDog_name());
                     }
                     mypetThreadAdapter.addThread(MypetList);
+
 
 
                 }

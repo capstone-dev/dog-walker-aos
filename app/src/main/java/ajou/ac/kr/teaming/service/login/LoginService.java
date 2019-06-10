@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.LoginVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import retrofit2.Call;
@@ -19,5 +20,8 @@ public interface LoginService {
     @GET("/login")//가입
     Call<RegisterVO> DoLogin (@Query("UserID") String UserID, @Query("UserPassword") String UserPassword);
 
+
+    @GET("/login")
+    Call<DogwalkerVO> Login (@Query("UserID") String UserID, @Query("UserPassword") String UserPassword);
 
 }

@@ -7,19 +7,31 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import okhttp3.RequestBody;
+
 public class DogwalkerVO {
 
 
     private String UserYear;
     private String UserMonth;
     private String Userdate;
+    private String UserDay;
     public String UserID;
     private String UserBigcity;
-    private byte[] fileUpload;
     private String UserSmallcity;
     private String UserverySmallcity;
     private String UserTime;
     private String UserInfo;
+
+
+
+    public String getUserDay() {
+        return UserDay;
+    }
+
+    public void setUserDay(String userDay) {
+        UserDay = userDay;
+    }
 
     public String getUserYear() {
         return UserYear;
@@ -43,14 +55,6 @@ public class DogwalkerVO {
 
     public void setUserdate(String userdate) {
         Userdate = userdate;
-    }
-
-    public byte[] getFileUpload() {
-        return fileUpload;
-    }
-
-    public void setFileUpload(byte[] fileUpload) {
-        this.fileUpload = fileUpload;
     }
 
     public String getUserInfo() {
@@ -101,4 +105,6 @@ public class DogwalkerVO {
     public void setUserTime(String userTime) {
         UserTime = userTime;
     }
+
+
 }

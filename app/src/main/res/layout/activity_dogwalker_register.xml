@@ -232,28 +232,6 @@
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteY="0dp" />
 
-            <EditText
-                android:id="@+id/Dong2Text"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toRightOf="@+id/Dong1Text"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="0dp" />
-
-            <EditText
-                android:id="@+id/Dong3Text"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toRightOf="@+id/Dong2Text"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="0dp" />
-
 
             <TextView
                 android:id="@+id/Smallcity"
@@ -270,13 +248,76 @@
 
         </android.support.constraint.ConstraintLayout>
 
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/Dogwalk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/Dogwalker_Register_Fu"
+                app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Register_Fu">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="#FFEABD3E"
+                    android:gravity="center"
+                    android:text="활동가능한 요일을 적어주세요"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/Dogwa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="@+id/Dogwalk"
+            app:layout_constraintTop_toBottomOf="@+id/Dogwalk">
+
+
+            <EditText
+                android:id="@+id/DayText"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toRightOf="@+id/Day"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
+
+
+            <TextView
+                android:id="@+id/Day"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:text="요일 : "
+                android:textColor="#000000"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/Dogwa"
+                app:layout_constraintLeft_toRightOf="@+id/SmallcityText"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="0dp" />
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/Dogwalker_Registe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            app:layout_constraintStart_toStartOf="@+id/Dogwalker_Register_Fu"
-            app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Register_Fu">
+            app:layout_constraintStart_toStartOf="@+id/Dogwa"
+            app:layout_constraintTop_toBottomOf="@+id/Dogwa">
 
 
             <TextView
@@ -303,29 +344,6 @@
             app:layout_constraintTop_toBottomOf="@+id/Dogwalker_Registe">
 
 
-            <Spinner
-                android:id="@+id/Time1Spinner"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toRightOf="@+id/Time"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="0dp" />
-
-
-            <Spinner
-                android:id="@+id/Time2Spinner"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                app:layout_constraintLeft_toRightOf="@+id/Time1Spinner"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteY="0dp" />
-
 
             <Spinner
                 android:id="@+id/Time3Spinner"
@@ -334,7 +352,7 @@
                 android:layout_marginLeft="10dp"
                 android:textColor="#000000"
                 android:textSize="20sp"
-                app:layout_constraintLeft_toRightOf="@+id/Time2Spinner"
+                app:layout_constraintLeft_toRightOf="@+id/Time"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteY="0dp" />
 
