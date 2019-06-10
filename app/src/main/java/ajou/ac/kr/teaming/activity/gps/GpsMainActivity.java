@@ -229,8 +229,12 @@ public class GpsMainActivity extends AppCompatActivity{
                 tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
                 Toast.makeText(getApplicationContext(), "도그워커의 현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
 
+                ImageView photoFromCameraImageView = findViewById(R.id.photoFromServer);
+                clickuserMethod(photoFromCameraImageView); //갱신시 기존의 띄워진 사진이 없어지게 한다.
+
                 alTMapPoint.clear();
                 mArrayLineID.clear();
+
 
                 if(alTMapPoint.size() == 0 && mArrayLineID.size() == 0) {
                     getGpsInfo();
@@ -608,8 +612,6 @@ public class GpsMainActivity extends AppCompatActivity{
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
                 GpsVo gpsGetVo = response.body();
                 if(gpsGetVo != null){
-//                    Toast.makeText(getApplicationContext(), "도그워커 위도" + gpsGetVo.getDogwalkerLatitude()
-//                            + "도그워커 경도" + gpsGetVo.getDogwalkerLongitude(), Toast.LENGTH_SHORT).show();
                     Log.d("TEST", "onResponse getId: " + gpsGetVo.getId());
                     Log.d("TEST", "onResponse getStartDogwalkerLatitude: " + gpsGetVo.getStartDogwalkerLatitude());
                     Log.d("TEST", "onResponse getStartDogwalkerLongitude: " + gpsGetVo.getStartDogwalkerLongitude());
@@ -664,11 +666,6 @@ public class GpsMainActivity extends AppCompatActivity{
 
                         showMarkerPoint(photoId, photoLatitude, photoLongitude); //사진Id를 이용해 마커 생성
                     }
-//                    Toast.makeText(getApplicationContext(), "사진 위도" + gpsGetMarkerVo.getPhotoLatitude()
-//                            + "사진 경도" + gpsGetMarkerVo.getPhotoLongitude(), Toast.LENGTH_SHORT).show();
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getId());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLatitude());
-//                    Log.d("TEST", "onResponse: " + gpsGetMarkerVo.getPhotoLongitude());
 
                 }
                 Log.d("TEST", "도그워커 사진정보 받기 성공");
@@ -694,7 +691,6 @@ public class GpsMainActivity extends AppCompatActivity{
             public void onResponse(@NonNull Call<List<GpsLocationVo>> call, @NonNull Response<List<GpsLocationVo>> response) {
                 List<GpsLocationVo> gpsGetLocationVo = response.body();
                 if(gpsGetLocationVo != null){
-
                     //배열로 받아와야한다.
                     for (int i = 0 ; i < gpsGetLocationVo.size() ; i++){
 
@@ -703,12 +699,11 @@ public class GpsMainActivity extends AppCompatActivity{
 
                         /**서버로부터 받은 데이터를 저장*/
                         alTMapPoint.add(new TMapPoint(dogwalkerLatitude, dogwalkerLongitude));
-                        drawPedestrianPath();
-                        tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
                     }
-
                 }
                 Log.d("TEST", "도그워커 현재위치 받기 성공");
+                drawPedestrianPath();
+                tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
             }
             @Override
             public void onFailure(@NonNull Call<List<GpsLocationVo>> call, @NonNull Throwable t) {
