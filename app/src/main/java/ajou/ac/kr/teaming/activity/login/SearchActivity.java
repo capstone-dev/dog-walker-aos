@@ -68,6 +68,8 @@ public class SearchActivity extends AppCompatActivity {
 
         searchService= ServiceBuilder.create(SearchService.class);
 
+
+
         SearchButton =(Button) findViewById (R.id.SearchButton);
         BigcityText = (EditText) findViewById (R.id.BigcityText);
         SmallcityText=(EditText) findViewById(R.id.SmallcityText);
