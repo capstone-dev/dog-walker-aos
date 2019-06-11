@@ -37,7 +37,7 @@
 
         <ImageView
             android:id="@+id/PetImage"
-            android:src="@drawable/puppy"
+            android:src="@drawable/dog_image_test"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
@@ -54,7 +54,6 @@
             android:id="@+id/petImageText"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:text="사진등록 : "
             android:textColor="#000000"
             android:textSize="20sp"
             tools:ignore="MissingConstraints"

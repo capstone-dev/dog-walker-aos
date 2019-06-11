@@ -20,7 +20,6 @@ public class PetView extends AppCompatActivity {
     TextView typeText;
     TextView ageText;
     Button MainButton;
-    ImageView PetImageText;
     Bitmap bitmap;
     RegisterVO registerVO;
 
@@ -33,7 +32,6 @@ public class PetView extends AppCompatActivity {
         typeText=(TextView)findViewById(R.id.typeText);
         ageText=(TextView)findViewById(R.id.ageText);
         MainButton=(Button)findViewById(R.id.MainButton);
-        PetImageText=(ImageView)findViewById(R.id.PetImageText);
 
 
 
