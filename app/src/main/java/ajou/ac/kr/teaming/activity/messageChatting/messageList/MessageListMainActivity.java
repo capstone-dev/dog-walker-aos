@@ -39,7 +39,7 @@ public class MessageListMainActivity extends AppCompatActivity implements
 
     public void setUserMessageList() {
         FirebaseMessagingService firebaseMessagingService = new FirebaseMessagingService();
-        firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(),registerVO.getUserID(),messageListAdapter);
+        firebaseMessagingService.initFirebaseDatabase(messageAdapter, registerVO.getUserID(),"1",registerVO.getUserID(),messageListAdapter);
 
 
     }
@@ -59,6 +59,9 @@ public class MessageListMainActivity extends AppCompatActivity implements
     //메시지 클릭시 이벤트 발생
     @Override
     public void clickMessageEvent(View view, MessageVO messageVO) {
+
+
+
         Intent intent = new Intent(MessageListMainActivity.this, MessagePopUpActivity.class);
         intent.putExtra("MessageVO", messageVO);
         intent.putExtra("RegisterVO",registerVO);

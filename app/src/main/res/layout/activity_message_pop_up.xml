@@ -47,6 +47,22 @@
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <ImageButton
+        android:id="@+id/message_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginRight="3dp"
+        android:background="@android:color/transparent"
+        android:padding="0sp"
+        android:scaleType="centerCrop"
+        android:onClick="onClickMessageActiivity"
+        android:src="@drawable/chat_icon"
+        android:visibility="visible"
+        app:layout_constraintRight_toLeftOf="@id/close_message_popup"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
         android:id="@+id/close_message_popup"
         android:layout_width="25dp"
         android:layout_height="25dp"

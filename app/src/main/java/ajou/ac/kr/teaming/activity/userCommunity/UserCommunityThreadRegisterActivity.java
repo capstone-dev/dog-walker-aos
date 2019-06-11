@@ -111,7 +111,8 @@ public class UserCommunityThreadRegisterActivity extends AppCompatActivity {
 
         String threadTitle=((EditText)findViewById(R.id.thread_title_edit_text)).getText().toString();
         String userLocation=((EditText)findViewById(R.id.thread_location_edit_text)).getText().toString();
-        int threadNumber=Integer.parseInt(numberSelect.getSelectedItem().toString());
+        Log.d("TEST", "onClickSubmitButton: "+numberSelect.getSelectedItem().toString().substring(0,1));
+        int threadNumber=Integer.parseInt(numberSelect.getSelectedItem().toString().substring(0,1));
         String threadContent=((EditText)findViewById(R.id.thread_content_edit_text)).getText().toString();
 
         //등록 폼 검증 후 모든 값이 검증이 된다면 게시글 post

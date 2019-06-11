@@ -25,7 +25,8 @@ public class FirebaseMessagingService {
     private DatabaseReference databaseReference =firebaseDatabase.getReference("message");
     private ChildEventListener childEventListener;
 
-    public void initFirebaseDatabase(MessageAdapter messageAdapter, String systemId, String commentId, MessageListAdapter messageListAdapter) {
+    public void initFirebaseDatabase(MessageAdapter messageAdapter, String systemId,
+                                     String serviceId,String commentId, MessageListAdapter messageListAdapter) {
 
         childEventListener = new ChildEventListener() {
             @Override
@@ -35,7 +36,8 @@ public class FirebaseMessagingService {
                 chatDataVO.firebaseKey=dataSnapshot.getKey();
 
                 if(messageListAdapter==null) {
-                    if ((chatDataVO.commentId).equals(commentId)) {
+                    if ((chatDataVO.userId.equals(serviceId)&&chatDataVO.opponenetId.equals(commentId))||
+                            (chatDataVO.userId.equals(commentId)&&chatDataVO.opponenetId.equals(serviceId))) {
                         messageAdapter.add(chatDataVO, systemId);
                         messageAdapter.notifyDataSetChanged();
                     }

@@ -10,6 +10,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import ajou.ac.kr.teaming.R;
+import ajou.ac.kr.teaming.activity.MainActivity;
+import ajou.ac.kr.teaming.activity.messageChatting.MessageChattingMainActivity;
 import ajou.ac.kr.teaming.vo.MessageVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 
@@ -55,5 +57,14 @@ public class MessagePopUpActivity extends Activity {
 
     public void onClickCloseActiivity(View view) {
         finish();
+    }
+
+    public void onClickMessageActiivity(View view) {
+        Intent intent = new Intent(MessagePopUpActivity.this, MessageChattingMainActivity.class);
+        intent.putExtra("RegisterVO", registerVO);
+        intent.putExtra("MessageVO", messagevo);
+        intent.putExtra("activityName", "팝업서비스");
+
+        startActivity(intent);
     }
 }

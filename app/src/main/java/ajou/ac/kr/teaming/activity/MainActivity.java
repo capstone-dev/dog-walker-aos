@@ -278,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         updateDogwalkerRealTime(serviceVO);
         //현재 페이지에서 메인 usercommunitymain으로 새로고침 하면서 이동
         setMyServiceList();
+        setDogwalkerServiceList();
     }
 
     @Override
