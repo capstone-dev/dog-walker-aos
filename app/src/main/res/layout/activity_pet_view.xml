@@ -25,15 +25,27 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/Dogwalker_View_Funtion"
-                android:layout_width="220dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="-3dp"
                 tools:layout_editor_absoluteY="0dp">
 
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+
+                    android:id="@+id/dogimage"
+                    />
+
 
 
             </android.support.constraint.ConstraintLayout>
+
+
+
+
+
 
 
 

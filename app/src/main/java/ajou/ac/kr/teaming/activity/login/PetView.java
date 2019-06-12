@@ -3,6 +3,8 @@ package ajou.ac.kr.teaming.activity.login;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,7 @@ public class PetView extends AppCompatActivity {
     TextView typeText;
     TextView ageText;
     Button MainButton;
+    ImageView dogimage;
     Bitmap bitmap;
     RegisterVO registerVO;
 
@@ -27,6 +30,7 @@ public class PetView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_view);
+        dogimage=(ImageView)findViewById(R.id.dogimage);
 
         nameText=(TextView) findViewById(R.id.nameText);
         typeText=(TextView)findViewById(R.id.typeText);
@@ -43,6 +47,7 @@ public class PetView extends AppCompatActivity {
         String dogName=intent.getStringExtra("DogName");
         String dogtype=intent.getStringExtra("DogType");
         String dogage=intent.getStringExtra("DogAge");
+        Bitmap dogimage=intent.getParcelableExtra("image");
 
         nameText.setText(dogName);
         typeText.setText(dogtype);

@@ -102,6 +102,7 @@ public class PetRegisterActivity extends AppCompatActivity {
 
 
 
+
                 ImageView Mypet = findViewById(R.id.MyPetImage);
 
                 Bitmap bitmap = ((BitmapDrawable) PetImage.getDrawable()).getBitmap();

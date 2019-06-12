@@ -131,46 +131,47 @@ public class DogwalkerRegister extends AppCompatActivity {
                 String usertime =Time3Spinner.getSelectedItem().toString();
                 String userday= DayText.getText().toString();
 
-
-                HashMap<String, Object> inputregister = new HashMap<>();
-                inputregister.put("UserID",registerVO.getUserID());
-                inputregister.put("UserBigcity", userbigcity);
-                inputregister.put("UserSmallcity", userSmallcity);
-                inputregister.put("UserverySmallcity", userverysmallcity);
-                inputregister.put("UserTime", usertime);
-                inputregister.put("UserInfo", userInfo);
-                inputregister.put("UserDay", userday);
+                if (ValidateRegister(userid, userSmallcity,userInfo,userverysmallcity,usertime,userday, userbigcity)) {
 
 
+                    HashMap<String, Object> inputregister = new HashMap<>();
+                    inputregister.put("UserID", registerVO.getUserID());
+                    inputregister.put("UserBigcity", userbigcity);
+                    inputregister.put("UserSmallcity", userSmallcity);
+                    inputregister.put("UserverySmallcity", userverysmallcity);
+                    inputregister.put("UserTime", usertime);
+                    inputregister.put("UserInfo", userInfo);
+                    inputregister.put("UserDay", userday);
 
-                Call<DogwalkerVO> request =dogwalkerRegisterService.post(inputregister);
+
+                    Call<DogwalkerVO> request = dogwalkerRegisterService.post(inputregister);
 
 
-                request.enqueue(new Callback<DogwalkerVO>() {
-                    @Override
-                    public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
-                        if (response.isSuccessful()) {
-                            DogwalkerVO dogwalkerVO = response.body();
+                    request.enqueue(new Callback<DogwalkerVO>() {
+                        @Override
+                        public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
+                            if (response.isSuccessful()) {
+                                DogwalkerVO dogwalkerVO = response.body();
+                                Intent vintent = new Intent(DogwalkerRegister.this, MainActivity.class);
+                                vintent.putExtra("UserBigcity", dogwalkerVO.getUserBigcity());
+                                vintent.putExtra("UserSmallcity", dogwalkerVO.getUserInfo());
+                                vintent.putExtra("UserverySmallcity", dogwalkerVO.getUserverySmallcity());
+                                startActivity(vintent);
+                            }
+                            Log.d("TEST", "onResponse:END ");
+                        }
+
+                        @Override
+                        public void onFailure(Call<DogwalkerVO> call, Throwable t) {
+
+
                             Intent vintent = new Intent(DogwalkerRegister.this, MainActivity.class);
-                            vintent.putExtra("UserBigcity",dogwalkerVO.getUserBigcity());
-                            vintent.putExtra("UserSmallcity",dogwalkerVO.getUserInfo());
-                            vintent.putExtra("UserverySmallcity",dogwalkerVO.getUserverySmallcity());
+                            vintent.putExtra("registerVO", registerVO);
                             startActivity(vintent);
                         }
-                        Log.d("TEST", "onResponse:END ");
-                    }
+                    });
 
-                    @Override
-                    public void onFailure(Call<DogwalkerVO> call, Throwable t) {
-
-
-                        Intent vintent = new Intent(DogwalkerRegister.this, MainActivity.class);
-                        vintent.putExtra("registerVO",registerVO);
-                        startActivity(vintent);
-                    }
-                });
-
-
+                }
 
 
 
@@ -190,7 +191,40 @@ public class DogwalkerRegister extends AppCompatActivity {
 
 
 
+    private boolean ValidateRegister(String userid, String
+            userday, String userInfo, String userSmallcity, String userverysmallcity, String usertime,String userbigcity) {
+        if (userid == null || userid.trim().isEmpty()) {
+            Toast.makeText(this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (userday == null || userday.trim().isEmpty()) {
+            Toast.makeText(this, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (usertime == null || usertime.trim().isEmpty()) {
+            Toast.makeText(this, "이름을 입력하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (userverysmallcity == null || userverysmallcity.trim().isEmpty()) {
+            Toast.makeText(this, "이메일을 입력하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (userSmallcity == null || userSmallcity.trim().isEmpty()) {
+            Toast.makeText(this, "전화번호를 입력하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (userInfo == null || userInfo.trim().isEmpty()) {
+            Toast.makeText(this, "성을 선택하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (userbigcity == null || userbigcity.trim().isEmpty()) {
+            Toast.makeText(this, "성을 선택하세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
 
+        return true;
+
+    }
 }
 
 

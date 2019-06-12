@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -90,12 +91,14 @@ class MypetThreadViewHolder extends RecyclerView.ViewHolder {
     TextView dog_name;
     TextView dog_age;
     TextView dog_type;
+    ImageView dogimage;
     ConstraintLayout constraintLayout;
 
 
     public MypetThreadViewHolder(@NonNull View itemview) {
         super(itemview);
         constraintLayout = itemview.findViewById(R.id.mypet_thread);
+        dogimage=itemview.findViewById(R.id.dogimage);
         dog_name = itemview.findViewById(R.id.dog_name);
         dog_age = itemview.findViewById(R.id.dog_age);
         dog_type=itemview.findViewById(R.id.dog_type);

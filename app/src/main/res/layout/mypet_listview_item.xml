@@ -7,11 +7,18 @@
     android:layout_height="40dp"
     android:background="@drawable/layout_border">
 
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        tools:ignore="MissingConstraints"
+        android:id="@+id/dogimage" />
+
     <TextView
         android:id="@+id/dog_name"
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:text="이름list"
+        app:layout_constraintLeft_toRightOf="@id/dogimage"
         android:textSize="12sp"
         tools:ignore="MissingConstraints" />
 
