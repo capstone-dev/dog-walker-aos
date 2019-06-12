@@ -18,6 +18,7 @@ public class GpsVo {
     private String start_time;
     private String end_time;
     private String walkTime;
+    private String walkStatus;
 
     public int getId() {
         return id;
@@ -141,7 +142,11 @@ public class GpsVo {
     }
 
 
+    public String getWalkStatus() {
+        return walkStatus;
+    }
 
-
-
+    public void setWalkStatus(String walkStatus) {
+        this.walkStatus = walkStatus;
+    }
 }

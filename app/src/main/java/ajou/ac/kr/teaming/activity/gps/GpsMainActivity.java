@@ -43,7 +43,9 @@ import com.squareup.picasso.Picasso;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.LogManager;
@@ -51,10 +53,15 @@ import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.gps.GpsDogwalkerLocationService;
 import ajou.ac.kr.teaming.service.gps.GpsMarkerService;
 import ajou.ac.kr.teaming.service.gps.GpsService;
+import ajou.ac.kr.teaming.service.login.MyPetService;
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import ajou.ac.kr.teaming.vo.GpsVo;
+import ajou.ac.kr.teaming.vo.MyPetVO;
 import ajou.ac.kr.teaming.vo.PhotoVO;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.ServiceVO;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -166,6 +173,11 @@ public class GpsMainActivity extends AppCompatActivity{
     private static int mLineID;
     private int photoMarkerId;
     private ServiceVO ServiceVO;
+    private String walkStatus;
+    private TextView txtShowWalkStatus;
+    private RegisterVO RegisterVO;
+    private MyPetVO myPetVO;
+    private String dogName;
 
     /**
      * setSKTMapApiKey()에 ApiKey를 입력 한다.
@@ -200,8 +212,10 @@ public class GpsMainActivity extends AppCompatActivity{
         txtShowWalkDistance = (TextView) findViewById(R.id.txtShowWalkDistance);
         txtShowWalkTime = (TextView) findViewById(R.id.txtShowWalkTime);
 
+        txtShowWalkStatus = (TextView) findViewById(R.id.txtWalkStatus);
 
-        traceStart();
+
+
 
         mArrayMarkerID = new ArrayList<String>();;
         photoMarkerId = 0;
@@ -211,39 +225,15 @@ public class GpsMainActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         ServiceVO = (ServiceVO) intent.getSerializableExtra("ServiceVo");
+        RegisterVO = (RegisterVO) intent.getSerializableExtra("RegisterVo");
         gpsId = ServiceVO.getGpsId();
-
-
         System.out.println(gpsId);
-
-        /***
-         * FAB버튼
-         *강아지 주인의 현재 위치를 추적하는 아이콘으로 만들 생각
-         */
-
-        btnTrackDogWalkerFAB = (FloatingActionButton) findViewById(R.id.btnFloatingActionButton);
-        btnTrackDogWalkerFAB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tMapView.setZoomLevel(19);
-                tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
-                Toast.makeText(getApplicationContext(), "도그워커의 현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
-
-                ImageView photoFromCameraImageView = findViewById(R.id.photoFromServer);
-                clickuserMethod(photoFromCameraImageView); //갱신시 기존의 띄워진 사진이 없어지게 한다.
-
-                alTMapPoint.clear();
-                mArrayLineID.clear();
+        System.out.println(RegisterVO);
 
 
-                if(alTMapPoint.size() == 0 && mArrayLineID.size() == 0) {
-                    getGpsInfo();
-                    getLocationInfo();
-                    getMarkerInfo();
-                    drawPedestrianPath();
-                }
-            }
-        });
+        if(RegisterVO != null && ServiceVO != null) {
+            traceStart();
+        }
 
         PermissionListener permissionListener = new PermissionListener() {
             @Override
@@ -276,42 +266,6 @@ public class GpsMainActivity extends AppCompatActivity{
 
     }//onCreate
 
-    /*
-
-//      /**
-//       * 현재 위치정보 받기
-//       * LocationListener와 setGps를 통해 현재위치를 gps를 통해 받아온다.
-//       * */
-//    private final LocationListener mLocationListener = new LocationListener() {
-//        public void onLocationChanged(Location location) {
-//        }
-//        public void onProviderDisabled(String provider) {
-//        }
-//        public void onProviderEnabled(String provider) {
-//        }
-//        public void onStatusChanged(String provider, int status, Bundle extras) {
-//        }
-//    };
-//
-//    public void setGps(){
-//        final LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-//                    android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//        }
-//
-//        Log.e(TAG,"setGps Activated");
-//        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자
-//                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
-//                10, // 통지사이의 최소 변경거리 (m)
-//                mLocationListener);
-//
-////        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자(실내에선 NETWORK_PROVIDER 권장)
-////                1000 * 10, // 통지사이의 최소 시간간격 (miliSecond)
-////                10, // 통지사이의 최소 변경거리 (m)
-////                mLocationListener);
-//    }
 
 
     /**
@@ -478,17 +432,6 @@ public class GpsMainActivity extends AppCompatActivity{
      *
      */
 
-    public void removeMarker() {
-        if(mArrayMarkerID.size() <= 0 )
-            return;
-
-        for(int i=0;i<mArrayMarkerID.size();i++) {
-            String strMarkerID = mArrayMarkerID.get(i);
-            tMapView.removeMarkerItem(strMarkerID);
-            mArrayMarkerID.remove(strMarkerID);
-        }
-        Log.e(TAG, "마커 삭제");
-    }
 
 
     /**
@@ -506,21 +449,6 @@ public class GpsMainActivity extends AppCompatActivity{
         mArrayLineID.add(strID);
     }
 
-
-    /**
-     * erasePedestrianPath
-     * 지도에 라인을 제거하는 메소드
-     */
-    public void erasePedestrianPath() {
-        if(mArrayLineID.size() <= 0)
-            return;
-        for(int i = 0; i < mArrayLineID.size();i++) {
-            String strLineID = mArrayLineID.get(i);
-            tMapView.removeTMapPolyLine(strLineID);
-            mArrayLineID.remove(strLineID);
-        }
-        Log.e(TAG, "길 표시 삭제");
-    }
 
     /**
      * 도그워커의 산책시간 및 이동거리를 표시해주는 메소드
@@ -570,16 +498,20 @@ public class GpsMainActivity extends AppCompatActivity{
          * 5. 사진찍기 및 마커생성 동작 가능
          * */
 
+        getMyPetInfo();
         AlertDialog.Builder alert_confirm = new AlertDialog.Builder(GpsMainActivity.this);
-        alert_confirm.setMessage("확인 버튼을 눌러 도그워커 추적을 시작합니다.\n노란색 추적 버튼을 이용해 도그워커의 현재 위치를 찾고 산책 정보를 갱신할 수 있습니다.")
+        alert_confirm.setMessage("확인 버튼을 눌러 도그워커 추적을 시작합니다.")
                 .setCancelable(false)
                 .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 'YES'
-                        getGpsInfo();
-                      //  getLocationInfo();
-                      //  getMarkerInfo();
+//                        getGpsInfo();
+//                        getLocationInfo();
+//                        getMarkerInfo();
+//                        drawPedestrianPath();
+                        Toast.makeText(getApplicationContext(), "도그워커의 현재 위치를 찾는 중입니다.\n잠시 기다려 주세요.", Toast.LENGTH_LONG).show();
+                        traceThread.start();
                     }
                 }).setNegativeButton("뒤로 가기",
                 new DialogInterface.OnClickListener() {
@@ -595,6 +527,44 @@ public class GpsMainActivity extends AppCompatActivity{
     }
 
 
+    //갱신을 위한 스레드
+    Thread traceThread = new Thread() {
+        @Override
+        public void run() {
+            try {
+                while (!isInterrupted()) {
+                    Thread.sleep(5000);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            tMapView.setZoomLevel(19);
+                            tMapView.setCenterPoint(dogwalkerLongitude, dogwalkerLatitude,true);
+
+
+                            ImageView photoFromCameraImageView = findViewById(R.id.photoFromServer);
+                            clickuserMethod(photoFromCameraImageView); //갱신시 기존의 띄워진 사진이 없어지게 한다.
+
+                            alTMapPoint.clear();
+                            mArrayLineID.clear();
+
+
+                            if(alTMapPoint.size() == 0 && mArrayLineID.size() == 0) {
+                                getGpsInfo();
+                                getLocationInfo();
+                                getMarkerInfo();
+                                drawPedestrianPath();
+                            }
+                            traceEnd();
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+            }
+        }
+    };
+
+
+
 
     /**
      * Retrofit Method
@@ -606,7 +576,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getGpsInfo() {
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        Call<GpsVo> call = gpsService.doGetGpsInfo(gpsId); //TODO: 상품아이디 동적으로 변경하기
+        Call<GpsVo> call = gpsService.doGetGpsInfo(gpsId);
         call.enqueue(new Callback<GpsVo>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<GpsVo> call, @NonNull Response<GpsVo> response) {
@@ -621,6 +591,7 @@ public class GpsMainActivity extends AppCompatActivity{
                     Log.d("TEST", "onResponse getStart_time: " + gpsGetVo.getStart_time());
                     Log.d("TEST", "onResponse getEnd_time: " + gpsGetVo.getEnd_time());
                     Log.d("TEST", "onResponse getWalkTime: " + gpsGetVo.getWalkTime());
+                    Log.d("TEST", "onResponse getWalkStatus: " + gpsGetVo.getWalkStatus());
 
 
                     /**서버로부터 받은 데이터를 저장*/
@@ -632,14 +603,17 @@ public class GpsMainActivity extends AppCompatActivity{
                     start_time = gpsGetVo.getStart_time();
                     end_time = gpsGetVo.getEnd_time();
                     walkTime = gpsGetVo.getWalkTime();
+                    walkStatus = gpsGetVo.getWalkStatus(); //산책 상태 추가
 
                     showDistanceAndTime();
+
                 }
+                txtShowWalkStatus.setText(walkStatus);
                 Log.d("TEST", "도그워커 산책정보 받기 성공");
             }
             @Override
             public void onFailure(@NonNull Call<GpsVo> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 산책 정보",Toast.LENGTH_SHORT).show();
+       //         Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 산책 정보",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패 : 도그워커 산책 정보");
             }
         });
@@ -652,7 +626,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getMarkerInfo() {
         GpsMarkerService gpsMarkerService = ServiceBuilder.create(GpsMarkerService.class);
-        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(gpsId); //TODO: 상품아이디 동적으로 변경하기
+        Call<List<PhotoVO>> call = gpsMarkerService.doGetMarkerInfo(gpsId);
         call.enqueue(new Callback <List<PhotoVO>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<PhotoVO>> call, @NonNull Response<List<PhotoVO>> response) {
@@ -672,7 +646,7 @@ public class GpsMainActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(@NonNull Call<List<PhotoVO>> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 사진 및 마커 정보",Toast.LENGTH_SHORT).show();
+        //        Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 사진 및 마커 정보",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패 : 사진 및 마커 정보");
             }
         });
@@ -685,7 +659,7 @@ public class GpsMainActivity extends AppCompatActivity{
      */
     public void getLocationInfo() {
         GpsDogwalkerLocationService gpsDogwalkerLocationService = ServiceBuilder.create(GpsDogwalkerLocationService.class);
-        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(gpsId); //TODO: 상품아이디 동적으로 변경하기
+        Call<List<GpsLocationVo>> call = gpsDogwalkerLocationService.doGetLocationInfo(gpsId);
         call.enqueue(new Callback<List<GpsLocationVo>>() { //비동기적 호출
             @Override
             public void onResponse(@NonNull Call<List<GpsLocationVo>> call, @NonNull Response<List<GpsLocationVo>> response) {
@@ -707,10 +681,69 @@ public class GpsMainActivity extends AppCompatActivity{
             }
             @Override
             public void onFailure(@NonNull Call<List<GpsLocationVo>> call, @NonNull Throwable t) {
-                Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 현재위치 정보",Toast.LENGTH_SHORT).show();
+       //         Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 도그워커 현재위치 정보",Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "통신 실패 : 도그워커 현재위치 정보");
             }
         });
+    }
+
+    /**
+     * GET MyPet INFO
+     * 나의 펫 정보를 가져온다
+     * 이름을 가져오기 위함
+     */
+    public void getMyPetInfo() {
+        MyPetService myPetService = ServiceBuilder.create(MyPetService.class);
+
+        String userId = RegisterVO.getUserID();
+
+        Call<List<MyPetVO>> call = myPetService.getMyPetInfo(userId);
+        call.enqueue(new Callback<List<MyPetVO>>() { //비동기적 호출
+            @Override
+            public void onResponse(@NonNull Call<List<MyPetVO>> call, @NonNull Response<List<MyPetVO>> response) {
+                List<MyPetVO> myPetVO = response.body();
+                for (int i = 0 ; i < myPetVO.size() ; i++){
+
+                    dogName = myPetVO.get(i).getDog_name();
+                    /**서버로부터 받은 데이터를 저장*/
+
+                }
+                Log.d("TEST", "나의 펫 이름 받기 성공");
+            }
+            @Override
+            public void onFailure(@NonNull Call<List<MyPetVO>> call, @NonNull Throwable t) {
+       //         Toast.makeText(getApplicationContext(),"Retrofit 통신 실패 : 나의 펫 이름 받기",Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "통신 실패 : 나의 펫 이름 받기");
+            }
+        });
+    }
+
+
+
+    public void traceEnd () { //도그워커 추적 종료 메소드
+        if(walkStatus == null || walkStatus.equals("산책 중")){ //산책 상태가
+          return;
+
+        } else if (walkStatus.equals("산책 종료")) { //산책 종료가 된다면
+            traceThread.interrupt();
+            txtShowWalkStatus.setText(walkStatus);
+            new AlertDialog.Builder(GpsMainActivity.this)
+                    .setTitle("산책 종료")
+                    .setMessage("도그워커가 산책을 완료하였습니다.\n\n" +
+                            "서비스 ID : " + ServiceVO.getId() +
+                            "\n강아지 이름 : " + dogName +
+                            //TODO : long 타입의 시작시간과 끝시간, walkTime, 걸은 거리를 보기 좋게 바꾸기
+                        //    "\n시작 시각 : " + start_time + //TODO 값 전달이 안됨
+                        //   "\n종료 시각 : " + end_time + //TODO 값 전달이 안됨
+                            "\n총 산책 시각 : " + walkTime +
+                            "\n산책 거리 : " + walkDistance)
+                    .setNeutralButton("닫기", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show(); // 팝업창 보여줌
+        }
     }
 
 

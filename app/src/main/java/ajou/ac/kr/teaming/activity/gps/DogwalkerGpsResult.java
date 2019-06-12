@@ -16,6 +16,7 @@ import java.util.Date;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class DogwalkerGpsResult extends AppCompatActivity {
 
@@ -30,6 +31,7 @@ public class DogwalkerGpsResult extends AppCompatActivity {
     private TextView inputWalkTime;
     private Button btnGoToMain;
     private ImageView imgWalkScreenshot;
+    private RegisterVO registerVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class DogwalkerGpsResult extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        registerVo = (RegisterVO) intent.getSerializableExtra("RegisrerVo");
 
 //        byte[] captureMapImage = intent.getExtras().getByteArray("captureMapimage");
 //        //byte배열을 비트맵으로 변환
@@ -78,6 +81,7 @@ public class DogwalkerGpsResult extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
+                intent1.putExtra("registerVO", registerVo);
                 startActivity(intent1);
             }
         });

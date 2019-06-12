@@ -63,6 +63,7 @@ import ajou.ac.kr.teaming.service.gps.GpsService;
 import ajou.ac.kr.teaming.vo.GpsLocationVo;
 import ajou.ac.kr.teaming.vo.GpsVo;
 import ajou.ac.kr.teaming.vo.PhotoVO;
+import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.ServiceVO;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -216,6 +217,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
     private long dataWalkTime;
     private ServiceVO ServiceVO;
     private int serviceId;
+    private String walkStatus;
+    private RegisterVO registerVo;
 
 
 /*****************************************************************************/
@@ -351,21 +354,20 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         ServiceVO = (ServiceVO) intent.getSerializableExtra("ServiceVo");
+        registerVo = (RegisterVO) intent.getSerializableExtra("RegisterVo");
         serviceId = ServiceVO.getId();
 
         System.out.println(serviceId);
-
+        System.out.println(registerVo);
 
         tMapGps = new TMapGpsManager(DogwalkerGpsActivity.this);
         tMapGps.setMinDistance(10);
         tMapGps.setProvider(tMapGps.GPS_PROVIDER);//gps를 이용해 현 위치를 잡는다.
         tMapGps.OpenGps();
-        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
-        tMapGps.OpenGps();
+//        tMapGps.setProvider(tMapGps.NETWORK_PROVIDER);//연결된 인터넷으로 현 위치를 잡는다.
+//        tMapGps.OpenGps();
 
-        if(isSetGps =! false){
             walkStart();
-        }
 
 
         PermissionListener permissionListener = new PermissionListener() {
@@ -628,6 +630,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
                             postGpsData();
 
+
                             isWalkStatus = true;
                         } else {
                             Log.e(TAG,"WalkStatus Error");
@@ -868,6 +871,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                 public void onClick(DialogInterface dialog, int which) {
                     // 'YES'
                     walkTimeThread.interrupt(); //스레드 종료
+                    walkStatus = "산책 종료";
                     isWalkStatus = false;
 
                     //산책이 끝난 현위치를 마지막 위치로 설정
@@ -906,6 +910,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
                     intent.putExtra("totalWalkDistance",walkDistance); /*송신*/
                     intent.putExtra("totalWalkTime",totalWalkTime);
                     intent.putExtra("PhotoTImes",markTime);
+                    intent.putExtra("RegisterVo", registerVo);
                     startActivity(intent);
                 }
             }).setNegativeButton("취소",
@@ -993,12 +998,10 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
      * 도그워커의 산책 시작위치, 종료 위치, 이동거리 및 시간을 전송한다.
      * */
     private void postGpsData() {
+        walkStatus = "산책 중";
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        /**
-         * 통신 테스트를 위해 임의의 값을 넣어봄.
-         * **/
         HashMap<String, Object> params = new HashMap<>();
-        //TODO: 상품아이디 동적으로 변경하기
+
         //아이디는 서버에서 자동으로 생성
         params.put("walkingServiceId", serviceId);
         params.put("startDogwalkerLatitude", startDogwalkerLatitude);
@@ -1009,6 +1012,8 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         params.put("start_time", start_time);
         params.put("end_time",end_time);
         params.put("walkTime",walkTime);
+        params.put("walkStatus",walkStatus);
+//        params.put("walkStatus", RequestBody.create(MediaType.parse("text"), (String.valueOf(walkStatus))));
 
 
 
@@ -1051,9 +1056,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
 
     private void putGpsIdDataToWalkingService() {//gpsId가 생성되면, WalkingService 테이블에 있는 gpsId에 put을 하여 데이터를 갱신해준다.
         GpsService gpsService = ServiceBuilder.create(GpsService.class);
-        /**
-         * 통신 테스트를 위해 임의의 값을 넣어봄.
-         * **/
+
         HashMap<String, Object> params = new HashMap<>();
         //TODO: 동적으로 할당하기
         params.put("id", serviceId);
@@ -1105,6 +1108,7 @@ public class DogwalkerGpsActivity extends AppCompatActivity{
         params.put("endDogwalkerLongitude",dogwalkerLongitude);
         params.put("walkDistance", walkDistance);
         params.put("walkTime",dataWalkTime);
+        params.put("walkStatus",walkStatus);
 
 
         Call<GpsVo> call = gpsService.putGpsData(gpsId,params);  //TODO: 상품아이디 동적으로 변경하기

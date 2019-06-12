@@ -50,6 +50,7 @@ import ajou.ac.kr.teaming.service.common.ServiceBuilder;
 import ajou.ac.kr.teaming.service.servicePay.ServicePayService;
 import ajou.ac.kr.teaming.vo.DogwalkerListVO;
 import ajou.ac.kr.teaming.vo.DogwalkerVO;
+import ajou.ac.kr.teaming.vo.MyPetVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 import ajou.ac.kr.teaming.vo.ServiceVO;
 import okhttp3.ResponseBody;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private GpsService gpsService = ServiceBuilder.create(GpsService.class);
     private RegisterVO registerVO;
     private DogwalkerVO dogwalkerVO;
+    private MyPetVO myPetVO;
     private FloatingActionButton messageButton;
 
 
@@ -108,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
          */
         Intent intent = getIntent();
         registerVO = (RegisterVO) intent.getSerializableExtra("registerVO");
+
+
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -308,16 +312,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     }
                                 });
                 innBuilder.show();
-
             } else { //gpsId가 존재한다면
             Intent intent = new Intent(MainActivity.this, GpsMainActivity.class); //사용자 전용 gps 액티비티로 이동
+
+            intent.putExtra("RegisterVo", registerVO);
             intent.putExtra("ServiceVo", serviceVO);
+            //intent.putExtra("MyPetVo", myPetVO);
             startActivity(intent);
             }
 
         } else if (registerVO.getUserID().equals(serviceVO.getUser_DogwalkerID())){ //로그인한 사람이 도그워커일때
             Intent intent = new Intent(MainActivity.this, DogwalkerGpsActivity.class); //도그워커 전용 gps 액티비티로 이동
             intent.putExtra("ServiceVo",serviceVO);
+            intent.putExtra("RegisterVo", registerVO);
             startActivity(intent);
         }
 
