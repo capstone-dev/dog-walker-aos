@@ -116,6 +116,7 @@ public class RealTimeDogWalkerListAcitvity extends AppCompatActivity {
             updateThread.put("DogwalkerSmallcity", dogwalkerListVO.getDogwalkerSmallcity());
             updateThread.put("DogwalkerGender", dogwalkerListVO.getDogwalkerGender());
             updateThread.put("selected", registerVO.getUserID());
+            dogwalkerListVO.setSelected(registerVO.getUserID());
 
             Call<DogwalkerListVO> request = gpsRealTimeDogwalkerService.putSelected(updateThread);
             request.enqueue(new Callback<DogwalkerListVO>() {
