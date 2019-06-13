@@ -134,6 +134,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                         vintent.putExtra("DogType",dog_species);
                         vintent.putExtra("DogAge",dog_age);
                         vintent.putExtra("registerVO",registerVO);
+                      vintent.putExtra("image",dataArray);
                         startActivity(vintent);
 
                         Log.d("TEST", "통신 성공");
@@ -147,6 +148,7 @@ public class PetRegisterActivity extends AppCompatActivity {
                         vintent.putExtra("DogType",dog_species);
                         vintent.putExtra("DogAge",dog_age);
                         vintent.putExtra("registerVO",registerVO);
+                        vintent.putExtra("image",dataArray);
                         startActivity(vintent);
 
                         Log.d("TEST", "통신 실패");

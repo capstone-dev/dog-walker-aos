@@ -3,6 +3,7 @@ package ajou.ac.kr.teaming.activity.login;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
@@ -23,31 +26,37 @@ public class PetView extends AppCompatActivity {
     TextView ageText;
     Button MainButton;
     ImageView dogimage;
-    Bitmap bitmap;
     RegisterVO registerVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_view);
-        dogimage=(ImageView)findViewById(R.id.dogimage);
 
         nameText=(TextView) findViewById(R.id.nameText);
         typeText=(TextView)findViewById(R.id.typeText);
         ageText=(TextView)findViewById(R.id.ageText);
         MainButton=(Button)findViewById(R.id.MainButton);
+        dogimage = (ImageView)findViewById(R.id.dogimage);
 
 
 
 
 
         Intent intent =getIntent();
-
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
         String dogName=intent.getStringExtra("DogName");
         String dogtype=intent.getStringExtra("DogType");
         String dogage=intent.getStringExtra("DogAge");
-        Bitmap dogimage=intent.getParcelableExtra("image");
+
+        if (intent.getByteArrayExtra("image")!=null){
+
+            byte[] arr = intent.getByteArrayExtra("image");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+            dogimage.setImageBitmap(bitmap);
+        }
+
+
 
         nameText.setText(dogName);
         typeText.setText(dogtype);

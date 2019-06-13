@@ -1,6 +1,8 @@
 package ajou.ac.kr.teaming.activity.login;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import ajou.ac.kr.teaming.R;
@@ -34,6 +37,12 @@ public class MypetThreadAdapter extends RecyclerView.Adapter<MypetThreadViewHold
         MypetThreadViewHolder.dog_name.setText(myPetVO.getDog_name());
         MypetThreadViewHolder.dog_age.setText(myPetVO.getDog_age());
         MypetThreadViewHolder.dog_type.setText(myPetVO.getDog_species());
+        if (myPetVO.getDog_imagefile()!=null){
+
+            byte[] arr = myPetVO.getDog_imagefile();
+            Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+            MypetThreadViewHolder.dogimage.setImageBitmap(bitmap);
+    }
         MypetThreadViewHolder.constraintLayout.setOnClickListener(v->
                 onItemClickListener.showThreadContentEvent(v,myPetVOArrayList.get(i)));
 

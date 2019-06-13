@@ -1,6 +1,8 @@
 package ajou.ac.kr.teaming.activity.login;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,12 +32,14 @@ public class MyPetActivity extends AppCompatActivity {
     private MypetThreadService mypetThreadService = ServiceBuilder.create(MypetThreadService.class);
     private RecyclerView mypetView;
     private MypetThreadAdapter mypetThreadAdapter;
+    Bitmap image;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_pet3);
+
 
 
         Intent intent =getIntent();
@@ -78,6 +82,7 @@ public class MyPetActivity extends AppCompatActivity {
         vintent.putExtra("DogName",myPetVO.getDog_name());
         vintent.putExtra("DogType",myPetVO.getDog_species());
         vintent.putExtra("DogAge",myPetVO.getDog_age());
+        vintent.putExtra("image",myPetVO.getDog_imagefile());
         vintent.putExtra("registerVO",registerVO);
         startActivity(vintent);
 
@@ -99,6 +104,7 @@ public class MyPetActivity extends AppCompatActivity {
                     for (MyPetVO myPetVO : mypetVOs) {
                         MypetList.add(myPetVO);
                         Log.d("TEST", "onResponse: " + myPetVO.getDog_name());
+                        Log.d("Test",String.valueOf(myPetVO.getDog_imagefile()));
                     }
                     mypetThreadAdapter.addThread(MypetList);
 
