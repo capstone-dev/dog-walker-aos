@@ -48,7 +48,6 @@ public class MyPetActivity extends AppCompatActivity {
 
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
-        imageData = intent.getByteArrayExtra("image");
 
 
 
@@ -87,7 +86,6 @@ public class MyPetActivity extends AppCompatActivity {
         vintent.putExtra("DogName",myPetVO.getDog_name());
         vintent.putExtra("DogType",myPetVO.getDog_species());
         vintent.putExtra("DogAge",myPetVO.getDog_age());
-        vintent.putExtra("image",imageData);
         vintent.putExtra("registerVO",registerVO);
         startActivity(vintent);
 
@@ -109,7 +107,6 @@ public class MyPetActivity extends AppCompatActivity {
                     for (MyPetVO myPetVO : mypetVOs) {
                         MypetList.add(myPetVO);
                         Log.d("TEST", "onResponse: " + myPetVO.getDog_name());
-                        Log.d("Test",String.valueOf(myPetVO.getDog_imagefile()));
                     }
                     mypetThreadAdapter.addThread(MypetList);
 

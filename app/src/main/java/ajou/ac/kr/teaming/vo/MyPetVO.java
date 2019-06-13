@@ -50,6 +50,6 @@ public class MyPetVO {
     }
 
     public void setDog_imagefile(byte[] dog_imagefile) {
-        this.dog_imagefile = dog_imagefile;
+        this.dog_imagefile= dog_imagefile;
     }
 }
