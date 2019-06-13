@@ -17,6 +17,15 @@ public class RegisterVO implements Serializable {
     private String UserInfo;
     private String UserDay;
     private String token;
+    private String UserCertify;
+
+    public String getUserCertify() {
+        return UserCertify;
+    }
+
+    public void setUserCertify(String userCertify) {
+        UserCertify = userCertify;
+    }
 
     public String getUserTime() {
         return UserTime;

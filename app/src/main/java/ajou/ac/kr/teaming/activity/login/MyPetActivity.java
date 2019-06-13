@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,13 +27,16 @@ import retrofit2.Response;
 
 public class MyPetActivity extends AppCompatActivity {
 
+
+    private static final int RESULT_OK = 1;
+
     Button MyPetRegisterButton;
     RegisterVO registerVO;
     MyPetVO myPetVO;
     private MypetThreadService mypetThreadService = ServiceBuilder.create(MypetThreadService.class);
     private RecyclerView mypetView;
     private MypetThreadAdapter mypetThreadAdapter;
-    Bitmap image;
+    private byte[] imageData;
 
 
     @Override
@@ -44,6 +48,7 @@ public class MyPetActivity extends AppCompatActivity {
 
         Intent intent =getIntent();
         registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
+        imageData = intent.getByteArrayExtra("image");
 
 
 
@@ -82,7 +87,7 @@ public class MyPetActivity extends AppCompatActivity {
         vintent.putExtra("DogName",myPetVO.getDog_name());
         vintent.putExtra("DogType",myPetVO.getDog_species());
         vintent.putExtra("DogAge",myPetVO.getDog_age());
-        vintent.putExtra("image",myPetVO.getDog_imagefile());
+        vintent.putExtra("image",imageData);
         vintent.putExtra("registerVO",registerVO);
         startActivity(vintent);
 

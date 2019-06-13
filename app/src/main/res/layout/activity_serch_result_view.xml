@@ -269,13 +269,50 @@
 
             </android.support.constraint.ConstraintLayout>
 
+
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/Search_reservation_result"
+                android:id="@+id/Search_reservation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="@+id/Search_reservation_result_F"
                 app:layout_constraintTop_toBottomOf="@+id/Search_reservation_result_F">
+
+
+                <TextView
+                    android:id="@+id/confirmText"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:text="처리중"
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toRightOf="@+id/confirm"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+                <TextView
+                    android:id="@+id/confirm"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:text="자격증 : "
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    app:layout_constraintLeft_toLeftOf="@+id/Search_reservation"
+                    app:layout_constraintLeft_toRightOf="@+id/confirmText"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="0dp" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/Search_reservation_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintStart_toStartOf="@+id/Search_reservation"
+                app:layout_constraintTop_toBottomOf="@+id/Search_reservation">
 
                 <Button
                     android:id="@+id/ReservationButton"

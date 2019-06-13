@@ -22,7 +22,7 @@ import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class MypetThreadAdapter extends RecyclerView.Adapter<MypetThreadViewHolder>{
 
-
+    private byte[] imageData;
 
 
     private ArrayList<MyPetVO> myPetVOArrayList = new ArrayList<>();
@@ -39,9 +39,11 @@ public class MypetThreadAdapter extends RecyclerView.Adapter<MypetThreadViewHold
         MypetThreadViewHolder.dog_type.setText(myPetVO.getDog_species());
         if (myPetVO.getDog_imagefile()!=null){
 
-            byte[] arr = myPetVO.getDog_imagefile();
-            Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+            imageData = myPetVO.getDog_imagefile();
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
             MypetThreadViewHolder.dogimage.setImageBitmap(bitmap);
+
     }
         MypetThreadViewHolder.constraintLayout.setOnClickListener(v->
                 onItemClickListener.showThreadContentEvent(v,myPetVOArrayList.get(i)));

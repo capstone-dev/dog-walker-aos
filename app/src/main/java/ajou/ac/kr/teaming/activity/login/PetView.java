@@ -8,6 +8,7 @@ import android.media.Image;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import java.io.ByteArrayOutputStream;
 
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
+import ajou.ac.kr.teaming.vo.MyPetVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
 
 public class PetView extends AppCompatActivity {
@@ -27,6 +29,8 @@ public class PetView extends AppCompatActivity {
     Button MainButton;
     ImageView dogimage;
     RegisterVO registerVO;
+
+    private byte[] imageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +53,12 @@ public class PetView extends AppCompatActivity {
         String dogtype=intent.getStringExtra("DogType");
         String dogage=intent.getStringExtra("DogAge");
 
-        if (intent.getByteArrayExtra("image")!=null){
 
-            byte[] arr = intent.getByteArrayExtra("image");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-            dogimage.setImageBitmap(bitmap);
-        }
-
-
-
+            imageData = intent.getByteArrayExtra("image");
+            if(imageData!=null) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(imageData, 0, imageData.length);
+                dogimage.setImageBitmap(bitmap);
+            }
         nameText.setText(dogName);
         typeText.setText(dogtype);
         ageText.setText(dogage);

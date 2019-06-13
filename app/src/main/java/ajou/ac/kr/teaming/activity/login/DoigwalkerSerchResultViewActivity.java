@@ -31,6 +31,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
     TextView InfoText;
     DogwalkerVO dogwalkerVO;
     RegisterVO registerVO;
+    TextView confirmText;
 
     String username;
     String userbigcity;
@@ -51,6 +52,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
         DongText=(TextView)findViewById(R.id.DongText);
         TimeText=(TextView)findViewById(R.id.TimeText);
         InfoText=(TextView)findViewById(R.id.InfoText);
+        confirmText=(TextView)findViewById(R.id.confirmText);
 
 
 
@@ -70,6 +72,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
         DongText.setText(userverysmallcity);
         TimeText.setText(usertime);
         InfoText.setText(userinfo);
+        confirmText.setText(registerVO.getUserCertify());
 
 
 
