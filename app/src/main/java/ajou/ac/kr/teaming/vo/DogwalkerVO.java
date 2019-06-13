@@ -22,9 +22,14 @@ public class DogwalkerVO {
     private String UserverySmallcity;
     private String UserTime;
     private String UserInfo;
-    //private String UserCertify;
+    private String UserCertify;
+    public String getUserCertify() {
+        return UserCertify;
+    }
 
-
+    public void setUserCertify(String userCertify) {
+        UserCertify = userCertify;
+    }
 
     public String getUserDay() {
         return UserDay;
