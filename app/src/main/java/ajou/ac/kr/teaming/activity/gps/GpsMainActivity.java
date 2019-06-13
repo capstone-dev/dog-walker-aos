@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import ajou.ac.kr.teaming.R;
@@ -727,6 +728,17 @@ public class GpsMainActivity extends AppCompatActivity{
         } else if (walkStatus.equals("산책 종료")) { //산책 종료가 된다면
             traceThread.interrupt();
             txtShowWalkStatus.setText(walkStatus);
+
+
+            String WalkDistanceContext = String.format("%.6s",walkDistance);
+
+            Long showWalkTime = Long.parseLong(walkTime);
+            Date walkdate = new Date(showWalkTime);
+            // 시간을 나타냇 포맷을 정한다 ( yyyy/MM/dd 같은 형태로 변형 가능 )
+            SimpleDateFormat sdfNow = new SimpleDateFormat("HH:mm:ss", Locale.KOREA);
+            // nowDate 변수에 값을 저장한다.
+            String formatDate = sdfNow.format(walkdate);
+
             new AlertDialog.Builder(GpsMainActivity.this)
                     .setTitle("산책 종료")
                     .setMessage("도그워커가 산책을 완료하였습니다.\n\n" +
@@ -735,8 +747,8 @@ public class GpsMainActivity extends AppCompatActivity{
                             //TODO : long 타입의 시작시간과 끝시간, walkTime, 걸은 거리를 보기 좋게 바꾸기
                         //    "\n시작 시각 : " + start_time + //TODO 값 전달이 안됨
                         //   "\n종료 시각 : " + end_time + //TODO 값 전달이 안됨
-                            "\n총 산책 시각 : " + walkTime +
-                            "\n산책 거리 : " + walkDistance)
+                            "\n총 산책 시각 : " + formatDate +
+                            "\n산책 거리 : " + WalkDistanceContext + "m")
                     .setNeutralButton("닫기", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
