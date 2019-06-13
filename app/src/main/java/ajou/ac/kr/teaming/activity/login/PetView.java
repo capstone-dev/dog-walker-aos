@@ -71,6 +71,7 @@ public class PetView extends AppCompatActivity {
                 loginIntent.putExtra("registerVO",registerVO);
 
 
+
                 PetView.this.startActivity(loginIntent);
 
 
