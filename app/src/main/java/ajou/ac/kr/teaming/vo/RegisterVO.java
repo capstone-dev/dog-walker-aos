@@ -13,7 +13,34 @@ public class RegisterVO implements Serializable {
     private String UserBigcity;
     private String UserSmallcity;
     private String UserverySmallcity;
+    private String UserTime;
+    private String UserInfo;
+    private String UserDay;
     private String token;
+
+    public String getUserTime() {
+        return UserTime;
+    }
+
+    public void setUserTime(String userTime) {
+        UserTime = userTime;
+    }
+
+    public String getUserInfo() {
+        return UserInfo;
+    }
+
+    public void setUserInfo(String userInfo) {
+        UserInfo = userInfo;
+    }
+
+    public String getUserDay() {
+        return UserDay;
+    }
+
+    public void setUserDay(String userDay) {
+        UserDay = userDay;
+    }
 
     public String getUserverySmallcity() {
         return UserverySmallcity;

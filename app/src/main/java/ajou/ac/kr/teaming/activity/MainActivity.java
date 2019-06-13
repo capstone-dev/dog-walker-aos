@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.gps.DogwalkerGpsActivity;
 import ajou.ac.kr.teaming.activity.gps.GpsMainActivity;
+import ajou.ac.kr.teaming.activity.login.DogwalkerModifyActivity;
 import ajou.ac.kr.teaming.activity.login.DogwalkerRegister;
 import ajou.ac.kr.teaming.activity.login.LoginMainActivity;
 import ajou.ac.kr.teaming.activity.login.MyActivity;
@@ -233,6 +235,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent home = new Intent(MainActivity.this, MainActivity.class);
             home.putExtra("registerVO",registerVO);
             startActivity(home);
+
+        }else if (id == R.id.nav_dogwalker) {
+
+            Intent my1 = new Intent(MainActivity.this, DogwalkerModifyActivity.class);
+            my1.putExtra("registerVO", registerVO);
+            startActivity(my1);
+
+
         }
 
         if (intent != null) {

@@ -21,8 +21,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.login.DogwalkerSendActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".activity.login.DogwalkerModify2Activity"></activity>
+        <activity android:name=".activity.login.DogwalkerModifyActivity" />
+        <activity
+            android:name=".activity.login.DogwalkerSendActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.login.PetView"
             android:theme="@style/AppTheme.NoActionBar" />

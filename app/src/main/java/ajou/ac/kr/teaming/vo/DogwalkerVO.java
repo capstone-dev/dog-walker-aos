@@ -22,6 +22,7 @@ public class DogwalkerVO {
     private String UserverySmallcity;
     private String UserTime;
     private String UserInfo;
+    //private String UserCertify;
 
 
 

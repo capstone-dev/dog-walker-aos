@@ -12,7 +12,10 @@
             android:id="@+id/nav_my"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="회원정보 수정" />
-
+        <item
+            android:id="@+id/nav_dogwalker"
+            android:icon="@drawable/puppy"
+            android:title="dogwalker 정보" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_send"
