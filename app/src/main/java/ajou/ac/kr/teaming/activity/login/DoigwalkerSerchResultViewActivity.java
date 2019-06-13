@@ -64,6 +64,7 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
         String userinfo =intent.getStringExtra("UserInfo");
         userverysmallcity=intent.getStringExtra("UserverySmallcity");
         String usertime=intent.getStringExtra("UserTime");
+        String usercen=registerVO.getUserCertify();
 
 
         nameText.setText(username);
@@ -72,8 +73,9 @@ public class DoigwalkerSerchResultViewActivity extends AppCompatActivity {
         DongText.setText(userverysmallcity);
         TimeText.setText(usertime);
         InfoText.setText(userinfo);
-        confirmText.setText(registerVO.getUserCertify());
-
+        if(usercen==null){
+            confirmText.setText("인증완료");
+        }
 
 
 

@@ -285,7 +285,7 @@
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
                     android:text="처리중"
-                    android:textColor="#000000"
+                    android:textColor="#FF4432"
                     android:textSize="20sp"
                     app:layout_constraintLeft_toRightOf="@+id/confirm"
                     tools:ignore="MissingConstraints"
