@@ -40,7 +40,7 @@
                     android:maxWidth="100dp"
                     android:maxHeight="100dp"
                     android:onClick="onClick"
-                    android:src="@drawable/pro"
+                    android:src="@drawable/dogdogwalker"
                     tools:ignore="MissingConstraints,OnClick"
                     tools:layout_editor_absoluteX="54dp"
                     tools:layout_editor_absoluteY="0dp" />
