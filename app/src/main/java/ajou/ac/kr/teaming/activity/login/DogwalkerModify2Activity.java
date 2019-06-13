@@ -19,6 +19,7 @@ import java.util.HashMap;
 import ajou.ac.kr.teaming.R;
 import ajou.ac.kr.teaming.activity.MainActivity;
 import ajou.ac.kr.teaming.service.common.ServiceBuilder;
+import ajou.ac.kr.teaming.service.login.DogwalkerModify;
 import ajou.ac.kr.teaming.service.login.DogwalkerRegisterService;
 import ajou.ac.kr.teaming.vo.DogwalkerVO;
 import ajou.ac.kr.teaming.vo.RegisterVO;
@@ -30,14 +31,12 @@ public class DogwalkerModify2Activity extends AppCompatActivity {
 
     Button DogwalkerButton;
     TextView idText;
-   Spinner BigcityText;
-    EditText siText,DayText;
+    Spinner BigcityText;
+    EditText siText, DayText;
     EditText Dong1Text;
     Spinner Time3Spinner;
-    ArrayAdapter<CharSequence> adapter3,adapter;
-    ImageView DogwalkerImage;
+    ArrayAdapter<CharSequence> adapter3, adapter;
     EditText InfoText;
-    Button DogwalkersendButton;
     RegisterVO registerVO;
 
 
@@ -47,14 +46,13 @@ public class DogwalkerModify2Activity extends AppCompatActivity {
         setContentView(R.layout.activity_dogwalker_modify2);
 
 
-
         idText = (TextView) findViewById(R.id.idText);
         DogwalkerButton = (Button) findViewById(R.id.DogwalkerButton);
         siText = (EditText) findViewById(R.id.siText);
         Dong1Text = (EditText) findViewById(R.id.Dong1Text);
-        DogwalkerRegisterService dogwalkerRegisterService= ServiceBuilder.create(DogwalkerRegisterService.class);
-        InfoText=(EditText)findViewById(R.id.InfoText);
-        DayText=(EditText)findViewById(R.id.DayText);
+        DogwalkerModify dogwalkerModify = ServiceBuilder.create(DogwalkerModify.class);
+        InfoText = (EditText) findViewById(R.id.InfoText);
+        DayText = (EditText) findViewById(R.id.DayText);
 
 
         Time3Spinner = (Spinner) findViewById(R.id.Time3Spinner);
@@ -65,9 +63,8 @@ public class DogwalkerModify2Activity extends AppCompatActivity {
         BigcityText.setAdapter(adapter);
 
 
-
-        Intent intent =getIntent();
-        registerVO=(RegisterVO) intent.getSerializableExtra("registerVO");
+        Intent intent = getIntent();
+        registerVO = (RegisterVO) intent.getSerializableExtra("registerVO");
 
 
         idText.setText(registerVO.getUserID());
@@ -84,49 +81,54 @@ public class DogwalkerModify2Activity extends AppCompatActivity {
             public void onClick(View view) {
 
 
+                String userid = registerVO.getUserID();
+                String userbigcity = BigcityText.getSelectedItem().toString();
+                String userSmallcity = siText.getText().toString();
+                String userInfo = InfoText.getText().toString();
+                String userverysmallcity = Dong1Text.getText().toString();
+                String usertime = Time3Spinner.getSelectedItem().toString();
+                String userday = DayText.getText().toString();
+
+
+                HashMap<String, Object> inputregister = new HashMap<>();
+                inputregister.put("UserID", registerVO.getUserID());
+                inputregister.put("UserBigcity", userbigcity);
+                inputregister.put("UserSmallcity", userSmallcity);
+                inputregister.put("UserverySmallcity", userverysmallcity);
+                inputregister.put("UserTime", usertime);
+                inputregister.put("UserInfo", userInfo);
+                inputregister.put("UserDay", userday);
+
+                Call<DogwalkerVO> request = dogwalkerModify.ModifyD(inputregister);
+
+                request.enqueue(new Callback<DogwalkerVO>() {
+                    @Override
+                    public void onResponse(Call<DogwalkerVO> call, Response<DogwalkerVO> response) {
+
+
+                        DogwalkerVO dogwalkerVO = response.body();
+
+                        Intent vintent = new Intent(DogwalkerModify2Activity.this, MainActivity.class);
+                        vintent.putExtra("registerVO", registerVO);
+                        startActivity(vintent);
+                    }
+
+
+                    @Override
+                    public void onFailure(Call<DogwalkerVO> call, Throwable t) {
+                        Intent vintent = new Intent(DogwalkerModify2Activity.this, MainActivity.class);
+                        vintent.putExtra("registerVO", registerVO);
+                        startActivity(vintent);
+
+
+                    }
+
+                });
 
             }
         });
 
 
-
-
-
     }
 
-
-    private boolean ValidateRegister(String userid, String
-            userday, String userInfo, String userSmallcity, String userverysmallcity, String usertime,String userbigcity) {
-        if (userid == null || userid.trim().isEmpty()) {
-            Toast.makeText(this, "아이디를 입력하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (userday == null || userday.trim().isEmpty()) {
-            Toast.makeText(this, "비밀번호를 입력하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (usertime == null || usertime.trim().isEmpty()) {
-            Toast.makeText(this, "이름을 입력하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (userverysmallcity == null || userverysmallcity.trim().isEmpty()) {
-            Toast.makeText(this, "이메일을 입력하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (userSmallcity == null || userSmallcity.trim().isEmpty()) {
-            Toast.makeText(this, "전화번호를 입력하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (userInfo == null || userInfo.trim().isEmpty()) {
-            Toast.makeText(this, "성을 선택하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (userbigcity == null || userbigcity.trim().isEmpty()) {
-            Toast.makeText(this, "성을 선택하세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        return true;
-
-    }
 }
